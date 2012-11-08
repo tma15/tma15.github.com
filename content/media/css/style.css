@@ -11,7 +11,8 @@ html, body {
 body {
     margin: 0 auto;
     width: 980px;
-    min-height: 700px;
+/*    min-height: 700px;*/
+    min-height: 800px;
     background: url('../img/background.jpg') top left no-repeat;
     font-size: 14px;
     position: relative;
