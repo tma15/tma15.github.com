@@ -1,5 +1,7 @@
 mode: learning
-media_root: media
+# media_root: media
+media_root: content/media
+# media_url: /media
 media_url: /media
 # base_url: /
 base_url: /content
