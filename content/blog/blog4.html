@@ -1,0 +1,13 @@
+===
+extends: blog.j2
+title: A New Post4
+index: 4
+===
+
+{% block content %}
+A New Post
+=======================
+{% mark excerpt -%}
+Hello world.
+{%- endmark %}
+{% endblock %}

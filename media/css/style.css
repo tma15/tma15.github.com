@@ -10,15 +10,24 @@ html, body {
 
 body {
     margin: 0 auto;
-    width: 980px;
-/*    min-height: 700px;*/
+    width: 1080px;
     min-height: 800px;
-    background: url('../img/background.jpg') top left no-repeat;
     font-size: 14px;
     position: relative;
 
     font-size: 62.5%;
     font-family: Tahoma, sans-serif;
+}
+
+body#home{
+    background: url('../img/background.jpg') center center no-repeat; background-attachment: fixed;
+}
+
+body#blog{
+/*    background-color: white; */
+    background-color: black; 
+/*    color: black;*/
+    color: white;
 }
 
 strong {
@@ -76,6 +85,7 @@ nav {
     width: 250px;
     text-align: right;
     font-family: Anton, Tahoma, sans-serif;
+    text-shadow: -1px 2px 1px black;
 }
 
 nav a,

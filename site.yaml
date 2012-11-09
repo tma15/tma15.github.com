@@ -20,9 +20,11 @@ plugins:
     - hyde.ext.plugins.tagger.TaggerPlugin
 context:
     data:
+        name: (仮)
+        title: tma15.com
         author:
-            name: Merlin Rebrović
-            url: "http://merlin.rebrovic.net"
+            name: tma15
+            url: "http://tma15.github.com"
         layout:
             name: Hyde Starter Kit
             url: "https://github.com/merlinrebrovic/hyde-starter-kit"
@@ -33,12 +35,11 @@ context:
         menu:
           - title: Home
             url: index.html
-          - title: First steps
-            url: first-steps.html
-          - title: Advanced topics
-            url: advanced/overview.html
-          - title: About
-            url: about.html
+          - title: Blog
+            url: blog/index.html
+          - title: Pictures
+            url: pictures/index.html
+        latest: 1
 
 ### Advanced part ###
 
@@ -71,6 +72,10 @@ sorter:
         attr: meta.learning_order
         filters:
             source_file.kind: html
+    date_order:
+        attr: name
+        filters:
+            source_file.kind: html
 
 grouper:
     level:
@@ -81,6 +86,7 @@ grouper:
               description: Basic
             - name: advanced
               description: Advanced
+
     # You can have more than one group section, depending on your needs.
     # For example: "categories", "menu sections", etc.
     #category:

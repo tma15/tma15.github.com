@@ -2,9 +2,10 @@
 <html lang="en">
     <head>
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
-        <title>Hyde Starter Kit {{ resource.meta.title_ending }}</title>
+        <title>{{ title }} {{ resource.meta.title_ending }}</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="{{ media_url('css/style.css') }}">
+        <link rel="shortcut icon" href="{{ media_url('img/background.jpg') }}">
         <!--[if lt IE 9]>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
         </script>
@@ -13,8 +14,7 @@
     <body>
         <header>
             <hgroup>
-            <h1><span>Hyde</span> Starter Kit</h1>
-            <h2>Know your tool</h2>
+              <h1>{{ name }}</h1>
             </hgroup>
         </header>
         <nav>
@@ -35,8 +35,7 @@
             {%- endfilter %}
         </article>
         <aside>
-            <p>Created by <a href="{{ author.url}}">{{ author.name}}</a>
-            for <a href="{{ project.url }}">{{ project.name }}</a></p>
+        <p>Created by <a href="{{ author.url}}">{{ author.name}}</a></p>
         </aside>
 
         {# Some parts of the web are not needed for development and can
