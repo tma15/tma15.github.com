@@ -38,8 +38,8 @@ context:
             url: index.html
           - title: Blog
             url: blog/index.html
-          - title: Pictures
-            url: pictures/index.html
+#           - title: Pictures
+#             url: pictures/index.html
         latest: 1
         archive: blog/archive.html
 
