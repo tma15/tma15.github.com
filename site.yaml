@@ -20,7 +20,8 @@ plugins:
     - hyde.ext.plugins.tagger.TaggerPlugin
 context:
     data:
-        name: (仮)
+        name: Now is better than never.
+        subname: Although never is often better than right now.
         title: tma15.com
         author:
             name: tma15
