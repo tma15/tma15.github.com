@@ -41,6 +41,7 @@ context:
           - title: Pictures
             url: pictures/index.html
         latest: 1
+        archive: blog/archive.html
 
 ### Advanced part ###
 
