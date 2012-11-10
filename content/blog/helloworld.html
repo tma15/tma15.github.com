@@ -1,0 +1,18 @@
+===
+index: 1
+extends: article.j2
+title: Hello Wolrd
+created: !!timestamp '2012-11-10 13:38:52'
+===
+
+{% block content %}
+{% mark content %}
+{{ resource.meta.title }}
+=======================
+
+なんとなくつくってみた。
+[Hyde](https://github.com/hyde/hyde)を使って動かしている。
+
+
+{%- endmark %}
+{% endblock %}

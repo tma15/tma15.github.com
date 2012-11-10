@@ -31,10 +31,15 @@
            Markdown filter to generate HTML. If a block in content
            pages contains only markup, you can omit the filter.
         #}
+
             {% filter markdown -%}
             {% block content %}{% endblock %}
             {%- endfilter %}
-            
+
+            {% block time %}{% endblock %}
+
+            {% block nav %}{% endblock %}
+
         </article>
         <aside>
         <p>Created by <a href="{{ author.url}}">{{ author.name}}</a></p>

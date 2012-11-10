@@ -74,9 +74,10 @@ sorter:
         filters:
             source_file.kind: html
     date_order:
-        attr: name
+        attr: meta.created
         filters:
             source_file.kind: html
+        reverse: True
 
 grouper:
     level:
@@ -85,8 +86,6 @@ grouper:
         groups:
             - name: basic
               description: Basic
-            - name: advanced
-              description: Advanced
 
     # You can have more than one group section, depending on your needs.
     # For example: "categories", "menu sections", etc.

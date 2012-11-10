@@ -1,5 +1,5 @@
 ---
-index: 1
+index: 0
 extends: blog.j2
 title_ending: "| Blog"
 ---
@@ -13,15 +13,24 @@ title_ending: "| Blog"
 
 {% block content %}
 {% for res in resource.node.walk_resources_sorted_by_date_order() %}
-{% if loop.index > latest %} {% break %} {% endif %}
-{{ res.meta.title }}
-==================================
+{% if loop.index > latest %} 
+{% break %} 
+{% endif %}
+
+{{ macros.render_post(res) }}
 
 {{ res.meta.created }}
 
-{{ macros.render_excerpt(res) }}
+<div class="bottom_article_nav">
+{% if res.prev_by_index is not none -%}
+{% if res.prev_by_index.meta.index == 0 %}
+{# do nothing #}
+{% else %}
+<div class="next"><a href="{{ res.prev_by_index.full_url }}">{{ res.prev_by_index.meta.title }}</a>
+    &gt;</div>
+{%- endif %}
+{%- endif %}
 
 {% endfor %}
-
 
 {% endblock %}
