@@ -78,6 +78,11 @@ header h2 {
     color: white;
 }
 
+header h3 {
+    color: white;
+    text-shadow: -1px 2px 1px black;
+}
+
 nav {
     position: absolute;
     top: 340px;
