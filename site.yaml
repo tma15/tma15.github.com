@@ -38,9 +38,7 @@ context:
             url: index.html
           - title: Blog
             url: blog/index.html
-#           - title: Pictures
-#             url: pictures/index.html
-        latest: 1
+        latest: 10
         archive: blog/archive.html
 
 ### Advanced part ###
