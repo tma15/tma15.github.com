@@ -189,6 +189,10 @@ nav, aside {
     padding-top: 10px;
 }
 
-#content .bottom_article_nav .next {
+#content .bottom_article_nav .next{
     float: right;
+}
+
+#content .center{
+    text-align: center;
 }
