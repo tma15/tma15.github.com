@@ -42,6 +42,25 @@ a {
 
 a.title {
     text-decoration: none;
+    font-weight: normal;
+    font-size: 1em;
+    font-family: Anton, Tahoma, sans-serif;
+    margin-bottom: 0.8em;
+    color: white;
+}
+
+a.archivetitle {
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 2em;
+    font-family: Anton, Tahoma, sans-serif;
+    margin-bottom: 0.8em;
+    color: white;
+    text-transform: uppercase;
+}
+
+a.archivetitle:hover {
+    color: #f1ee00;
 }
 
 a:hover, a:focus {
@@ -109,6 +128,19 @@ nav a:visited {
 
 nav a.selected {
     color: #888;
+}
+
+a.about{
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 2em;
+    font-family: Anton, Tahoma, sans-serif;
+    margin-bottom: 0.8em;
+    color: white;
+}
+
+a.about:hover{
+    color: #f1ee00;
 }
 
 nav a:hover {

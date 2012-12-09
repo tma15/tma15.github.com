@@ -36,6 +36,8 @@ context:
         menu:
           - title: Home
             url: index.html
+          - title: About
+            url: about/index.html
           - title: Blog
             url: blog/index.html
         latest: 5
