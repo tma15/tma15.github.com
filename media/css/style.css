@@ -12,12 +12,11 @@ body {
     margin: 0 auto;
     width: 1080px;
     min-height: 800px;
-    font-size: 15px;
+/*    font-size: 15px;*/
     position: relative;
-
-    font-size: 62.5%;
-/*    font-family: Tahoma, sans-serif;*/
-    font-family: meiryo, inconsolata;
+/*    font-size: 62.5%;*/
+    font-size: 65.0%;
+    font-family: meiryo, delicious;
 }
 
 body#home{
@@ -40,6 +39,10 @@ strong {
 
 a {
     color: #f1ee00;
+}
+
+iframe#scribd_iframe_embed {
+	align: center;
 }
 
 a.title {
