@@ -12,11 +12,12 @@ body {
     margin: 0 auto;
     width: 1080px;
     min-height: 800px;
-    font-size: 14px;
+    font-size: 15px;
     position: relative;
 
     font-size: 62.5%;
-    font-family: Tahoma, sans-serif;
+/*    font-family: Tahoma, sans-serif;*/
+    font-family: meiryo, inconsolata;
 }
 
 body#home{
