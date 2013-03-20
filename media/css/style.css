@@ -12,11 +12,10 @@ body {
     margin: 0 auto;
     width: 1080px;
     min-height: 800px;
-/*    font-size: 15px;*/
     position: relative;
 /*    font-size: 62.5%;*/
     font-size: 65.0%;
-    font-family: meiryo, delicious;
+    font-family: meiryo, delicious, inconsolata;
 }
 
 body#home{
