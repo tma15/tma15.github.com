@@ -44,7 +44,7 @@ iframe#scribd_iframe_embed {
 	align: center;
 }
 
-a.title {
+.title {
     text-decoration: none;
     font-weight: normal;
     font-size: 1em;
@@ -232,4 +232,13 @@ nav, aside {
 
 #content .center{
     text-align: center;
+}
+
+.background {
+	opacity: 0.5;
+	width: 700px;
+	height: 400px;
+	background-color: rgba(0, 0, 0, 0.99);
+	margin-left: 10%;
+	padding: 10px;
 }
