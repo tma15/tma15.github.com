@@ -143,6 +143,20 @@ a.about{
     color: white;
 }
 
+a.shadow-title{
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 2em;
+    font-family: Anton, Tahoma, sans-serif;
+    margin-bottom: 0.8em;
+    color: white;
+    text-shadow: -1px 2px 1px black;
+}
+
+a.shadow-title:hover{
+    color: #f1ee00;
+}
+
 a.about:hover{
     color: #f1ee00;
 }
@@ -237,7 +251,7 @@ nav, aside {
 .background {
 	opacity: 0.5;
 	width: 700px;
-	height: 400px;
+	height: 450px;
 	background-color: rgba(0, 0, 0, 0.99);
 	margin-left: 10%;
 	padding: 10px;

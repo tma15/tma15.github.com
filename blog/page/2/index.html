@@ -25,7 +25,87 @@
         </nav>
         <article id="content">
         
-            <h1><a href="http://tma15.github.com/blog/2013/1/start-of-2013.html" class="title"><font color="white">2013年の抱負</font></a></h1>
+            <h1><a href="http://tma15.github.com/blog/2013/2/named-entity-disambiguation-in-streaming-data.html" class="title"><font color="white">Named Entity Disambiguation in Streaming Data (ACL 2012)</font></a></h1>
+<p>Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender</p>
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf">pdf</a></p>
+<h2>解いている問題</h2>
+<p>名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。</p>
+<p>課題</p>
+<ul>
+<li>Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい</li>
+<li>テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい</li>
+<li>テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない</li>
+<li>テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう</li>
+</ul>
+<h2>提案手法のモチベーション</h2>
+<ul>
+<li>外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。</li>
+<li>ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。
+<ul></li>
+<li>正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。
+</ul></li>
+<li>なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。</li>
+<li>具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。</li>
+<li>このラベル付きの事例は各ステップでラベルを変更することができる。</li>
+<li>どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。</li>
+</ul>
+<h2>曖昧性解消のアプローチ</h2>
+<p><strong>（良くない）シンプルな正例の作り方の例</strong></p>
+<ul>
+<li>Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。</li>
+<li>こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。
+<ul></li>
+<li>つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。
+</ul></li>
+<li>このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。</li>
+</ul>
+<p><strong>ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる</strong></p>
+<ul>
+<li>ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。</li>
+<li>具体的には、EMアルゴリズムを使う</li>
+</ul>
+<p><strong>訓練データの初期状態としてありうる二つのパターン</strong></p>
+<ul>
+<li>訓練データは真に正例の事例と、大量のラベルなしの事例からなる
+<ul></li>
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</ul></li>
+<li>訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる
+<ul></li>
+<li>正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある</li>
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</ul></li>
+</ul>
+<p><strong>E-step</strong></p>
+<ul>
+<li>訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる</li>
+<li>具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる
+<ul></li>
+<li>α^x_{min}は、事例ごとに決定されるパラメータ
+</ul></li>
+</ul>
+<p><strong>M-step</strong></p>
+<ul>
+<li>分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる</li>
+</ul>
+<p><strong>分類器R</strong></p>
+<ul>
+<li>ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。</li>
+<li>このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。</li>
+<li>ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。</li>
+<li>分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。</li>
+<li>また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。</li>
+<li>SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。</li>
+</ul>
+<h2>疑問点</h2>
+<ul>
+<li>最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)</li>
+<li>α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか
+（ある単語のパターンでは負例になりやすいとかそういうことではない？）</li>
+</ul>
+<p>2013-02-01</p>
+
+<h1><br><br><a href="http://tma15.github.com/blog/2013/1/start-of-2013.html" class="title"><font color="white">2013年の抱負</font></a></h1>
 <h2>飲み過ぎない</h2>
 <p>歳を重ねてもお酒を美味しく飲みたいから。
 若いからといって毎日飲みまくるのはやめる。
@@ -114,10 +194,6 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。</p>
 <p>なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。</p>
 <p>2012-11-29</p>
-
-<h1><br><br><a href="http://tma15.github.com/blog/2012/11/kaanapali.html" class="title"><font color="white">kaanapali</font></a></h1>
-<p><a href="http://www.flickr.com/photos/85431668@N05/8187971604/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg" width="800" height="600" alt="Untitled"></a></p>
-<p>2012-11-15</p>
 
 <p><br><br><div class="bottom_article_nav">
 <div class="next"><a href="http://tma15.github.com/blog/page/1/index.html">newer</a> &gt;</div>
