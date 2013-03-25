@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
     <head>
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
-        <title>tma15.com </title>
-        <meta charset="utf-8" />
+<!--        <title>tma15.com </title>-->
+                <meta charset="utf-8" />
         <link rel="stylesheet" href="/media/css/style.css">
         <link rel="stylesheet" href="/media/css/pygments.css">
         <link rel="shortcut icon" href="/media/img/background.jpg">
@@ -28,13 +28,13 @@
             <h1><a href="http://tma15.github.com/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html" class="title"><font color="white">Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</font></a></h1>
 <p>proceeding: <a href="http://www.cs.utexas.edu/~cjhsieh/icdm-pmf.pdf">pdf</a></p>
 <p>発表資料</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/131932827/content?start_page=1&view_mode=slideshow&access_key=key-hgbknpzu7xixmb9bkaf" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_16367" width="700" height="550" frameborder="0"></iframe>
+<iframe class"scribd_iframe_embed" src"http://www.scribd.com/embeds/131932827/content?start_page1&view_modeslideshow&access_keykey-hgbknpzu7xixmb9bkaf" data-auto-height"false" data-aspect-ratio"1.29971181556196" scrolling"no" id"doc_16367" width"700" height"550" frameborder"0"></iframe>
 
 <p>2013-03-23</p>
 
 <h1><br><br><a href="http://tma15.github.com/blog/2013/2/giving-presentaions.html" class="title"><font color="white">Giving presentations</font></a></h1>
 <p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a> のメモ</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/126837452/content?start_page=1&view_mode=slideshow&access_key=key-18r6gyvswmhjnapds9dz" data-auto-height="false" data-aspect-ratio="1.29936305732484" scrolling="no" id="doc_32667" width="700" height="550" frameborder="0"></iframe>
+<iframe class"scribd_iframe_embed" src"http://www.scribd.com/embeds/126837452/content?start_page1&view_modeslideshow&access_keykey-18r6gyvswmhjnapds9dz" data-auto-height"false" data-aspect-ratio"1.29936305732484" scrolling"no" id"doc_32667" width"700" height"550" frameborder"0"></iframe>
 
 <p>2013-02-23</p>
 
@@ -87,7 +87,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
 <p>2013-02-16</p>
 
 <h1><br><br><a href="http://tma15.github.com/blog/2013/2/togakushi.html" class="title"><font color="white">Togakushi</font></a></h1>
-<p><a href="http://www.flickr.com/photos/85431668@N05/8466317921/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg" width="800" height="800" alt="Untitled"></a></p>
+<p><a href"http://www.flickr.com/photos/85431668@N05/8466317921/" title"Untitled by tma15, on Flickr"><img src"http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg" width"800" height"800" alt"Untitled"></a></p>
 <p>2013-02-12</p>
 
 <h1><br><br><a href="http://tma15.github.com/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html" class="title"><font color="white">Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</font></a></h1>
@@ -96,7 +96,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
 <h2>解いている問題</h2>
 <p>tweet (英語のtweetに限定) の集合が与えられたときに</p>
 <ul>
-<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．</li>
+<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル  を割り当てる．</li>
 <li>これらの同定されたテキストに対して名寄せをおこなう．
 <ul></li>
 <li>名寄せは，一番単語数が多い表現にまとめる</li>
@@ -122,7 +122,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
 <li>学習にはCRFを用いる
 <ul></li>
 <li>skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
-<li>ラベルは{B, I, L, O, U}</li>
+<li>ラベルは</li>
 <li>一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Lady Gaga"にPERSONが割り当てられ，一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Gaga"が同一のエンティティを指していると識別できれば"Gaga"と"Lady Gaga"は同じものを指している</li>
 <li>(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
 <li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
@@ -151,9 +151,9 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
 </ul>
 <p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
 <ul>
-<li>同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
-<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1</li>
-<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0</li>
+<li>同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^_1とする．</li>
+<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^_1</li>
+<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^_0</li>
 </ul>
 <p><strong>素性</strong></p>
 <ul>
