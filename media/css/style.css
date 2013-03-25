@@ -60,7 +60,7 @@ a.archivetitle {
     font-family: Anton, Tahoma, sans-serif;
     margin-bottom: 0.8em;
     color: white;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
 }
 
 a.archivetitle:hover {
@@ -84,7 +84,7 @@ header {
     top: 120px;
     right: 120px;
     font-family: Anton, Tahoma, sans-serif;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
     font-weight: none;
 }
 
@@ -126,7 +126,7 @@ nav a,
 nav a:visited {
     text-decoration: none;
     color: white;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
     font-size: 2.8em;
 }
 
@@ -201,7 +201,7 @@ nav, aside {
     font-weight: normal;
     font-size: 2em;
     font-family: Anton, Tahoma, sans-serif;
-    text-transform: uppercase;
+/*    text-transform: uppercase;*/
     margin-bottom: 0.8em;
     color: white;
 }
