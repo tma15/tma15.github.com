@@ -2,7 +2,7 @@
 <html lang="ja">
     <head>
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
-        <title>kaanapali | tma15.com</title>
+        <title>Git remote on Dropbox | tma15.com</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="/media/css/style.css">
         <link rel="stylesheet" href="/media/css/pygments.css">
@@ -25,11 +25,17 @@
         </nav>
         <article id="content">
         
-            <h1>kaanapali</h1>
-<p><a href="http://www.flickr.com/photos/85431668@N05/8187971604/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg" width="800" height="600" alt="Untitled"></a></p>
+            <h1>Git remote on Dropbox</h1>
+<p><a href="http://manyangl.es/2013/03/dropbox-git-remote">DROPBOX IS A GIT REMOTE</a></p>
+<h2>今あるプロジェクトを管理するbareファイルを作成してpushする</h2>
+<p><div class="codebox"><figure class="code"><div class="highlight"><pre>mkdir ~/Dropbox/gitrepos<br />git init --bare project.git<br /><span class="nb">cd</span> ~/project<br />git remote add dropbox ~/Dropbox/gitrepos/project.git<br />git push -u dropbox master<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div></p>
+<h2>あとは</h2>
+<p><div class="codebox"><figure class="code"><div class="highlight"><pre>git clone ~/Dropbox/gitrepos/project.git<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div></p>
+<p>すれば頑張って書いたコードをDropbox上に置いておける。
+<code>aaaa</code>あああ</p>
             <p>
 
-2012-11-15
+2013-03-30
 
 </p>
 
@@ -37,10 +43,9 @@
 
 <div class="bottom_article_nav">
 
-                  <div class="next"><a href="/blog/2012/11/helloworld.html">Hello World</a>
+                  <div class="next"><a href="/blog/2013/3/good-style.html">Good style - Writing for Compu...</a>
     &gt;</div>
-        <div class="prev">&lt; <a href="/blog/2012/11/withoutsns.html">without sns</a>
-  </div>
+
 
 </div>
 
@@ -53,17 +58,5 @@
         <p>Created by <a href="http://tma15.github.com">tma15</a></p>
         </aside>
 
-                <script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-20414370-4']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>    </body>
+                    </body>
 </html>

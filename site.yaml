@@ -1,8 +1,6 @@
 mode: learning
 media_root: media
-# media_root: media
 media_url: /media
-# media_url: /content/media
 base_url: /
 # base_url: /content/
 # If your site is nested inside of a bigger one, you can use media_url and
