@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+                <meta charset="utf-8" />
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body id="blog">
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/index.html">Home</a></li><li><a href="/about/index.html">About</a></li><li><a href="/blog/index.html">Blog</a></li></ul>
+        </nav>
+        <article id="content">
+        
+            <p>Hakone Museum of Art</p>
+<h1>Hakone Museum of Art</h1>
+
+<p><a href="http://www.flickr.com/photos/85431668@N05/8228695707/" title="IMG_1900 by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg" width="800" height="800" alt="IMG_1900" /></a></p>
+
+<p>
+
+2012-11-29
+
+</p>
+
+<p>Hello World</p>
+<h1>Hello World</h1>
+
+<p>なんとなくつくってみた。
+<a href="https://github.com/hyde/hyde">Hyde</a>を使って動かしている。</p>
+
+<p>
+
+2012-11-10
+
+</p>
+
+<p>kaanapali</p>
+<h1>kaanapali</h1>
+
+<p><a href="http://www.flickr.com/photos/85431668@N05/8187971604/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg" width="800" height="600" alt="Untitled" /></a></p>
+
+<p>
+
+2012-11-15
+
+</p>
+
+<p>without sns</p>
+<h1>without sns</h1>
+
+<p><a href="http://www.lifehacker.jp/2012/09/12092730withoutsns.html">「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話</a></p>
+
+<p>この記事を初めて読んだとき、自分には無理だなあと思っていた。</p>
+
+<p>でも、やってみたら、できた。そして記事で書かれていることを体験して、強く同意した。</p>
+
+<p>最初の2、3日に起きる禁断症状を乗り越えてしまえばそんなに辛くないし、ぼーっとストリーム
+を眺めている時間は無くなった。</p>
+
+<p>（TwipicのCTOには遠くおよばないけど）プログラミングの時間は増えたと
+思っているし、友人たちとより密度の濃い時間を過ごすことができている。
+（友人といる時にちょっと関心の薄い話題になって退屈になるとiPhoneで
+SNS覗いたり、なんてことをしてたんだけど、今は意識的にそういう事はやめてる。）</p>
+
+<p>本を書いたりなんて当然してないんだけど、技術書を読む時間や論文を読む時間が増えた。</p>
+
+<p>SNSなんかやめても他のことに無駄に時間を使うことだけだ、と思っていたことも
+あるし、実際に無駄な時間の使い方をしていると感じることもあるけど、SNS
+に入り浸っていた時よりは確実に良い時間の使い方をできている。</p>
+
+<p>記事をなぞったようなことしかやっていないのだけど、この「情報ダイエット」は自分にとって
+価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。</p>
+
+<p>なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。</p>
+
+<p>
+
+2012-11-29
+
+</p>
+
+<p>Practical Machine Learning Tricks</p>
+<h1>Practical Machine Learning Tricks</h1>
+
+<p><a href="http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/">Practical machine learning tricks from the KDD 2011 best industry paper</a></p>
+
+<p>上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。</p>
+
+<p><hr />
+<p>機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。</p>
+<p>結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。</p>
+<p>カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。</p>
+<p><a href="http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/ja//pubs/archive/37195.pdf">Detecting Adversarial Advertisements in the Wild</a></p>
+<p>D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel,
+  John Hainsworth, Yunkai Zhou</p>
+<p>一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。</p>
+<p>この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。</p>
+<h2>1) Classification</h2>
+<p>機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは<a href="http://code.google.com/p/sofia-ml/">ソースコード</a>が入手可能である。</p>
+<h3>ABE: Always Be Ensemble-ing</h3>
+<p>Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。</p>
+<h3>Only auto-block or auto-allow on high-confidence predictions</h3>
+<p>訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に"I don't know"とシステムに判断させることも価値がある。</p>
+<h3>Throw a ton of features at the model and let L1 sparsity figure it out</h3>
+<p>素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。</p>
+<h3>Map features with the "hashing trick"</h3>
+<p>これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは<a href="http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick">MetaOptimize discussion board</a>でうまく説明されている。</p>
+<h3>Handle the class imbalance problem with ranking</h3>
+<p>ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。</p>
+<h3>Use a cascade of classifiers</h3>
+<p>ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。</p>
+<h2>2) Scalability, engineering and operations</h2>
+<p>研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。</p>
+<h3>MapReduce: pre-processing (map), algorithm training (reduce)</h3>
+<p>いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。</p>
+<h3>Monitor all the things</h3>
+<p>入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:</p>
+<ul>
+<li>テストデータでのprecision/recall</li>
+<li>入力の素性の分布</li>
+<li>出力のスコアの分布</li>
+<li>出力のラベルの分布</li>
+<li>人間が評価したシステムの質</li>
+</ul>
+<h3>Rich model objects</h3>
+<p>機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために"model object"を拡張することが重要であると述べている。</p>
+<h2>3) Human-in-the-loop</h2>
+<p>ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。</p>
+<h3>Make efficient use of expert effort</h3>
+<p>彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。</p>
+<h3>Allow humans to hard-code rules</h3>
+<p>"人間が最適な答えを知っている"こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。</p>
+<h3>Human evaluation</h3>
+<p>専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。</p>
+<p>最後に、彼らはまた一般的なユーザから見てもシステムが上手く動いていることを確かめるために専門家でない人の評価も定期的に行なっている。エンドユーザの満足が究極の目標なので、この評価はとてもいいアイディアだと思う。</p>
+<p></p>
+<p>2012-12-15</p>
+</p>
+
+<p>2013年の抱負</p>
+<h1>2013年の抱負</h1>
+
+<h2>飲み過ぎない</h2>
+
+<p>歳を重ねてもお酒を美味しく飲みたいから。
+若いからといって毎日飲みまくるのはやめる。
+健康第一。</p>
+
+<h2>反転してシュート</h2>
+
+<p>言わずもがな。</p>
+
+<h2>論文を読む</h2>
+
+<p>2012年末頃はほとんど読めていなかった。
+本当は一日一本くらいのペースで読めたらかっこいいけど、
+二日に一本読めたら上出来くらいの低めの目標で。
+（事情によりあまり開催できていないけど）身内と細々とやっている
+機械学習勉強会でも積極的に発表したい。</p>
+
+<p>
+
+2013-01-08
+
+</p>
+
+<p>Giving presentations - Writing for Computer Science</p>
+<h1>Giving presentations - Writing for Computer Science</h1>
+
+<p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a> のメモ</p>
+
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/126837452/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-18r6gyvswmhjnapds9dz" data-auto-height="false" data-aspect-ratio="1.29936305732484" scrolling="no" id="doc_32667" width="700" height="550" frameborder="0"></iframe>
+
+<p>
+
+2013-02-23
+
+</p>
+
+<p>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</p>
+<h1>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</h1>
+
+<p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf">pdf</a></p>
+
+<h2>解いている問題</h2>
+
+<p>tweet (英語のtweetに限定) の集合が与えられたときに</p>
+
+<ul>
+<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．</li>
+<li>これらの同定されたテキストに対して名寄せをおこなう．
+<ul></ul></li>
+<li>名寄せは，一番単語数が多い表現にまとめる</li>
+<li>最大の単語数の表現が複数あればWikipediaにある表現を採用</li>
+<li>PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる．
+</li></ul>
+
+<h2>アプローチ</h2>
+
+<ul>
+<li>固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
+<ul></ul></li>
+<li>tweetは，エンティティに対していろいろな表現をされる．</li>
+<li>e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など
+</li></ul>
+
+<li>"... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet
+<ul></ul></li>
+
+<li>NERモデルにより"Alex"と"Alex Russo"がともにPERSONであることが識別できれば，NENモデルは"Alex"を"Alex Russo"に名寄せできる．
+</li>
+
+<li>" ... she knew Burger King when ..."と".. I'm craving all sorts of food: mcdonalds, burger king, ..."という二つのtweet
+<ul></ul></li>
+
+<li>NENモデルが"Burger King"と'burger king"が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
+</li>
+
+<li>学習にはCRFを用いる
+<ul></ul></li>
+
+<li>skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
+
+<li>ラベルは{B, I, L, O, U}</li>
+
+<li>一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Lady Gaga"にPERSONが割り当てられ，一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Gaga"が同一のエンティティを指していると識別できれば"Gaga"と"Lady Gaga"は同じものを指している</li>
+
+<li>(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
+
+<li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
+
+<li>第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値</li>
+
+<li>初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．</li>
+
+<li>skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+</li>
+
+<p><strong>複数のtweetを同時に考慮することの利点</strong></p>
+
+<ul>
+<li>"... Bobby Shaw you don't invite the wind..."と"... I own yah! Loool bobby shaw..."
+<ul></ul></li>
+<li>"Bobby Shaw"をPERSONと識別することは比較的簡単．</li>
+<li>一つ目のtweetの"you"が，二つ目のtweetの'bobby shaw"がPERSONであることの手がかりとなる．
+</li></ul>
+
+<p><strong>ラベルの候補の絞り込み</strong></p>
+
+<ul>
+<li>外部資源から固有表現を取ってきて辞書を作っておく．</li>
+<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
+<ul></ul></li>
+<li>"new york"という句が出てきたとき，辞書にある"New York City"と"New York Times"と一致する．</li>
+<li>"new"には，"B-LOCATION", "B-ORGANIZATION"，"york"には"I-LOCATION", "I-ORGANIZATION"がラベルの候補の集合にそれぞれ追加される．
+</li></ul>
+
+<li>ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない</li>
+
+<p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
+
+<ul>
+<li>同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
+<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1</li>
+<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0</li>
+</ul>
+
+<p><strong>素性</strong></p>
+
+<ul>
+<li>大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど</li>
+<li>基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど</li>
+<li>ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か</li>
+</ul>
+
+<h2>感想・疑問点</h2>
+
+<ul>
+<li>Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．</li>
+</ul>
+
+<p>
+
+2013-02-06
+
+</p>
+
+<p>Named Entity Disambiguation in Streaming Data (ACL 2012)</p>
+<h1>Named Entity Disambiguation in Streaming Data (ACL 2012)</h1>
+
+<p>Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf">pdf</a></p>
+
+<h2>解いている問題</h2>
+
+<p>名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。</p>
+
+<p>課題</p>
+
+<ul>
+<li>Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい</li>
+<li>テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい</li>
+<li>テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない</li>
+<li>テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう</li>
+</ul>
+
+<h2>提案手法のモチベーション</h2>
+
+<ul>
+<li>外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。</li>
+<li>ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。
+<ul></ul></li>
+<li>正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。
+</li></ul>
+
+<li>なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。</li>
+
+<li>具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。</li>
+
+<li>このラベル付きの事例は各ステップでラベルを変更することができる。</li>
+
+<li>どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。</li>
+
+<h2>曖昧性解消のアプローチ</h2>
+
+<p><strong>（良くない）シンプルな正例の作り方の例</strong></p>
+
+<ul>
+<li>Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。</li>
+<li>こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。
+<ul></ul></li>
+<li>つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。
+</li></ul>
+
+<li>このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。</li>
+
+<p><strong>ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる</strong></p>
+
+<ul>
+<li>ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。</li>
+<li>具体的には、EMアルゴリズムを使う</li>
+</ul>
+
+<p><strong>訓練データの初期状態としてありうる二つのパターン</strong></p>
+
+<ul>
+<li>訓練データは真に正例の事例と、大量のラベルなしの事例からなる
+<ul></ul></li>
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</li></ul>
+
+<li>訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる
+<ul></ul></li>
+
+<li>正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある</li>
+
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</li>
+
+<p><strong>E-step</strong></p>
+
+<ul>
+<li>訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる</li>
+<li>具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる
+<ul></ul></li>
+<li>α^x_{min}は、事例ごとに決定されるパラメータ
+</li></ul>
+
+<p><strong>M-step</strong></p>
+
+<ul>
+<li>分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる</li>
+</ul>
+
+<p><strong>分類器R</strong></p>
+
+<ul>
+<li>ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。</li>
+<li>このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。</li>
+<li>ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。</li>
+<li>分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。</li>
+<li>また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。</li>
+<li>SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。</li>
+</ul>
+
+<h2>疑問点</h2>
+
+<ul>
+<li>最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)</li>
+<li>α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか
+  （ある単語のパターンでは負例になりやすいとかそういうことではない？）</li>
+</ul>
+
+<p>
+
+2013-02-01
+
+</p>
+
+<p>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</p>
+<h1>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</h1>
+
+<p>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
+Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf">pdf</a></p>
+
+<h2>解いている問題</h2>
+
+<ul>
+<li>Named entity disambiguationをする</li>
+<li>Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく</li>
+<li>mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない
+<ul></ul></li>
+<li>e.g. MadridでManchesterとBarcelonaの試合があった</li>
+<li>Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される
+</li></ul>
+
+<h2>アプローチ</h2>
+
+<ul>
+<li>priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
+<ul><ul>
+<li>priorは、mentionに含まれる表現が一般的にentity e_jである確率</li>
+<li>context similarityはmentionとentityの文脈類似度</li>
+<li>coherenceは他のmentionのentityとの意味的な近さ
+<ul><ul>
+<li>Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標
+</li></ul>
+</ul></li>
+</ul>
+</ul></li>
+</ul>
+
+<li>グラフの中からサブグラフを選択
+<ul></ul></li>
+
+<li>サブグラフは、一つのmentionが一つのentityとエッジをもつ</li>
+
+<li>サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる</li>
+
+<li>サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない
+    <ul>
+        + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない
+    </ul>
+</li>
+
+<li>サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く</li>
+
+<li>アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する</li>
+
+<li>
+<p>ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする
+<ul>
+    こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除
+</ul></p>
+</li>
+
+<li>
+<p>prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい</p>
+</li>
+
+<p>
+
+2013-02-16
+
+</p>
+
+<p>tma15.com </p>
+<h1>Named Entity Disambiguation in Streaming Data (ACL 2012)</h1>
+
+<p>Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf">pdf</a></p>
+
+<h2>解いている問題</h2>
+
+<p>名詞nを含む短いテキストが，あるエンティティeのことを指しているか，指していないかを当てる二値分類問題．</p>
+
+<p>課題</p>
+
+<ul>
+<li>Twitterのようなmicro-blogのテキストは単語の数が少なく，暗号のように書かれていることもあるため，固有表現を認識することが難しい</li>
+<li>テキストの単語の数の少なさから，エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい</li>
+<li>テキストが次々と流れてくるため，テキストを処理するために外部知識を参照していると処理が間に合わない</li>
+<li>テキストが次々とやってきて，テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう</li>
+</ul>
+
+<h2>提案手法のモチベーション</h2>
+
+<ul>
+<li>外部知識を参照している余裕がないなら，ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う．</li>
+<li>ラベルなしのテキストを負例として学習すると，負例の多さからモデルが過学習をおこし，大量のfalse-negativeが出てしまうおそれがある．<ul>
+<li>正例を作ることは比較的簡単だが，負例を作るのはコストがかかる．</li>
+</ul>
+</li>
+<li>なので，EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア．</li>
+<li>具体的には，ラベルなしの事例が正例である確率，あるいは負例である確率を計算してラベル付きデータとして訓練データを増やす．</li>
+<li>このラベル付きの事例は各ステップでラベルを変更することができる．</li>
+<li>どの事例がどちらのラベルになるかは，最終的には収束して，観測データに最もフィットしたラベルに落ち着くことが期待される．</li>
+</ul>
+
+<h2>曖昧性解消のアプローチ</h2>
+
+<p><strong>（良くない）シンプルな正例の作り方の例</strong></p>
+
+<ul>
+<li>Twitter中である会社と関連したアカウントあり，このアカウントのプロフィールに書かれたメッセージは，その会社名を含むメッセージである可能性がある．</li>
+<li>こんな感じで正例を集める方法が考えられるが，このやり方はfalse-positiveがないことを保証していない．<ul>
+<li>つまり，本当はその会社のことを言及したメッセージではないのに，そのアカウントのメッセージなので正例とみなされていまう可能性がある．</li>
+</ul>
+</li>
+<li>このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない．</li>
+</ul>
+
+<p><strong>ラベルなしの事例の信頼性を上げて，訓練データとして扱うことでモデルの性能を上げる</strong></p>
+
+<ul>
+<li>ラベルなしの事例を扱うコストは，人手のアノテーションでラベル付きの事例を作成するコストより低い．</li>
+<li>具体的には，EMアルゴリズムを使う</li>
+</ul>
+
+<p><strong>訓練データの初期状態としてありうる二つのパターン</strong></p>
+
+<ul>
+<li>訓練データは真に正例の事例と，大量のラベルなしの事例からなる</li>
+<li>ラベルなしのデータは最初，負例とみなされるのでfalse-negativeな事例を含む可能性がある</li>
+<li>訓練データはおそらく正例の事例と，大量のラベルなしの事例からなる</li>
+<li>正例は真に正例という保証はないので，false-positiveな事例を含む可能性がある<ul>
+<li>ラベルなしのデータは最初，負例とみなされるのでfalse-negativeな事例を含む可能性がある</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>E-step</strong></p>
+
+<ul>
+<li>訓練データ中のすべての事例に，{正例，負例}のそれぞれの場合で閾値以上，あるいは以下であった場合に正例あるいは負例を割り当てる</li>
+<li>具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ，xは正例となり，大きければ負例となる<ul>
+<li>α^x_{min}は，事例ごとに決定されるパラメータ</li>
+</ul>
+</li>
+</ul>
+
+<p><strong>M-step</strong></p>
+
+<ul>
+<li>分類器Rを更新，訓練データのすべての事例に負例である確率α(x, -)を割り当てる</li>
+</ul>
+
+<p><strong>分類器R</strong></p>
+
+<ul>
+<li>ある単語の集合が正例に現れやすいか，負例に現れやすいかを学習する．</li>
+<li>このルール（単語の集合）の信頼性を，頻度をもとに計算して，事例が負である確率を，集めたルールの集合の重み付きの投票のような感じで計算する．</li>
+<li>ラベルのtransitでは，ラベル付きデータから，ランダムに正例をいくつか抜き出して，残りをラベルなしのデータとみなしている．</li>
+<li>分類器の更新は，すべての事例のlabel transitionを終えてから行うよりも，各事例のlabel transitionを終えるごとに行うほうがいい結果だった．</li>
+<li>また，label transition operationは負例を正例にする操作に加え，正例を負例にする操作もできるようにしたほうがいい結果だった．</li>
+<li>SVMの代わりにLazy Associative Classifiersの変種を使うことで，速度がかなり早くなった．</li>
+</ul>
+
+<h2>感想</h2>
+
+<ul>
+<li>最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)</li>
+<li>α^x_{min}は，正例と負例のバランスがよくなるように決定しているが，正例と負例のバランスはちょうどいいという仮定は直感にあっているのか</li>
+</ul>
+
+<p>2013-02-01</p>
+<p>Togakushi</p>
+<h1>Togakushi</h1>
+
+<p><a href="http://www.flickr.com/photos/85431668@N05/8466317921/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg" width="800" height="800" alt="Untitled" /></a></p>
+
+<p>
+
+2013-02-12
+
+</p>
+
+<p>Good style - Writing for Computer Science</p>
+<h1>Good style - Writing for Computer Science</h1>
+
+<p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a> のメモ</p>
+
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/132605868/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-wgir7vee0ytkouj0q99" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_18069" width="700" height="550" frameborder="0"></iframe>
+
+<p>
+
+2013-03-27
+
+</p>
+
+<p>Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</p>
+<h1>Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</h1>
+
+<p>proceeding: <a href="http://www.cs.utexas.edu/~cjhsieh/icdm-pmf.pdf">pdf</a></p>
+
+<p>発表資料</p>
+
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/131932827/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-hgbknpzu7xixmb9bkaf" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_16367" width="700" height="550" frameborder="0"></iframe>
+
+<p>
+
+2013-03-23
+
+</p>
+
+<p>Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</p>
+<h1>Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</h1>
+
+<p>proceeding: <a href="http://cs.stanford.edu/people/jure/pubs/sof-kdd12.pdf">pdf</a></p>
+
+<p>データの分析をとても丁寧にやっている印象を受けて、参考にしたいと思った。
+実験設定についてはちょっと疑問に思うところがあった。</p>
+
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/137021772/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-21dem2blszpt6las377b" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_46785" width="700" height="500" frameborder="0"></iframe>
+
+<p>
+
+2013-04-20
+
+</p>
+
+<p>Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</p>
+<h1>Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</h1>
+
+<p>proceeding: <a href="http://cs.stanford.edu/people/jure/pubs/sof-kdd12.pdf">pdf</a></p>
+
+<p>データの分析をとても丁寧にやっている印象を受けて、参考にしたいと思った。
+実験設定についてはちょっと疑問に思うところがあった。</p>
+
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/137021772/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-21dem2blszpt6las377b" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_46785" width="700" height="500" frameborder="0"></iframe>
+
+<p>
+
+2013-04-20
+
+</p>
+            <p></p>
+
+            
+        </article>
+
+        <aside>
+        <p>Created by <a href="http://tma15.github.com">tma15</a></p>
+        </aside>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>

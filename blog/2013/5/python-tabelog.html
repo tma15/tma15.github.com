@@ -2,7 +2,8 @@
 <html lang="ja">
     <head>
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
-                <meta charset="utf-8" />
+        <title>食べログAPIのPythonラッパーを書いた | tma15.com</title>
+        <meta charset="utf-8" />
         <link rel="stylesheet" href="/media/css/style.css">
         <link rel="stylesheet" href="/media/css/pygments.css">
         <link rel="shortcut icon" href="/media/img/background.jpg">
@@ -24,17 +25,12 @@
         </nav>
         <article id="content">
         
-            <h1><a href="http://tma15.github.io/blog/2013/5/python-tabelog.html" class="title"><font color="white">食べログAPIのPythonラッパーを書いた</font></a></h1>
-
+            <h1>食べログAPIのPythonラッパーを書いた</h1>
 <p>ソースコードは<a href="https://github.com/tma15/python-tabelog">こちら</a>。</p>
-
 <h2>食べログAPI利用登録</h2>
-
 <p>まず<a href="http://tabelog.com/help/api/">食べログAPI サービス案内</a>から利用登録をして
 access key (40桁の文字列)を入手する。</p>
-
 <h2>インストール</h2>
-
 <p><div class="codebox"><figure class="code"><div class="highlight"><pre>git clone https://github.com/tma15/python-tabelog.git<br /><span class="nb">cd </span>python-tabelog<br />python setup.py install<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div></p>
 <h2>使い方</h2>
 <h3>最初に</h3>
@@ -51,54 +47,25 @@ access key (40桁の文字列)を入手する。</p>
 <h3>レビュー収集</h3>
 <p>お店のレビューが欲しい時はそのお店のレコード番号を指定する。
 <div class="codebox"><figure class="code"><div class="highlight"><pre><span class="n">reviews</span> <span class="o">=</span> <span class="n">tabelog</span><span class="o">.</span><span class="n">search_review</span><span class="p">(</span><span class="mi">13004626</span><span class="p">)</span> <span class="c"># restaurant.rcd</span><br /><span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">reviews</span><span class="p">:</span><br />    <span class="k">print</span> <span class="s">&#39;nickname:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">nickname</span><br />    <span class="k">print</span> <span class="s">&#39;title:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">title</span><br />    <span class="k">print</span> <span class="s">&#39;dinner price:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">dinnerprice</span><br />    <span class="k">print</span> <span class="s">&#39;lunch price:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">lunchprice</span><br />    <span class="k">print</span> <span class="s">&#39;total score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">totalscore</span><br />    <span class="k">print</span> <span class="s">&#39;service score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">servicescore</span><br />    <span class="k">print</span> <span class="s">&#39;taste score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">tastescore</span><br />    <span class="k">print</span> <span class="s">&#39;mood score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">moodscore</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div></p>
-<p class="date">
+            <p class="date">
 
 2013-05-12
 
 </p>
 
-<p><br><br>
-<h1><a href="http://tma15.github.io/blog/2013/4/dicovering-value-from-community-activity-on-focused-question-answering-sites-a-case-study-of-stack-overflow.html" class="title"><font color="white">Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</font></a></h1>
-<p>proceeding: <a href="http://cs.stanford.edu/people/jure/pubs/sof-kdd12.pdf">pdf</a></p>
-<p>データの分析をとても丁寧にやっている印象を受けて、参考にしたいと思った。
-実験設定についてはちょっと疑問に思うところがあった。</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/137021772/content?start_page=1&view_mode=slideshow&access_key=key-21dem2blszpt6las377b" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_46785" width="700" height="500" frameborder="0"></iframe>
-<p class="date"></p>
-<p>2013-04-20</p>
-</p>
-
-<p><br><br>
-<h1><a href="http://tma15.github.io/blog/2013/3/good-style.html" class="title"><font color="white">Good style - Writing for Computer Science</font></a></h1>
-<p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a> のメモ</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/132605868/content?start_page=1&view_mode=slideshow&access_key=key-wgir7vee0ytkouj0q99" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_18069" width="700" height="550" frameborder="0"></iframe>
-<p class="date"></p>
-<p>2013-03-27</p>
-</p>
-
-<p><br><br>
-<h1><a href="http://tma15.github.io/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html" class="title"><font color="white">Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</font></a></h1>
-<p>proceeding: <a href="http://www.cs.utexas.edu/~cjhsieh/icdm-pmf.pdf">pdf</a></p>
-<p>発表資料</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/131932827/content?start_page=1&view_mode=slideshow&access_key=key-hgbknpzu7xixmb9bkaf" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_16367" width="700" height="550" frameborder="0"></iframe>
-<p class="date"></p>
-<p>2013-03-23</p>
-</p>
-
-<p><br><br>
-<h1><a href="http://tma15.github.io/blog/2013/2/giving-presentaions.html" class="title"><font color="white">Giving presentations - Writing for Computer Science</font></a></h1>
-<p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a> のメモ</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/126837452/content?start_page=1&view_mode=slideshow&access_key=key-18r6gyvswmhjnapds9dz" data-auto-height="false" data-aspect-ratio="1.29936305732484" scrolling="no" id="doc_32667" width="700" height="550" frameborder="0"></iframe>
-<p class="date"></p>
-<p>2013-02-23</p>
-</p>
-
-<p><br><br><div class="bottom_article_nav">
-<div class="prev"> &lt;<a href="http://tma15.github.io/blog/page/2/index.html">older</a></div>
-</div>
-<div class="center"><a href="/blog/archive.html">archives</a></div></p>
-            <p class="date"></p>
-
             
+
+<div class="bottom_article_nav">
+
+                  <div class="next"><a href="/blog/2013/4/dicovering-value-from-community-activity-on-focused-question-answering-sites-a-case-study-of-stack-overflow.html">Discovering Value from Communi...</a>
+    &gt;</div>
+
+
+</div>
+
+
+<div class="center"><a href="/blog/archive.html">archives</a></div>
+
         </article>
 
         <aside>
