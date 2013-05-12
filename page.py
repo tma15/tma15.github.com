@@ -98,8 +98,13 @@ for pid, page in enumerate(pages):
     text = """---
 extends: blog.j2
 ---
+"{% block title %}
+"<title>tma15.com</title>
+"{% endblock %}
+
 {% block content %}
 {% mark content %}
+
 """
     for article in page:
         text += article.body.decode('utf8') + '<br><br>'
