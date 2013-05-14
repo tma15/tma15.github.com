@@ -38,7 +38,7 @@ context:
             url: about/index.html
           - title: Blog
             url: blog/index.html
-          - title: Archive
+          - title: Archives
             url: blog/archive.html
         latest: 5
         archive: blog/archive.html
