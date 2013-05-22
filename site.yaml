@@ -20,7 +20,7 @@ context:
     data:
         name: Now is better than never.
         subname: Although never is often better than right now.
-        title: tma15.com
+        title: Now is better than never.
         author:
             name: tma15
             url: "http://tma15.github.com"

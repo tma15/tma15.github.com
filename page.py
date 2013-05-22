@@ -19,9 +19,6 @@ site.load()
 gen = Generator(site)
 gen.generate_all()
 
-site.config.base_url = 'http://tma15.github.io'
-#site.config.base_url = 'http://localhost:8080'
-
 class Article(object):
     def __init__(self, relpath, html):
         self._ht = html
@@ -29,8 +26,8 @@ class Article(object):
         soup = BeautifulSoup(self._ht)
         contents = soup.find('article')
         self._title = contents.find('h1').renderContents().decode('utf8')
-        title = ('<a href="%s/%s" class="title"><font color="white">%s</font></a>'
-                % (site.config.base_url, relpath, self._title))
+        title = ('<a href="/%s" class="title">%s</a>' % (relpath, self._title))
+
         contents.find('h1').contents[0].replaceWith(title)
         body = contents.renderContents()
         self._relpath = relpath
@@ -72,7 +69,6 @@ for year in ['2012', '2013']:
     for page in blog.walk_resources():
         relpath = 'blog/%s/%s' % (year, page.relative_path)
         deploy_file = File(Folder(site.config.deploy_root_path).child(relpath))
-#        print relpath
         article = Article(relpath, deploy_file.read_all())
         allarticles.append(article)
 
@@ -90,17 +86,16 @@ pages.append(pagebox)
 for pid, page in enumerate(pages):
     pid += 1
     pagepath = SITE_ROOT.child('content/blog/page/%d/index.html' % pid)
-    nextpagepath = "%s/blog/page/%d/index.html" % (site.config.base_url, (pid - 1))
-    prevpagepath = "%s/blog/page/%d/index.html" % (site.config.base_url, (pid + 1))
+    nextpagepath = "/blog/page/%d/index.html" % (pid - 1)
+    prevpagepath = "/blog/page/%d/index.html" % (pid + 1)
+
     pagefile = File(SITE_ROOT.child('content/blog/page/%d/index.html' % pid))
     if not os.path.exists:
         Folder(pagefile.parent).make()
     text = """---
-extends: blog.j2
+extends: base.j2
+title: Blog
 ---
-"{% block title %}
-"<title>tma15.com</title>
-"{% endblock %}
 
 {% block content %}
 {% mark content %}
@@ -111,10 +106,12 @@ extends: blog.j2
 
     text += "<div class=\"bottom_article_nav\">\n"
     if pid != 1:
+#        print '>>>>>>>>>>> next'
         text += ('<div class="next"><a href="%s">newer</a> &gt;</div>\n' %
                 nextpagepath)
 
     if pid != len(pages):
+#        print '>>>>>>>>>>> prev'
         text += ('<div class="prev"> &lt;<a href="%s">older</a></div>\n' %
                 prevpagepath)
     text += "</div>\n"
