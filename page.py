@@ -85,9 +85,9 @@ pages.append(pagebox)
 
 for pid, page in enumerate(pages):
     pid += 1
-    pagepath = SITE_ROOT.child('content/blog/page/%d/index.html' % pid)
-    nextpagepath = "/blog/page/%d/index.html" % (pid - 1)
-    prevpagepath = "/blog/page/%d/index.html" % (pid + 1)
+    pagepath = SITE_ROOT.child('content/blog/page/%d/' % pid)
+    nextpagepath = "/blog/page/%d/" % (pid - 1)
+    prevpagepath = "/blog/page/%d/" % (pid + 1)
 
     pagefile = File(SITE_ROOT.child('content/blog/page/%d/index.html' % pid))
     if not os.path.exists:
@@ -112,10 +112,10 @@ title: Blog
 
     if pid != len(pages):
 #        print '>>>>>>>>>>> prev'
-        text += ('<div class="prev"> &lt;<a href="%s">older</a></div>\n' %
+        text += ('<div class="prev">&lt; <a href="%s">older</a></div>\n' %
                 prevpagepath)
     text += "</div>\n"
-    text += ('<div class="center"><a href="{{ content_url(archive) }}">archives</a></div>\n')
+    text += ('<div class="center"><a href="{{ content_url(archive) }}">archive</a></div>\n')
 
     text += '{% endmark %}\n'
     text += '{% endblock %}\n'

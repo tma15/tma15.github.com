@@ -33,12 +33,12 @@ context:
             install: "http://hyde.github.com/install.html"
         menu:
           - title: Home
-            url: index.html
+            url: /
           - title: About
-            url: about/index.html
+            url: about/
           - title: Blog
-            url: blog/index.html
-          - title: Archives
+            url: blog/
+          - title: Archive
             url: blog/archive.html
         latest: 5
         archive: blog/archive.html
