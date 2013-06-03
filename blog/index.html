@@ -28,94 +28,111 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1><a href="/blog/2013/6/towards-heterogeneous-temporal-clinical-event-pattern-discovery-a-convolutional-approach.html" class="title">Towards Heterogeneous Temporal Clinical Event Pattern Discovery - A Convolutional Approach (KDD 2012)を読んだ</a></h1>
+                    <h1><a href="/blog/2013/6/joined-jm2013.html" class="title">簡単に、奥深く</a></h1>
 
+<div align="center">
+<img src="http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg" width="600" height="600" alt="Untitled" />
+</div>
+
+<p><br /></p>
+
+<p>暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで
+久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。
+一回目の試合の前半、掛けあっがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、
+すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。</p>
+
+<p>ところでこの前、東工大奥村・高村研、お茶大小林研の<a href="http://www.lr.pi.titech.ac.jp/jm2013/">合同研究会</a>
+に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」
+というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど
+少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど）
+事前にLDAを実装したり、更新式の導出を追ったりしていた。
+実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。</p>
+
+<p>学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。
+発表に関して言うと、最近自分が痛感したことが一つある。
+「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。
+自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは
+学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている)
+人しかいなかったからということ。
+これは自分の経験に基づいた考えなのだけど、
+たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って
+もらうためには自分がどんな職種であれ
+全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを
+わかりやすく説明する必要が出てくるんじゃないかと思う
+(もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。
+しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという
+ことも伝えられなければならない。
+バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している
+聴講者へ発表することよりも難しい。</p>
+
+<ul>
+<li>「あなたは何をやっているかよく分からない」</li>
+<li>「あなたがやっていることは誰でも出来る簡単なことじゃないか」</li>
+<li>「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」</li>
+</ul>
+
+<p>発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。</p>
+
+<p><br />
+<p class="date">2013-06-03</p></p>
+<p><br><br>
+<h1><a href="/blog/2013/6/towards-heterogeneous-temporal-clinical-event-pattern-discovery-a-convolutional-approach.html" class="title">Towards Heterogeneous Temporal Clinical Event Pattern Discovery - A Convolutional Approach (KDD 2012)を読んだ</a></h1>
 <p>proceeding: <a href="http://www.research.ibm.com/healthcare/papers/KDD2012NMF.pdf">pdf</a></p>
-
 <p>時系列パターンを使って患者を病状によって3つのグループへ分類するという応用寄りの話。
 時系列パターンの発見には非負値行列分解(Non-negative Matrix Factorization; NMF)を
 用いている。
 この論文で言う時系列データとは、NMFをおこなうことで得られる基底ベクトルのことだと解釈している。</p>
-
 <p>以下にNMFについて簡単に調べたことを簡単にまとめる。
 参考資料は一つ目のチュートリアルがNMFの気持ちを
 理解するのにわかりやすく、二つ目の資料はNMFの更新式の導出を追うのにわかりやすかった。</p>
-
 <h2>NMF超概略</h2>
-
 <h3>NMFとは</h3>
-
 <p>与えられた非負値行列を二つの非負値行列の積で表現する。</p>
-
 <h3>導出に必要な道具</h3>
-
 <h4>(1) 補助関数法</h4>
-
 <p>目的関数を直接最小化することが難しいときに使う。
 <a href="http://www.brl.ntt.co.jp/people/kameoka/publications/Kameoka2012SICE09published.pdf">参考資料</a>の
 説明を拝借すると、「目的関数がパラメータごとの関数の和になっていれば非負値制約の中で解を探索できる
 が目的関数がそのようになっていない場合に目的関数の上限関数として補助関数を導入する」ということと理解している。</p>
-
 <h4>(2) Jensenの不等式</h4>
-
 <p>(1)の上限関数を作成する時に使う、下に凸な関数f(x)に対して成り立つ関係。
 f(Σ_i a_i x_i) ≦ Σ_i a_i f(x_i)</p>
-
 <h3>更新式の気持ち</h3>
-
 <p>再現をしたい行列の成分を良く近似できているほど更新をしなくて、あまり近似できていない成分に対しては大きく更新をする。</p>
-
 <h3>実装</h3>
-
 <p><a href="https://code.google.com/p/pymf/">pymf</a>のソースコードを眺めた見たけど簡単そう。</p>
-
 <h3>参考資料</h3>
-
 <p>どちらも同じ著者によって書かれたものだが、下の二つの資料がとてもわかりやすかった。
 NMFのやってることの気持ちを知るには一番目のチュートリアルの資料、導出に関しては二番目の資料が参考になった
 (というか、日本人だとこの方のほとんど資料であった)。</p>
-
 <ul>
 <li><a href="http://staff.aist.go.jp/k.yoshii/slides/mus91-tutorial-nmf.pdf">チュートリアル: 非負値行列因子分解</a></li>
 <li><a href="http://www.brl.ntt.co.jp/people/kameoka/publications/Kameoka2012SICE09published.pdf">非負値行列因子分解</a></li>
 </ul>
-
 <h2>紹介する論文のアイディア</h2>
-
 <p>電子医療データ(Electronic Health Records; EHR)は患者によって時間の幅がばらばらである (
 ただし、記録されているデータの種類は同じであると仮定している)。
 そのため、患者をデータの種類×時間の行列で表現すると、時間の幅がばらばらになってしまう。
 NMFはクラスタリング、距離学習、分類など色々な分野でうまく適用されているが、
 行列のサイズがばらばらではうまく適用できない。だったら、患者のデータ行列を時間の幅が
 同じになるように畳み込んでしまおう、というのがこの論文のアイディアである。</p>
-
 <h2>工夫しているポイント</h2>
-
 <p>患者のデータ行列Xは時系列パターンFの重ねあわせで表すことが出来ると仮定する。
 時間幅をtにしたいのであれば(1×tの)係数行列gを用いて畳み込みをして患者のデータ行列を再現する。
 通常のNMFであればFとgの内積を使ってX_{ij}を表現すると思うのだが、ここではF、gのインデックス
 外を参照すると0にするようにして畳み込みをおこなっている (式(1))。</p>
-
 <h2>発表した資料</h2>
-
 <p>数式は複雑に見えるけど、式(9)、式(11)を頭にイメージしてスライドの後半を見るとなんとなく何が違っているのか見えてくる。
 分類器はk-近傍法を使っている。時系列パターンを使わないbaselineよりも提案手法の時系列パターンを使った方が分類性能良くなっている。
 計算量のスライドは理解が怪しい。</p>
-
 <iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/145030352/content?start_page=1&view_mode=slide&access_key=key-2luu88u9399w87t5bdsz&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_40030" width="700" height="500" frameborder="0"></iframe>
-
 <p><br /></p>
-
 <h2>補足資料</h2>
-
 <p>Appendixの導出に自分の理解を付け加えたもの。
 βの値によって場合分けをしているけど基本的には補助関数法で間接的に目的関数を最小化しているだけ。</p>
-
 <iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/145030227/content?start_page=1&view_mode=scroll&access_key=key-248of19ols7j1dkcko11&show_recommendations=false" data-auto-height="false" data-aspect-ratio="0.708006279434851" scrolling="no" id="doc_26265" width="700" height="600" frameborder="0"></iframe>
-
 <p><br /></p>
-
-<p><br />
+<br />
 <p class="date">2013-06-01</p></p>
 <p><br><br>
 <h1><a href="/blog/2013/5/python-tabelog.html" class="title">食べログAPIのPythonラッパーを書いた</a></h1>
@@ -156,13 +173,6 @@ access key (40桁の文字列)を入手する。</p>
 <iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/132605868/content?start_page=1&view_mode=slideshow&access_key=key-wgir7vee0ytkouj0q99" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_18069" width="700" height="550" frameborder="0"></iframe>
 <br />
 <p class="date">2013-03-27</p></p>
-<p><br><br>
-<h1><a href="/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html" class="title">Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</a></h1>
-<p>proceeding: <a href="http://www.cs.utexas.edu/~cjhsieh/icdm-pmf.pdf">pdf</a></p>
-<p>発表資料</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/131932827/content?start_page=1&view_mode=slideshow&access_key=key-hgbknpzu7xixmb9bkaf" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_16367" width="700" height="550" frameborder="0"></iframe>
-<br />
-<p class="date">2013-03-23</p></p>
 <p><br><br><div class="bottom_article_nav">
 <div class="prev">&lt; <a href="/blog/page/2/">older</a></div>
 </div>

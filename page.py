@@ -36,6 +36,7 @@ class Article(object):
         self._date = datetime.date(y, m, d)
         for div in contents.findAll('div'):
             """ Ignore syntax highlight """
+            if not div.has_key('class'): continue
             if div['class'] in ['codebox', 'highlight']: continue
             body = re.sub(str(div), '', body)
         """
