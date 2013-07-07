@@ -6,7 +6,7 @@ import sys
 import datetime
 from hyde.generator import Generator
 from hyde.fs import File, Folder
-from hyde.model import Config, Expando
+#from hyde.model import Config, Expando
 from hyde.site import Node, RootNode, Site
 from BeautifulSoup import BeautifulSoup
 from xml.sax.saxutils import unescape
@@ -107,12 +107,10 @@ title: Blog
 
     text += "<div class=\"bottom_article_nav\">\n"
     if pid != 1:
-#        print '>>>>>>>>>>> next'
         text += ('<div class="next"><a href="%s">newer</a> &gt;</div>\n' %
                 nextpagepath)
 
     if pid != len(pages):
-#        print '>>>>>>>>>>> prev'
         text += ('<div class="prev">&lt; <a href="%s">older</a></div>\n' %
                 prevpagepath)
     text += "</div>\n"
@@ -120,5 +118,4 @@ title: Blog
 
     text += '{% endmark %}\n'
     text += '{% endblock %}\n'
-#    print text.encode('utf8')
     pagefile.write(text)
