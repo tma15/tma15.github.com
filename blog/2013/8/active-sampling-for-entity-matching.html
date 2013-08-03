@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+        <title>Active Sampling for Entity Matching (KDD 2012)を読んだ | Now is better than never.</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/media/css/font-awesome.css">
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body >
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
+        </nav>
+        <article id="content">
+                    <h1>Active Sampling for Entity Matching (KDD 2012)を読んだ</h1>
+<p>proceeding (<a href="http://ilpubs.stanford.edu:8090/1036/1/main.pdf">pdf</a>),
+slide (<a href="http://shrdocs.com/presentations/9266/index.html">html</a>),
+journal (<a href="http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pdf">pdf</a>)</p>
+<p>KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、
+マリッサ・メイヤーのYahoo! CEO就任は<a href="http://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AA%E3%83%83%E3%82%B5%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC">2012年7月17日</a>、KDD 2012は<a href="http://kdd2012.sigkdd.org/">2012年8月中旬</a>、
+おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという
+余計な詮索をしていた。
+journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
+これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。</p>
+<h2>概要</h2>
+<p>entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
+制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
+ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので
+提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
+に比べて早く、しかも精度もよく学習できることを示している。</p>
+<h2>発表資料</h2>
+<div align="center">
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/157827725/content?start_page=1&view_mode=slideshow&access_key=key-1si7srgey3zm82empzuw&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_66221" width="700" height="500" frameborder="0"></iframe>
+</div>
+
+<p>以下メモ。</p>
+<h2>Convex hull algorithm</h2>
+<p><div align="center">
+    <img src="http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg" width="500" height="375">
+</div>
+precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法
+のようにして問題から制約を取り除く。
+また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を
+recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。
+探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
+ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。</p>
+<h2>Rejection sampling algorithm</h2>
+<p>black boxの学習をおこなう前に呼び出されるアルゴリズム。
+気持ちを理解するには<a href="http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html">Machined Learnings: Cost-Sensitive Binary Classification and Active Learning</a>が詳しい。
+要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して
+少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル
+が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解
+が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。
+今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル
+についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ
+正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。
+棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。</p>
+<p>この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
+見えない場合には現実的な方法である。</p>
+<h2>合わせて読みたい</h2>
+<p><a href="http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/">コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner</a></p>
+        <br>
+        <p class="date">2013-08-03</p>
+        <div class="bottom_article_nav">
+
+                  <div class="next"><a href="/blog/2013/7/it-takes-a-long-time-to-become-young.html">It takes a long time to become...</a>
+    &gt;</div>
+
+
+</div>
+
+<div class="center"><a href="/blog/archive.html">archive</a></div>
+        </article>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>
