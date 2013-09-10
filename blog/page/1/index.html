@@ -28,37 +28,81 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1><a href="/blog/2013/8/active-sampling-for-entity-matching.html" class="title">Active Sampling for Entity Matching (KDD 2012)を読んだ</a></h1>
+                    <h1><a href="/blog/2013/9/diversity-maximization-under-matroid-constraints.html" class="title">Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</a></h1>
 
+<p>KDD 2013読み会に参加させていただきました。
+せっかくなのでと思い論文を読んで発表してきた。
+主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。
+これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。
+個人的には参加者数が多すぎず少なすぎなかったのが良かった。</p>
+
+<h2>読んだ論文</h2>
+
+<p>Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013</p>
+
+<p>proceeding (<a href="http://delivery.acm.org/10.1145/2490000/2487636/p32-thakur.pdf?ip=119.72.198.210&id=2487636&acc=OA&key=BF13D071DEA4D3F3B0AA4BA89B4BCA5B&CFID=172417999&CFTOKEN=20689885&__acm__=1378782056_5a16e280ca3058cd06f535a4740ad6be">pdf</a>)</p>
+
+<p>ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。
+カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。
+記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。</p>
+
+<p>ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。
+これは1/2近似であることを証明する時に必要な性質をもっているため。
+この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。
+今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら<a href="http://theory.stanford.edu/~sergei/papers/soda10-jaccard.pdf">他の論文</a>でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。</p>
+
+<p>人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。</p>
+
+<p>関数の定義が書かれていなかったり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。</p>
+
+<h2>発表資料</h2>
+
+<p><div align="center">
+<iframe class="scribd_iframe_embed" src="//www.scribd.com/embeds/166900012/content?start_page=1&view_mode=slideshow&access_key=key-2nk8dys4z67mwblosm6o&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_26933" width="610" height="500" frameborder="0"></iframe>
+</div></p>
+
+<h2>議論</h2>
+
+<p>大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。
+自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。</p>
+
+<ul>
+<li>diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは</li>
+<li>diversityを良くしたら本当にユーザにとってためになるものが提供できるのか<ul>
+<li>極論するとランダムな文書集合で満足するユーザがいるかもしれない</li>
+</ul>
+</li>
+<li>diversityにも色々あるし、diversityの良さは人によって違うのでは<ul>
+<li>色々なdiversityと人間の評価の相関とか調べると面白いかも</li>
+</ul>
+</li>
+</ul>
+
+<p><br />
+<p class="date">2013-09-10</p></p>
+<p><br><br>
+<h1><a href="/blog/2013/8/active-sampling-for-entity-matching.html" class="title">Active Sampling for Entity Matching (KDD 2012)を読んだ</a></h1>
 <p>proceeding (<a href="http://ilpubs.stanford.edu:8090/1036/1/main.pdf">pdf</a>),
 slide (<a href="http://shrdocs.com/presentations/9266/index.html">html</a>),
 journal (<a href="http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pdf">pdf</a>)</p>
-
 <p>KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、
 マリッサ・メイヤーのYahoo! CEO就任は<a href="http://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AA%E3%83%83%E3%82%B5%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC">2012年7月17日</a>、KDD 2012は<a href="http://kdd2012.sigkdd.org/">2012年8月中旬</a>、
 おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという
 余計な詮索をしていた。
 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。</p>
-
 <h2>概要</h2>
-
 <p>entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
 ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので
 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
 に比べて早く、しかも精度もよく学習できることを示している。</p>
-
 <h2>発表資料</h2>
-
 <div align="center">
 <iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/157827725/content?start_page=1&view_mode=slideshow&access_key=key-1si7srgey3zm82empzuw&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_66221" width="700" height="500" frameborder="0"></iframe>
 </div>
-
 <p>以下メモ。</p>
-
 <h2>Convex hull algorithm</h2>
-
 <p><div align="center">
 <img src="http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg" width="500" height="375" />
 </div>
@@ -68,9 +112,7 @@ precisionの制約付きrecall最大化問題を解きたいのだけど、制�
 recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。
 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。</p>
-
 <h2>Rejection sampling algorithm</h2>
-
 <p>black boxの学習をおこなう前に呼び出されるアルゴリズム。
 気持ちを理解するには<a href="http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html">Machined Learnings: Cost-Sensitive Binary Classification and Active Learning</a>が詳しい。
 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して
@@ -81,15 +123,11 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ
 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。
 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。</p>
-
 <p>この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
 見えない場合には現実的な方法である。</p>
-
 <h2>合わせて読みたい</h2>
-
 <p><a href="http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/">コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner</a></p>
-
-<p><br />
+<br />
 <p class="date">2013-08-03</p></p>
 <p><br><br>
 <h1><a href="/blog/2013/7/it-takes-a-long-time-to-become-young.html" class="title">It takes a long time to become young.</a></h1>
@@ -321,31 +359,6 @@ NMFはクラスタリング、距離学習、分類など色々な分野でう�
 <p><br /></p>
 <br />
 <p class="date">2013-06-01</p></p>
-<p><br><br>
-<h1><a href="/blog/2013/5/python-tabelog.html" class="title">食べログAPIのPythonラッパーを書いた</a></h1>
-<p>ソースコードは<a href="https://github.com/tma15/python-tabelog">こちら</a>。</p>
-<h2>食べログAPI利用登録</h2>
-<p>まず<a href="http://tabelog.com/help/api/">食べログAPI サービス案内</a>から利用登録をして
-access key (40桁の文字列)を入手する。</p>
-<h2>インストール</h2>
-<p><div class="codebox"><figure class="code"><div class="highlight"><pre>git clone https://github.com/tma15/python-tabelog.git<br /><span class="nb">cd </span>python-tabelog<br />python setup.py install<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div></p>
-<h2>使い方</h2>
-<h3>最初に</h3>
-<p><div class="codebox"><figure class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">tabelog</span> <span class="kn">import</span> <span class="n">Tabelog</span><br />&nbsp;<br /><span class="n">key</span> <span class="o">=</span> <span class="s">&#39;Your access key here.&#39;</span><br /><span class="n">tabelog</span> <span class="o">=</span> <span class="n">Tabelog</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div></p>
-<h3>レストラン検索</h3>
-<p><div class="codebox"><figure class="code"><div class="highlight"><pre><span class="n">prefecture</span> <span class="o">=</span> <span class="s">&#39;東京&#39;</span><br /><span class="n">station</span> <span class="o">=</span> <span class="s">&#39;渋谷&#39;</span><br /><span class="n">restaurants</span> <span class="o">=</span> <span class="n">tabelog</span><span class="o">.</span><span class="n">search_restaurant</span><span class="p">(</span><span class="n">prefecture</span><span class="o">=</span><span class="n">prefecture</span><span class="p">,</span> <span class="n">station</span><span class="o">=</span><span class="n">station</span><span class="p">)</span><br />&nbsp;<br /><span class="k">for</span> <span class="n">restaurant</span> <span class="ow">in</span> <span class="n">restaurants</span><span class="p">:</span><br />    <span class="k">print</span> <span class="s">&#39;rcd:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">rcd</span><br />    <span class="k">print</span> <span class="s">&#39;name:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">name</span><br />    <span class="k">print</span> <span class="s">&#39;url:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">tabelogurl</span><br />    <span class="k">print</span> <span class="s">&#39;mobile url:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">tabelogmobileurl</span><br />    <span class="k">print</span> <span class="s">&#39;dinner price:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">dinnerprice</span><br />    <span class="k">print</span> <span class="s">&#39;lunch price:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">lunchprice</span><br />    <span class="k">print</span> <span class="s">&#39;total score:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">totalscore</span><br />    <span class="k">print</span> <span class="s">&#39;taste score:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">tastescore</span><br />    <span class="k">print</span> <span class="s">&#39;service score:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">servicescore</span><br />    <span class="k">print</span> <span class="s">&#39;mood score:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">moodscore</span><br />    <span class="k">print</span> <span class="s">&#39;category:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">category</span><br />    <span class="k">print</span> <span class="s">&#39;station:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">station</span><br />    <span class="k">print</span> <span class="s">&#39;situation:&#39;</span><span class="p">,</span> <span class="n">restaurant</span><span class="o">.</span><span class="n">situation</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div></p>
-<h4>search_restaurant()が受け取れるその他の主な変数</h4>
-<ul>
-<li>latitude: 経度 （例）35.684</li>
-<li>longitude: 緯度 （例）139.756</li>
-<li>search_range: small (約300m以内), medium (約600m以内), large (約1.5km以内)の3つのどれか。デフォルトはmedium。</li>
-<li>sort_order: highprice (夜の価格が高い順), lowprice (夜の価格が低い順), reviewcount (口コミ数が多い順)</li>
-</ul>
-<h3>レビュー収集</h3>
-<p>お店のレビューが欲しい時はそのお店のレコード番号を指定する。
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="n">reviews</span> <span class="o">=</span> <span class="n">tabelog</span><span class="o">.</span><span class="n">search_review</span><span class="p">(</span><span class="mi">13004626</span><span class="p">)</span> <span class="c"># restaurant.rcd</span><br /><span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">reviews</span><span class="p">:</span><br />    <span class="k">print</span> <span class="s">&#39;nickname:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">nickname</span><br />    <span class="k">print</span> <span class="s">&#39;title:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">title</span><br />    <span class="k">print</span> <span class="s">&#39;dinner price:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">dinnerprice</span><br />    <span class="k">print</span> <span class="s">&#39;lunch price:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">lunchprice</span><br />    <span class="k">print</span> <span class="s">&#39;total score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">totalscore</span><br />    <span class="k">print</span> <span class="s">&#39;service score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">servicescore</span><br />    <span class="k">print</span> <span class="s">&#39;taste score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">tastescore</span><br />    <span class="k">print</span> <span class="s">&#39;mood score:&#39;</span><span class="p">,</span> <span class="n">review</span><span class="o">.</span><span class="n">moodscore</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div></p>
-<br />
-<p class="date">2013-05-12</p></p>
 <p><br><br><div class="bottom_article_nav">
 <div class="prev">&lt; <a href="/blog/page/2/">older</a></div>
 </div>
