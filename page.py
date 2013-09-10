@@ -6,7 +6,6 @@ import sys
 import datetime
 from hyde.generator import Generator
 from hyde.fs import File, Folder
-#from hyde.model import Config, Expando
 from hyde.site import Node, RootNode, Site
 from BeautifulSoup import BeautifulSoup
 from xml.sax.saxutils import unescape
