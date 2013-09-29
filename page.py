@@ -85,6 +85,7 @@ pages.append(pagebox)
 
 for pid, page in enumerate(pages):
     pid += 1
+    print 'content/blog/page/%d/' % pid
     pagepath = SITE_ROOT.child('content/blog/page/%d/' % pid)
     nextpagepath = "/blog/page/%d/" % (pid - 1)
     prevpagepath = "/blog/page/%d/" % (pid + 1)
