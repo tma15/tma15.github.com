@@ -33,7 +33,9 @@ class Article(object):
         date = soup.find('p', {'class': 'date'}).renderContents().strip()
         y, m, d = [int(d) for d in date.split('-')]
         self._date = datetime.date(y, m, d)
-        for div in contents.findAll('div'):
+        alldivs = contents.findAll('div')
+
+        for div in alldivs:
             """ Ignore syntax highlight """
             if not div.has_key('class'): continue
             if div['class'] in ['codebox', 'highlight']: continue
@@ -69,6 +71,7 @@ for year in ['2012', '2013']:
     for page in blog.walk_resources():
         relpath = 'blog/%s/%s' % (year, page.relative_path)
         deploy_file = File(Folder(site.config.deploy_root_path).child(relpath))
+        if relpath.endswith('swp'): continue
         article = Article(relpath, deploy_file.read_all())
         allarticles.append(article)
 
@@ -103,6 +106,7 @@ title: Blog
 
 """
     for article in page:
+#        print article.body
         text += article.body.decode('utf8') + '<br><br>'
 
     text += "<div class=\"bottom_article_nav\">\n"
