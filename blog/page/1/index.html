@@ -34,70 +34,405 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1><a href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html" class="title">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></h1>
+                    <h1><a href="/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content.html" class="title">Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</a></h1>
 
-<p>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。</p>
+<p><a href="http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/">proceeding</a>
+slide: <a href="http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content">slideshare</a></p>
 
-<h2>気になったところ</h2>
+<h2>まとめ</h2>
 
-<p>データに正規分布を仮定したときのナイーブベイズ分類器について。
-平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は</p>
+<p>CIKM 2013でBest paperを取った、著者が全員女性(<a href="http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/">参考</a>)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
+何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じ。</p>
 
-<p>\[
-p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}
-\]</p>
+<p>以下、メモ。</p>
 
-<p>これのlogをとると、
-\[
-\begin{split}
-\log p(x;\mu, \sigma^2) &= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\\
-&= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
-\end{split}
-\]</p>
+<h2>Why/when do penguins wear sweaters?</h2>
 
-<p>ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、</p>
+<ul>
+<li>タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)<ul>
+<li>羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう</li>
+<li>くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう</li>
+</ul>
+</li>
+</ul>
 
-<p>\[
-\begin{split}
-\log L(X, Y; \mu, \sigma) &= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\
-& = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\
-& = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\
-& = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\
-& = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\}
-\end{split}
-\]</p>
+<h3>Serendipity</h3>
 
-<p>サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は</p>
+<p>役に立つんだけど、特に探していたわけではないもの。</p>
 
-<p>\[
-\begin{split}
-\hat{y} &= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\\
-&= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\\
-& = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x_k-\mu_{yk})^2}{2\sigma_{yk}^2}\}\}
-\end{split}
-\]</p>
+<h3>Entity Search</h3>
 
-<p>対数尤度関数をnumpyに落とすと</p>
+<p>この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。</p>
 
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span><br /><span class="sd">sigma.shape = (n_classes, n_features)</span><br /><span class="sd">mu.shape = (n_classes, n_features)</span><br /><span class="sd">&quot;&quot;&quot;</span><br />&nbsp;<br /><span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">classes</span><span class="p">)):</span><br />    <span class="c"># 事前分布の対数</span><br />    <span class="n">log_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">class_piror</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />    <span class="c"># log p(x|y)の対数の初項</span><br />    <span class="n">log_gauss1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span><br />    <span class="c"># log p(x|y)の対数の第二項</span><br />    <span class="n">log_gauss2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span><br />    <span class="c"># クラスiの尤度のlogを取った値</span><br />    <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prior</span> <span class="o">+</span> <span class="n">log_gauss1</span> <span class="o">+</span> <span class="n">log_gauss2</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
+<h2>この論文の焦点</h2>
+
+<h3>WHAT</h3>
+
+<p>ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？</p>
+
+<h3>WHY</h3>
+
+<p>そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？</p>
+
+<h2>データ</h2>
+
+<h3>Yahoo! Answers</h3>
+
+<ul>
+<li>ごくわずかにまとめられた意見、ゴシップ、個人情報</li>
+<li>観点が多様</li>
+</ul>
+
+<h3>Wikipedia</h3>
+
+<ul>
+<li>高品質の情報が整理されている</li>
+<li>ニッチなトピックが豊富</li>
+</ul>
+
+<h2>Entity & Relation Extraction</h2>
+
+<h3>Entity: Wikipediaに記述されている概念</h3>
+
+<p>1 テキストから表層形を識別し、
+2 Wikipediaのentityと紐付けして、</p>
+
+<ul>
+<li>文脈依存</li>
+<li>文脈非依存な素性<ul>
+<li>click log</li>
+</ul>
+</li>
+</ul>
+
+<p>3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)</p>
+
+<h3>Reationship: tf/idfベクトルのコサイン類似度</h3>
+
+<p>entityが現れるドキュメントを結合したものがベクトルで表される</p>
+
+<h2>Dataset Features (Metadata)</h2>
+
+<h3>Sentiment</h3>
+
+<ul>
+<li>SentiStrengthを用いてpositive & negativeのスコアを計算する<ul>
+<li>インフォーマルな英語の極性判定でstate-of-the-art</li>
+<li>このままだと文書レベルでの極性判定<ul>
+<li>文単位でpositive、negativeのスコアを割り当てて、それぞれの平均が文書単位の極性のスコアになる</li>
+</ul>
+</li>
+<li>文書は複数のentityを含むことが多いのでentity単位での極性はうまく測れない</li>
+<li>まずentityのそれぞれ前後10単語のウィンドウに対して極性のスコアを計算する</li>
+</ul>
+</li>
+<li>attitudeとsentimentalityをウィンドウに対して計算する[Kucuktunc'12]<ul>
+<li>attitude: positiveもしくはnegativeに対する傾向</li>
+<li>sentimentality: 極性の大きさ</li>
+</ul>
+</li>
+<li>entityが現れるウィンドウのattitude, sentimentalityの平均値がentity単位の素性とする</li>
+</ul>
+
+<h3>Quality</h3>
+
+<ul>
+<li>可読性</li>
+<li>Flesch Reading Ease score[14]<ul>
+<li>スコアが高いほど理解するのが難しい</li>
+<li>スコアが低いほど理解するのが易しい</li>
+</ul>
+</li>
+<li>Fig1は二つのデータセットにおけるエンティティの可読性の分布</li>
+</ul>
+
+<h3>Topical Category</h3>
+
+<ul>
+<li>Yahoo Content Taxonomy<ul>
+<li>Table 2</li>
+<li>二つのデータ・セット中の概念体型は使わない<ul>
+<li>整合性をとるため</li>
+<li>二つのデータセットにおける実験結果を比較するため</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>US-Englishのニュース記事を使って訓練した分類器で文書分類する</li>
+<li>entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする</li>
+</ul>
+
+<h2>Retrieval</h2>
+
+<h3>Algorithm: Lazy Randomwalk with restart</h3>
+
+<ul>
+<li>self-loop probability: beta
+他のノードへの伝搬を遅らせて、random walkの開始ノードの重要性をより高める<ul>
+<li>先行研究にしたがって、beta = 0.9 [6, 12]</li>
+</ul>
+</li>
+<li>follow one of the out-links with probability: 1 - beta
+エッジの重みに比例してrandom walkする</li>
+<li>random jumpの確率は0 (alpha = 0)<ul>
+<li>random jumpすると結果が悪くなるため</li>
+</ul>
+</li>
+<li>反復の終了条件<ul>
+<li>前回とのノルムの差が10^-6以下、もしくは30回反復した</li>
+</ul>
+</li>
+</ul>
+
+<h4>scoring method</h4>
+
+<ul>
+<li>popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング</li>
+</ul>
+
+<h3>Testbed</h3>
+
+<ul>
+<li>2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo! Answersの文書中に共に現れる上位50件のクエリ</li>
+</ul>
+
+<h3>Precision @5, MAP</h3>
+
+<ul>
+<li>Precision: 66.8% on WP, 72.4% on YA</li>
+<li>MAP: 0.716 on WP, 0.762 on YA
+ふたつのデータセットでの性能は同等であるものの、ランキングされるentityにはあまり重複がないため、二つのランキング結果を結合すると性能が上がる<ul>
+<li>Fagin et al. [13]のrank aggregationを使う</li>
+</ul>
+</li>
+</ul>
+
+<h3>Annotator agreement</h3>
+
+<ul>
+<li>1つのクエリにつき、annotatorは3人<ul>
+<li>クラウドソーシングしてるので、信頼出来ないannotatorは排除</li>
+</ul>
+</li>
+<li>(overlap): 0.85%<ul>
+<li>馴染みのないクエリはagreementが低い (Secosteroid, Sally Kern, ...)</li>
+</ul>
+</li>
+</ul>
+
+<h3>Average overlap in top 5</h3>
+
+<ul>
+<li>results: 12%<ul>
+<li>= 0.6 entity/top 5 entities</li>
+</ul>
+</li>
+</ul>
+
+<h3>Error analysis</h3>
+
+<p>提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる</p>
+
+<ul>
+<li>例) Egyptに最も近い二つのentity<ul>
+<li>British Pacific Fleet, FC Groningen (WP)</li>
+<li>Spring, IGN (YA)</li>
+<li>Springは"Arab Spring"と間違えて識別された可能性があるが、このSpringは提案手法があまりEgyptの近くをみないので下位にランクされる</li>
+</ul>
+</li>
+</ul>
+
+<p>とても似通ったentityばかりが上位にランクされてしまうこともある</p>
+
+<ul>
+<li>例) インフルエンザのウィルス名、Mac PowerBookのバージョン名で上位がうまる<ul>
+<li>random walk時に密度が高いサブグラフにトラップされてしまうことで起きる</li>
+</ul>
+</li>
+</ul>
+
+<p>entityは関連していないentityが近くに来ることがある</p>
+
+<ul>
+<li>entity extractionの失敗</li>
+<li>文脈類似度を測るときのノイズ</li>
+<li>例) 同音異義語が強くつながってしまう<ul>
+<li>意味的な素性を使わずに類似度を測ってしまう</li>
+<li>(意味が違うなら文脈も違う気もする...)</li>
+</ul>
+</li>
+</ul>
+
+<h2>制約</h2>
+
+<p>二つのデータセットが、serendipitous searchに何をもたらしてくれるのか調べる</p>
+
+<ul>
+<li>YAとWPにおける実験結果を比べる</li>
+<li>どの素性が検索結果に影響するのか調べる<ul>
+<li>このために、データセットからメタデータを抽出する</li>
+<li>そして、sentimentality, quality, topical categoryの次元に対して、検索に制約をかける</li>
+</ul>
+</li>
+</ul>
+
+<p>制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる</p>
+
+<h3>Topic</h3>
+
+<p>Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
+Constraint 1: entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない</p>
+
+<h3>High/Low Sentimentalyty</h3>
+
+<p>Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
+Constraint 2(3): entityは中央値(0.6 for YP, 0 for WP)よりも高いsentimentalityでなければならない</p>
+
+<h3>High/Low Readability</h3>
+
+<p>Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
+Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)でなければならない</p>
+
+<h3>制約の結果</h3>
+
+<ul>
+<li>low-sentimentalityとlow-readabilityが負の影響を持っている</li>
+</ul>
+
+<h2>Serendipity</h2>
+
+<ul>
+<li>accuracy以外にも推薦エンジンの性能を測ることが重要である</li>
+<li>serendipity = unexpectedness + relevance</li>
+<li>baselineの結果に入っていない結果のrelの平均<ul>
+<li>relはannotatorの判断（？）</li>
+</ul>
+</li>
+<li>baseline<ul>
+<li>Top: 2つの商用検索エンジンの検索結果のうち、最も上位5位の検索結果に現れる回数が多いentity</li>
+<li>Top Nwp: TopからqueryのWikipediaの記事を除いたもの。WPに対するバイアスを避けるため</li>
+<li>Rel: 2つの商用検索エンジンから提案される関連クエリから得られる結果のうち、頻度が高い上位5件のentity</li>
+<li>Top+Rel: Top, Relの和集合</li>
+</ul>
+</li>
+<li>Table 5: 各baselineに対する、各制約条件で計算されたserendipity<ul>
+<li>topic-constrainedな条件ではすべてのbasline/datasetにおけるserendipityを上回っている</li>
+<li>YAは常にWPを上回っている</li>
+<li>COMが一番良いserendipityを出せる</li>
+<li>括弧の中の値は各制約条件で提示されたすべての結果に対するunexpectedでrelaventな結果の割合<ul>
+<li>baselineによって弾かれていたentityも含めたときの値</li>
+</ul>
+</li>
+<li>これはだいたいserendipityと同じくらいの高さになっている<ul>
+<li>つまり、最も強いbasline Rel+Topと比べた時でさえ、提案手法はすごい数のunexpectedでrelaventな結果を検索している</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>User-Perceived Quality</h2>
+
+<ul>
+<li>主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する</li>
+<li>順序付きリストの要素のペアワイズで比較する (順番はランダムに決める)<ul>
+<li>最初のほうが良かった</li>
+<li>二つ目のほうが良かった</li>
+<li>両方だめだった</li>
+</ul>
+</li>
+<li>reference result rankingを各次元に対して構築する<ul>
+<li>ランキング結果の集合の和集合</li>
+</ul>
+</li>
+<li>各ペアは3人のannotatorにより評価される<ul>
+<li>ほとんど重複がない時に評価するのは非常に手間がかかる</li>
+<li>適切なランクを推定するために、すべての順序リスト中の要素のペアから比較するペアをサンプリングする<ul>
+<li>votingによってreference result rankingにおける順位を決める</li>
+<li>http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<h3>Labeling</h3>
+
+<ol>
+<li>どちらの結果がよりクエリと関連しているか？</li>
+<li>そのクエリに興味を持つ人がいたら、その人はこの結果に興味を持つと思うか？</li>
+<li>あなたがそのクエリに興味がないとしても、この結果はおもしろいか？</li>
+<li>そのクエリについてなにか新しいことを学んだか？</li>
+</ol>
+
+<h3>Table 6: ランキングの集合とreference ranking間のKendall's tau-b</h3>
+
+<ul>
+<li>personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた<ul>
+<li>Oil Spill -> Sweaters for Penguins</li>
+<li>Robert Pattinson -> Water for Elephants</li>
+<li>Egypt -> Ptolematic Kingdom</li>
+</ul>
+</li>
+<li>専門的には似ているけど、面白くない例<ul>
+<li>Egypt -> Cairo Conference</li>
+<li>Netflix -> Blu-ray Disc</li>
+</ul>
+</li>
+<li>YAはreference rankに似た結果を出せている</li>
+<li>Topical categoryはreferece rankingとの類似度を高めている</li>
+<li>Sentiment & Readabilityもreferece rankingとの類似度を高めている</li>
+</ul>
 
 <p><br />
+<p class="date">2013-12-14</p></p>
+<p><br><br>
+<h1><a href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html" class="title">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></h1>
+<p>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。</p>
+<h2>気になったところ</h2>
+<p>データに正規分布を仮定したときのナイーブベイズ分類器について。
+平均を(\mu)、分散を(\sigma^2)としたときの正規分布は</p>
+<p>[
+p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} {\exp{-\frac{(x-\mu)^2}{2\sigma^2}}}
+]</p>
+<p>これのlogをとると、
+[
+\begin{split}
+\log p(x;\mu, \sigma^2) &amp;= \log {\frac{1}{\sqrt{2\pi \sigma^2}} {\exp{-\frac{(x-\mu)^2}{2\sigma^2}}}}\
+&amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
+\end{split}
+]</p>
+<p>ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、</p>
+<p>[
+\begin{split}
+\log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}<em>n, y_n))\
+&amp; = \log(\prod</em>{n=1}^N p(y_n)p(\mathbf{x}<em>n|y_n))\
+&amp; = \sum</em>{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}<em>n|y_n)\
+&amp; = \sum</em>{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K {-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}}
+\end{split}
+]</p>
+<p>サンプル(\mathbf{x})に対して出力される予測ラベル(\hat{y})は</p>
+<p>[
+\begin{split}
+\hat{y} &amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\
+&amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\
+&amp; = \mathop{\arg\,\max}\limits_y {\log p(y) + \sum_{k=1}^K {-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x_k-\mu_{yk})^2}{2\sigma_{yk}^2}}}
+\end{split}
+]</p>
+<p>対数尤度関数をnumpyに落とすと</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span><br /><span class="sd">sigma.shape = (n_classes, n_features)</span><br /><span class="sd">mu.shape = (n_classes, n_features)</span><br /><span class="sd">&quot;&quot;&quot;</span><br />&nbsp;<br /><span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">classes</span><span class="p">)):</span><br />    <span class="c"># 事前分布の対数</span><br />    <span class="n">log_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">class_piror</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />    <span class="c"># log p(x|y)の対数の初項</span><br />    <span class="n">log_gauss1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o"><em></span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o"></em></span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o"><em></span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span><br />    <span class="c"># log p(x|y)の対数の第二項</span><br />    <span class="n">log_gauss2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o"></em></span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o"><strong></span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span><br />    <span class="c"># クラスiの尤度のlogを取った値</span><br />    <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prior</span> <span class="o">+</span> <span class="n">log_gauss1</span> <span class="o">+</span> <span class="n">log_gauss2</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
+<p><br />
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、</p>
-
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">_joint_log_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span><br />        <span class="n">X</span> <span class="o">=</span> <span class="n">array2d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><br />        <span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br />        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">)):</span><br />            <span class="n">jointi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />            <span class="n">n_ij</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span> <span class="c"># np.piの前に2がない</span><br />            <span class="n">n_ij</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><br />                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]),</span> <span class="mi">1</span><span class="p">)</span><br />            <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jointi</span> <span class="o">+</span> <span class="n">n_ij</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
-
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf"><em>joint_log_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span><br />        <span class="n">X</span> <span class="o">=</span> <span class="n">array2d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><br />        <span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br />        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes</em></span><span class="p">)):</span><br />            <span class="n">jointi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />            <span class="n">n_ij</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o"><em></span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o"></em></span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span> <span class="c"># np.piの前に2がない</span><br />            <span class="n">n_ij</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o"></strong></span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><br />                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]),</span> <span class="mi">1</span><span class="p">)</span><br />            <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jointi</span> <span class="o">+</span> <span class="n">n_ij</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
 <p><br /></p>
-
 <p>数式の展開が間違えているのだろうか...。それとも2は必要ないのだろうか...。</p>
-
 <h2>参考</h2>
-
 <ul>
 <li><a href="http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/">Naive Bayesの復習（導出編）</a></li>
 <li><a href="http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf">Naïve Bayes Lecture17</a></li>
 </ul>
-
-<p><br />
+<br />
 <p class="date">2013-11-10</p></p>
 <p><br><br>
 <h1><a href="/blog/2013/9/acl2013-summ-note.html" class="title">文書要約メモ（ACL2013）</a></h1>
@@ -261,137 +596,6 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 <p><a href="http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/">コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner</a></p>
 <br />
 <p class="date">2013-08-03</p></p>
-<p><br><br>
-<h1><a href="/blog/2013/7/it-takes-a-long-time-to-become-young.html" class="title">It takes a long time to become young.</a></h1>
-<p>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
-いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
-深い言葉であると思う。</p>
-<p>Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)</p>
-<p>proceeding(<a href="http://cs.stanford.edu/people/jure/pubs/language-www13.pdf">pdf</a>),  slide(<a href="http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf">pdf</a>)</p>
-<p>今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
-すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
-タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
-よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
-の関係を調べている。</p>
-<div align="center">
-<img src="http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg" width="500" height="376" alt="nocountryforoldmembers" />
-<br />
-※著者スライドより
-</div>
-<p><br /></p>
-<p>コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
-を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
-言葉の変化には適応しなくなるというもの。
-実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
-参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
-流行っている言い回し、言葉を積極的に使う。
-ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
-例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy...などと書くのだけど
-参加して日が浅いユーザはS: spicy...などと書く。コミュニティ全体としては年を追う毎にS:という表記で
-ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
-つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。
-いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。</p>
-<p>このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
-特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。
-論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。</p>
-<p>以下、スライドを見ながら取ったメモ。</p>
-<h2>取り組む課題</h2>
-<ul>
-<li>ユーザはどのようにコミュニティの一員になるのか</li>
-<li>ユーザとコミュニティはどのように共に成長していくのか</li>
-<li>ユーザがコミュニティを退会することを予測できるのか</li>
-</ul>
-<h2>アイディア</h2>
-<p>コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。</p>
-<h2>アプローチ (取り組む課題と対応)</h2>
-<ul>
-<li>言葉の変化を捉えるための統計的なフレームワークを提案する</li>
-<li>言葉の変化に対するユーザの反応を定量化する</li>
-<li>ユーザがコミュニティを退会することを予測するために有効な素性を提案する</li>
-</ul>
-<h2>長期的なデータ</h2>
-<ul>
-<li>BeerAdvocate</li>
-<li>RateBeer</li>
-</ul>
-<h2>言葉の変化の例: puzzle</h2>
-<p>香りの議論の導入で使われる二つの慣例 (Aroma &amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。</p>
-<h2>コミュニティレベルでの変化、ユーザレベルでの変化</h2>
-<p>コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
-ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。</p>
-<h2>二つの変化の関係</h2>
-<p>ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。</p>
-<h3>Stage1:</h3>
-<p>ユーザはコミュニティの言葉に順応する</p>
-<h3>Stage2:</h3>
-<p>ユーザの言葉はコミュニティの言語モデルと遠ざかる</p>
-<h3>仮説</h3>
-<ol>
-<li>ユーザは新しい言葉を使うようになって距離が遠くなる</li>
-<li>ユーザは適応することをやめ、変化するコミュニティに合わせなくなる</li>
-</ol>
-<h3>検証</h3>
-<p>ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。</p>
-<h2>lexical innovationへの適応</h2>
-<ul>
-<li>コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある</li>
-<li>新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする</li>
-</ul>
-<h3>puzzle answer</h3>
-<ul>
-<li>ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。</li>
-<li>ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。</li>
-</ul>
-<h2>User lifecycle (summary)</h2>
-<h3>オンラインでの言語的なlifecycle</h3>
-<ul>
-<li>0%: ユーザはコミュニティに参加</li>
-<li>Stage 1: コミュニティでの慣例に適応</li>
-<li>30%: 最も変化に適応する時期</li>
-<li>Stage 2: 使う言葉が単調になる</li>
-<li>100%: 退会</li>
-</ul>
-<h3>オフラインでの言語的なlifecyclce [Labov, 1966]</h3>
-<ul>
-<li>誕生: リアルなコミュニティに属する</li>
-<li>Stage 1: コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）</li>
-<li>17歳: コミュニティの慣例に最も適応する時期</li>
-<li>Stage 2: 大人になって使う言葉が安定する</li>
-</ul>
-<p>17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。</p>
-<h2>Elastic lifecycle</h2>
-<ul>
-<li>ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。</li>
-<li>Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage 1が終わる、などの絶対期な時間ではないということ。</li>
-<li>適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。</li>
-</ul>
-<p>これらの特徴を利用してユーザの最終的なlifespanを予測する。</p>
-<h2>Predicting user lifespan</h2>
-<h3>Task</h3>
-<p>最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。</p>
-<h3>Linguistic change features:</h3>
-<ul>
-<li>コミュニティの言語モデルとの距離</li>
-<li>そのユーザの言葉の安定性</li>
-<li>lexical inovationへの適応</li>
-</ul>
-<h3>Baselines:</h3>
-<ul>
-<li>投稿の頻度</li>
-<li>月ごとの投稿の割合</li>
-</ul>
-<p>Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。</p>
-<h3>結果</h3>
-<p>最大でBaselineよりも12ポイント高い</p>
-<h2>結論</h2>
-<ul>
-<li>言語の変化を捉えるフレームワークの提案した</li>
-<li>相対的な二段階のlifecycleを示した</li>
-<li>ユーザの退会予測に取り組んだ</li>
-<li>ユーザとコミュニティの共同的な進化を分析した</li>
-</ul>
-<br />
-<p class="date">2013-07-07</p></p>
 <p><br><br><div class="bottom_article_nav">
 <div class="prev">&lt; <a href="/blog/page/2/">older</a></div>
 </div>
