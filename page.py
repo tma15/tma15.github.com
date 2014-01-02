@@ -65,7 +65,7 @@ num_entry = 5
 """
 Get articles
 """
-for year in ['2012', '2013']:
+for year in ['2012', '2013', '2014']:
     blog = RootNode(SITE_ROOT.child_folder('content/blog/%s' % year), site)
     blog.load()
     for page in blog.walk_resources():
@@ -107,6 +107,7 @@ title: Blog
 """
     for article in page:
 #        print article.body
+        print article._title
         text += article.body.decode('utf8') + '<br><br>'
 
     text += "<div class=\"bottom_article_nav\">\n"
