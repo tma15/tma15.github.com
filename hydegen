@@ -1,3 +1,0 @@
-cp ./content/blog/page/1/index.html ./content/blog/index.html
-hyde gen -r
-python page.py

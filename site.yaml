@@ -16,6 +16,9 @@ plugins:
     - hyde.ext.plugins.sorter.SorterPlugin
     - hyde.ext.plugins.grouper.GrouperPlugin
     - hyde.ext.plugins.tagger.TaggerPlugin
+    - hyde.ext.plugins.paginator.PaginatorPlugin
+#     - hyde.ext.plugins.markings.MarkingsPlugin
+#     - hyde.ext.plugins.markings.ReferencePlugin
 context:
     data:
         name: Now is better than never.
@@ -53,6 +56,7 @@ meta:
     # number of files.
     nodemeta: meta.yaml
     ga_tracking_code: UA-20414370-4
+    blog_title: Blog
 
 sorter:
     name: # the name of the sorter (no pun intended)
@@ -74,11 +78,13 @@ sorter:
         attr: meta.learning_order
         filters:
             source_file.kind: html
-    date_order:
-        attr: meta.created
+    time:
+        attr:
+            - meta.created
+        reverse: true
         filters:
-            source_file.kind: html
-        reverse: True
+            source.kind: html
+#             meta.listable: true
 
 grouper:
     level:
@@ -101,7 +107,20 @@ grouper:
     #          description: Search Engine Optimization
 
 tagger:
-    sorter: name
+    sorter: time
+    archives:
+        blog:
+            source: blog
+            target: blog/tags
+            template: tagged_posts.j2
+            archive_extension: html
+            meta:
+                listable: false
+
+paginator:
+    sorter: time
+    size: 5
+    file_pattern: pages/$PAGE/$FILE$EXT # Optional
 
 publisher:
     github:
