@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+        <title>Blog
+ | Now is better than never.</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/media/css/font-awesome.css">
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+            });
+        </script>
+        <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body >
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
+        </nav>
+        <article id="content">
+                                            <section class="posts">
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/2/giving-presentaions.html" title="Giving presentations - Writing for Computer Science" itemprop="url">Giving presentations - Writing for Computer Science</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/book.html" rel="tag">book</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a>&nbsp;のメモ</p>
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/126837452/content?start_page=1&view_mode=slideshow&access_key=key-18r6gyvswmhjnapds9dz" data-auto-height="false" data-aspect-ratio="1.29936305732484" scrolling="no" id="doc_32667" width="700" height="550" frameborder="0"></iframe>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-02-23T00:00:00+0800"></abbr> on <time datetime="2013-02-23" class="date" itemprop="datePublished">23 Feb 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/2/robust-disambiguation-of-named-entities-in-text.html" title="Robust Disambiguation of Named Entities in Text (EMNLP 2011)" itemprop="url">Robust Disambiguation of Named Entities in Text (EMNLP 2011)</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
+Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard&nbsp;Weikum</p>
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf">pdf</a></p>
+<h2>解いている問題</h2>
+<ul>
+<li>Named entity&nbsp;disambiguationをする</li>
+<li>Collective&nbsp;disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく</li>
+<li>mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない
+<ul></li>
+<li>e.g.&nbsp;MadridでManchesterとBarcelonaの試合があった</li>
+<li>Madridは本当は<span class="caps">LOCATION</span>だけど、<span class="caps">ORGANIZATION</span>と判定される
+</ul></li>
+</ul>
+<h2>アプローチ</h2>
+<ul>
+<li>priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
+<ul><ul>
+<li>priorは、mentionに含まれる表現が一般的にentity&nbsp;e_jである確率</li>
+<li>context&nbsp;similarityはmentionとentityの文脈類似度</li>
+<li>coherenceは他のmentionのentityとの意味的な近さ
+<ul><ul>
+<li>Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標
+</ul>
+</ul></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>グラフの中からサブグラフを選択
+<ul></li>
+<li>サブグラフは、一つのmentionが一つのentityとエッジをもつ</li>
+<li>サブグラフは、ノードに貼られたエッジの重みの総和(weigted&nbsp;degree)の最小値を最大化するようにつくる</li>
+<li>サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない
+    <ul>
+        + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない
+    </ul>
+</ul></li>
+<li>サブグラフの選択は、<span class="caps">NP</span>困難なので近似的なアルゴリズムをつかって問題を解く</li>
+<li>アルゴリズムは反復的にweighted degreeが小さなentity&nbsp;nodeを削除する</li>
+<li>
+<p>ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする
+<ul>
+    こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除
+</ul></p>
+</li>
+<li>
+<p>prior, context similarity,&nbsp;coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい</p>
+</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-02-16T00:00:00+0800"></abbr> on <time datetime="2013-02-16" class="date" itemprop="datePublished">16 Feb 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/2/togakushi.html" title="Togakushi" itemprop="url">Togakushi</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/diary.html" rel="tag">diary</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://www.flickr.com/photos/85431668@N05/8466317921/" title="Untitled by tma15, on Flickr"><img src="http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg" width="800" height="800" alt="Untitled"></a></p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-02-12T00:00:00+0800"></abbr> on <time datetime="2013-02-12" class="date" itemprop="datePublished">12 Feb 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html" title="Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)" itemprop="url">Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang&nbsp;Zhou</p>
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf">pdf</a></p>
+<h2>解いている問題</h2>
+<p>tweet (英語のtweetに限定)&nbsp;の集合が与えられたときに</p>
+<ul>
+<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {<span class="caps">PERSON</span>, <span class="caps">ORGANIZATION</span>, <span class="caps">PRODUCT</span>, <span class="caps">LOCATION</span>}&nbsp;を割り当てる．</li>
+<li>これらの同定されたテキストに対して名寄せをおこなう．
+<ul></li>
+<li>名寄せは，一番単語数が多い表現にまとめる</li>
+<li>最大の単語数の表現が複数あればWikipediaにある表現を採用</li>
+<li><span class="caps">PERSON</span>と識別された三つの表現&#8221;Gaga&#8221;, &#8220;Lady Gaaaga&#8221;, &#8220;Lady Gaga&#8221;は&#8221;Lady Gaga&#8221;にまとめる．
+</ul></li>
+</ul>
+<h2>アプローチ</h2>
+<ul>
+<li>固有表現認識 (<span class="caps">NER</span>) モデルの学習の際に，固有表現の名寄せ (<span class="caps">NEN</span>) モデルの学習も同時に行うことでお互いの精度を上げる
+<ul></li>
+<li>tweetは，エンティティに対していろいろな表現をされる．</li>
+<li>e.g. &#8220;Anne Gronloh&#8221;というエンティティには&#8221;Mw.,Gronloh&#8221;, &#8220;Anneke Kronloh&#8221;, &#8220;Mevrouw G&#8221;など
+</ul></li>
+<li><span class="dquo">&#8220;</span>&#8230; Alex&#8217;s jokes. &#8230;&#8221;と&#8221;&#8230; Alex Russo was like&#8230;&#8221;という二つのtweet
+<ul></li>
+<li><span class="caps">NER</span>モデルにより&#8221;Alex&#8221;と&#8221;Alex Russo&#8221;がともに<span class="caps">PERSON</span>であることが識別できれば，<span class="caps">NEN</span>モデルは&#8221;Alex&#8221;を&#8221;Alex Russo&#8221;に名寄せできる．
+</ul></li>
+<li>&#8221; &#8230; she knew Burger King when &#8230;&#8221;と&#8221;.. I&#8217;m craving all sorts of food: mcdonalds, burger king, &#8230;&#8221;という二つのtweet
+<ul></li>
+<li><span class="caps">NEN</span>モデルが&#8221;Burger King&#8221;と&#8217;burger king&#8221;が別のエンティティを指していると識別できれば<span class="caps">NER</span>モデルはこれらに異なるラベルを割り当てられる．
+</ul></li>
+<li>学習には<span class="caps">CRF</span>を用いる
+<ul></li>
+<li>skip-chain <span class="caps">CRF</span>と似たモデルだけど，tweet mのi番目の単語とtweet&nbsp;nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
+<li>ラベルは{B, I, L, O,&nbsp;U}</li>
+<li>一つ目のtweetに含まれる&#8221;Gaga&#8221;と二つ目のtweetに含まれる&#8221;Lady Gaga&#8221;に<span class="caps">PERSON</span>が割り当てられ，一つ目のtweetに含まれる&#8221;Gaga&#8221;と二つ目のtweetに含まれる&#8221;Gaga&#8221;が同一のエンティティを指していると識別できれば&#8221;Gaga&#8221;と&#8221;Lady&nbsp;Gaga&#8221;は同じものを指している</li>
+<li>(<span class="caps">CRF</span>の復習)&nbsp;重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
+<li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
+<li>第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値</li>
+<li>初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．</li>
+<li>skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+</ul></li>
+</ul>
+<p><strong>複数のtweetを同時に考慮することの利点</strong></p>
+<ul>
+<li><span class="dquo">&#8220;</span>&#8230; Bobby Shaw you don&#8217;t invite the wind&#8230;&#8221;と&#8221;&#8230; I own yah! Loool bobby shaw&#8230;&#8221;
+<ul></li>
+<li><span class="dquo">&#8220;</span>Bobby&nbsp;Shaw&#8221;を<span class="caps">PERSON</span>と識別することは比較的簡単．</li>
+<li>一つ目のtweetの&#8221;you&#8221;が，二つ目のtweetの&#8217;bobby shaw&#8221;が<span class="caps">PERSON</span>であることの手がかりとなる．
+</ul></li>
+</ul>
+<p><strong>ラベルの候補の絞り込み</strong></p>
+<ul>
+<li>外部資源から固有表現を取ってきて辞書を作っておく．</li>
+<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
+<ul></li>
+<li><span class="dquo">&#8220;</span>new york&#8221;という句が出てきたとき，辞書にある&#8221;New York City&#8221;と&#8221;New York&nbsp;Times&#8221;と一致する．</li>
+<li><span class="dquo">&#8220;</span>new&#8221;には，&#8221;B-<span class="caps">LOCATION</span>&#8221;, &#8220;B-<span class="caps">ORGANIZATION</span>&#8221;，&#8221;york&#8221;には&#8221;I-<span class="caps">LOCATION</span>&#8221;, &#8220;I-<span class="caps">ORGANIZATION</span>&#8221;がラベルの候補の集合にそれぞれ追加される．
+</ul></li>
+<li>ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない</li>
+</ul>
+<p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
+<ul>
+<li>同じtweet&nbsp;mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
+<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi,&nbsp;jに対してのz^{ij}_{mn}=1</li>
+<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi,&nbsp;jに対してのz^{ij}_{mn}=0</li>
+</ul>
+<p><strong>素性</strong></p>
+<ul>
+<li>大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど</li>
+<li>基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど</li>
+<li>ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か</li>
+</ul>
+<h2>感想・疑問点</h2>
+<ul>
+<li>Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-02-06T00:00:00+0800"></abbr> on <time datetime="2013-02-06" class="date" itemprop="datePublished">06 Feb 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/2/named-entity-disambiguation-in-streaming-data.html" title="Named Entity Disambiguation in Streaming Data (ACL 2012)" itemprop="url">Named Entity Disambiguation in Streaming Data (ACL 2012)</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F.&nbsp;Laender</p>
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf">pdf</a></p>
+<h2>解いている問題</h2>
+<p>名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。</p>
+<p>課題</p>
+<ul>
+<li>Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい</li>
+<li>テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい</li>
+<li>テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない</li>
+<li>テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう</li>
+</ul>
+<h2>提案手法のモチベーション</h2>
+<ul>
+<li>外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。</li>
+<li>ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。
+<ul></li>
+<li>正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。
+</ul></li>
+<li>なので、<span class="caps">EM</span>アルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。</li>
+<li>具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。</li>
+<li>このラベル付きの事例は各ステップでラベルを変更することができる。</li>
+<li>どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。</li>
+</ul>
+<h2>曖昧性解消のアプローチ</h2>
+<p><strong>（良くない）シンプルな正例の作り方の例</strong></p>
+<ul>
+<li>Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。</li>
+<li>こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。
+<ul></li>
+<li>つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。
+</ul></li>
+<li>このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。</li>
+</ul>
+<p><strong>ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる</strong></p>
+<ul>
+<li>ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。</li>
+<li>具体的には、<span class="caps">EM</span>アルゴリズムを使う</li>
+</ul>
+<p><strong>訓練データの初期状態としてありうる二つのパターン</strong></p>
+<ul>
+<li>訓練データは真に正例の事例と、大量のラベルなしの事例からなる
+<ul></li>
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</ul></li>
+<li>訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる
+<ul></li>
+<li>正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある</li>
+<li>ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+</ul></li>
+</ul>
+<p><strong>E-step</strong></p>
+<ul>
+<li>訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる</li>
+<li>具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる
+<ul></li>
+<li>α^x_{min}は、事例ごとに決定されるパラメータ
+</ul></li>
+</ul>
+<p><strong>M-step</strong></p>
+<ul>
+<li>分類器Rを更新、訓練データのすべての事例に負例である確率α(x,&nbsp;-)を割り当てる</li>
+</ul>
+<p><strong>分類器R</strong></p>
+<ul>
+<li>ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。</li>
+<li>このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。</li>
+<li>ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。</li>
+<li>分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel&nbsp;transitionを終えるごとに行うほうがいい結果だった。</li>
+<li>また、label transition&nbsp;operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。</li>
+<li><span class="caps">SVM</span>の代わりにLazy Associative&nbsp;Classifiersの変種を使うことで、速度がかなり早くなった。</li>
+</ul>
+<h2>疑問点</h2>
+<ul>
+<li>最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った&nbsp;(できあがるモデルがどれくらい初期値に依存するのか)</li>
+<li>α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか&nbsp;（ある単語のパターンでは負例になりやすいとかそういうことではない？）</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-02-01T00:00:00+0800"></abbr> on <time datetime="2013-02-01" class="date" itemprop="datePublished">01 Feb 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+</section>
+
+<div align="center">
+<a class="next"
+    href="/blog/pages/5/index.html">
+    &laquo; Older
+</a>
+&nbsp;&nbsp;
+
+<a class="prev"
+    href="/blog/pages/3/index.html">
+    Newer &raquo;
+</a></div>
+        <br>
+                        </article>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>

@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+        <title>Blog
+ | Now is better than never.</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/media/css/font-awesome.css">
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+            });
+        </script>
+        <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body >
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
+        </nav>
+        <article id="content">
+                                            <section class="posts">
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/9/acl2013-summ-note.html" title="文書要約メモ（ACL2013）" itemprop="url">文書要約メモ（ACL2013）</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://aclweb.org/anthology//P/P13/">acl anthology</a>よりロングペーパーとして&nbsp;採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。</p>
+<h1>Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning&nbsp;(P13-1020.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。</li>
+<li>先行研究のIneger Linear Programmingに基づいた手法と比べると<ul>
+<li>提案手法はソルバーを必要としない</li>
+<li>提案手法は有意に速い</li>
+<li>提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている</li>
+</ul>
+</li>
+<li>さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する</li>
+<li><span class="caps">TAC2008</span>のデータで実験をおこなって今までで一番高い<span class="caps">ROUGE</span>値となった。</li>
+</ul>
+<h1>Using Supervised Bigram-based <span class="caps">ILP</span> for Extractive Summarization&nbsp;(P13-1099.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>Integer Linear&nbsp;Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する</li>
+<li>regression&nbsp;modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。</li>
+<li>学習では、参照要約中での真の頻度との距離が最小になるように学習をする</li>
+<li>選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている</li>
+<li>提案手法は既存の<span class="caps">ILP</span>な手法と比べて<span class="caps">TAC</span>のデータにおいて良い性能であることと、<span class="caps">TAC</span>のbestだったシステムとの比較結果を示す</li>
+</ul>
+<h1>Summarization Through Submodularity and Dispersion&nbsp;(P13-1100.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する</li>
+<li>提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ</li>
+<li>非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う</li>
+<li>三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す</li>
+<li><span class="caps">DUC</span>&nbsp;2004とニュース記事に対するユーザのコメントを使って実験</li>
+<li>サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す</li>
+</ul>
+<h1>Subtree Extractive Summarization via Submodular Maximization&nbsp;(P13-1101.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>@Pnnc205jさんの論文</li>
+</ul>
+<h1>Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain&nbsp;(P13-1121.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>文書要約において中心性とは元の文書の核となる部分を含むべきだということ</li>
+<li>既存の手法は冗長性を除いたり文圧縮をおこなうことで中心性を得ようと試みている</li>
+<li>この論文では元文書のドメインを活用することで文書要約が、抽象型要約に向けてどれくらいこのようなパラダイムから前進できるかを調査する</li>
+<li>実験ではcaseframeという意味的なレベルで人手の要約とシステムの要約の近さを図る</li>
+<li>提案手法は<ul>
+<li>より抽象的で、文のまとめあげをおこなう</li>
+<li>topicalなcaseframeを他のシステムほど含まない</li>
+<li>元文書だけから再構築はできないけど、同じドメインの文書を加えればできる</li>
+</ul>
+</li>
+<li>実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している</li>
+</ul>
+<h1>A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization&nbsp;(P13-1136.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>クエリ指向型複数文書要約のための文圧縮を使った手法を提案する</li>
+<li>構文木に基づく文圧縮モデル</li>
+<li>ビームサーチのデコーダを提案。効率的、高圧縮。</li>
+<li>圧縮するためのスコア関数にどうやって言語的な特徴やクエリとの関連性を組み込むのかを示す</li>
+<li><span class="caps">DUC</span> 2006, <span class="caps">DUC</span>&nbsp;2007のstate-of-the-artよりも有意によくなることを示す</li>
+</ul>
+<h1>Domain-Independent Abstract Generation for Focused Meeting Summarization&nbsp;(P13-1137.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう</li>
+<li>Multiple-Squence&nbsp;Alignmentという他のドメインにも使いまわせる抽象的な要約のテンプレートを使う</li>
+<li>Overgenerate-and-Rankというものを候補の生成、ランキングに使うらしい</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-09-30T00:00:00+0800"></abbr> on <time datetime="2013-09-30" class="date" itemprop="datePublished">30 Sep 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/9/diversity-maximization-under-matroid-constraints.html" title="Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ" itemprop="url">Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><span class="caps">KDD</span> 2013読み会に参加させていただきました。
+せっかくなのでと思い論文を読んで発表してきた。
+主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。
+これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。&nbsp;個人的には参加者数が多すぎず少なすぎなかったのが良かった。</p>
+<h2>読んだ論文</h2>
+<p>Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, <span class="caps">KDD</span>&nbsp;2013</p>
+<p>proceeding (<a href="http://delivery.acm.org/10.1145/2490000/2487636/p32-thakur.pdf?ip=119.72.198.210&amp;id=2487636&amp;acc=OA&amp;key=BF13D071DEA4D3F3B0AA4BA89B4BCA5B&amp;CFID=172417999&amp;CFTOKEN=20689885&amp;__acm__=1378782056_5a16e280ca3058cd06f535a4740ad6be">pdf</a>)</p>
+<p>ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。
+カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。&nbsp;記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。</p>
+<p>ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。
+これは1/2近似であることを証明する時に必要な性質をもっているため。
+この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。
+今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら<a href="http://theory.stanford.edu/~sergei/papers/soda10-jaccard.pdf">他の論文</a>でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。</p>
+<p>人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。</p>
+<p>関数の定義が書かれていなかったり、average&nbsp;distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。</p>
+<h2>発表資料</h2>
+<p><div align="center">
+<iframe class="scribd_iframe_embed" src="//www.scribd.com/embeds/166900012/content?start_page=1&view_mode=slideshow&access_key=key-2nk8dys4z67mwblosm6o&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_26933" width="610" height="500" frameborder="0"></iframe>
+</div></p>
+<h2>議論</h2>
+<p>大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。&nbsp;自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。</p>
+<ul>
+<li>diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは</li>
+<li>diversityを良くしたら本当にユーザにとってためになるものが提供できるのか<ul>
+<li>極論するとランダムな文書集合で満足するユーザがいるかもしれない</li>
+</ul>
+</li>
+<li>diversityにも色々あるし、diversityの良さは人によって違うのでは<ul>
+<li>色々なdiversityと人間の評価の相関とか調べると面白いかも</li>
+</ul>
+</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-09-10T00:00:00+0800"></abbr> on <time datetime="2013-09-10" class="date" itemprop="datePublished">10 Sep 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/8/active-sampling-for-entity-matching.html" title="Active Sampling for Entity Matching (KDD 2012)を読んだ" itemprop="url">Active Sampling for Entity Matching (KDD 2012)を読んだ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>proceeding (<a href="http://ilpubs.stanford.edu:8090/1036/1/main.pdf">pdf</a>),
+slide (<a href="http://shrdocs.com/presentations/9266/index.html">html</a>),
+journal (<a href="http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pdf">pdf</a>)</p>
+<p><span class="caps">KDD</span> 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、
+マリッサ・メイヤーのYahoo! <span class="caps">CEO</span>就任は<a href="http://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AA%E3%83%83%E3%82%B5%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC">2012年7月17日</a>、<span class="caps">KDD</span> 2012は<a href="http://kdd2012.sigkdd.org/">2012年8月中旬</a>、
+おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという
+余計な詮索をしていた。
+journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、&nbsp;これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。</p>
+<h2>概要</h2>
+<p>entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
+制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
+ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので
+提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究&nbsp;に比べて早く、しかも精度もよく学習できることを示している。</p>
+<h2>発表資料</h2>
+<div align="center">
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/157827725/content?start_page=1&view_mode=slideshow&access_key=key-1si7srgey3zm82empzuw&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_66221" width="700" height="500" frameborder="0"></iframe>
+</div>
+
+<p>以下メモ。</p>
+<h2>Convex hull&nbsp;algorithm</h2>
+<p><div align="center">
+    <img src="http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg" width="500" height="375">
+</div>
+precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法
+のようにして問題から制約を取り除く。
+また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を
+recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。
+探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
+ここで、active learningはどんなものでも良くてblack&nbsp;boxとして扱うことが出来る。</p>
+<h2>Rejection sampling&nbsp;algorithm</h2>
+<p>black boxの学習をおこなう前に呼び出されるアルゴリズム。
+気持ちを理解するには<a href="http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html">Machined Learnings: Cost-Sensitive Binary Classification and Active Learning</a>が詳しい。
+要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して
+少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル
+が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解
+が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。
+今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル
+についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ
+正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。&nbsp;棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。</p>
+<p>この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか&nbsp;見えない場合には現実的な方法である。</p>
+<h2>合わせて読みたい</h2>
+<p><a href="http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/">コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely&nbsp;miner</a></p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-08-03T00:00:00+0800"></abbr> on <time datetime="2013-08-03" class="date" itemprop="datePublished">03 Aug 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/7/it-takes-a-long-time-to-become-young.html" title="It takes a long time to become young." itemprop="url">It takes a long time to become young.</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
+いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか&nbsp;深い言葉であると思う。</p>
+<p>Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, <span class="caps">WWW</span> 2013. (Best Paper&nbsp;Award)</p>
+<p>proceeding(<a href="http://cs.stanford.edu/people/jure/pubs/language-www13.pdf">pdf</a>),  slide(<a href="http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf">pdf</a>)</p>
+<p>今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
+すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(<span class="caps">80MB</span>ある)ので読み込みに時間がかかる。
+タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
+よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか&nbsp;の関係を調べている。</p>
+<div align="center">
+<img src="http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg" width="500" height="376" alt="nocountryforoldmembers"></a>
+<br>
+※著者スライドより
+</div>
+
+<p><br></p>
+<p>コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
+を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
+言葉の変化には適応しなくなるというもの。
+実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
+参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
+流行っている言い回し、言葉を積極的に使う。
+ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
+例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&#8230;などと書くのだけど
+参加して日が浅いユーザはS: spicy&#8230;などと書く。コミュニティ全体としては年を追う毎にS:という表記で
+ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
+つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。&nbsp;いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。</p>
+<p>このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
+特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。&nbsp;論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。</p>
+<p>以下、スライドを見ながら取ったメモ。</p>
+<h2>取り組む課題</h2>
+<ul>
+<li>ユーザはどのようにコミュニティの一員になるのか</li>
+<li>ユーザとコミュニティはどのように共に成長していくのか</li>
+<li>ユーザがコミュニティを退会することを予測できるのか</li>
+</ul>
+<h2>アイディア</h2>
+<p>コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。</p>
+<h2>アプローチ&nbsp;(取り組む課題と対応)</h2>
+<ul>
+<li>言葉の変化を捉えるための統計的なフレームワークを提案する</li>
+<li>言葉の変化に対するユーザの反応を定量化する</li>
+<li>ユーザがコミュニティを退会することを予測するために有効な素性を提案する</li>
+</ul>
+<h2>長期的なデータ</h2>
+<ul>
+<li>BeerAdvocate</li>
+<li>RateBeer</li>
+</ul>
+<h2>言葉の変化の例:&nbsp;puzzle</h2>
+<p>香りの議論の導入で使われる二つの慣例 (Aroma <span class="amp">&amp;</span> S) の例。2001 ~&nbsp;2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。</p>
+<h2>コミュニティレベルでの変化、ユーザレベルでの変化</h2>
+<p>コミュニティレベルでの変化の例: Twitterにおける<span class="caps">RT</span>の慣例、ヒップホップのフォーラムにおける俗語
+ユーザレベルでの変化の例:&nbsp;ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。</p>
+<h2>二つの変化の関係</h2>
+<p>ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。</p>
+<h3>Stage1:</h3>
+<p>ユーザはコミュニティの言葉に順応する</p>
+<h3>Stage2:</h3>
+<p>ユーザの言葉はコミュニティの言語モデルと遠ざかる</p>
+<h3>仮説</h3>
+<ol>
+<li>ユーザは新しい言葉を使うようになって距離が遠くなる</li>
+<li>ユーザは適応することをやめ、変化するコミュニティに合わせなくなる</li>
+</ol>
+<h3>検証</h3>
+<p>ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。</p>
+<h2>lexical&nbsp;innovationへの適応</h2>
+<ul>
+<li>コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語)&nbsp;がある</li>
+<li>新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical&nbsp;inovationに適応しているとする</li>
+</ul>
+<h3>puzzle&nbsp;answer</h3>
+<ul>
+<li>ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。</li>
+<li>ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。</li>
+</ul>
+<h2>User lifecycle&nbsp;(summary)</h2>
+<h3>オンラインでの言語的なlifecycle</h3>
+<ul>
+<li>0%:&nbsp;ユーザはコミュニティに参加</li>
+<li>Stage 1:&nbsp;コミュニティでの慣例に適応</li>
+<li>30%:&nbsp;最も変化に適応する時期</li>
+<li>Stage 2:&nbsp;使う言葉が単調になる</li>
+<li>100%:&nbsp;退会</li>
+</ul>
+<h3>オフラインでの言語的なlifecyclce [Labov,&nbsp;1966]</h3>
+<ul>
+<li>誕生:&nbsp;リアルなコミュニティに属する</li>
+<li>Stage 1:&nbsp;コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）</li>
+<li>17歳:&nbsp;コミュニティの慣例に最も適応する時期</li>
+<li>Stage 2:&nbsp;大人になって使う言葉が安定する</li>
+</ul>
+<p>17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。</p>
+<h2>Elastic&nbsp;lifecycle</h2>
+<ul>
+<li>ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。</li>
+<li>Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage&nbsp;1が終わる、などの絶対期な時間ではないということ。</li>
+<li>適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。</li>
+</ul>
+<p>これらの特徴を利用してユーザの最終的なlifespanを予測する。</p>
+<h2>Predicting user&nbsp;lifespan</h2>
+<h3>Task</h3>
+<p>最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。</p>
+<h3>Linguistic change&nbsp;features:</h3>
+<ul>
+<li>コミュニティの言語モデルとの距離</li>
+<li>そのユーザの言葉の安定性</li>
+<li>lexical&nbsp;inovationへの適応</li>
+</ul>
+<h3>Baselines:</h3>
+<ul>
+<li>投稿の頻度</li>
+<li>月ごとの投稿の割合</li>
+</ul>
+<p>Logistic&nbsp;regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。</p>
+<h3>結果</h3>
+<p>最大でBaselineよりも12ポイント高い</p>
+<h2>結論</h2>
+<ul>
+<li>言語の変化を捉えるフレームワークの提案した</li>
+<li>相対的な二段階のlifecycleを示した</li>
+<li>ユーザの退会予測に取り組んだ</li>
+<li>ユーザとコミュニティの共同的な進化を分析した</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-07-07T00:00:00+0800"></abbr> on <time datetime="2013-07-07" class="date" itemprop="datePublished">07 Jul 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/6/joined-jm2013.html" title="簡単に、奥深く" itemprop="url">簡単に、奥深く</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/diary.html" rel="tag">diary</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <div align="center">
+<img src="http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg" width="600" height="600" alt="Untitled">
+</div>
+
+<p><br></p>
+<p>暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで
+久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。
+一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、&nbsp;すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。</p>
+<p>ところでこの前、東工大奥村・高村研、お茶大小林研の<a href="http://www.lr.pi.titech.ac.jp/jm2013/">合同研究会</a>
+に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」
+というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど
+少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど）
+事前に<span class="caps">LDA</span>を実装したり、更新式の導出を追ったりしていた。&nbsp;実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。</p>
+<p>学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。
+発表に関して言うと、最近自分が痛感したことが一つある。
+「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。
+自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは
+学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている)
+人しかいなかったからということ。
+これは自分の経験に基づいた考えなのだけど、
+たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って
+もらうためには自分がどんな職種であれ
+全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを
+わかりやすく説明する必要が出てくるんじゃないかと思う
+(もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。
+しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという
+ことも伝えられなければならない。
+バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している&nbsp;聴講者へ発表することよりも難しい。</p>
+<ul>
+<li>「あなたは何をやっているかよく分からない」</li>
+<li>「あなたがやっていることは誰でも出来る簡単なことじゃないか」</li>
+<li>「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」</li>
+</ul>
+<p>発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。</p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-06-03T00:00:00+0800"></abbr> on <time datetime="2013-06-03" class="date" itemprop="datePublished">03 Jun 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+</section>
+
+<div align="center">
+<a class="next"
+    href="/blog/pages/3/index.html">
+    &laquo; Older
+</a>
+&nbsp;&nbsp;
+
+<a class="prev"
+    href="/blog/index.html">
+    Newer &raquo;
+</a></div>
+        <br>
+                        </article>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>
