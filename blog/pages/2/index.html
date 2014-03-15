@@ -38,6 +38,62 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html" title="scikit-learnのソースコードリーディング（ナイーブベイズ分類）" itemprop="url">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/python.html" rel="tag">python</a> 
+<a href="/blog/tags/machine_learning.html" rel="tag">machine_learning</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。</p>
+<h2>気になったところ</h2>
+<p>データに正規分布を仮定したときのナイーブベイズ分類器について。&nbsp;平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は</p>
+<p>\[
+p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}&nbsp;\]</p>
+<p>これのlogをとると、
+\[
+\begin{split}
+\log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}&#92;
+&amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
+\end{split}&nbsp;\]</p>
+<p>ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、</p>
+<p>\[
+\begin{split}
+\log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))&#92;
+<span class="amp">&amp;</span> = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))&#92;
+<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)&#92;
+<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)&#92;
+<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\}
+\end{split}&nbsp;\]</p>
+<p>サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は</p>
+<p>\[
+\begin{split}
+\hat{y} &amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)&#92;
+&amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)&#92;
+<span class="amp">&amp;</span> = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x_k-\mu_{yk})^2}{2\sigma_{yk}^2}\}\}
+\end{split}&nbsp;\]</p>
+<p>対数尤度関数をnumpyに落とすと</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span><br /><span class="sd">sigma.shape = (n_classes, n_features)</span><br /><span class="sd">mu.shape = (n_classes, n_features)</span><br /><span class="sd">&quot;&quot;&quot;</span><br />&nbsp;<br /><span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">classes</span><span class="p">)):</span><br />    <span class="c"># 事前分布の対数</span><br />    <span class="n">log_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">class_piror</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />    <span class="c"># log p(x|y)の対数の初項</span><br />    <span class="n">log_gauss1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span><br />    <span class="c"># log p(x|y)の対数の第二項</span><br />    <span class="n">log_gauss2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span><br />    <span class="c"># クラスiの尤度のlogを取った値</span><br />    <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prior</span> <span class="o">+</span> <span class="n">log_gauss1</span> <span class="o">+</span> <span class="n">log_gauss2</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
+
+<p><br>&nbsp;となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">_joint_log_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span><br />        <span class="n">X</span> <span class="o">=</span> <span class="n">array2d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><br />        <span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br />        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">)):</span><br />            <span class="n">jointi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />            <span class="n">n_ij</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span> <span class="c"># np.piの前に2がない</span><br />            <span class="n">n_ij</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><br />                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]),</span> <span class="mi">1</span><span class="p">)</span><br />            <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jointi</span> <span class="o">+</span> <span class="n">n_ij</span><span class="p">)</span><br /></pre></div><br /><figcaption>Python</figcaption></figure></div>
+
+<p><br></p>
+<p>数式の展開が間違えているのだろうか&#8230;。それとも2は必要ないのだろうか&#8230;。</p>
+<h2>参考</h2>
+<ul>
+<li><a href="http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/">Naive&nbsp;Bayesの復習（導出編）</a></li>
+<li><a href="http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf">Naïve Bayes&nbsp;Lecture17</a></li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-11-10T00:00:00+0800"></abbr> on <time datetime="2013-11-10" class="date" itemprop="datePublished">10 Nov 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2013/9/acl2013-summ-note.html" title="文書要約メモ（ACL2013）" itemprop="url">文書要約メモ（ACL2013）</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -362,55 +418,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2013-07-07T00:00:00+0800"></abbr> on <time datetime="2013-07-07" class="date" itemprop="datePublished">07 Jul 2013</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2013/6/joined-jm2013.html" title="簡単に、奥深く" itemprop="url">簡単に、奥深く</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/diary.html" rel="tag">diary</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <div align="center">
-<img src="http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg" width="600" height="600" alt="Untitled">
-</div>
-
-<p><br></p>
-<p>暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで
-久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。
-一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、&nbsp;すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。</p>
-<p>ところでこの前、東工大奥村・高村研、お茶大小林研の<a href="http://www.lr.pi.titech.ac.jp/jm2013/">合同研究会</a>
-に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」
-というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど
-少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど）
-事前に<span class="caps">LDA</span>を実装したり、更新式の導出を追ったりしていた。&nbsp;実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。</p>
-<p>学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。
-発表に関して言うと、最近自分が痛感したことが一つある。
-「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。
-自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは
-学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている)
-人しかいなかったからということ。
-これは自分の経験に基づいた考えなのだけど、
-たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って
-もらうためには自分がどんな職種であれ
-全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを
-わかりやすく説明する必要が出てくるんじゃないかと思う
-(もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。
-しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという
-ことも伝えられなければならない。
-バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している&nbsp;聴講者へ発表することよりも難しい。</p>
-<ul>
-<li>「あなたは何をやっているかよく分からない」</li>
-<li>「あなたがやっていることは誰でも出来る簡単なことじゃないか」</li>
-<li>「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」</li>
-</ul>
-<p>発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2013-06-03T00:00:00+0800"></abbr> on <time datetime="2013-06-03" class="date" itemprop="datePublished">03 Jun 2013</time></div>
 </article><!-- /.post -->
 <br><br><br>
 
