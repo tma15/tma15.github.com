@@ -38,6 +38,295 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content.html" title="Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ" itemprop="url">Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/">proceeding</a>
+slide: <a href="http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content">slideshare</a></p>
+<h2>まとめ</h2>
+<p><span class="caps">CIKM</span> 2013でBest paperを取った、著者が全員女性(<a href="http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/">参考</a>)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
+何か新たな手法を提案した、というよりは、Yahoo&nbsp;Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。</p>
+<p>以下、メモ。</p>
+<h2>Why/when do penguins wear&nbsp;sweaters?</h2>
+<ul>
+<li>タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)<ul>
+<li>羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう</li>
+<li>くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう</li>
+</ul>
+</li>
+</ul>
+<h3>Serendipity</h3>
+<p>役に立つんだけど、特に探していたわけではないもの。</p>
+<h3>Entity&nbsp;Search</h3>
+<p>この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search&nbsp;systemを作成する。</p>
+<h2>この論文の焦点</h2>
+<h3><span class="caps">WHAT</span></h3>
+<p>ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？</p>
+<h3><span class="caps">WHY</span></h3>
+<p>そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？</p>
+<h2>データ</h2>
+<h3>Yahoo!&nbsp;Answers</h3>
+<ul>
+<li>ごくわずかにまとめられた意見、ゴシップ、個人情報</li>
+<li>観点が多様</li>
+</ul>
+<h3>Wikipedia</h3>
+<ul>
+<li>高品質の情報が整理されている</li>
+<li>ニッチなトピックが豊富</li>
+</ul>
+<h2>Entity <span class="amp">&amp;</span> Relation&nbsp;Extraction</h2>
+<h3>Entity:&nbsp;Wikipediaに記述されている概念</h3>
+<p>1 テキストから表層形を識別し、
+2&nbsp;Wikipediaのentityと紐付けして、</p>
+<ul>
+<li>文脈依存</li>
+<li>文脈非依存な素性<ul>
+<li>click&nbsp;log</li>
+</ul>
+</li>
+</ul>
+<p>3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする&nbsp;(aboutnessスコア(34)を使ってランキングする)</p>
+<h3>Reationship:&nbsp;tf/idfベクトルのコサイン類似度</h3>
+<p>entityが現れるドキュメントを結合したものがベクトルで表される</p>
+<h2>Dataset Features&nbsp;(Metadata)</h2>
+<h3>Sentiment</h3>
+<ul>
+<li>SentiStrengthを用いてpositive <span class="amp">&amp;</span> negativeのスコアを計算する<ul>
+<li>インフォーマルな英語の極性判定でstate-of-the-art</li>
+<li>このままだと文書レベルでの極性判定<ul>
+<li>文単位でpositive、negativeのスコアを割り当てて、それぞれの平均が文書単位の極性のスコアになる</li>
+</ul>
+</li>
+<li>文書は複数のentityを含むことが多いのでentity単位での極性はうまく測れない</li>
+<li>まずentityのそれぞれ前後10単語のウィンドウに対して極性のスコアを計算する</li>
+</ul>
+</li>
+<li>attitudeとsentimentalityをウィンドウに対して計算する[Kucuktunc&#8216;12]<ul>
+<li>attitude:&nbsp;positiveもしくはnegativeに対する傾向</li>
+<li>sentimentality:&nbsp;極性の大きさ</li>
+</ul>
+</li>
+<li>entityが現れるウィンドウのattitude,&nbsp;sentimentalityの平均値がentity単位の素性とする</li>
+</ul>
+<h3>Quality</h3>
+<ul>
+<li>可読性</li>
+<li>Flesch Reading Ease score[14]<ul>
+<li>スコアが高いほど理解するのが難しい</li>
+<li>スコアが低いほど理解するのが易しい</li>
+</ul>
+</li>
+<li>Fig1は二つのデータセットにおけるエンティティの可読性の分布</li>
+</ul>
+<h3>Topical&nbsp;Category</h3>
+<ul>
+<li>Yahoo Content Taxonomy<ul>
+<li>Table&nbsp;2</li>
+<li>二つのデータ・セット中の概念体型は使わない<ul>
+<li>整合性をとるため</li>
+<li>二つのデータセットにおける実験結果を比較するため</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><span class="caps">US</span>-Englishのニュース記事を使って訓練した分類器で文書分類する</li>
+<li>entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする</li>
+</ul>
+<h2>Retrieval</h2>
+<h3>Algorithm: Lazy Randomwalk with&nbsp;restart</h3>
+<ul>
+<li>self-loop probability: beta
+他のノードへの伝搬を遅らせて、random walkの開始ノードの重要性をより高める<ul>
+<li>先行研究にしたがって、beta = 0.9 [6,&nbsp;12]</li>
+</ul>
+</li>
+<li>follow one of the out-links with probability: 1 - beta
+エッジの重みに比例してrandom&nbsp;walkする</li>
+<li>random jumpの確率は0 (alpha = 0)<ul>
+<li>random&nbsp;jumpすると結果が悪くなるため</li>
+</ul>
+</li>
+<li>反復の終了条件<ul>
+<li>前回とのノルムの差が10^-6以下、もしくは30回反復した</li>
+</ul>
+</li>
+</ul>
+<h4>scoring&nbsp;method</h4>
+<ul>
+<li>popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング</li>
+</ul>
+<h3>Testbed</h3>
+<ul>
+<li>2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo!&nbsp;Answersの文書中に共に現れる上位50件のクエリ</li>
+</ul>
+<h3>Precision @5,&nbsp;<span class="caps">MAP</span></h3>
+<ul>
+<li>Precision: 66.8% on <span class="caps">WP</span>, 72.4% on&nbsp;<span class="caps">YA</span></li>
+<li><span class="caps">MAP</span>: 0.716 on <span class="caps">WP</span>, 0.762 on <span class="caps">YA</span>
+ふたつのデータセットでの性能は同等であるものの、ランキングされるentityにはあまり重複がないため、二つのランキング結果を結合すると性能が上がる<ul>
+<li>Fagin et al. [13]のrank&nbsp;aggregationを使う</li>
+</ul>
+</li>
+</ul>
+<h3>Annotator&nbsp;agreement</h3>
+<ul>
+<li>1つのクエリにつき、annotatorは3人<ul>
+<li>クラウドソーシングしてるので、信頼出来ないannotatorは排除</li>
+</ul>
+</li>
+<li>(overlap): 0.85%<ul>
+<li>馴染みのないクエリはagreementが低い (Secosteroid, Sally Kern,&nbsp;&#8230;)</li>
+</ul>
+</li>
+</ul>
+<h3>Average overlap in top&nbsp;5</h3>
+<ul>
+<li>results: 12%<ul>
+<li>= 0.6 entity/top 5&nbsp;entities</li>
+</ul>
+</li>
+</ul>
+<h3>Error&nbsp;analysis</h3>
+<p>提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる</p>
+<ul>
+<li>例) Egyptに最も近い二つのentity<ul>
+<li>British Pacific Fleet, <span class="caps">FC</span> Groningen&nbsp;(<span class="caps">WP</span>)</li>
+<li>Spring, <span class="caps">IGN</span>&nbsp;(<span class="caps">YA</span>)</li>
+<li>Springは&#8221;Arab&nbsp;Spring&#8221;と間違えて識別された可能性があるが、このSpringは提案手法があまりEgyptの近くをみないので下位にランクされる</li>
+</ul>
+</li>
+</ul>
+<p>とても似通ったentityばかりが上位にランクされてしまうこともある</p>
+<ul>
+<li>例) インフルエンザのウィルス名、Mac PowerBookのバージョン名で上位がうまる<ul>
+<li>random&nbsp;walk時に密度が高いサブグラフにトラップされてしまうことで起きる</li>
+</ul>
+</li>
+</ul>
+<p>entityは関連していないentityが近くに来ることがある</p>
+<ul>
+<li>entity&nbsp;extractionの失敗</li>
+<li>文脈類似度を測るときのノイズ</li>
+<li>例) 同音異義語が強くつながってしまう<ul>
+<li>意味的な素性を使わずに類似度を測ってしまう</li>
+<li>(意味が違うなら文脈も違う気もする&#8230;)</li>
+</ul>
+</li>
+</ul>
+<h2>制約</h2>
+<p>二つのデータセットが、serendipitous&nbsp;searchに何をもたらしてくれるのか調べる</p>
+<ul>
+<li><span class="caps">YA</span>と<span class="caps">WP</span>における実験結果を比べる</li>
+<li>どの素性が検索結果に影響するのか調べる<ul>
+<li>このために、データセットからメタデータを抽出する</li>
+<li>そして、sentimentality, quality, topical&nbsp;categoryの次元に対して、検索に制約をかける</li>
+</ul>
+</li>
+</ul>
+<p>制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる</p>
+<h3>Topic</h3>
+<p>Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
+Constraint 1:&nbsp;entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない</p>
+<h3>High/Low&nbsp;Sentimentalyty</h3>
+<p>Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
+Constraint 2(3): entityは中央値(0.6 for <span class="caps">YP</span>, 0 for&nbsp;<span class="caps">WP</span>)よりも高いsentimentalityでなければならない</p>
+<h3>High/Low&nbsp;Readability</h3>
+<p>Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
+Constraint 4(5): entityのreadabilityスコアは中央値(46 for <span class="caps">YA</span>, 41 for&nbsp;<span class="caps">WP</span>)でなければならない</p>
+<h3>制約の結果</h3>
+<ul>
+<li>low-sentimentalityとlow-readabilityが負の影響を持っている</li>
+</ul>
+<h2>Serendipity</h2>
+<ul>
+<li>accuracy以外にも推薦エンジンの性能を測ることが重要である</li>
+<li>serendipity = unexpectedness +&nbsp;relevance</li>
+<li>baselineの結果に入っていない結果のrelの平均<ul>
+<li>relはannotatorの判断（？）</li>
+</ul>
+</li>
+<li>baseline<ul>
+<li>Top:&nbsp;2つの商用検索エンジンの検索結果のうち、最も上位5位の検索結果に現れる回数が多いentity</li>
+<li>Top Nwp:&nbsp;TopからqueryのWikipediaの記事を除いたもの。<span class="caps">WP</span>に対するバイアスを避けるため</li>
+<li>Rel:&nbsp;2つの商用検索エンジンから提案される関連クエリから得られる結果のうち、頻度が高い上位5件のentity</li>
+<li>Top+Rel: Top,&nbsp;Relの和集合</li>
+</ul>
+</li>
+<li>Table 5: 各baselineに対する、各制約条件で計算されたserendipity<ul>
+<li>topic-constrainedな条件ではすべてのbasline/datasetにおけるserendipityを上回っている</li>
+<li><span class="caps">YA</span>は常に<span class="caps">WP</span>を上回っている</li>
+<li><span class="caps">COM</span>が一番良いserendipityを出せる</li>
+<li>括弧の中の値は各制約条件で提示されたすべての結果に対するunexpectedでrelaventな結果の割合<ul>
+<li>baselineによって弾かれていたentityも含めたときの値</li>
+</ul>
+</li>
+<li>これはだいたいserendipityと同じくらいの高さになっている<ul>
+<li>つまり、最も強いbasline&nbsp;Rel+Topと比べた時でさえ、提案手法はすごい数のunexpectedでrelaventな結果を検索している</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>User-Perceived&nbsp;Quality</h2>
+<ul>
+<li>主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する</li>
+<li>順序付きリストの要素のペアワイズで比較する (順番はランダムに決める)<ul>
+<li>最初のほうが良かった</li>
+<li>二つ目のほうが良かった</li>
+<li>両方だめだった</li>
+</ul>
+</li>
+<li>reference result rankingを各次元に対して構築する<ul>
+<li>ランキング結果の集合の和集合(?)</li>
+</ul>
+</li>
+<li>各ペアは3人のannotatorにより評価される<ul>
+<li>ほとんど重複がない時に評価するのは非常に手間がかかる</li>
+<li>適切なランクを推定するために、すべての順序リスト中の要素のペアから比較するペアをサンプリングする<ul>
+<li>votingによってreference result&nbsp;rankingにおける順位を決める</li>
+<li>http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Labeling</h3>
+<ol>
+<li>どちらの結果がよりクエリと関連しているか？</li>
+<li>そのクエリに興味を持つ人がいたら、その人はこの結果に興味を持つと思うか？</li>
+<li>あなたがそのクエリに興味がないとしても、この結果はおもしろいか？</li>
+<li>そのクエリについてなにか新しいことを学んだか？</li>
+</ol>
+<h3>Table 6: ランキングの集合とreference ranking間のKendall&#8217;s&nbsp;tau-b</h3>
+<ul>
+<li>personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた<ul>
+<li>Oil Spill -&gt; Sweaters for&nbsp;Penguins</li>
+<li>Robert Pattinson -&gt; Water for&nbsp;Elephants</li>
+<li>Egypt -&gt; Ptolematic&nbsp;Kingdom</li>
+</ul>
+</li>
+<li>専門的には似ているけど、面白くない例<ul>
+<li>Egypt -&gt; Cairo&nbsp;Conference</li>
+<li>Netflix -&gt; Blu-ray&nbsp;Disc</li>
+</ul>
+</li>
+<li><span class="caps">YA</span>はreference&nbsp;rankに似た結果を出せている</li>
+<li>Topical categoryはreferece&nbsp;rankingとの類似度を高めている</li>
+<li>Sentiment <span class="amp">&amp;</span> Readabilityもreferece&nbsp;rankingとの類似度を高めている</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-12-14T00:00:00+0800"></abbr> on <time datetime="2013-12-14" class="date" itemprop="datePublished">14 Dec 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html" title="scikit-learnのソースコードリーディング（ナイーブベイズ分類）" itemprop="url">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -279,145 +568,6 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 </div>
 
 <div>Posted <abbr class="timeago" title="2013-08-03T00:00:00+0800"></abbr> on <time datetime="2013-08-03" class="date" itemprop="datePublished">03 Aug 2013</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2013/7/it-takes-a-long-time-to-become-young.html" title="It takes a long time to become young." itemprop="url">It takes a long time to become young.</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/paper.html" rel="tag">paper</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
-いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか&nbsp;深い言葉であると思う。</p>
-<p>Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, <span class="caps">WWW</span> 2013. (Best Paper&nbsp;Award)</p>
-<p>proceeding(<a href="http://cs.stanford.edu/people/jure/pubs/language-www13.pdf">pdf</a>),  slide(<a href="http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf">pdf</a>)</p>
-<p>今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
-すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(<span class="caps">80MB</span>ある)ので読み込みに時間がかかる。
-タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
-よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか&nbsp;の関係を調べている。</p>
-<div align="center">
-<img src="http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg" width="500" height="376" alt="nocountryforoldmembers"></a>
-<br>
-※著者スライドより
-</div>
-
-<p><br></p>
-<p>コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
-を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
-言葉の変化には適応しなくなるというもの。
-実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
-参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
-流行っている言い回し、言葉を積極的に使う。
-ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
-例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&#8230;などと書くのだけど
-参加して日が浅いユーザはS: spicy&#8230;などと書く。コミュニティ全体としては年を追う毎にS:という表記で
-ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
-つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。&nbsp;いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。</p>
-<p>このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
-特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。&nbsp;論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。</p>
-<p>以下、スライドを見ながら取ったメモ。</p>
-<h2>取り組む課題</h2>
-<ul>
-<li>ユーザはどのようにコミュニティの一員になるのか</li>
-<li>ユーザとコミュニティはどのように共に成長していくのか</li>
-<li>ユーザがコミュニティを退会することを予測できるのか</li>
-</ul>
-<h2>アイディア</h2>
-<p>コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。</p>
-<h2>アプローチ&nbsp;(取り組む課題と対応)</h2>
-<ul>
-<li>言葉の変化を捉えるための統計的なフレームワークを提案する</li>
-<li>言葉の変化に対するユーザの反応を定量化する</li>
-<li>ユーザがコミュニティを退会することを予測するために有効な素性を提案する</li>
-</ul>
-<h2>長期的なデータ</h2>
-<ul>
-<li>BeerAdvocate</li>
-<li>RateBeer</li>
-</ul>
-<h2>言葉の変化の例:&nbsp;puzzle</h2>
-<p>香りの議論の導入で使われる二つの慣例 (Aroma <span class="amp">&amp;</span> S) の例。2001 ~&nbsp;2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。</p>
-<h2>コミュニティレベルでの変化、ユーザレベルでの変化</h2>
-<p>コミュニティレベルでの変化の例: Twitterにおける<span class="caps">RT</span>の慣例、ヒップホップのフォーラムにおける俗語
-ユーザレベルでの変化の例:&nbsp;ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。</p>
-<h2>二つの変化の関係</h2>
-<p>ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。</p>
-<h3>Stage1:</h3>
-<p>ユーザはコミュニティの言葉に順応する</p>
-<h3>Stage2:</h3>
-<p>ユーザの言葉はコミュニティの言語モデルと遠ざかる</p>
-<h3>仮説</h3>
-<ol>
-<li>ユーザは新しい言葉を使うようになって距離が遠くなる</li>
-<li>ユーザは適応することをやめ、変化するコミュニティに合わせなくなる</li>
-</ol>
-<h3>検証</h3>
-<p>ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。</p>
-<h2>lexical&nbsp;innovationへの適応</h2>
-<ul>
-<li>コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語)&nbsp;がある</li>
-<li>新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical&nbsp;inovationに適応しているとする</li>
-</ul>
-<h3>puzzle&nbsp;answer</h3>
-<ul>
-<li>ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。</li>
-<li>ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。</li>
-</ul>
-<h2>User lifecycle&nbsp;(summary)</h2>
-<h3>オンラインでの言語的なlifecycle</h3>
-<ul>
-<li>0%:&nbsp;ユーザはコミュニティに参加</li>
-<li>Stage 1:&nbsp;コミュニティでの慣例に適応</li>
-<li>30%:&nbsp;最も変化に適応する時期</li>
-<li>Stage 2:&nbsp;使う言葉が単調になる</li>
-<li>100%:&nbsp;退会</li>
-</ul>
-<h3>オフラインでの言語的なlifecyclce [Labov,&nbsp;1966]</h3>
-<ul>
-<li>誕生:&nbsp;リアルなコミュニティに属する</li>
-<li>Stage 1:&nbsp;コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）</li>
-<li>17歳:&nbsp;コミュニティの慣例に最も適応する時期</li>
-<li>Stage 2:&nbsp;大人になって使う言葉が安定する</li>
-</ul>
-<p>17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。</p>
-<h2>Elastic&nbsp;lifecycle</h2>
-<ul>
-<li>ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。</li>
-<li>Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage&nbsp;1が終わる、などの絶対期な時間ではないということ。</li>
-<li>適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。</li>
-</ul>
-<p>これらの特徴を利用してユーザの最終的なlifespanを予測する。</p>
-<h2>Predicting user&nbsp;lifespan</h2>
-<h3>Task</h3>
-<p>最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。</p>
-<h3>Linguistic change&nbsp;features:</h3>
-<ul>
-<li>コミュニティの言語モデルとの距離</li>
-<li>そのユーザの言葉の安定性</li>
-<li>lexical&nbsp;inovationへの適応</li>
-</ul>
-<h3>Baselines:</h3>
-<ul>
-<li>投稿の頻度</li>
-<li>月ごとの投稿の割合</li>
-</ul>
-<p>Logistic&nbsp;regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。</p>
-<h3>結果</h3>
-<p>最大でBaselineよりも12ポイント高い</p>
-<h2>結論</h2>
-<ul>
-<li>言語の変化を捉えるフレームワークの提案した</li>
-<li>相対的な二段階のlifecycleを示した</li>
-<li>ユーザの退会予測に取り組んだ</li>
-<li>ユーザとコミュニティの共同的な進化を分析した</li>
-</ul>
-</div>
-
-<div>Posted <abbr class="timeago" title="2013-07-07T00:00:00+0800"></abbr> on <time datetime="2013-07-07" class="date" itemprop="datePublished">07 Jul 2013</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

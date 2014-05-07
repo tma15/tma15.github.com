@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+        <title>Induced SortingをPythonで書いた | Now is better than never.</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/media/css/font-awesome.css">
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+            });
+        </script>
+        <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body >
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
+        </nav>
+        <article id="content">
+                    <h1>Induced SortingをPythonで書いた</h1>
+              <div class="tags">
+        Tags:
+            <a class="small" href="/blog/tags/python.html">python</a>&nbsp;
+            <br>
+  </div>
+            <p>「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
+Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。
+詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。</p>
+<div align="center">
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&o=9&p=8&l=as1&asins=4000069748&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1=000000&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+
+<p>GitHubにコードを上げた (<a href="https://github.com/tma15/tma15Str/blob/master/sais.py">sais.py</a>)。</p>
+<h2>参考</h2>
+<ul>
+<li><a href="http://blog.beam2d.net/2011/08/suffix-array-sa-is.html">Suffix Array を作る - SA-IS の実装</a></li>
+<li><a href="https://github.com/beam2d/sara">https://github.com/beam2d/sara</a></li>
+<li><a href="http://d.hatena.ne.jp/sile/20101213/1292190698">SA-IS: SuffixArray線形構築</a></li>
+</ul>
+<p>実装時にはやはり元の論文を読まないとよくわからなかった。</p>
+<ul>
+<li><a href="https://www.google.co.jp/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;cad=rja&amp;uact=8&amp;ved=0CDEQFjAA&amp;url=https%3A%2F%2Fge-nong.googlecode.com%2Ffiles%2FTwo%2520Efficient%2520Algorithms%2520for%2520Linear%2520Time%2520Suffix%2520Array%2520Construction.pdf&amp;ei=zCpqU9WkGor-8QXIoYDQBA&amp;usg=AFQjCNECfjoa7Bg_ep0326micFbio0UCgw&amp;sig2=OpSYI5Z01mLRBR4Gbwwbvg&amp;bvm=bv.66111022,d.dGc">Two Efficient Algorithms for Linear Time Suffix Array Construction</a></li>
+</ul>
+        <br>
+        <time datetime="2014-05-07">
+    Wed, 07 May 2014
+</time>
+        <div class="bottom_article_nav">
+
+                  <div class="next"><a href="/blog/2014/3/i-visited-beijing.html">北京滞在メモ</a>
+    &gt;</div>
+
+
+</div>
+
+<div class="center"><a href="/blog/archive.html">archive</a></div>
+        </article>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>
