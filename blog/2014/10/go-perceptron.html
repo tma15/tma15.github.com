@@ -43,18 +43,19 @@
             <p>流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
 ソースコードは<a href="https://github.com/tma15/goperceptron">こちら</a>。</p>
 <p>素性ベクトルのフォーマットは&lt;数値&gt;:&lt;数値&gt; である必要はなくて、&lt;文字列&gt;:&lt;数値&gt; でも読み込めるようにしました。
-また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。</p>
+また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
+多値分類もできます。</p>
 <div class="codebox"><figure class="code"><div class="highlight"><pre>sports soccer:1 baseball:1<br />food beef:1 pork:1<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
 
-<p>多値分類もできます。<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/">LIBSVM Data: Classification, Regression, and Multi-label</a>で公開されているデータを使って動かしてみました。</p>
+<p>今回は<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/">LIBSVM Data: Classification, Regression, and Multi-label</a>で公開されている二値分類用データを使って動かしてみました。</p>
 <div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$go</span> build<br /><span class="nv">$.</span>/perceptron -f<span class="o">=</span>../data/a1a -m<span class="o">=</span>learn -w<span class="o">=</span>model -l<span class="o">=</span>10<br /><span class="nv">$.</span>/perceptron -f<span class="o">=</span>../data/a1a.t -m<span class="o">=</span><span class="nb">test</span> -w<span class="o">=</span>model<br />Acc: 0.8257203773097299<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
 
 <p>-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
 テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。</p>
 <p>このデータは、</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$grep</span> <span class="s2">&quot;^+1&quot;</span> ../data/a1a|wc -l<br />7446<br /><span class="nv">$grep</span> <span class="s2">&quot;^-1&quot;</span> ../data/a1a|wc -l<br />23510<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$grep</span> <span class="s2">&quot;^+1&quot;</span> ../data/a1a.t|wc -l<br />7446<br /><span class="nv">$grep</span> <span class="s2">&quot;^-1&quot;</span> ../data/a1a.t|wc -l<br />23510<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
 
-<p>とラベルの偏りがあり、全部の事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。</p>
+<p>とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。</p>
 <p>confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。</p>
         <br>
         <time datetime="2014-10-11">
