@@ -49,7 +49,7 @@ Tags:
         <p>論文はこちら。</p>
 <p><a href="http://www.magicbroom.info/Papers/DuchiHaSi10.pdf">Adaptive Subgradient Methods for Online Learning and Stochastic&nbsp;Optimization</a></p>
 <p>ソースコードは<a href="https://github.com/tma15/goAdaGrad">こちら</a>。
-多値分類問題にも対応できるようにした。二値分類問題と比べて<a href="http://en.wikipedia.org/wiki/Hinge_loss">ヒンジ損失</a>が少し変わる(ので重みの更新も二値分類と少し違う)。</p>
+多値分類問題にも対応できるようにした。二値分類問題と比べて<a href="http://en.wikipedia.org/wiki/Hinge_loss">ヒンジ損失</a>が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。</p>
 <p>データを次のように作成。</p>
 <div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$perl</span> -MList::Util<span class="o">=</span>shuffle -e <span class="s1">&#39;print shuffle(&lt;&gt;)&#39;</span> &lt; ../data/news20.binary &gt; news<br /><span class="nv">$head</span> -15000 news &gt; news.train<br /><span class="nv">$tail</span> -4996  news &gt; news.test<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
 
@@ -64,6 +64,7 @@ Tags:
 <li><a href="http://d.hatena.ne.jp/Christopher-727/20140830">AdaGrad +&nbsp;<span class="caps">RDA</span>を実装してみた</a></li>
 <li><a href="https://code.google.com/p/oll/wiki/OllMainJa">OllMainJa - oll - oll: Online-Learning Library - Google Project&nbsp;Hosting</a></li>
 <li><a href="http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1">行をランダムシャッフルするワンライナー</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron">Multiclass&nbsp;perceptron</a></li>
 </ul>
 </div>
 
