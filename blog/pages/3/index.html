@@ -38,6 +38,91 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/9/acl2013-summ-note.html" title="文書要約メモ（ACL2013）" itemprop="url">文書要約メモ（ACL2013）</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://aclweb.org/anthology//P/P13/">acl anthology</a>よりロングペーパーとして&nbsp;採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。</p>
+<h1>Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning&nbsp;(P13-1020.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。</li>
+<li>先行研究のIneger Linear Programmingに基づいた手法と比べると<ul>
+<li>提案手法はソルバーを必要としない</li>
+<li>提案手法は有意に速い</li>
+<li>提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている</li>
+</ul>
+</li>
+<li>さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する</li>
+<li><span class="caps">TAC2008</span>のデータで実験をおこなって今までで一番高い<span class="caps">ROUGE</span>値となった。</li>
+</ul>
+<h1>Using Supervised Bigram-based <span class="caps">ILP</span> for Extractive Summarization&nbsp;(P13-1099.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>Integer Linear&nbsp;Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する</li>
+<li>regression&nbsp;modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。</li>
+<li>学習では、参照要約中での真の頻度との距離が最小になるように学習をする</li>
+<li>選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている</li>
+<li>提案手法は既存の<span class="caps">ILP</span>な手法と比べて<span class="caps">TAC</span>のデータにおいて良い性能であることと、<span class="caps">TAC</span>のbestだったシステムとの比較結果を示す</li>
+</ul>
+<h1>Summarization Through Submodularity and Dispersion&nbsp;(P13-1100.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する</li>
+<li>提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ</li>
+<li>非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う</li>
+<li>三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す</li>
+<li><span class="caps">DUC</span>&nbsp;2004とニュース記事に対するユーザのコメントを使って実験</li>
+<li>サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す</li>
+</ul>
+<h1>Subtree Extractive Summarization via Submodular Maximization&nbsp;(P13-1101.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>@Pnnc205jさんの論文</li>
+</ul>
+<h1>Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain&nbsp;(P13-1121.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>文書要約において中心性とは元の文書の核となる部分を含むべきだということ</li>
+<li>既存の手法は冗長性を除いたり文圧縮をおこなうことで中心性を得ようと試みている</li>
+<li>この論文では元文書のドメインを活用することで文書要約が、抽象型要約に向けてどれくらいこのようなパラダイムから前進できるかを調査する</li>
+<li>実験ではcaseframeという意味的なレベルで人手の要約とシステムの要約の近さを図る</li>
+<li>提案手法は<ul>
+<li>より抽象的で、文のまとめあげをおこなう</li>
+<li>topicalなcaseframeを他のシステムほど含まない</li>
+<li>元文書だけから再構築はできないけど、同じドメインの文書を加えればできる</li>
+</ul>
+</li>
+<li>実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している</li>
+</ul>
+<h1>A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization&nbsp;(P13-1136.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>クエリ指向型複数文書要約のための文圧縮を使った手法を提案する</li>
+<li>構文木に基づく文圧縮モデル</li>
+<li>ビームサーチのデコーダを提案。効率的、高圧縮。</li>
+<li>圧縮するためのスコア関数にどうやって言語的な特徴やクエリとの関連性を組み込むのかを示す</li>
+<li><span class="caps">DUC</span> 2006, <span class="caps">DUC</span>&nbsp;2007のstate-of-the-artよりも有意によくなることを示す</li>
+</ul>
+<h1>Domain-Independent Abstract Generation for Focused Meeting Summarization&nbsp;(P13-1137.pdf)</h1>
+<h2>概要</h2>
+<ul>
+<li>ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう</li>
+<li>Multiple-Squence&nbsp;Alignmentという他のドメインにも使いまわせる抽象的な要約のテンプレートを使う</li>
+<li>Overgenerate-and-Rankというものを候補の生成、ランキングに使うらしい</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-09-30T00:00:00+0800"></abbr> on <time datetime="2013-09-30" class="date" itemprop="datePublished">30 Sep 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2013/9/diversity-maximization-under-matroid-constraints.html" title="Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ" itemprop="url">Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -326,72 +411,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2013-06-03T00:00:00+0800"></abbr> on <time datetime="2013-06-03" class="date" itemprop="datePublished">03 Jun 2013</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2013/6/towards-heterogeneous-temporal-clinical-event-pattern-discovery-a-convolutional-approach.html" title="Towards Heterogeneous Temporal Clinical Event Pattern Discovery - A Convolutional Approach (KDD 2012)を読んだ" itemprop="url">Towards Heterogeneous Temporal Clinical Event Pattern Discovery - A Convolutional Approach (KDD 2012)を読んだ</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/paper.html" rel="tag">paper</a> 
-<a href="/blog/tags/machine_learning.html" rel="tag">machine_learning</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>proceeding: <a href="http://www.research.ibm.com/healthcare/papers/KDD2012NMF.pdf">pdf</a></p>
-<p>時系列パターンを使って患者を病状によって3つのグループへ分類するという応用寄りの話。
-時系列パターンの発見には非負値行列分解(Non-negative Matrix Factorization; <span class="caps">NMF</span>)を
-用いている。&nbsp;この論文で言う時系列データとは、<span class="caps">NMF</span>をおこなうことで得られる基底ベクトルのことだと解釈している。</p>
-<p>以下に<span class="caps">NMF</span>について簡単に調べたことを簡単にまとめる。
-参考資料は一つ目のチュートリアルが<span class="caps">NMF</span>の気持ちを&nbsp;理解するのにわかりやすく、二つ目の資料は<span class="caps">NMF</span>の更新式の導出を追うのにわかりやすかった。</p>
-<h2><span class="caps">NMF</span>超概略</h2>
-<h3><span class="caps">NMF</span>とは</h3>
-<p>与えられた非負値行列を二つの非負値行列の積で表現する。</p>
-<h3>導出に必要な道具</h3>
-<h4>(1)&nbsp;補助関数法</h4>
-<p>目的関数を直接最小化することが難しいときに使う。
-<a href="http://www.brl.ntt.co.jp/people/kameoka/publications/Kameoka2012SICE09published.pdf">参考資料</a>の
-説明を拝借すると、「目的関数がパラメータごとの関数の和になっていれば非負値制約の中で解を探索できる&nbsp;が目的関数がそのようになっていない場合に目的関数の上限関数として補助関数を導入する」ということと理解している。</p>
-<h4>(2)&nbsp;Jensenの不等式</h4>
-<p>(1)の上限関数を作成する時に使う、下に凸な関数f(x)に対して成り立つ関係。
-f(Σ_i a_i x_i) ≦ Σ_i a_i&nbsp;f(x_i)</p>
-<h3>更新式の気持ち</h3>
-<p>再現をしたい行列の成分を良く近似できているほど更新をしなくて、あまり近似できていない成分に対しては大きく更新をする。</p>
-<h3>実装</h3>
-<p><a href="https://code.google.com/p/pymf/">pymf</a>のソースコードを眺めた見たけど簡単そう。</p>
-<h3>参考資料</h3>
-<p>どちらも同じ著者によって書かれたものだが、下の二つの資料がとてもわかりやすかった。
-<span class="caps">NMF</span>のやってることの気持ちを知るには一番目のチュートリアルの資料、導出に関しては二番目の資料が参考になった&nbsp;(というか、日本人だとこの方のほとんど資料であった)。</p>
-<ul>
-<li><a href="http://staff.aist.go.jp/k.yoshii/slides/mus91-tutorial-nmf.pdf">チュートリアル:&nbsp;非負値行列因子分解</a></li>
-<li><a href="http://www.brl.ntt.co.jp/people/kameoka/publications/Kameoka2012SICE09published.pdf">非負値行列因子分解</a></li>
-</ul>
-<h2>紹介する論文のアイディア</h2>
-<p>電子医療データ(Electronic Health Records; <span class="caps">EHR</span>)は患者によって時間の幅がばらばらである (
-ただし、記録されているデータの種類は同じであると仮定している)。
-そのため、患者をデータの種類×時間の行列で表現すると、時間の幅がばらばらになってしまう。
-<span class="caps">NMF</span>はクラスタリング、距離学習、分類など色々な分野でうまく適用されているが、
-行列のサイズがばらばらではうまく適用できない。だったら、患者のデータ行列を時間の幅が&nbsp;同じになるように畳み込んでしまおう、というのがこの論文のアイディアである。</p>
-<h2>工夫しているポイント</h2>
-<p>患者のデータ行列Xは時系列パターンFの重ねあわせで表すことが出来ると仮定する。
-時間幅をtにしたいのであれば(1×tの)係数行列gを用いて畳み込みをして患者のデータ行列を再現する。
-通常の<span class="caps">NMF</span>であればFとgの内積を使ってX_{ij}を表現すると思うのだが、ここではF、gのインデックス
-外を参照すると0にするようにして畳み込みをおこなっている&nbsp;(式(1))。</p>
-<h2>発表した資料</h2>
-<p>数式は複雑に見えるけど、式(9)、式(11)を頭にイメージしてスライドの後半を見るとなんとなく何が違っているのか見えてくる。
-分類器はk-近傍法を使っている。時系列パターンを使わないbaselineよりも提案手法の時系列パターンを使った方が分類性能良くなっている。&nbsp;計算量のスライドは理解が怪しい。</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/145030352/content?start_page=1&view_mode=slide&access_key=key-2luu88u9399w87t5bdsz&show_recommendations=false" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_40030" width="700" height="500" frameborder="0"></iframe>
-
-<p><br></p>
-<h2>補足資料</h2>
-<p>Appendixの導出に自分の理解を付け加えたもの。&nbsp;βの値によって場合分けをしているけど基本的には補助関数法で間接的に目的関数を最小化しているだけ。</p>
-<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/145030227/content?start_page=1&view_mode=scroll&access_key=key-248of19ols7j1dkcko11&show_recommendations=false" data-auto-height="false" data-aspect-ratio="0.708006279434851" scrolling="no" id="doc_26265" width="700" height="600" frameborder="0"></iframe>
-
-<p><br></p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2013-06-01T00:00:00+0800"></abbr> on <time datetime="2013-06-01" class="date" itemprop="datePublished">01 Jun 2013</time></div>
 </article><!-- /.post -->
 <br><br><br>
 
