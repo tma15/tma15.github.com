@@ -7,10 +7,24 @@
         <link href="/"/>
     
         
-    <updated>2014-11-03T17:08:08Z</updated>
+    <updated>2014-11-03T17:13:58Z</updated>
 
     <id>/blog/atom.xml/</id>
 
+            <entry>
+            <title type="html">atom.xmlを加えた</title>
+            <author><name></name></author>
+            <link href="/blog/2014/11/add-atom.html"/>
+            <updated>2014-11-03T00:00:00Z</updated>
+            <published>2014-11-03T00:00:00Z</published>
+            <id>/blog/2014/11/add-atom.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
             <entry>
             <title type="html">mafが便利そう</title>
             <author><name></name></author>

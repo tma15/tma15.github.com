@@ -38,6 +38,25 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/10/go-pa2.html" title="PA-IIをGoで書いた" itemprop="url">PA-IIをGoで書いた</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/golang.html" rel="tag">golang</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>論文はこちら。</p>
+<p><a href="http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf">Online Passive-Aggressive&nbsp;Algorithms</a></p>
+<p>ソースコードは<a href="https://github.com/tma15/gopa">こちら</a>。&nbsp;下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">func</span> <span class="p">(</span><span class="n">p</span> <span class="p">*</span><span class="n">PassiveAggressive</span><span class="p">)</span> <span class="n">Update</span><span class="p">(</span><span class="n">X</span> <span class="k">map</span><span class="p">[</span><span class="nb">string</span><span class="p">]</span><span class="nb">float64</span><span class="p">,</span> <span class="n">y</span> <span class="nb">string</span><span class="p">,</span> <span class="n">sign</span> <span class="nb">float64</span><span class="p">)</span> <span class="n">Weight</span> <span class="p">{</span><br />        <span class="n">loss</span> <span class="p">:=</span> <span class="n">math</span><span class="p">.</span><span class="n">Max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">-</span><span class="n">sign</span><span class="p">*</span><span class="n">Dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">]))</span><br />        <span class="c1">//         tau := loss / Norm(X) // <span class="caps">PA</span></span><br />        <span class="n">tau</span> <span class="p">:=</span> <span class="n">loss</span> <span class="p">/</span> <span class="p">(</span><span class="n">Norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="p">+</span> <span class="mi">1</span> <span class="p">/</span> <span class="p">(</span><span class="mi">2</span> <span class="p">*</span> <span class="n">p</span><span class="p">.</span><span class="n">C</span><span class="p">))</span> <span class="c1">// <span class="caps">PA</span>-<span class="caps">II</span></span><br />        <span class="k">if</span> <span class="n">_</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">];</span> <span class="n">ok</span> <span class="p">==</span> <span class="n">false</span> <span class="p">{</span><br />            <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="p">=</span> <span class="k">map</span><span class="p">[</span><span class="nb">string</span><span class="p">]</span><span class="nb">float64</span><span class="p">{}</span><br />        <span class="p">}</span><br />&nbsp;<br />        <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">_</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">X</span> <span class="p">{</span><br />                <span class="k">if</span> <span class="n">_</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">];</span> <span class="n">ok</span> <span class="p">{</span><br />                    <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">]</span> <span class="p">+=</span> <span class="n">tau</span> <span class="p">*</span> <span class="n">sign</span><br />                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span><br />                    <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">]</span> <span class="p">=</span> <span class="n">tau</span> <span class="p">*</span> <span class="n">sign</span><br />                <span class="p">}</span><br />        <span class="p">}</span><br />        <span class="k">return</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><br /><span class="p">}</span><br /></pre></div><br /></figure></div>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-10-18T00:00:00+0800"></abbr> on <time datetime="2014-10-18" class="date" itemprop="datePublished">18 Oct 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/10/go-perceptron.html" title="パーセプトロンをGoで書いた" itemprop="url">パーセプトロンをGoで書いた</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -168,49 +187,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-02-17T00:00:00+0800"></abbr> on <time datetime="2014-02-17" class="date" itemprop="datePublished">17 Feb 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/1/2013-2014.html" title="2013年と2014年" itemprop="url">2013年と2014年</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/diary.html" rel="tag">diary</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <h2>2013年の振り返り</h2>
-<p><a href="http://tma15.github.io/blog/2013/1/start-of-2013.html">2013年の抱負</a>と照らしあわせて。</p>
-<h3>飲み過ぎない</h3>
-<p>12月は飲み過ぎた。次の日に食欲がなくなったりしてしまったり、ひどい時は2,3日胃がむかむかする感じだったので、反省。回数は多くても、一回あたりに飲む量を少し減らしたい。他の月は適度に楽しめたと思う。いつもお世話になっている美容師さん曰く、</p>
-<p>「最初に飲む量を決めると良い。」</p>
-<h3>反転してシュート</h3>
-<p>あまり出来なかった。どうしても前を向いている後ろの選手にはたこうという気持ちが強すぎる。一旦「パスを出せ」と怒られるくらいのプレーが必要かも。</p>
-<h3>論文を読む</h3>
-<p>二日に一本読む、というのは出来なかった（無謀すぎた&#8230;）。とはいえ、すずかけ台論文読み会を主催し、今年は7回開催することが出来た点に関しては満足している。</p>
-<p>この読み会は次の二つの（自分が享受したい）メリットを狙って、参加者は少人数にしぼり、基本的には参加者は読んだ論文をみんなの前で紹介するというスタイルにした:</p>
-<ol>
-<li>他の参加者にわかりやすく伝えるようにするためにより紹介する論文を読み込むようになる</li>
-<li>参加者は少人数に絞っているので、気楽に場を止めて質問することができる</li>
-</ol>
-<p>ので自分を含め、参加した人の得るものはそれなりに多くできたと思う。ただ、自分は紹介する論文に対してまだ曖昧な理解をしているままなことも多く、ありがたいご指摘も多々受けるので、もっと読み込まなければいけないところ。</p>
-<p>参加者の規模はこのままで良いのだけど、紹介する論文を参加者にとって有益そうなものにする仕組みを採用すべきかな、とぼんやり考えたり。ある程度人数がいれば、対象となる学会を絞って、気になる論文に投票するという形もありだと思うけど、少人数ではこの形は難しいので、2014年は色々と模索したい。</p>
-<h2>2014年の抱負</h2>
-<p>いくつもあっても大変なので大きく二つ。</p>
-<h3>論文を書く</h3>
-<p>有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、</p>
-<p><a href="http://www.cs.ucr.edu/~eamonn/Keogh_SIGKDD09_tutorial.pdf">How to do good research, get it published in <span class="caps">SIGKDD</span> and get it cited</a>とか</p>
-<blockquote class="twitter-tweet" lang="ja"><p><a href="https://twitter.com/Pnnc205j">@Pnnc205j</a>&nbsp;だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。</p>&mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) <a href="https://twitter.com/tetsuyasakai/statuses/184170104878141440">2012, 3月 26</a></blockquote>
-
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<p>とか。<a href="http://ymatsuo.com/japanese/ronbun_eng.html">松尾ぐみの論文の書き方：英語論文</a>でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。</p>
-<h3>サボれないフットサル・サッカー環境に身を置く</h3>
-<p>T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-01-02T00:00:00+0800"></abbr> on <time datetime="2014-01-02" class="date" itemprop="datePublished">02 Jan 2014</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

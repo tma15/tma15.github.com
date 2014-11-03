@@ -38,6 +38,22 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/11/add-atom.html" title="atom.xmlを加えた" itemprop="url">atom.xmlを加えた</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/diary.html" rel="tag">diary</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>今さらだが、 <a href="http://tma15.github.io/blog/atom.xml">atom.xml</a>&nbsp;を追加して更新情報を配信できるようにした。</p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-11-03T00:00:00+0800"></abbr> on <time datetime="2014-11-03" class="date" itemprop="datePublished">03 Nov 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/11/maf-memo.html" title="mafが便利そう" itemprop="url">mafが便利そう</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -183,25 +199,6 @@ Tags:
 <li><a href="http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1">行をランダムシャッフルするワンライナー</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron">Multiclass&nbsp;perceptron</a></li>
 </ul>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-10-18T00:00:00+0800"></abbr> on <time datetime="2014-10-18" class="date" itemprop="datePublished">18 Oct 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/10/go-pa2.html" title="PA-IIをGoで書いた" itemprop="url">PA-IIをGoで書いた</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/golang.html" rel="tag">golang</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>論文はこちら。</p>
-<p><a href="http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf">Online Passive-Aggressive&nbsp;Algorithms</a></p>
-<p>ソースコードは<a href="https://github.com/tma15/gopa">こちら</a>。&nbsp;下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">func</span> <span class="p">(</span><span class="n">p</span> <span class="p">*</span><span class="n">PassiveAggressive</span><span class="p">)</span> <span class="n">Update</span><span class="p">(</span><span class="n">X</span> <span class="k">map</span><span class="p">[</span><span class="nb">string</span><span class="p">]</span><span class="nb">float64</span><span class="p">,</span> <span class="n">y</span> <span class="nb">string</span><span class="p">,</span> <span class="n">sign</span> <span class="nb">float64</span><span class="p">)</span> <span class="n">Weight</span> <span class="p">{</span><br />        <span class="n">loss</span> <span class="p">:=</span> <span class="n">math</span><span class="p">.</span><span class="n">Max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">-</span><span class="n">sign</span><span class="p">*</span><span class="n">Dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">]))</span><br />        <span class="c1">//         tau := loss / Norm(X) // <span class="caps">PA</span></span><br />        <span class="n">tau</span> <span class="p">:=</span> <span class="n">loss</span> <span class="p">/</span> <span class="p">(</span><span class="n">Norm</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="p">+</span> <span class="mi">1</span> <span class="p">/</span> <span class="p">(</span><span class="mi">2</span> <span class="p">*</span> <span class="n">p</span><span class="p">.</span><span class="n">C</span><span class="p">))</span> <span class="c1">// <span class="caps">PA</span>-<span class="caps">II</span></span><br />        <span class="k">if</span> <span class="n">_</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">];</span> <span class="n">ok</span> <span class="p">==</span> <span class="n">false</span> <span class="p">{</span><br />            <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="p">=</span> <span class="k">map</span><span class="p">[</span><span class="nb">string</span><span class="p">]</span><span class="nb">float64</span><span class="p">{}</span><br />        <span class="p">}</span><br />&nbsp;<br />        <span class="k">for</span> <span class="n">f</span><span class="p">,</span> <span class="n">_</span> <span class="p">:=</span> <span class="k">range</span> <span class="n">X</span> <span class="p">{</span><br />                <span class="k">if</span> <span class="n">_</span><span class="p">,</span> <span class="n">ok</span> <span class="p">:=</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">];</span> <span class="n">ok</span> <span class="p">{</span><br />                    <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">]</span> <span class="p">+=</span> <span class="n">tau</span> <span class="p">*</span> <span class="n">sign</span><br />                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span><br />                    <span class="n">p</span><span class="p">.</span><span class="n">weight</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">f</span><span class="p">]</span> <span class="p">=</span> <span class="n">tau</span> <span class="p">*</span> <span class="n">sign</span><br />                <span class="p">}</span><br />        <span class="p">}</span><br />        <span class="k">return</span> <span class="n">p</span><span class="p">.</span><span class="n">weight</span><br /><span class="p">}</span><br /></pre></div><br /></figure></div>
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-10-18T00:00:00+0800"></abbr> on <time datetime="2014-10-18" class="date" itemprop="datePublished">18 Oct 2014</time></div>
