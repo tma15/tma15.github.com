@@ -57,7 +57,7 @@
 <li><a href="http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html">観劇収支ズレどう説明、公私混同疑いも…小渕氏</a></li>
 <li><a href="http://ascii.jp/elem/000/000/935/935886/">古いプログラミング言語がなくならない理由</a></li>
 </ul>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> data.csv<br />スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...<br />政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...<br />Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> data.csv<br />スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...<br />政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...<br />Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...<br /></pre></div><br /></figure></div>
 
 <p>...以降は省略している。</p>
 <h2>ソースコード</h2>
@@ -66,14 +66,14 @@
 <li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go">text.go</a> (gist)</li>
 </ul>
 <h2>動かしてみる</h2>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/text data.csv &gt; data<br /><span class="nv">$cat</span> data<br />スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... <br />政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...<br />Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/text data.csv &gt; data<br /><span class="nv">$cat</span> data<br />スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... <br />政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...<br />Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...<br /></pre></div><br /></figure></div>
 
 <p>...以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
 次に分類器を学習する。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f data -m learn -w model<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f data -m learn -w model<br /></pre></div><br /></figure></div>
 
 <p>できあがったモデルの中身を見てみる。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> model|grep <span class="s2">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head<br />スポーツ        カルロス・テベス        0.600000<br />スポーツ        モチベーション  0.600000<br />スポーツ        アルゼンチン    0.600000<br />スポーツ        ＡＣミラン      0.600000<br />スポーツ        ユベントス      0.600000<br />スポーツ        抜け出し        0.600000<br />スポーツ        ベローナ        0.600000<br />スポーツ        ブラジル        0.600000<br />スポーツ        セリエＡ        0.600000<br />スポーツ        アウェー        0.600000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^政治&quot;</span>|sort -k3 -nr|head<br />政治    不透明  0.800000<br />政治    上回っ  0.800000<br />政治    関連    0.800000<br />政治    資金    0.800000<br />政治    説明    0.800000<br />政治    観劇    0.800000<br />政治    経済    0.800000<br />政治    産業    0.800000<br />政治    生じ    0.800000<br />政治    焦点    0.800000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^Go言語&quot;</span>|sort -k3 -nr|head<br />Go言語  インタビュー    0.700000<br />Go言語  カーニハン      0.700000<br />Go言語  グーグル        0.700000<br />Go言語  代わる  0.700000<br />Go言語  それら  0.700000<br />Go言語  いくら  0.700000<br />Go言語  言語    0.700000<br />Go言語  解決    0.700000<br />Go言語  覚え    0.700000<br />Go言語  考え    0.700000<br /></pre></div><br /><figcaption>Bash</figcaption></figure></div>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> model|grep <span class="s2">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head<br />スポーツ        カルロス・テベス        0.600000<br />スポーツ        モチベーション  0.600000<br />スポーツ        アルゼンチン    0.600000<br />スポーツ        ＡＣミラン      0.600000<br />スポーツ        ユベントス      0.600000<br />スポーツ        抜け出し        0.600000<br />スポーツ        ベローナ        0.600000<br />スポーツ        ブラジル        0.600000<br />スポーツ        セリエＡ        0.600000<br />スポーツ        アウェー        0.600000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^政治&quot;</span>|sort -k3 -nr|head<br />政治    不透明  0.800000<br />政治    上回っ  0.800000<br />政治    関連    0.800000<br />政治    資金    0.800000<br />政治    説明    0.800000<br />政治    観劇    0.800000<br />政治    経済    0.800000<br />政治    産業    0.800000<br />政治    生じ    0.800000<br />政治    焦点    0.800000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^Go言語&quot;</span>|sort -k3 -nr|head<br />Go言語  インタビュー    0.700000<br />Go言語  カーニハン      0.700000<br />Go言語  グーグル        0.700000<br />Go言語  代わる  0.700000<br />Go言語  それら  0.700000<br />Go言語  いくら  0.700000<br />Go言語  言語    0.700000<br />Go言語  解決    0.700000<br />Go言語  覚え    0.700000<br />Go言語  考え    0.700000<br /></pre></div><br /></figure></div>
 
 <p>一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
 たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
