@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>
+        blog full text feed    </title>
+        <link href="blog/atom.xml" rel="self" />
+    
+        <link href="/"/>
+    
+        
+    <updated>2014-11-03T17:02:23Z</updated>
+
+    <id>/blog/atom.xml/</id>
+
+            <entry>
+            <title type="html">mafが便利そう</title>
+            <author><name></name></author>
+            <link href="/blog/2014/11/maf-memo.html"/>
+            <updated>2014-11-03T00:00:00Z</updated>
+            <published>2014-11-03T00:00:00Z</published>
+            <id>/blog/2014/11/maf-memo.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">HMMを実装した</title>
+            <author><name></name></author>
+            <link href="/blog/2014/10/hmm.html"/>
+            <updated>2014-10-25T00:00:00Z</updated>
+            <published>2014-10-25T00:00:00Z</published>
+            <id>/blog/2014/10/hmm.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
+            <author><name></name></author>
+            <link href="/blog/2014/10/document-classification.html"/>
+            <updated>2014-10-20T00:00:00Z</updated>
+            <published>2014-10-20T00:00:00Z</published>
+            <id>/blog/2014/10/document-classification.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">AdaGrad+RDAをGoで書いた</title>
+            <author><name></name></author>
+            <link href="/blog/2014/10/go-adagrad.html"/>
+            <updated>2014-10-18T00:00:00Z</updated>
+            <published>2014-10-18T00:00:00Z</published>
+            <id>/blog/2014/10/go-adagrad.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">PA-IIをGoで書いた</title>
+            <author><name></name></author>
+            <link href="/blog/2014/10/go-pa2.html"/>
+            <updated>2014-10-18T00:00:00Z</updated>
+            <published>2014-10-18T00:00:00Z</published>
+            <id>/blog/2014/10/go-pa2.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">パーセプトロンをGoで書いた</title>
+            <author><name></name></author>
+            <link href="/blog/2014/10/go-perceptron.html"/>
+            <updated>2014-10-11T00:00:00Z</updated>
+            <published>2014-10-11T00:00:00Z</published>
+            <id>/blog/2014/10/go-perceptron.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Induced SortingをPythonで書いた</title>
+            <author><name></name></author>
+            <link href="/blog/2014/5/induced_sorting_py.html"/>
+            <updated>2014-05-07T00:00:00Z</updated>
+            <published>2014-05-07T00:00:00Z</published>
+            <id>/blog/2014/5/induced_sorting_py.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">北京滞在メモ</title>
+            <author><name></name></author>
+            <link href="/blog/2014/3/i-visited-beijing.html"/>
+            <updated>2014-03-15T00:00:00Z</updated>
+            <published>2014-03-15T00:00:00Z</published>
+            <id>/blog/2014/3/i-visited-beijing.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
+            <author><name></name></author>
+            <link href="/blog/2014/2/jeff-bezos-and-the-age-of-amazon.html"/>
+            <updated>2014-02-17T00:00:00Z</updated>
+            <published>2014-02-17T00:00:00Z</published>
+            <id>/blog/2014/2/jeff-bezos-and-the-age-of-amazon.html</id>
+                        <category   scheme="/blog/tags"
+                        term="book"
+                        label="Book" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">2013年と2014年</title>
+            <author><name></name></author>
+            <link href="/blog/2014/1/2013-2014.html"/>
+            <updated>2014-01-02T00:00:00Z</updated>
+            <published>2014-01-02T00:00:00Z</published>
+            <id>/blog/2014/1/2013-2014.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">エッセイ"Towards the Machine Comprehension of Text"のメモ</title>
+            <author><name></name></author>
+            <link href="/blog/2013/12/mct.html"/>
+            <updated>2013-12-27T00:00:00Z</updated>
+            <published>2013-12-27T00:00:00Z</published>
+            <id>/blog/2013/12/mct.html</id>
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</title>
+            <author><name></name></author>
+            <link href="/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content.html"/>
+            <updated>2013-12-14T00:00:00Z</updated>
+            <published>2013-12-14T00:00:00Z</published>
+            <id>/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+            <author><name></name></author>
+            <link href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html"/>
+            <updated>2013-11-10T00:00:00Z</updated>
+            <published>2013-11-10T00:00:00Z</published>
+            <id>/blog/2013/11/read-naive-bayes-in-scikit-learn.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+                        <category   scheme="/blog/tags"
+                        term="machine_learning"
+                        label="Machine_Learning" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">文書要約メモ（ACL2013）</title>
+            <author><name></name></author>
+            <link href="/blog/2013/9/acl2013-summ-note.html"/>
+            <updated>2013-09-30T00:00:00Z</updated>
+            <published>2013-09-30T00:00:00Z</published>
+            <id>/blog/2013/9/acl2013-summ-note.html</id>
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</title>
+            <author><name></name></author>
+            <link href="/blog/2013/9/diversity-maximization-under-matroid-constraints.html"/>
+            <updated>2013-09-10T00:00:00Z</updated>
+            <published>2013-09-10T00:00:00Z</published>
+            <id>/blog/2013/9/diversity-maximization-under-matroid-constraints.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Active Sampling for Entity Matching (KDD 2012)を読んだ</title>
+            <author><name></name></author>
+            <link href="/blog/2013/8/active-sampling-for-entity-matching.html"/>
+            <updated>2013-08-03T00:00:00Z</updated>
+            <published>2013-08-03T00:00:00Z</published>
+            <id>/blog/2013/8/active-sampling-for-entity-matching.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">It takes a long time to become young.</title>
+            <author><name></name></author>
+            <link href="/blog/2013/7/it-takes-a-long-time-to-become-young.html"/>
+            <updated>2013-07-07T00:00:00Z</updated>
+            <published>2013-07-07T00:00:00Z</published>
+            <id>/blog/2013/7/it-takes-a-long-time-to-become-young.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">簡単に、奥深く</title>
+            <author><name></name></author>
+            <link href="/blog/2013/6/joined-jm2013.html"/>
+            <updated>2013-06-03T00:00:00Z</updated>
+            <published>2013-06-03T00:00:00Z</published>
+            <id>/blog/2013/6/joined-jm2013.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Towards Heterogeneous Temporal Clinical Event Pattern Discovery - A Convolutional Approach (KDD 2012)を読んだ</title>
+            <author><name></name></author>
+            <link href="/blog/2013/6/towards-heterogeneous-temporal-clinical-event-pattern-discovery-a-convolutional-approach.html"/>
+            <updated>2013-06-01T00:00:00Z</updated>
+            <published>2013-06-01T00:00:00Z</published>
+            <id>/blog/2013/6/towards-heterogeneous-temporal-clinical-event-pattern-discovery-a-convolutional-approach.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+                        <category   scheme="/blog/tags"
+                        term="machine_learning"
+                        label="Machine_Learning" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">食べログAPIのPythonラッパーを書いた</title>
+            <author><name></name></author>
+            <link href="/blog/2013/5/python-tabelog.html"/>
+            <updated>2013-05-12T00:00:00Z</updated>
+            <published>2013-05-12T00:00:00Z</published>
+            <id>/blog/2013/5/python-tabelog.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Discovering Value from Community Activity on Focused Question Answering Sites A Case Study of Stack Overflow (KDD 2012)</title>
+            <author><name></name></author>
+            <link href="/blog/2013/4/dicovering-value-from-community-activity-on-focused-question-answering-sites-a-case-study-of-stack-overflow.html"/>
+            <updated>2013-04-20T00:00:00Z</updated>
+            <published>2013-04-20T00:00:00Z</published>
+            <id>/blog/2013/4/dicovering-value-from-community-activity-on-focused-question-answering-sites-a-case-study-of-stack-overflow.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Good style - Writing for Computer Science</title>
+            <author><name></name></author>
+            <link href="/blog/2013/3/good-style.html"/>
+            <updated>2013-03-27T00:00:00Z</updated>
+            <published>2013-03-27T00:00:00Z</published>
+            <id>/blog/2013/3/good-style.html</id>
+                        <category   scheme="/blog/tags"
+                        term="book"
+                        label="Book" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</title>
+            <author><name></name></author>
+            <link href="/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html"/>
+            <updated>2013-03-23T00:00:00Z</updated>
+            <published>2013-03-23T00:00:00Z</published>
+            <id>/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+                        <category   scheme="/blog/tags"
+                        term="machine_learning"
+                        label="Machine_Learning" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Giving presentations - Writing for Computer Science</title>
+            <author><name></name></author>
+            <link href="/blog/2013/2/giving-presentaions.html"/>
+            <updated>2013-02-23T00:00:00Z</updated>
+            <published>2013-02-23T00:00:00Z</published>
+            <id>/blog/2013/2/giving-presentaions.html</id>
+                        <category   scheme="/blog/tags"
+                        term="book"
+                        label="Book" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
+            <author><name></name></author>
+            <link href="/blog/2013/2/robust-disambiguation-of-named-entities-in-text.html"/>
+            <updated>2013-02-16T00:00:00Z</updated>
+            <published>2013-02-16T00:00:00Z</published>
+            <id>/blog/2013/2/robust-disambiguation-of-named-entities-in-text.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Togakushi</title>
+            <author><name></name></author>
+            <link href="/blog/2013/2/togakushi.html"/>
+            <updated>2013-02-12T00:00:00Z</updated>
+            <published>2013-02-12T00:00:00Z</published>
+            <id>/blog/2013/2/togakushi.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
+            <author><name></name></author>
+            <link href="/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html"/>
+            <updated>2013-02-06T00:00:00Z</updated>
+            <published>2013-02-06T00:00:00Z</published>
+            <id>/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
+            <author><name></name></author>
+            <link href="/blog/2013/2/named-entity-disambiguation-in-streaming-data.html"/>
+            <updated>2013-02-01T00:00:00Z</updated>
+            <published>2013-02-01T00:00:00Z</published>
+            <id>/blog/2013/2/named-entity-disambiguation-in-streaming-data.html</id>
+                        <category   scheme="/blog/tags"
+                        term="paper"
+                        label="Paper" />
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">2013年の抱負</title>
+            <author><name></name></author>
+            <link href="/blog/2013/1/start-of-2013.html"/>
+            <updated>2013-01-08T00:00:00Z</updated>
+            <published>2013-01-08T00:00:00Z</published>
+            <id>/blog/2013/1/start-of-2013.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Practical Machine Learning Tricks</title>
+            <author><name></name></author>
+            <link href="/blog/2012/12/practical-machine-learning-kdd2011.html"/>
+            <updated>2012-12-15T00:00:00Z</updated>
+            <published>2012-12-15T00:00:00Z</published>
+            <id>/blog/2012/12/practical-machine-learning-kdd2011.html</id>
+                        <category   scheme="/blog/tags"
+                        term="machine_learning"
+                        label="Machine_Learning" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Hakone Museum of Art</title>
+            <author><name></name></author>
+            <link href="/blog/2012/11/autumncolor.html"/>
+            <updated>2012-11-29T00:00:00Z</updated>
+            <published>2012-11-29T00:00:00Z</published>
+            <id>/blog/2012/11/autumncolor.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">without sns</title>
+            <author><name></name></author>
+            <link href="/blog/2012/11/withoutsns.html"/>
+            <updated>2012-11-29T00:00:00Z</updated>
+            <published>2012-11-29T00:00:00Z</published>
+            <id>/blog/2012/11/withoutsns.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">kaanapali</title>
+            <author><name></name></author>
+            <link href="/blog/2012/11/kaanapali.html"/>
+            <updated>2012-11-15T00:00:00Z</updated>
+            <published>2012-11-15T00:00:00Z</published>
+            <id>/blog/2012/11/kaanapali.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">Hello World</title>
+            <author><name></name></author>
+            <link href="/blog/2012/11/helloworld.html"/>
+            <updated>2012-11-10T00:00:00Z</updated>
+            <published>2012-11-10T00:00:00Z</published>
+            <id>/blog/2012/11/helloworld.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+    </feed>
