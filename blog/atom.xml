@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>
-        blog full text feed    </title>
+        Now is better than never.    </title>
         <link href="blog/atom.xml" rel="self" />
     
         <link href="/"/>
     
         
-    <updated>2014-11-03T17:02:23Z</updated>
+    <updated>2014-11-03T17:08:08Z</updated>
 
     <id>/blog/atom.xml/</id>
 
