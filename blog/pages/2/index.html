@@ -38,6 +38,59 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/10/document-classification.html" title="Goで日本語の文書を前処理して分類器を学習するところまでやってみる" itemprop="url">Goで日本語の文書を前処理して分類器を学習するところまでやってみる</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/golang.html" rel="tag">golang</a> 
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <h2>概要</h2>
+<p>日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
+分類器は何でも良いのだけど、先日書いた<a href="https://github.com/tma15/goAdaGrad">AdaGrad+<span class="caps">RDA</span></a>を使う。</p>
+<p>ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。</p>
+<ul>
+<li>文書を文に分割する。今回は「。」で区切る。</li>
+<li>文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。</li>
+<li>訓練データを使って分類器を学習して、できたモデルの中身を見てみる。</li>
+</ul>
+<h2>データ</h2>
+<p>下記<span class="caps">URL</span>から得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書とした<span class="caps">CSV</span>に保存しておく。</p>
+<ul>
+<li><a href="http://mainichi.jp/sponichi/news/20141020spn00m050016000c.html">本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし</a></li>
+<li><a href="http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html">観劇収支ズレどう説明、公私混同疑いも…小渕氏</a></li>
+<li><a href="http://ascii.jp/elem/000/000/935/935886/">古いプログラミング言語がなくならない理由</a></li>
+</ul>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> data.csv<br />スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...<br />政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...<br />Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...<br /></pre></div><br /></figure></div>
+
+<p>&#8230;以降は省略している。</p>
+<h2>ソースコード</h2>
+<ul>
+<li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go">mecab.go</a>&nbsp;(gist)</li>
+<li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go">text.go</a>&nbsp;(gist)</li>
+</ul>
+<h2>動かしてみる</h2>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/text data.csv &gt; data<br /><span class="nv">$cat</span> data<br />スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... <br />政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...<br />Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...<br /></pre></div><br /></figure></div>
+
+<p>&#8230;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。&nbsp;次に分類器を学習する。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f data -m learn -w model<br /></pre></div><br /></figure></div>
+
+<p>できあがったモデルの中身を見てみる。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> model|grep <span class="s2">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head<br />スポーツ        カルロス・テベス        0.600000<br />スポーツ        モチベーション  0.600000<br />スポーツ        アルゼンチン    0.600000<br />スポーツ        ＡＣミラン      0.600000<br />スポーツ        ユベントス      0.600000<br />スポーツ        抜け出し        0.600000<br />スポーツ        ベローナ        0.600000<br />スポーツ        ブラジル        0.600000<br />スポーツ        セリエＡ        0.600000<br />スポーツ        アウェー        0.600000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^政治&quot;</span>|sort -k3 -nr|head<br />政治    不透明  0.800000<br />政治    上回っ  0.800000<br />政治    関連    0.800000<br />政治    資金    0.800000<br />政治    説明    0.800000<br />政治    観劇    0.800000<br />政治    経済    0.800000<br />政治    産業    0.800000<br />政治    生じ    0.800000<br />政治    焦点    0.800000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^Go言語&quot;</span>|sort -k3 -nr|head<br />Go言語  インタビュー    0.700000<br />Go言語  カーニハン      0.700000<br />Go言語  グーグル        0.700000<br />Go言語  代わる  0.700000<br />Go言語  それら  0.700000<br />Go言語  いくら  0.700000<br />Go言語  言語    0.700000<br />Go言語  解決    0.700000<br />Go言語  覚え    0.700000<br />Go言語  考え    0.700000<br /></pre></div><br /></figure></div>
+
+<p>一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
+たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。&nbsp;このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。</p>
+<h2>まとめ</h2>
+<p>自然言語処理でよく使う単純な前処理をGoで書いた。&nbsp;あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。</p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-10-20T00:00:00+0800"></abbr> on <time datetime="2014-10-20" class="date" itemprop="datePublished">20 Oct 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/10/go-adagrad.html" title="AdaGrad+RDAをGoで書いた" itemprop="url">AdaGrad+RDAをGoで書いた</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -152,44 +205,6 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-05-07T00:00:00+0800"></abbr> on <time datetime="2014-05-07" class="date" itemprop="datePublished">07 May 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/3/i-visited-beijing.html" title="北京滞在メモ" itemprop="url">北京滞在メモ</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/diary.html" rel="tag">diary</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>北京滞在時(2014/03/11 -&nbsp;2014/03/14)に見聞きした情報をメモ。</p>
-<h2>交通事情</h2>
-<ul>
-<li>北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい</li>
-<li>空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全</li>
-<li>普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある</li>
-<li>普通のタクシーはナンバーが「京B&#8230;」で始まるので、それ以外のタクシーは怪しい</li>
-<li>たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い</li>
-<li>めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない</li>
-<li>中国人はタクシーに乗るときは、まず助手席に座る<ul>
-<li>カーナビがないので近くに座って道案内しないといけない</li>
-<li>精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る</li>
-</ul>
-</li>
-<li>中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある</li>
-<li>エスカレータは右側に立つ</li>
-</ul>
-<h2>飲食事情</h2>
-<ul>
-<li>中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。</li>
-<li>たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。</li>
-<li>中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。</li>
-</ul>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-03-15T00:00:00+0800"></abbr> on <time datetime="2014-03-15" class="date" itemprop="datePublished">15 Mar 2014</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

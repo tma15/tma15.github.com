@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+        <title>PythonでElasticsearchを使うときのメモ | Now is better than never.</title>
+        <meta charset="utf-8" />
+        <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="/media/css/font-awesome.css">
+        <link rel="stylesheet" href="/media/css/style.css">
+        <link rel="stylesheet" href="/media/css/pygments.css">
+        <link rel="shortcut icon" href="/media/img/background.jpg">
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+            });
+        </script>
+        <script type='text/javascript' src='http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+        <!--[if lt IE 9]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script>
+        <![endif]-->
+    </head>
+    <body >
+        <header>
+            <hgroup>
+              <h1>Now is better than never.</h1>
+              <h3>Although never is often better than right now.</h3>
+            </hgroup>
+        </header>
+        <nav>
+                                <ul>
+<li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
+        </nav>
+        <article id="content">
+                    <h1>PythonでElasticsearchを使うときのメモ</h1>
+              <div class="tags">
+        Tags:
+            <a class="small" href="/blog/tags/python.html">python</a>&nbsp;
+            <a class="small" href="/blog/tags/elasticsearch.html">elasticsearch</a>&nbsp;
+            <br>
+  </div>
+            <p>全文検索したくなったときのためのメモ。
+Elasticsearchはインストール済みとして進める。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/bin/elasticsearch -v<br />Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25<br /></pre></div><br /></figure></div>
+
+<h2>準備</h2>
+<p>日本語を扱いたいことが想定されるので、 <a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji">elasticsearch-analysis-kuromoji</a> をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。</p>
+<ul>
+<li><a href="http://blog.johtani.info/blog/2014/08/01/plugin-using-under-proxy-env/">プロキシ環境でのpluginコマンドの実行</a></li>
+<li><a href="http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins">Manual install of Elasticsearch plugins</a></li>
+</ul>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1<br /></pre></div><br /></figure></div>
+
+<p>デフォルトのanalyzerをkuromojiにしておく。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$tail</span> config/elasticsearch.yml<br />...<br />index.analysis.analyzer.default.type: custom<br />index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer<br /></pre></div><br /></figure></div>
+
+<h2>インストール</h2>
+<p>では、まずはPythonラッパーをインストール。
+使い方は<a href="http://elasticsearch-py.readthedocs.org/en/master/">Python Elasticsearch Client</a>が参考になりそう。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre>pip install elasticsearch<br /></pre></div><br /></figure></div>
+
+<p>ここ以降は<a href="http://code46.hatenablog.com/entry/2014/01/21/115620">Elasticsearchチュートリアル</a>を参考にさせていただいた。データもそれに合わせて<a href="https://github.com/livedoor/datasets">livedoor/datasets</a>を使用させていただいている。</p>
+<h2>ドキュメントを登録していく</h2>
+<p>mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> mapping.yaml<br />mappings:<br />  restaurant:<br />    properties:<br />      description:<br />        <span class="nb">type</span>: string<br />      name:<br />        <span class="nb">type</span>: string<br />      name_kana:<br />        <span class="nb">type</span>: string<br />      adress:<br />        <span class="nb">type</span>: string<br /></pre></div><br /></figure></div>
+
+<p>indexを生成して文書を順に追加していくスクリプトを書く。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span><br /><span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span><br />&nbsp;<br /><span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span><br /><span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ldgroumet&quot;</span><br /><span class="n">doc_type</span> <span class="o">=</span> <span class="s">&quot;restaurant&quot;</span><br /><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><br />&nbsp;<br /><span class="n">setting</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;./mapping.yaml&#39;</span><span class="p">))</span><br /><span class="n">properties</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s">&quot;mappings&quot;</span><span class="p">][</span><span class="s">&quot;restaurant&quot;</span><span class="p">][</span><span class="s">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><br /><span class="k">print</span> <span class="n">es</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">setting</span><span class="p">)</span><br />&nbsp;<br /><span class="k">for</span> <span class="n">lid</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">):</span><br />    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><br />    <span class="k">if</span> <span class="n">lid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span><br />        <span class="n">attrs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span><br />        <span class="n">num_attrs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span><br />        <span class="k">continue</span><br />    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span><br />    <span class="n">sp</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="n">num_attrs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><br />    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sp</span><span class="p">):</span><br />        <span class="k">if</span> <span class="n">attrs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span><br />            <span class="n">data</span><span class="p">[</span><span class="n">attrs</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span><br />    <span class="n">es</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><br />    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><br /></pre></div><br /></figure></div>
+
+<p>実行して登録する。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> restaurants.csv|python post.py<br /></pre></div><br /></figure></div>
+
+<h2>ドキュメントを検索する</h2>
+<p>検索するスクリプトを書く。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span><br />&nbsp;<br /><span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span><br /><span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ldgroumet&quot;</span><br /><span class="n">doc_type</span> <span class="o">=</span> <span class="s">&quot;restaurant&quot;</span><br />&nbsp;<br /><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><br />        <span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><br />            <span class="s">&quot;simple_query_string&quot;</span><span class="p">:</span> <span class="p">{</span><br />                <span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="s">&quot;京都&quot;</span><span class="p">,</span><br />                <span class="s">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;description&quot;</span><span class="p">],</span><br />                <span class="p">}</span><br />            <span class="p">}</span><br />        <span class="p">}</span><br />&nbsp;<br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">query</span><span class="p">)[</span><span class="s">&quot;hits&quot;</span><span class="p">][</span><span class="s">&quot;hits&quot;</span><span class="p">]:</span><br />    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s">&quot;_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span><br />        <span class="k">print</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span><br />    <span class="k">print</span><br /></pre></div><br /></figure></div>
+
+<p>実行する。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$python</span> search.py<br />address <span class="s2">&quot;杉並区永福4-2-4&quot;</span><br />description <span class="s2">&quot;【住所訂正】杉並区永福4-5-18→東京都杉並区永福4-2-4 from東京グルメ 2005/05/09&quot;</span><br />name_kana <span class="s2">&quot;らぴっこらたーぼら&quot;</span><br />name <span class="s2">&quot;ラ・ピッコラ・ターヴォラ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;練馬区練馬1-6-8&quot;</span><br />description <span class="s2">&quot;西武池袋線練馬駅南口徒歩3分、都税事務所前  【註】営業日(無休)を追加。...</span><br /><span class="s2">name_kana &quot;</span>ぱんこんとまて<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>パンコントマテ<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>中央区銀座3-13-17<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>ランチタイム 11:30〜15:00    05/01/19 電話番号 営業時間 定休日等...<br />name_kana <span class="s2">&quot;えるべ&quot;</span><br />name <span class="s2">&quot;エルベ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;港区六本木7-17-20名泉ビル1F&quot;</span><br />description <span class="s2">&quot;【住所変更、URL追加】港区西麻布3-6-4 麻布パレス1F → 東京都港区六本...</span><br /><span class="s2">name_kana &quot;</span>とれふみやもと<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>トレフ・ミヤモト<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>港区赤坂8-10-22ニュー新坂ビル1階<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>2009年6月8日に移転オープンしました。  旧住所；東京都港区六本木7-2-10...<br />name_kana <span class="s2">&quot;すてーきはうすはま&quot;</span><br />name <span class="s2">&quot;ステーキハウスハマ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;港区六本木4-10-11八巻ビル1F&quot;</span><br />description <span class="s2">&quot;【住所・電話番号変更、URL・営業時間追加】港区六本木7-8-4 ...</span><br /><span class="s2">name_kana &quot;</span>いなかやにしてん<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>田舎家<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>中央区銀座3-1銀座インズ2 2F<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>正式住所は東京都中央区銀座西3-1先銀座インズ...<br />name_kana <span class="s2">&quot;ざさいあむ&quot;</span><br />name <span class="s2">&quot;ザ・サイアム&quot;</span><br />&nbsp;<br />...<br /></pre></div><br /></figure></div>
+
+<p>「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。</p>
+        <br>
+        <time datetime="2014-11-08">
+    Sat, 08 Nov 2014
+</time>
+        <div class="bottom_article_nav">
+
+                  <div class="next"><a href="/blog/2014/11/count-elem-go.html">二つの集合に重複して現れる要素の数を数える</a>
+    &gt;</div>
+
+
+</div>
+
+<div class="center"><a href="/blog/archive.html">archive</a></div>
+        </article>
+
+                <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-20414370-4']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>    </body>
+</html>

@@ -67,6 +67,60 @@ Tags:
 <br><br><br>
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/11/use-es-py.html" title="PythonでElasticsearchを使うときのメモ" itemprop="url">PythonでElasticsearchを使うときのメモ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/python.html" rel="tag">python</a> 
+<a href="/blog/tags/elasticsearch.html" rel="tag">elasticsearch</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>全文検索したくなったときのためのメモ。&nbsp;Elasticsearchはインストール済みとして進める。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/bin/elasticsearch -v<br />Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, <span class="caps">JVM</span>: 1.8.0_25<br /></pre></div><br /></figure></div>
+
+<h2>準備</h2>
+<p>日本語を扱いたいことが想定されるので、 <a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji">elasticsearch-analysis-kuromoji</a>&nbsp;をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。</p>
+<ul>
+<li><a href="http://blog.johtani.info/blog/2014/08/01/plugin-using-under-proxy-env/">プロキシ環境でのpluginコマンドの実行</a></li>
+<li><a href="http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins">Manual install of Elasticsearch&nbsp;plugins</a></li>
+</ul>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1<br /></pre></div><br /></figure></div>
+
+<p>デフォルトのanalyzerをkuromojiにしておく。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$tail</span> config/elasticsearch.yml<br />...<br />index.analysis.analyzer.default.type: custom<br />index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer<br /></pre></div><br /></figure></div>
+
+<h2>インストール</h2>
+<p>では、まずはPythonラッパーをインストール。
+使い方は<a href="http://elasticsearch-py.readthedocs.org/en/master/">Python Elasticsearch Client</a>が参考になりそう。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre>pip install elasticsearch<br /></pre></div><br /></figure></div>
+
+<p>ここ以降は<a href="http://code46.hatenablog.com/entry/2014/01/21/115620">Elasticsearchチュートリアル</a>を参考にさせていただいた。データもそれに合わせて<a href="https://github.com/livedoor/datasets">livedoor/datasets</a>を使用させていただいている。</p>
+<h2>ドキュメントを登録していく</h2>
+<p>mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> mapping.yaml<br />mappings:<br />  restaurant:<br />    properties:<br />      description:<br />        <span class="nb">type</span>: string<br />      name:<br />        <span class="nb">type</span>: string<br />      name_kana:<br />        <span class="nb">type</span>: string<br />      adress:<br />        <span class="nb">type</span>: string<br /></pre></div><br /></figure></div>
+
+<p>indexを生成して文書を順に追加していくスクリプトを書く。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span><br /><span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span><br />&nbsp;<br /><span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span><br /><span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ldgroumet&quot;</span><br /><span class="n">doc_type</span> <span class="o">=</span> <span class="s">&quot;restaurant&quot;</span><br /><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><br />&nbsp;<br /><span class="n">setting</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s">&#39;./mapping.yaml&#39;</span><span class="p">))</span><br /><span class="n">properties</span> <span class="o">=</span> <span class="n">setting</span><span class="p">[</span><span class="s">&quot;mappings&quot;</span><span class="p">][</span><span class="s">&quot;restaurant&quot;</span><span class="p">][</span><span class="s">&quot;properties&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><br /><span class="k">print</span> <span class="n">es</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">setting</span><span class="p">)</span><br />&nbsp;<br /><span class="k">for</span> <span class="n">lid</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="p">):</span><br />    <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><br />    <span class="k">if</span> <span class="n">lid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span><br />        <span class="n">attrs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span><br />        <span class="n">num_attrs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span><br />        <span class="k">continue</span><br />    <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span><br />    <span class="n">sp</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">,</span> <span class="n">num_attrs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><br />    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sp</span><span class="p">):</span><br />        <span class="k">if</span> <span class="n">attrs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">properties</span><span class="p">:</span><br />            <span class="n">data</span><span class="p">[</span><span class="n">attrs</span><span class="p">[</span><span class="n">j</span><span class="p">]]</span> <span class="o">=</span> <span class="n">value</span><br />    <span class="n">es</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">data</span><span class="p">)</span><br />    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span><br /></pre></div><br /></figure></div>
+
+<p>実行して登録する。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> restaurants.csv|python post.py<br /></pre></div><br /></figure></div>
+
+<h2>ドキュメントを検索する</h2>
+<p>検索するスクリプトを書く。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">elasticsearch</span> <span class="kn">import</span> <span class="n">Elasticsearch</span><br />&nbsp;<br /><span class="n">es</span> <span class="o">=</span> <span class="n">Elasticsearch</span><span class="p">()</span><br /><span class="n">index</span> <span class="o">=</span> <span class="s">&quot;ldgroumet&quot;</span><br /><span class="n">doc_type</span> <span class="o">=</span> <span class="s">&quot;restaurant&quot;</span><br />&nbsp;<br /><span class="n">query</span> <span class="o">=</span> <span class="p">{</span><br />        <span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="p">{</span><br />            <span class="s">&quot;simple_query_string&quot;</span><span class="p">:</span> <span class="p">{</span><br />                <span class="s">&quot;query&quot;</span><span class="p">:</span> <span class="s">&quot;京都&quot;</span><span class="p">,</span><br />                <span class="s">&quot;fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;address&quot;</span><span class="p">,</span> <span class="s">&quot;description&quot;</span><span class="p">],</span><br />                <span class="p">}</span><br />            <span class="p">}</span><br />        <span class="p">}</span><br />&nbsp;<br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">es</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">doc_type</span><span class="o">=</span><span class="n">doc_type</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="n">query</span><span class="p">)[</span><span class="s">&quot;hits&quot;</span><span class="p">][</span><span class="s">&quot;hits&quot;</span><span class="p">]:</span><br />    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="s">&quot;_source&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span><br />        <span class="k">print</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf8&#39;</span><span class="p">)</span><br />    <span class="k">print</span><br /></pre></div><br /></figure></div>
+
+<p>実行する。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$python</span> search.py<br />address <span class="s2">&quot;杉並区永福4-2-4&quot;</span><br />description <span class="s2">&quot;【住所訂正】杉並区永福4-5-18→東京都杉並区永福4-2-4 from東京グルメ 2005/05/09&quot;</span><br />name_kana <span class="s2">&quot;らぴっこらたーぼら&quot;</span><br />name <span class="s2">&quot;ラ・ピッコラ・ターヴォラ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;練馬区練馬1-6-8&quot;</span><br />description <span class="s2">&quot;西武池袋線練馬駅南口徒歩3分、都税事務所前  【註】営業日(無休)を追加。...</span><br /><span class="s2">name_kana &quot;</span>ぱんこんとまて<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>パンコントマテ<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>中央区銀座3-13-17<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>ランチタイム 11:30〜15:00    05/01/19 電話番号 営業時間 定休日等...<br />name_kana <span class="s2">&quot;えるべ&quot;</span><br />name <span class="s2">&quot;エルベ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;港区六本木7-17-20名泉ビル1F&quot;</span><br />description <span class="s2">&quot;【住所変更、<span class="caps">URL</span>追加】港区西麻布3-6-4 麻布パレス1F → 東京都港区六本...</span><br /><span class="s2">name_kana &quot;</span>とれふみやもと<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>トレフ・ミヤモト<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>港区赤坂8-10-22ニュー新坂ビル1階<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>2009年6月8日に移転オープンしました。  旧住所；東京都港区六本木7-2-10...<br />name_kana <span class="s2">&quot;すてーきはうすはま&quot;</span><br />name <span class="s2">&quot;ステーキハウスハマ&quot;</span><br />&nbsp;<br />address <span class="s2">&quot;港区六本木4-10-11八巻ビル1F&quot;</span><br />description <span class="s2">&quot;【住所・電話番号変更、<span class="caps">URL</span>・営業時間追加】港区六本木7-8-4 ...</span><br /><span class="s2">name_kana &quot;</span>いなかやにしてん<span class="s2">&quot;</span><br /><span class="s2">name &quot;</span>田舎家<span class="s2">&quot;</span><br />&nbsp;<br /><span class="s2">address &quot;</span>中央区銀座3-1銀座インズ2 2F<span class="s2">&quot;</span><br /><span class="s2">description &quot;</span>正式住所は東京都中央区銀座西3-1先銀座インズ...<br />name_kana <span class="s2">&quot;ざさいあむ&quot;</span><br />name <span class="s2">&quot;ザ・サイアム&quot;</span><br />&nbsp;<br />...<br /></pre></div><br /></figure></div>
+
+<p>「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。</p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-11-08T00:00:00+0800"></abbr> on <time datetime="2014-11-08" class="date" itemprop="datePublished">08 Nov 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/11/add-atom.html" title="atom.xmlを加えた" itemprop="url">atom.xmlを加えた</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -143,59 +197,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-10-25T00:00:00+0800"></abbr> on <time datetime="2014-10-25" class="date" itemprop="datePublished">25 Oct 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/10/document-classification.html" title="Goで日本語の文書を前処理して分類器を学習するところまでやってみる" itemprop="url">Goで日本語の文書を前処理して分類器を学習するところまでやってみる</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/golang.html" rel="tag">golang</a> 
-<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <h2>概要</h2>
-<p>日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
-分類器は何でも良いのだけど、先日書いた<a href="https://github.com/tma15/goAdaGrad">AdaGrad+<span class="caps">RDA</span></a>を使う。</p>
-<p>ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。</p>
-<ul>
-<li>文書を文に分割する。今回は「。」で区切る。</li>
-<li>文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。</li>
-<li>訓練データを使って分類器を学習して、できたモデルの中身を見てみる。</li>
-</ul>
-<h2>データ</h2>
-<p>下記<span class="caps">URL</span>から得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書とした<span class="caps">CSV</span>に保存しておく。</p>
-<ul>
-<li><a href="http://mainichi.jp/sponichi/news/20141020spn00m050016000c.html">本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし</a></li>
-<li><a href="http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html">観劇収支ズレどう説明、公私混同疑いも…小渕氏</a></li>
-<li><a href="http://ascii.jp/elem/000/000/935/935886/">古いプログラミング言語がなくならない理由</a></li>
-</ul>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> data.csv<br />スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...<br />政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...<br />Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...<br /></pre></div><br /></figure></div>
-
-<p>&#8230;以降は省略している。</p>
-<h2>ソースコード</h2>
-<ul>
-<li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go">mecab.go</a>&nbsp;(gist)</li>
-<li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go">text.go</a>&nbsp;(gist)</li>
-</ul>
-<h2>動かしてみる</h2>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/text data.csv &gt; data<br /><span class="nv">$cat</span> data<br />スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... <br />政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...<br />Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...<br /></pre></div><br /></figure></div>
-
-<p>&#8230;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。&nbsp;次に分類器を学習する。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f data -m learn -w model<br /></pre></div><br /></figure></div>
-
-<p>できあがったモデルの中身を見てみる。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$cat</span> model|grep <span class="s2">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head<br />スポーツ        カルロス・テベス        0.600000<br />スポーツ        モチベーション  0.600000<br />スポーツ        アルゼンチン    0.600000<br />スポーツ        ＡＣミラン      0.600000<br />スポーツ        ユベントス      0.600000<br />スポーツ        抜け出し        0.600000<br />スポーツ        ベローナ        0.600000<br />スポーツ        ブラジル        0.600000<br />スポーツ        セリエＡ        0.600000<br />スポーツ        アウェー        0.600000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^政治&quot;</span>|sort -k3 -nr|head<br />政治    不透明  0.800000<br />政治    上回っ  0.800000<br />政治    関連    0.800000<br />政治    資金    0.800000<br />政治    説明    0.800000<br />政治    観劇    0.800000<br />政治    経済    0.800000<br />政治    産業    0.800000<br />政治    生じ    0.800000<br />政治    焦点    0.800000<br /><span class="nv">$cat</span> model|grep <span class="s2">&quot;^Go言語&quot;</span>|sort -k3 -nr|head<br />Go言語  インタビュー    0.700000<br />Go言語  カーニハン      0.700000<br />Go言語  グーグル        0.700000<br />Go言語  代わる  0.700000<br />Go言語  それら  0.700000<br />Go言語  いくら  0.700000<br />Go言語  言語    0.700000<br />Go言語  解決    0.700000<br />Go言語  覚え    0.700000<br />Go言語  考え    0.700000<br /></pre></div><br /></figure></div>
-
-<p>一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
-たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。&nbsp;このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。</p>
-<h2>まとめ</h2>
-<p>自然言語処理でよく使う単純な前処理をGoで書いた。&nbsp;あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-10-20T00:00:00+0800"></abbr> on <time datetime="2014-10-20" class="date" itemprop="datePublished">20 Oct 2014</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

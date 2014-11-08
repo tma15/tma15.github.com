@@ -7,7 +7,7 @@
         <link href="/"/>
     
         
-    <updated>2014-11-08T12:01:38Z</updated>
+    <updated>2014-11-08T16:04:16Z</updated>
 
     <id>/blog/atom.xml/</id>
 
@@ -21,6 +21,23 @@
                         <category   scheme="/blog/tags"
                         term="golang"
                         label="Golang" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
+            <entry>
+            <title type="html">PythonでElasticsearchを使うときのメモ</title>
+            <author><name></name></author>
+            <link href="/blog/2014/11/use-es-py.html"/>
+            <updated>2014-11-08T00:00:00Z</updated>
+            <published>2014-11-08T00:00:00Z</published>
+            <id>/blog/2014/11/use-es-py.html</id>
+                        <category   scheme="/blog/tags"
+                        term="python"
+                        label="Python" />
+                        <category   scheme="/blog/tags"
+                        term="elasticsearch"
+                        label="Elasticsearch" />
             
             <content type="html">
                                             </content>
