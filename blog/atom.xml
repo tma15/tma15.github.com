@@ -7,10 +7,24 @@
         <link href="/"/>
     
         
-    <updated>2014-11-03T17:15:05Z</updated>
+    <updated>2014-11-08T12:01:38Z</updated>
 
     <id>/blog/atom.xml/</id>
 
+            <entry>
+            <title type="html">二つの集合に重複して現れる要素の数を数える</title>
+            <author><name></name></author>
+            <link href="/blog/2014/11/count-elem-go.html"/>
+            <updated>2014-11-08T00:00:00Z</updated>
+            <published>2014-11-08T00:00:00Z</published>
+            <id>/blog/2014/11/count-elem-go.html</id>
+                        <category   scheme="/blog/tags"
+                        term="golang"
+                        label="Golang" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
             <entry>
             <title type="html">atom.xmlを加えた</title>
             <author><name></name></author>
