@@ -75,7 +75,7 @@
 <h3>類義語と反義語</h3>
 <p>Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサイン類似度が正であれば、その単語は類義語、負であれば反義語とみなす。</p>
 <h3>上位語下位語</h3>
-<p>WordNetはカバレッジが低いので、Probaseを使う。 <a href="http://research.microsoft.com/en-us/projects/probase/">link</a></p>
+<p>WordNetはカバレッジが低いので、<a href="http://research.microsoft.com/en-us/projects/probase/">Probase</a>を使う。ある単語が別の単語の下位語である確率を保持している。</p>
 <h3>意味的な単語の類似度</h3>
 <p>商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。</p>
 <h2>分類器の学習</h2>
@@ -97,8 +97,8 @@
 <h2>所感</h2>
 <p>複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。</p>
         <br>
-        <time datetime="2014-12-04">
-    Thu, 04 Dec 2014
+        <time datetime="2014-12-03">
+    Wed, 03 Dec 2014
 </time>
         <div class="bottom_article_nav">
 
