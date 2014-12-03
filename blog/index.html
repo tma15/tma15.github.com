@@ -38,6 +38,77 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models.html" title="Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ" itemprop="url">Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+<a href="/blog/tags/paper.html" rel="tag">paper</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>Question Answering Using Enhanced Lexical Semantic Models (<a href="http://www.aclweb.org/anthology/P13-1171">pdf</a>)</p>
+<p>Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, <span class="caps">ACL</span>&nbsp;2013</p>
+<h2>導入</h2>
+<ul>
+<li>自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する<ul>
+<li>単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから</li>
+</ul>
+</li>
+<li>answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる<ul>
+<li>単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない</li>
+<li>深い意味解析をしたり構文木の編集距離 (Tree Edit&nbsp;Distance)をしている研究もあるが、計算コストが高い</li>
+<li>なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる<ul>
+<li>浅い意味解析は上位下位語や同義語などを識別するlexical&nbsp;sematics</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>この論文ではlatent word-alignment structureとしてanswer sentence&nbsp;selectionを定式化する</li>
+</ul>
+<h2>この論文の貢献</h2>
+<ul>
+<li>色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence&nbsp;selectionシステムの性能を上げられる</li>
+<li>lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical&nbsp;semanticsを入れた場合、性能の差は小さくなる</li>
+<li>計算コストを下げたいなら、lexical&nbsp;semanticsを使ってシンプルなモデルを使うこともできる</li>
+</ul>
+<h2>問題設定</h2>
+<p>教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi,&nbsp;si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。</p>
+<p>実際には文が正解であるかどうかではなく、文が質問文と意味的にマッチするかどうかを学習する。この論文では質問文と文の間には隠れ構造hが存在すると仮定する。隠れ構造hは質問文の単語と文の単語が対応するかどうかを表したバイナリのベクトル。</p>
+<p>文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。</p>
+<h2>lexical semantic&nbsp;models</h2>
+<p>表層系のみのマッチングでは微妙なので言語資源を作成する。</p>
+<h3>類義語と反義語</h3>
+<p>Polarity-Inducing latent semantic analysis (<span class="caps">PILSA</span>)&nbsp;modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、<span class="caps">SVD</span>でd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサイン類似度が正であれば、その単語は類義語、負であれば反義語とみなす。</p>
+<h3>上位語下位語</h3>
+<p>WordNetはカバレッジが低いので、Probaseを使う。 <a href="http://research.microsoft.com/en-us/projects/probase/">link</a></p>
+<h3>意味的な単語の類似度</h3>
+<p>商用のサーチエンジンのクリックデータを使ってSiamese newural&nbsp;networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。</p>
+<h2>分類器の学習</h2>
+<h3>Bag-of-Wordsモデル</h3>
+<p>logistic regressionとboosted decision&nbsp;treeを用いる。</p>
+<h3>隠れ構造モデル</h3>
+<p>構造的なモデルではLatent-<span class="caps">SVM</span>の一種である<span class="caps">LCLR</span>を用いる。目的関数 (単語間の意味的類似度)&nbsp;を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。</p>
+<h3>素性</h3>
+<p>すべての素性は単語の<span class="caps">IDF</span>で重み付け</p>
+<ul>
+<li>表層的な単語のマッチング</li>
+<li>WordNet:&nbsp;同じsynsetに属する、上位語下位語、反義語関係にある</li>
+<li>lexical semantics:&nbsp;上記実数値</li>
+<li><span class="caps">NE</span>:&nbsp;単語が同じタイプの固有表現の一部である</li>
+<li>answer type checking:&nbsp;質問文が<span class="caps">WH</span>を接頭辞とする単語から始まる場合のルール。Whoで始まれば、Personな<span class="caps">NE</span>と対応するみたいなもの。</li>
+</ul>
+<h2>結果</h2>
+<p>リッチな言語資源を使うほど、どの分類器でも<span class="caps">MRR</span>、<span class="caps">MAP</span>が向上。</p>
+<h2>所感</h2>
+<p>複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、<span class="caps">LCLR</span>とlogistic&nbsp;regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。</p>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-12-04T00:00:00+0800"></abbr> on <time datetime="2014-12-04" class="date" itemprop="datePublished">04 Dec 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/11/count-elem-go.html" title="二つの集合に重複して現れる要素の数を数える" itemprop="url">二つの集合に重複して現れる要素の数を数える</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -183,28 +254,6 @@ GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サン�
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-11-03T00:00:00+0800"></abbr> on <time datetime="2014-11-03" class="date" itemprop="datePublished">03 Nov 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/10/hmm.html" title="HMMを実装した" itemprop="url">HMMを実装した</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/golang.html" rel="tag">golang</a> 
-<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <h2>概要</h2>
-<p>勉強のためにGrahamさんが公開されている<a href="http://www.phontron.com/teaching.php">資料</a>を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。&nbsp;また、実験用のデータ、評価スクリプトも使用させて頂いている。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos<br /><span class="nv">$.</span>/hmm <span class="nb">test</span> -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos<br /><span class="nv">$.</span>/nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos<br />Accuracy: 75.83% <span class="o">(</span>3460/4563<span class="o">)</span><br />&nbsp;<br />Most common mistakes:<br /><span class="caps">NNS</span> --&gt; <span class="caps">NN</span>      49<br /><span class="caps">RB</span> --&gt; <span class="caps">NN</span>       35<br /><span class="caps">JJ</span> --&gt; <span class="caps">DT</span>       30<br /><span class="caps">RB</span> --&gt; <span class="caps">IN</span>       29<br /><span class="caps">NN</span> --&gt; <span class="caps">JJ</span>       28<br /><span class="caps">NN</span> --&gt; <span class="caps">IN</span>       25<br /><span class="caps">JJ</span> --&gt; <span class="caps">NN</span>       24<br /><span class="caps">NN</span> --&gt; <span class="caps">DT</span>       24<br /><span class="caps">NNP</span> --&gt; <span class="caps">NN</span>      22<br /><span class="caps">VBN</span> --&gt; <span class="caps">NN</span>      22<br /></pre></div><br /></figure></div>
-
-<p>特に工夫はしていないのでこんなものかという感じ。
-コードは<a href="https://github.com/tma15/hmm">こちら</a>。</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-10-25T00:00:00+0800"></abbr> on <time datetime="2014-10-25" class="date" itemprop="datePublished">25 Oct 2014</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

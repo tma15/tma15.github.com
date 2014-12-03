@@ -38,6 +38,23 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2013/3/good-style.html" title="Good style - Writing for Computer Science" itemprop="url">Good style - Writing for Computer Science</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/book.html" rel="tag">book</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><a href="http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024">Writing for Computer Science</a>&nbsp;のメモ</p>
+<iframe class="scribd_iframe_embed" src="http://www.scribd.com/embeds/132605868/content?start_page=1&view_mode=slideshow&access_key=key-wgir7vee0ytkouj0q99" data-auto-height="false" data-aspect-ratio="1.29971181556196" scrolling="no" id="doc_18069" width="700" height="550" frameborder="0"></iframe>
+</div>
+
+<div>Posted <abbr class="timeago" title="2013-03-27T00:00:00+0800"></abbr> on <time datetime="2013-03-27" class="date" itemprop="datePublished">27 Mar 2013</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2013/3/scalable-coordinate-descent-approaches-to-parallel-matrix-factorization-for-recommender-systems.html" title="Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)" itemprop="url">Scalable Coordinate Descent Approaches to Parallel Matrix Factorization for Recommender Systems (ICDM 2012)</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -151,96 +168,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2013-02-12T00:00:00+0800"></abbr> on <time datetime="2013-02-12" class="date" itemprop="datePublished">12 Feb 2013</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html" title="Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)" itemprop="url">Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/paper.html" rel="tag">paper</a> 
-<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang&nbsp;Zhou</p>
-<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf">pdf</a></p>
-<h2>解いている問題</h2>
-<p>tweet (英語のtweetに限定)&nbsp;の集合が与えられたときに</p>
-<ul>
-<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {<span class="caps">PERSON</span>, <span class="caps">ORGANIZATION</span>, <span class="caps">PRODUCT</span>, <span class="caps">LOCATION</span>}&nbsp;を割り当てる．</li>
-<li>これらの同定されたテキストに対して名寄せをおこなう．
-<ul></li>
-<li>名寄せは，一番単語数が多い表現にまとめる</li>
-<li>最大の単語数の表現が複数あればWikipediaにある表現を採用</li>
-<li><span class="caps">PERSON</span>と識別された三つの表現&#8221;Gaga&#8221;, &#8220;Lady Gaaaga&#8221;, &#8220;Lady Gaga&#8221;は&#8221;Lady Gaga&#8221;にまとめる．
-</ul></li>
-</ul>
-<h2>アプローチ</h2>
-<ul>
-<li>固有表現認識 (<span class="caps">NER</span>) モデルの学習の際に，固有表現の名寄せ (<span class="caps">NEN</span>) モデルの学習も同時に行うことでお互いの精度を上げる
-<ul></li>
-<li>tweetは，エンティティに対していろいろな表現をされる．</li>
-<li>e.g. &#8220;Anne Gronloh&#8221;というエンティティには&#8221;Mw.,Gronloh&#8221;, &#8220;Anneke Kronloh&#8221;, &#8220;Mevrouw G&#8221;など
-</ul></li>
-<li><span class="dquo">&#8220;</span>&#8230; Alex&#8217;s jokes. &#8230;&#8221;と&#8221;&#8230; Alex Russo was like&#8230;&#8221;という二つのtweet
-<ul></li>
-<li><span class="caps">NER</span>モデルにより&#8221;Alex&#8221;と&#8221;Alex Russo&#8221;がともに<span class="caps">PERSON</span>であることが識別できれば，<span class="caps">NEN</span>モデルは&#8221;Alex&#8221;を&#8221;Alex Russo&#8221;に名寄せできる．
-</ul></li>
-<li>&#8221; &#8230; she knew Burger King when &#8230;&#8221;と&#8221;.. I&#8217;m craving all sorts of food: mcdonalds, burger king, &#8230;&#8221;という二つのtweet
-<ul></li>
-<li><span class="caps">NEN</span>モデルが&#8221;Burger King&#8221;と&#8217;burger king&#8221;が別のエンティティを指していると識別できれば<span class="caps">NER</span>モデルはこれらに異なるラベルを割り当てられる．
-</ul></li>
-<li>学習には<span class="caps">CRF</span>を用いる
-<ul></li>
-<li>skip-chain <span class="caps">CRF</span>と似たモデルだけど，tweet mのi番目の単語とtweet&nbsp;nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
-<li>ラベルは{B, I, L, O,&nbsp;U}</li>
-<li>一つ目のtweetに含まれる&#8221;Gaga&#8221;と二つ目のtweetに含まれる&#8221;Lady Gaga&#8221;に<span class="caps">PERSON</span>が割り当てられ，一つ目のtweetに含まれる&#8221;Gaga&#8221;と二つ目のtweetに含まれる&#8221;Gaga&#8221;が同一のエンティティを指していると識別できれば&#8221;Gaga&#8221;と&#8221;Lady&nbsp;Gaga&#8221;は同じものを指している</li>
-<li>(<span class="caps">CRF</span>の復習)&nbsp;重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
-<li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
-<li>第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値</li>
-<li>初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．</li>
-<li>skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
-</ul></li>
-</ul>
-<p><strong>複数のtweetを同時に考慮することの利点</strong></p>
-<ul>
-<li><span class="dquo">&#8220;</span>&#8230; Bobby Shaw you don&#8217;t invite the wind&#8230;&#8221;と&#8221;&#8230; I own yah! Loool bobby shaw&#8230;&#8221;
-<ul></li>
-<li><span class="dquo">&#8220;</span>Bobby&nbsp;Shaw&#8221;を<span class="caps">PERSON</span>と識別することは比較的簡単．</li>
-<li>一つ目のtweetの&#8221;you&#8221;が，二つ目のtweetの&#8217;bobby shaw&#8221;が<span class="caps">PERSON</span>であることの手がかりとなる．
-</ul></li>
-</ul>
-<p><strong>ラベルの候補の絞り込み</strong></p>
-<ul>
-<li>外部資源から固有表現を取ってきて辞書を作っておく．</li>
-<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
-<ul></li>
-<li><span class="dquo">&#8220;</span>new york&#8221;という句が出てきたとき，辞書にある&#8221;New York City&#8221;と&#8221;New York&nbsp;Times&#8221;と一致する．</li>
-<li><span class="dquo">&#8220;</span>new&#8221;には，&#8221;B-<span class="caps">LOCATION</span>&#8221;, &#8220;B-<span class="caps">ORGANIZATION</span>&#8221;，&#8221;york&#8221;には&#8221;I-<span class="caps">LOCATION</span>&#8221;, &#8220;I-<span class="caps">ORGANIZATION</span>&#8221;がラベルの候補の集合にそれぞれ追加される．
-</ul></li>
-<li>ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない</li>
-</ul>
-<p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
-<ul>
-<li>同じtweet&nbsp;mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
-<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi,&nbsp;jに対してのz^{ij}_{mn}=1</li>
-<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi,&nbsp;jに対してのz^{ij}_{mn}=0</li>
-</ul>
-<p><strong>素性</strong></p>
-<ul>
-<li>大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど</li>
-<li>基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど</li>
-<li>ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か</li>
-</ul>
-<h2>感想・疑問点</h2>
-<ul>
-<li>Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．</li>
-</ul>
-</div>
-
-<div>Posted <abbr class="timeago" title="2013-02-06T00:00:00+0800"></abbr> on <time datetime="2013-02-06" class="date" itemprop="datePublished">06 Feb 2013</time></div>
 </article><!-- /.post -->
 <br><br><br>
 
