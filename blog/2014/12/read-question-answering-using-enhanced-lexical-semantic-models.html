@@ -73,7 +73,7 @@
 <h2>lexical semantic models</h2>
 <p>表層系のみのマッチングでは微妙なので言語資源を作成する。</p>
 <h3>類義語と反義語</h3>
-<p>Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサイン類似度が正であれば、その単語は類義語、負であれば反義語とみなす。</p>
+<p>Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。</p>
 <h3>上位語下位語</h3>
 <p>WordNetはカバレッジが低いので、<a href="http://research.microsoft.com/en-us/projects/probase/">Probase</a>を使う。ある単語が別の単語の下位語である確率を保持している。</p>
 <h3>意味的な単語の類似度</h3>
