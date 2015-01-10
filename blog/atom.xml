@@ -7,10 +7,24 @@
         <link href="/"/>
     
         
-    <updated>2014-12-04T08:06:41Z</updated>
+    <updated>2015-01-10T17:10:22Z</updated>
 
     <id>/blog/atom.xml/</id>
 
+            <entry>
+            <title type="html">CYKアルゴリズム</title>
+            <author><name></name></author>
+            <link href="/blog/2015/01/cykmemo.html"/>
+            <updated>2015-01-10T00:00:00Z</updated>
+            <published>2015-01-10T00:00:00Z</published>
+            <id>/blog/2015/01/cykmemo.html</id>
+                        <category   scheme="/blog/tags"
+                        term="nlp"
+                        label="Nlp" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
             <entry>
             <title type="html">Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
             <author><name></name></author>
