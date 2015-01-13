@@ -38,6 +38,29 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2015/01/cykfordependencyparsing.html" title="CYKアルゴリズムで係り受け解析" itemprop="url">CYKアルゴリズムで係り受け解析</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/nlp.html" rel="tag">nlp</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p><span class="caps">CYK</span>アルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
+具体的には参考資料の23ページにあるような変換をする。
+例えば「私は / ピザを / 食べる」という文節で(&#8220;/&#8221;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。
+一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。&nbsp;ただしこの解析ではO(n^5)の時間がかかる。</p>
+<h2>参考</h2>
+<ul>
+<li><a href="http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf">Dependency Parsing Tutorial at <span class="caps">COLING</span>-<span class="caps">ACL</span>&nbsp;2006</a></li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2015-01-14T00:00:00+0800"></abbr> on <time datetime="2015-01-14" class="date" itemprop="datePublished">14 Jan 2015</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2015/01/cykmemo.html" title="CYKアルゴリズム" itemprop="url">CYKアルゴリズム</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -222,22 +245,6 @@ Tags:
 </div>
 
 <div>Posted <abbr class="timeago" title="2014-11-08T00:00:00+0800"></abbr> on <time datetime="2014-11-08" class="date" itemprop="datePublished">08 Nov 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/11/add-atom.html" title="atom.xmlを加えた" itemprop="url">atom.xmlを加えた</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/diary.html" rel="tag">diary</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>今さらだが、 <a href="http://tma15.github.io/blog/atom.xml">atom.xml</a>&nbsp;を追加して更新情報を配信できるようにした。</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-11-03T00:00:00+0800"></abbr> on <time datetime="2014-11-03" class="date" itemprop="datePublished">03 Nov 2014</time></div>
 </article><!-- /.post -->
 <br><br><br>
 

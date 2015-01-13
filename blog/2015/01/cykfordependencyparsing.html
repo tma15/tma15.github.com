@@ -4,7 +4,7 @@
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
         <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-        <title>CYKアルゴリズム | Now is better than never.</title>
+        <title>CYKアルゴリズムで係り受け解析 | Now is better than never.</title>
         <meta charset="utf-8" />
         <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/media/css/font-awesome.css">
@@ -34,33 +34,30 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1>CYKアルゴリズム</h1>
+                    <h1>CYKアルゴリズムで係り受け解析</h1>
               <div class="tags">
         Tags:
             <a class="small" href="/blog/tags/nlp.html">nlp</a>&nbsp;
             <br>
   </div>
-            <p>明けましておめでとうございます。</p>
-<p>確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (<a href="https://github.com/tma15/nlppractice/blob/master/cyk.py">ソースコード</a>)。
-動的計画法。
-表TのT[0, N-1]に"S"があれば与えられた文法からこの文は導出可能。
-文"I eat pizza with Maria" を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$python</span> cyk.py<br />I eat pizza with Maria<br />   N |    S |    S |      |    S<br />     |    V |  S,V |      |  S,V<br />     |      |    N |      |    N<br />     |      |      |    P |   PP<br />     |      |      |      |    N<br />    --l &lt;N&gt; -- I 0<br />  --r &lt;V&gt; <br />        --l &lt;V&gt; -- eat 1<br />        --r &lt;N&gt; <br />            --l &lt;N&gt; -- pizza 2<br />          --r &lt;PP&gt; <br />               --l &lt;P&gt; -- with 3<br />               --r &lt;N&gt; -- Maria 4<br />--<br />  --l &lt;S&gt; <br />        --l &lt;N&gt; -- I 0<br />      --r &lt;V&gt; <br />            --l &lt;V&gt; -- eat 1<br />            --r &lt;N&gt; -- pizza 2<br />  --r &lt;PP&gt; <br />       --l &lt;P&gt; -- with 3<br />       --r &lt;N&gt; -- Maria 4<br />--<br /></pre></div><br /></figure></div>
-
+            <p>CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
+具体的には参考資料の23ページにあるような変換をする。
+例えば「私は / ピザを / 食べる」という文節で("/"を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。
+一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。
+ただしこの解析ではO(n^5)の時間がかかる。</p>
 <h2>参考</h2>
-<div align="center">
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=FFFFFF&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=takuya6315-22&o=9&p=8&l=as1&m=amazon&f=ifr&ref=qf_sp_asin_til&asins=4130654047" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-</div>
+<ul>
+<li><a href="http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf">Dependency Parsing Tutorial at COLING-ACL 2006</a></li>
+</ul>
         <br>
-        <time datetime="2015-01-10">
-    Sat, 10 Jan 2015
+        <time datetime="2015-01-14">
+    Wed, 14 Jan 2015
 </time>
         <div class="bottom_article_nav">
 
-                  <div class="next"><a href="/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models.html">Question Answering Using Enhan...</a>
+                  <div class="next"><a href="/blog/2015/01/cykmemo.html">CYKアルゴリズム</a>
     &gt;</div>
-        <div class="prev">&lt; <a href="/blog/2015/01/cykfordependencyparsing.html">CYKアルゴリズムで係り受け解析</a>
-  </div>
+
 
 </div>
 
