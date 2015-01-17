@@ -4,7 +4,7 @@
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
         <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-        <title>CYKアルゴリズムで係り受け解析 | Now is better than never.</title>
+        <title>コメント欄を付けた | Now is better than never.</title>
         <meta charset="utf-8" />
         <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/media/css/font-awesome.css">
@@ -34,24 +34,16 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1>CYKアルゴリズムで係り受け解析</h1>
+                    <h1>コメント欄を付けた</h1>
               <div class="tags">
         Tags:
-            <a class="small" href="/blog/tags/nlp.html">nlp</a>&nbsp;
+            <a class="small" href="/blog/tags/diary.html">diary</a>&nbsp;
             <br>
   </div>
-            <p>CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
-具体的には参考資料の23ページにあるような変換をする。
-例えば「私は / ピザを / 食べる」という文節で("/"を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。
-一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。
-ただしこの解析ではO(n^5)の時間がかかる。</p>
-<h2>参考</h2>
-<ul>
-<li><a href="http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf">Dependency Parsing Tutorial at COLING-ACL 2006</a></li>
-</ul>
+            <p><a href="https://disqus.com/">DISQUS</a>を使ってこのブログにコメント欄をつけてみた。</p>
         <br>
-        <time datetime="2015-01-14">
-    Wed, 14 Jan 2015
+        <time datetime="2015-01-17">
+    Sat, 17 Jan 2015
 </time>
         <br>
 <br>
@@ -70,10 +62,9 @@
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         <div class="bottom_article_nav">
 
-                  <div class="next"><a href="/blog/2015/01/cykmemo.html">CYKアルゴリズム</a>
+                  <div class="next"><a href="/blog/2015/01/cykfordependencyparsing.html">CYKアルゴリズムで係り受け解析</a>
     &gt;</div>
-        <div class="prev">&lt; <a href="/blog/2015/01/add-comment.html">コメント欄を付けた</a>
-  </div>
+
 
 </div>
 

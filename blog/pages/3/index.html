@@ -38,6 +38,41 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/10/go-adagrad.html" title="AdaGrad+RDAをGoで書いた" itemprop="url">AdaGrad+RDAをGoで書いた</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/golang.html" rel="tag">golang</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>論文はこちら。</p>
+<p><a href="http://www.magicbroom.info/Papers/DuchiHaSi10.pdf">Adaptive Subgradient Methods for Online Learning and Stochastic&nbsp;Optimization</a></p>
+<p>ソースコードは<a href="https://github.com/tma15/goAdaGrad">こちら</a>。
+多値分類問題にも対応できるようにした。二値分類問題と比べて<a href="http://en.wikipedia.org/wiki/Hinge_loss">ヒンジ損失</a>が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。</p>
+<p>データを次のように作成。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$perl</span> -MList::Util<span class="o">=</span>shuffle -e <span class="s1">&#39;print shuffle(&lt;&gt;)&#39;</span> &lt; ../data/news20.binary &gt; news<br /><span class="nv">$head</span> -15000 news &gt; news.train<br /><span class="nv">$tail</span> -4996  news &gt; news.test<br /></pre></div><br /></figure></div>
+
+<p>例えば<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary">このデータ</a>は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。&nbsp;正則化項の重み(c)をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。</p>
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.01<br /><span class="nv">$.</span>/adagrad -f news.test -m <span class="nb">test</span> -w model -l 1 -c 0.01<br />Recall<span class="o">[</span>-1<span class="o">]</span>: 0.011142 <span class="o">(</span>28/2513<span class="o">)</span><br />Prec<span class="o">[</span>-1<span class="o">]</span>: 0.848485 <span class="o">(</span>28/33<span class="o">)</span><br />--<br />Recall<span class="o">[</span>+1<span class="o">]</span>: 0.997986 <span class="o">(</span>2478/2483<span class="o">)</span><br />Prec<span class="o">[</span>+1<span class="o">]</span>: 0.499295 <span class="o">(</span>2478/4963<span class="o">)</span><br />--<br />Acc: 0.5016012810248198<br /></pre></div><br /></figure></div>
+
+<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="nv">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.0001<br /><span class="nv">$.</span>/adagrad -f news.test -m <span class="nb">test</span> -w model<br />Recall<span class="o">[</span>+1<span class="o">]</span>: 0.836891 <span class="o">(</span>2078/2483<span class="o">)</span><br />Prec<span class="o">[</span>+1<span class="o">]</span>: 0.833200 <span class="o">(</span>2078/2494<span class="o">)</span><br />--<br />Recall<span class="o">[</span>-1<span class="o">]</span>: 0.834461 <span class="o">(</span>2097/2513<span class="o">)</span><br />Prec<span class="o">[</span>-1<span class="o">]</span>: 0.838129 <span class="o">(</span>2097/2502<span class="o">)</span><br />--<br />Acc: 0.8356685348278623<br /><span class="nv">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.00001<br /><span class="nv">$.</span>/adagrad -f news.test -m <span class="nb">test</span> -w model<br />Recall<span class="o">[</span>+1<span class="o">]</span>: 0.950463 <span class="o">(</span>2360/2483<span class="o">)</span><br />Prec<span class="o">[</span>+1<span class="o">]</span>: 0.946651 <span class="o">(</span>2360/2493<span class="o">)</span><br />--<br />Recall<span class="o">[</span>-1<span class="o">]</span>: 0.947075 <span class="o">(</span>2380/2513<span class="o">)</span><br />Prec<span class="o">[</span>-1<span class="o">]</span>: 0.950859 <span class="o">(</span>2380/2503<span class="o">)</span><br />--<br />Acc: 0.9487590072057646<br /></pre></div><br /></figure></div>
+
+<h2>参考</h2>
+<ul>
+<li><a href="http://d.hatena.ne.jp/echizen_tm/20140914/1410697535">実装が簡単で高性能な線形識別器、AdaGrad+<span class="caps">RDA</span>の解説</a></li>
+<li><a href="http://d.hatena.ne.jp/Christopher-727/20140830">AdaGrad +&nbsp;<span class="caps">RDA</span>を実装してみた</a></li>
+<li><a href="https://code.google.com/p/oll/wiki/OllMainJa">OllMainJa - oll - oll: Online-Learning Library - Google Project&nbsp;Hosting</a></li>
+<li><a href="http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1">行をランダムシャッフルするワンライナー</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron">Multiclass&nbsp;perceptron</a></li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-10-18T00:00:00+0800"></abbr> on <time datetime="2014-10-18" class="date" itemprop="datePublished">18 Oct 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/10/go-pa2.html" title="PA-IIをGoで書いた" itemprop="url">PA-IIをGoで書いた</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -158,38 +193,6 @@ Tags:
 </article><!-- /.post -->
 <br><br><br>
 
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2014/2/jeff-bezos-and-the-age-of-amazon.html" title="ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者" itemprop="url">ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/book.html" rel="tag">book</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <div align="center">
-<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&o=9&p=8&l=as1&asins=B00H3WR470&ref=qf_sp_asin_til&fc1=000000&IS2=1&lt1=_blank&m=amazon&lc1=0000FF&bc1=000000&bg1=FFFFFF&f=ifr" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
-</div>
-
-<p>Amazonの中の話はあまりWeb上で見たことがなかったので興味深く読めた。</p>
-<p>会社の方針は、ジェフ・ベゾスの意思を強く反映している感じ。
-ジェフ・ベゾスは顧客のことを第一に考えていて、それを背景にして社員の福利厚生はかなり貧しい感じ。
-例えば、社員にバスが動いている時間に帰ってほしくないから、という理由でバスの定期を買う際の補助金を却下しているらしい。
-また、長期的なメリットを考えて、短期的な利益は考えずに赤字覚悟で商品の価格を引き下げたりしている。
-これで競合他社が立ち入る隙を見せないようにしている。すごい。。&nbsp;いちAmazonユーザからすると、なんて顧客のことを考えてくれる会社なんだろうと思う。</p>
-<p>誰かを雇ったら、その人を基準に次はもっと優れた人を雇うようにすると言った、Googleなどの話でも聞いたようなことをやっていて、
-人材はどの企業でも大事なんだなあと改めて思った&nbsp;(小並感)。</p>
-<p>ジェフ・ベゾス個人の話も書いてあった。&nbsp;仕事では冷徹で、鬼のような怖さだけど、家族には優しい一面ものぞかせいている。</p>
-<p>A9がたまに学会のスポンサーとかで見かけていて、Amazonのにっこりマークが付いていてどういう関係なんだろうと思っていたが、A9はAmazonの技術系の子会社だということもこの本で知った。
-あと、もともと本を始めとする小売業のようなことをやっていたのに、どのようにAmazon Web&nbsp;Serviceを提供するに至ったかの話も書いてあって面白かった。</p>
-<p>個人的には、部門間の調整が難しいという大企業ならではの問題をなんとかしたいと思った中間管理職のチームが、部門間の対話を推進する仕組みを提案した時にジェフ・ベゾスが言った以下の言葉が印象に残った。</p>
-<p>「言いたいことはわかるが、それは大まちがいだ。コミュニケーションは機能不全の印なんだ。緊密で有機的につながる仕事ができないから、関係者のコミュニケーションが必要になる。部署間のコミュニケーションを増やす方法ではなく、減らす方法を探すべきだ。」</p>
-</div>
-
-<div>Posted <abbr class="timeago" title="2014-02-17T00:00:00+0800"></abbr> on <time datetime="2014-02-17" class="date" itemprop="datePublished">17 Feb 2014</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
 </section>
 
 <div align="center">
@@ -204,7 +207,7 @@ Tags:
     Newer &raquo;
 </a></div>
         <br>
-                        </article>
+                                </article>
 
                 <script type="text/javascript">
 

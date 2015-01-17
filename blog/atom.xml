@@ -7,10 +7,24 @@
         <link href="/"/>
     
         
-    <updated>2015-01-14T06:44:13Z</updated>
+    <updated>2015-01-17T12:20:33Z</updated>
 
     <id>/blog/atom.xml/</id>
 
+            <entry>
+            <title type="html">コメント欄を付けた</title>
+            <author><name></name></author>
+            <link href="/blog/2015/01/add-comment.html"/>
+            <updated>2015-01-17T00:00:00Z</updated>
+            <published>2015-01-17T00:00:00Z</published>
+            <id>/blog/2015/01/add-comment.html</id>
+                        <category   scheme="/blog/tags"
+                        term="diary"
+                        label="Diary" />
+            
+            <content type="html">
+                                            </content>
+        </entry>
             <entry>
             <title type="html">CYKアルゴリズムで係り受け解析</title>
             <author><name></name></author>
