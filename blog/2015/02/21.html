@@ -4,7 +4,7 @@
         <link href="http://fonts.googleapis.com/css?family=Anton" rel="stylesheet" type="text/css">
         <link href='http://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
         <link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-        <title>コメント欄を付けた | Now is better than never.</title>
+        <title>Dropoutの実装で気になって調べたこと | Now is better than never.</title>
         <meta charset="utf-8" />
         <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="/media/css/font-awesome.css">
@@ -34,16 +34,32 @@
 <li><a href="/">Home</a></li><li><a href="/about">About</a></li><li><a href="/blog">Blog</a></li><li><a href="/blog/archive.html">Archive</a></li></ul>
         </nav>
         <article id="content">
-                    <h1>コメント欄を付けた</h1>
+                    <h1>Dropoutの実装で気になって調べたこと</h1>
               <div class="tags">
         Tags:
-            <a class="small" href="/blog/tags/diary.html">diary</a>&nbsp;
+            <a class="small" href="/blog/tags/machine_learning.html">machine_learning</a>&nbsp;
             <br>
   </div>
-            <p><a href="https://disqus.com/">DISQUS</a>を使ってこのブログにコメント欄をつけてみた。</p>
+            <p>Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。</p>
+<p><a href="http://caffe.berkeleyvision.org/">Caffe</a>だと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。</p>
+<ul>
+<li><a href="https://github.com/BVLC/caffe/blob/master/src/caffe/layers/dropout_layer.cpp#L40">Caffeのdropout_layer.cpp</a></li>
+<li><a href="https://github.com/BVLC/caffe/blob/master/include/caffe/common.hpp#L97">Caffeの設定を参照できるようなsingletonクラス</a></li>
+</ul>
+<p>ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、<a href="http://torch.ch/">torch</a>では層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。</p>
+<ul>
+<li><a href="https://github.com/torch/nn/blob/master/Module.lua#L84">Module.lua</a></li>
+<li><a href="https://github.com/torch/nn/blob/master/doc/module.md#training">training</a></li>
+<li><a href="https://github.com/torch/nn/blob/master/doc/module.md#evaluate">evaluate</a></li>
+</ul>
+<p>ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。</p>
+<h3>参考</h3>
+<ul>
+<li><a href="http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf">Dropout: A Simple Way to Prevent Neural Networks from Overfitting</a></li>
+</ul>
         <br>
-        <time datetime="2015-01-17">
-    Sat, 17 Jan 2015
+        <time datetime="2015-02-21">
+    Sat, 21 Feb 2015
 </time>
         <br>
 <br>
@@ -62,10 +78,9 @@
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
         <div class="bottom_article_nav">
 
-                  <div class="next"><a href="/blog/2015/01/cykfordependencyparsing.html">CYKアルゴリズムで係り受け解析</a>
+                  <div class="next"><a href="/blog/2015/01/add-comment.html">コメント欄を付けた</a>
     &gt;</div>
-        <div class="prev">&lt; <a href="/blog/2015/02/21.html">Dropoutの実装で気になって調べたこと</a>
-  </div>
+
 
 </div>
 

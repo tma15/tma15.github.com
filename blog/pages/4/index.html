@@ -38,6 +38,44 @@
                                             <section class="posts">
 
 <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+<h1><a class="title" href="/blog/2014/3/i-visited-beijing.html" title="北京滞在メモ" itemprop="url">北京滞在メモ</a></h1>
+
+<div class="tags" itemprop="keywords">
+Tags:
+<a href="/blog/tags/diary.html" rel="tag">diary</a> 
+</div>
+
+<div class="entry" itemprop="articleBody">
+        <p>北京滞在時(2014/03/11 -&nbsp;2014/03/14)に見聞きした情報をメモ。</p>
+<h2>交通事情</h2>
+<ul>
+<li>北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい</li>
+<li>空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全</li>
+<li>普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある</li>
+<li>普通のタクシーはナンバーが「京B&#8230;」で始まるので、それ以外のタクシーは怪しい</li>
+<li>たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い</li>
+<li>めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない</li>
+<li>中国人はタクシーに乗るときは、まず助手席に座る<ul>
+<li>カーナビがないので近くに座って道案内しないといけない</li>
+<li>精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る</li>
+</ul>
+</li>
+<li>中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある</li>
+<li>エスカレータは右側に立つ</li>
+</ul>
+<h2>飲食事情</h2>
+<ul>
+<li>中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。</li>
+<li>たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。</li>
+<li>中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。</li>
+</ul>
+</div>
+
+<div>Posted <abbr class="timeago" title="2014-03-15T00:00:00+0800"></abbr> on <time datetime="2014-03-15" class="date" itemprop="datePublished">15 Mar 2014</time></div>
+</article><!-- /.post -->
+<br><br><br>
+
+<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
 <h1><a class="title" href="/blog/2014/2/jeff-bezos-and-the-age-of-amazon.html" title="ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者" itemprop="url">ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</a></h1>
 
 <div class="tags" itemprop="keywords">
@@ -604,62 +642,6 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for <span class="c
 </div>
 
 <div>Posted <abbr class="timeago" title="2013-12-14T00:00:00+0800"></abbr> on <time datetime="2013-12-14" class="date" itemprop="datePublished">14 Dec 2013</time></div>
-</article><!-- /.post -->
-<br><br><br>
-
-<article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
-<h1><a class="title" href="/blog/2013/11/read-naive-bayes-in-scikit-learn.html" title="scikit-learnのソースコードリーディング（ナイーブベイズ分類）" itemprop="url">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></h1>
-
-<div class="tags" itemprop="keywords">
-Tags:
-<a href="/blog/tags/python.html" rel="tag">python</a> 
-<a href="/blog/tags/machine_learning.html" rel="tag">machine_learning</a> 
-</div>
-
-<div class="entry" itemprop="articleBody">
-        <p>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。</p>
-<h2>気になったところ</h2>
-<p>データに正規分布を仮定したときのナイーブベイズ分類器について。&nbsp;平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は</p>
-<p>\[
-p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}&nbsp;\]</p>
-<p>これのlogをとると、
-\[
-\begin{split}
-\log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}&#92;
-&amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
-\end{split}&nbsp;\]</p>
-<p>ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、</p>
-<p>\[
-\begin{split}
-\log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))&#92;
-<span class="amp">&amp;</span> = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))&#92;
-<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)&#92;
-<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)&#92;
-<span class="amp">&amp;</span> = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\}
-\end{split}&nbsp;\]</p>
-<p>サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は</p>
-<p>\[
-\begin{split}
-\hat{y} &amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)&#92;
-&amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)&#92;
-<span class="amp">&amp;</span> = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x_k-\mu_{yk})^2}{2\sigma_{yk}^2}\}\}
-\end{split}&nbsp;\]</p>
-<p>対数尤度関数をnumpyに落とすと</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="sd">&quot;&quot;&quot;</span><br /><span class="sd">sigma.shape = (n_classes, n_features)</span><br /><span class="sd">mu.shape = (n_classes, n_features)</span><br /><span class="sd">&quot;&quot;&quot;</span><br />&nbsp;<br /><span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br /><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="n">classes</span><span class="p">)):</span><br />    <span class="c"># 事前分布の対数</span><br />    <span class="n">log_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">class_piror</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />    <span class="c"># log p(x|y)の対数の初項</span><br />    <span class="n">log_gauss1</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span><br />    <span class="c"># log p(x|y)の対数の第二項</span><br />    <span class="n">log_gauss2</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">X</span> <span class="o">-</span> <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">sigma</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span><br />    <span class="c"># クラスiの尤度のlogを取った値</span><br />    <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">log_prior</span> <span class="o">+</span> <span class="n">log_gauss1</span> <span class="o">+</span> <span class="n">log_gauss2</span><span class="p">)</span><br /></pre></div><br /></figure></div>
-
-<p><br>&nbsp;となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、</p>
-<div class="codebox"><figure class="code"><div class="highlight"><pre><span class="k">def</span> <span class="nf">_joint_log_likelihood</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span><br />        <span class="n">X</span> <span class="o">=</span> <span class="n">array2d</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><br />        <span class="n">joint_log_likelihood</span> <span class="o">=</span> <span class="p">[]</span><br />        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">)):</span><br />            <span class="n">jointi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">class_prior_</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><br />            <span class="n">n_ij</span> <span class="o">=</span> <span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]))</span> <span class="c"># np.piの前に2がない</span><br />            <span class="n">n_ij</span> <span class="o">-=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(((</span><span class="n">X</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">theta_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span><br />                                 <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma_</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]),</span> <span class="mi">1</span><span class="p">)</span><br />            <span class="n">joint_log_likelihood</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">jointi</span> <span class="o">+</span> <span class="n">n_ij</span><span class="p">)</span><br /></pre></div><br /></figure></div>
-
-<p><br></p>
-<p>数式の展開が間違えているのだろうか&#8230;。それとも2は必要ないのだろうか&#8230;。</p>
-<h2>参考</h2>
-<ul>
-<li><a href="http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/">Naive&nbsp;Bayesの復習（導出編）</a></li>
-<li><a href="http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf">Naïve Bayes&nbsp;Lecture17</a></li>
-</ul>
-</div>
-
-<div>Posted <abbr class="timeago" title="2013-11-10T00:00:00+0800"></abbr> on <time datetime="2013-11-10" class="date" itemprop="datePublished">10 Nov 2013</time></div>
 </article><!-- /.post -->
 <br><br><br>
 
