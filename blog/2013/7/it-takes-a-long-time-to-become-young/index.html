@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>It takes a long time to become young.</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>It takes a long time to become young.</h3>
+				<span class="label label-primary">Sun Jul 7, 2013</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/paper">paper</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
+いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
+深い言葉であると思う。</p>
+
+<p>Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)</p>
+
+<p>proceeding(<a href="http://cs.stanford.edu/people/jure/pubs/language-www13.pdf">pdf</a>),  slide(<a href="http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf">pdf</a>)</p>
+
+<p>今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
+すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
+タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
+よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
+の関係を調べている。</p>
+
+<p><div align="center">
+<img src="http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg" width="500" height="376" alt="nocountryforoldmembers"></a>
+<br>
+※著者スライドより
+</div>
+<br></p>
+
+<p>コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
+を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
+言葉の変化には適応しなくなるというもの。
+実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
+参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
+流行っている言い回し、言葉を積極的に使う。
+ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
+例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&hellip;などと書くのだけど
+参加して日が浅いユーザはS: spicy&hellip;などと書く。コミュニティ全体としては年を追う毎にS:という表記で
+ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
+つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。
+いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。</p>
+
+<p>このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
+特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。
+論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。</p>
+
+<p>以下、スライドを見ながら取ったメモ。</p>
+
+<h2 id="取り組む課題:1c522d3ab9a8d08b4ce76ed65f10decc">取り組む課題</h2>
+
+<ul>
+<li>ユーザはどのようにコミュニティの一員になるのか</li>
+<li>ユーザとコミュニティはどのように共に成長していくのか</li>
+<li>ユーザがコミュニティを退会することを予測できるのか</li>
+</ul>
+
+<h2 id="アイディア:1c522d3ab9a8d08b4ce76ed65f10decc">アイディア</h2>
+
+<p>コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。</p>
+
+<h2 id="アプローチ-取り組む課題と対応:1c522d3ab9a8d08b4ce76ed65f10decc">アプローチ (取り組む課題と対応)</h2>
+
+<ul>
+<li>言葉の変化を捉えるための統計的なフレームワークを提案する</li>
+<li>言葉の変化に対するユーザの反応を定量化する</li>
+<li>ユーザがコミュニティを退会することを予測するために有効な素性を提案する</li>
+</ul>
+
+<h2 id="長期的なデータ:1c522d3ab9a8d08b4ce76ed65f10decc">長期的なデータ</h2>
+
+<ul>
+<li>BeerAdvocate</li>
+<li>RateBeer</li>
+</ul>
+
+<h2 id="言葉の変化の例-puzzle:1c522d3ab9a8d08b4ce76ed65f10decc">言葉の変化の例: puzzle</h2>
+
+<p>香りの議論の導入で使われる二つの慣例 (Aroma &amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。</p>
+
+<h2 id="コミュニティレベルでの変化-ユーザレベルでの変化:1c522d3ab9a8d08b4ce76ed65f10decc">コミュニティレベルでの変化、ユーザレベルでの変化</h2>
+
+<p>コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
+ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。</p>
+
+<h2 id="二つの変化の関係:1c522d3ab9a8d08b4ce76ed65f10decc">二つの変化の関係</h2>
+
+<p>ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。</p>
+
+<h3 id="stage1:1c522d3ab9a8d08b4ce76ed65f10decc">Stage1:</h3>
+
+<p>ユーザはコミュニティの言葉に順応する</p>
+
+<h3 id="stage2:1c522d3ab9a8d08b4ce76ed65f10decc">Stage2:</h3>
+
+<p>ユーザの言葉はコミュニティの言語モデルと遠ざかる</p>
+
+<h3 id="仮説:1c522d3ab9a8d08b4ce76ed65f10decc">仮説</h3>
+
+<ol>
+<li>ユーザは新しい言葉を使うようになって距離が遠くなる</li>
+<li>ユーザは適応することをやめ、変化するコミュニティに合わせなくなる</li>
+</ol>
+
+<h3 id="検証:1c522d3ab9a8d08b4ce76ed65f10decc">検証</h3>
+
+<p>ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。</p>
+
+<h2 id="lexical-innovationへの適応:1c522d3ab9a8d08b4ce76ed65f10decc">lexical innovationへの適応</h2>
+
+<ul>
+<li>コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある</li>
+<li>新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする</li>
+</ul>
+
+<h3 id="puzzle-answer:1c522d3ab9a8d08b4ce76ed65f10decc">puzzle answer</h3>
+
+<ul>
+<li>ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。</li>
+<li>ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。</li>
+</ul>
+
+<h2 id="user-lifecycle-summary:1c522d3ab9a8d08b4ce76ed65f10decc">User lifecycle (summary)</h2>
+
+<h3 id="オンラインでの言語的なlifecycle:1c522d3ab9a8d08b4ce76ed65f10decc">オンラインでの言語的なlifecycle</h3>
+
+<ul>
+<li>0%: ユーザはコミュニティに参加</li>
+<li>Stage 1: コミュニティでの慣例に適応</li>
+<li>30%: 最も変化に適応する時期</li>
+<li>Stage 2: 使う言葉が単調になる</li>
+<li>100%: 退会</li>
+</ul>
+
+<h3 id="オフラインでの言語的なlifecyclce-labov-1966:1c522d3ab9a8d08b4ce76ed65f10decc">オフラインでの言語的なlifecyclce [Labov, 1966]</h3>
+
+<ul>
+<li>誕生: リアルなコミュニティに属する</li>
+<li>Stage 1: コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）</li>
+<li>17歳: コミュニティの慣例に最も適応する時期</li>
+<li>Stage 2: 大人になって使う言葉が安定する</li>
+</ul>
+
+<p>17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。</p>
+
+<h2 id="elastic-lifecycle:1c522d3ab9a8d08b4ce76ed65f10decc">Elastic lifecycle</h2>
+
+<ul>
+<li>ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。</li>
+<li>Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage 1が終わる、などの絶対期な時間ではないということ。</li>
+<li>適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。</li>
+</ul>
+
+<p>これらの特徴を利用してユーザの最終的なlifespanを予測する。</p>
+
+<h2 id="predicting-user-lifespan:1c522d3ab9a8d08b4ce76ed65f10decc">Predicting user lifespan</h2>
+
+<h3 id="task:1c522d3ab9a8d08b4ce76ed65f10decc">Task</h3>
+
+<p>最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。</p>
+
+<h3 id="linguistic-change-features:1c522d3ab9a8d08b4ce76ed65f10decc">Linguistic change features:</h3>
+
+<ul>
+<li>コミュニティの言語モデルとの距離</li>
+<li>そのユーザの言葉の安定性</li>
+<li>lexical inovationへの適応</li>
+</ul>
+
+<h3 id="baselines:1c522d3ab9a8d08b4ce76ed65f10decc">Baselines:</h3>
+
+<ul>
+<li>投稿の頻度</li>
+<li>月ごとの投稿の割合</li>
+</ul>
+
+<p>Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。</p>
+
+<h3 id="結果:1c522d3ab9a8d08b4ce76ed65f10decc">結果</h3>
+
+<p>最大でBaselineよりも12ポイント高い</p>
+
+<h2 id="結論:1c522d3ab9a8d08b4ce76ed65f10decc">結論</h2>
+
+<ul>
+<li>言語の変化を捉えるフレームワークの提案した</li>
+<li>相対的な二段階のlifecycleを示した</li>
+<li>ユーザの退会予測に取り組んだ</li>
+<li>ユーザとコミュニティの共同的な進化を分析した</li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
+

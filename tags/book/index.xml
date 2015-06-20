@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Book on Now is better than never.</title>
+    <link>http://localhost:1313/tags/book/</link>
+    <description>Recent content in Book on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Feb 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/book/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
+      <link>http://localhost:1313/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</link>
+      <pubDate>Mon, 17 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</guid>
+      <description>&lt;div align=&#34;center&#34;&gt;
+&lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=B00H3WR470&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Amazonの中の話はあまりWeb上で見たことがなかったので興味深く読めた。&lt;/p&gt;
+
+&lt;p&gt;会社の方針は、ジェフ・ベゾスの意思を強く反映している感じ。
+ジェフ・ベゾスは顧客のことを第一に考えていて、それを背景にして社員の福利厚生はかなり貧しい感じ。
+例えば、社員にバスが動いている時間に帰ってほしくないから、という理由でバスの定期を買う際の補助金を却下しているらしい。
+また、長期的なメリットを考えて、短期的な利益は考えずに赤字覚悟で商品の価格を引き下げたりしている。
+これで競合他社が立ち入る隙を見せないようにしている。すごい。。
+いちAmazonユーザからすると、なんて顧客のことを考えてくれる会社なんだろうと思う。&lt;/p&gt;
+
+&lt;p&gt;誰かを雇ったら、その人を基準に次はもっと優れた人を雇うようにすると言った、Googleなどの話でも聞いたようなことをやっていて、
+人材はどの企業でも大事なんだなあと改めて思った (小並感)。&lt;/p&gt;
+
+&lt;p&gt;ジェフ・ベゾス個人の話も書いてあった。
+仕事では冷徹で、鬼のような怖さだけど、家族には優しい一面ものぞかせいている。&lt;/p&gt;
+
+&lt;p&gt;A9がたまに学会のスポンサーとかで見かけていて、Amazonのにっこりマークが付いていてどういう関係なんだろうと思っていたが、A9はAmazonの技術系の子会社だということもこの本で知った。
+あと、もともと本を始めとする小売業のようなことをやっていたのに、どのようにAmazon Web Serviceを提供するに至ったかの話も書いてあって面白かった。&lt;/p&gt;
+
+&lt;p&gt;個人的には、部門間の調整が難しいという大企業ならではの問題をなんとかしたいと思った中間管理職のチームが、部門間の対話を推進する仕組みを提案した時にジェフ・ベゾスが言った以下の言葉が印象に残った。&lt;/p&gt;
+
+&lt;p&gt;「言いたいことはわかるが、それは大まちがいだ。コミュニケーションは機能不全の印なんだ。緊密で有機的につながる仕事ができないから、関係者のコミュニケーションが必要になる。部署間のコミュニケーションを増やす方法ではなく、減らす方法を探すべきだ。」&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Good style - Writing for Computer Science</title>
+      <link>http://localhost:1313/blog/2013/3/good-style/</link>
+      <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/blog/2013/3/good-style/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
+
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/132605868/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-wgir7vee0ytkouj0q99&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_18069&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Giving presentations - Writing for Computer Science</title>
+      <link>http://localhost:1313/blog/2013/2/giving-presentaions/</link>
+      <pubDate>Sat, 23 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/blog/2013/2/giving-presentaions/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
+
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/126837452/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-18r6gyvswmhjnapds9dz&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29936305732484&#34; scrolling=&#34;no&#34; id=&#34;doc_32667&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

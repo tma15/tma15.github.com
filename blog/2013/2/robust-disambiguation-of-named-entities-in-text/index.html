@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</h3>
+				<span class="label label-primary">Sat Feb 16, 2013</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/paper">paper</a>
+				
+					 , 
+					<a href="/tags/nlp">nlp</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
+Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf">pdf</a></p>
+
+<h2 id="解いている問題:84ce501e5b2832e209f08eff2fc6fa3e">解いている問題</h2>
+
+<ul>
+<li>Named entity disambiguationをする</li>
+<li>Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく</li>
+<li>mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない
+<ul></li>
+<li>e.g. MadridでManchesterとBarcelonaの試合があった</li>
+<li>Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される
+</ul></li>
+</ul>
+
+<h2 id="アプローチ:84ce501e5b2832e209f08eff2fc6fa3e">アプローチ</h2>
+
+<ul>
+<li>priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
+<ul>
+
+<ul>
+<li>priorは、mentionに含まれる表現が一般的にentity e_jである確率</li>
+<li>context similarityはmentionとentityの文脈類似度</li>
+<li>coherenceは他のmentionのentityとの意味的な近さ
+<ul>
+
+<ul>
+<li>Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標
+</ul>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>グラフの中からサブグラフを選択
+<ul></li>
+<li>サブグラフは、一つのmentionが一つのentityとエッジをもつ</li>
+<li>サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる</li>
+<li>サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない
+<ul>
+    + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない
+</ul>
+</ul></li>
+<li>サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く</li>
+<li>アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する</li>
+
+<li><p>ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする
+<ul>
+こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除
+</ul></p></li>
+
+<li><p>prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい</p></li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
+</html>
+
