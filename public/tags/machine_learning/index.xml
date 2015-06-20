@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Machine_learning on Now is better than never.</title>
+    <link>http://tma15.github.io/tags/machine_learning/</link>
+    <description>Recent content in Machine_learning on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 21 Feb 2015 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://tma15.github.io/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Dropoutの実装で気になって調べたこと</title>
+      <link>http://tma15.github.io/blog/2015/02/21/</link>
+      <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+      <description>
+
+&lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://caffe.berkeleyvision.org/&#34;&gt;Caffe&lt;/a&gt;だと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/BVLC/caffe/blob/master/src/caffe/layers/dropout_layer.cpp#L40&#34;&gt;Caffeのdropout_layer.cpp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/BVLC/caffe/blob/master/include/caffe/common.hpp#L97&#34;&gt;Caffeの設定を参照できるようなsingletonクラス&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、&lt;a href=&#34;http://torch.ch/&#34;&gt;torch&lt;/a&gt;では層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/Module.lua#L84&#34;&gt;Module.lua&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/doc/module.md#training&#34;&gt;training&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/doc/module.md#evaluate&#34;&gt;evaluate&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。&lt;/p&gt;
+
+&lt;h3 id=&#34;参考:1b5cc0e0e36db826a9a1ce42345d1563&#34;&gt;参考&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf&#34;&gt;Dropout: A Simple Way to Prevent Neural Networks from Overfitting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <description>
+
+&lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
+
+&lt;h2 id=&#34;気になったところ:354c44db974ee48c03ece6648b7b14ff&#34;&gt;気になったところ&lt;/h2&gt;
+
+&lt;p&gt;データに正規分布を仮定したときのナイーブベイズ分類器について。
+平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は&lt;/p&gt;
+
+&lt;p&gt;\[
+p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}
+\]&lt;/p&gt;
+
+&lt;p&gt;これのlogをとると、
+\[
+\begin{split}
+\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\\
+&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、&lt;/p&gt;
+
+&lt;p&gt;\[
+\begin{split}
+\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod&lt;em&gt;{n=1}^N p(\mathbf{x}_n, y_n))\\
+&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y&lt;em&gt;n)p(\mathbf{x}_n|y_n))\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu&lt;em&gt;{y_nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は&lt;/p&gt;
+
+&lt;p&gt;\[
+\begin{split}
+\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits&lt;em&gt;y \log p(\mathbf{x}, y)\\
+&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\\
+&amp;amp; = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;em&gt;{yk}^2) - \frac{(x_k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(classes)):
+    &lt;span style=&#34;color: #808080&#34;&gt;# 事前分布の対数&lt;/span&gt;
+    log_prior &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(class_piror[i])
+    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
+    log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; sigma[i, :]))
+    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
+    log_gauss2 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt; sigma[i, :])
+    &lt;span style=&#34;color: #808080&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
+    joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss2)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;br&gt;
+となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
+        X &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; array2d(X)
+        joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;classes_)):
+            jointi &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;class_prior_[i])
+            n_ij &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #808080&#34;&gt;# np.piの前に2がない&lt;/span&gt;
+            n_ij &lt;span style=&#34;color: #303030&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt;
+                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+            joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; n_ij)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;数式の展開が間違えているのだろうか&amp;hellip;。それとも2は必要ないのだろうか&amp;hellip;。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:354c44db974ee48c03ece6648b7b14ff&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/&#34;&gt;Naive Bayesの復習（導出編）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Practical Machine Learning Tricks</title>
+      <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+      <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。&lt;/p&gt;
+
+&lt;p&gt;結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。&lt;/p&gt;
+
+&lt;p&gt;カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/ja//pubs/archive/37195.pdf&#34;&gt;Detecting Adversarial Advertisements in the Wild&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel,
+  John Hainsworth, Yunkai Zhou&lt;/p&gt;
+
+&lt;p&gt;一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。&lt;/p&gt;
+
+&lt;p&gt;この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-classification:923b80eb0d6937beb6baa576d82ab042&#34;&gt;1) Classification&lt;/h2&gt;
+
+&lt;p&gt;機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは&lt;a href=&#34;http://code.google.com/p/sofia-ml/&#34;&gt;ソースコード&lt;/a&gt;が入手可能である。&lt;/p&gt;
+
+&lt;h3 id=&#34;abe-always-be-ensemble-ing:923b80eb0d6937beb6baa576d82ab042&#34;&gt;ABE: Always Be Ensemble-ing&lt;/h3&gt;
+
+&lt;p&gt;Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。&lt;/p&gt;
+
+&lt;h3 id=&#34;only-auto-block-or-auto-allow-on-high-confidence-predictions:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Only auto-block or auto-allow on high-confidence predictions&lt;/h3&gt;
+
+&lt;p&gt;訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。&lt;/p&gt;
+
+&lt;h3 id=&#34;throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Throw a ton of features at the model and let L1 sparsity figure it out&lt;/h3&gt;
+
+&lt;p&gt;素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。&lt;/p&gt;
+
+&lt;h3 id=&#34;map-features-with-the-hashing-trick:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Map features with the &amp;ldquo;hashing trick&amp;rdquo;&lt;/h3&gt;
+
+&lt;p&gt;これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは&lt;a href=&#34;http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick&#34;&gt;MetaOptimize discussion board&lt;/a&gt;でうまく説明されている。&lt;/p&gt;
+
+&lt;h3 id=&#34;handle-the-class-imbalance-problem-with-ranking:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Handle the class imbalance problem with ranking&lt;/h3&gt;
+
+&lt;p&gt;ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。&lt;/p&gt;
+
+&lt;h3 id=&#34;use-a-cascade-of-classifiers:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Use a cascade of classifiers&lt;/h3&gt;
+
+&lt;p&gt;ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-scalability-engineering-and-operations:923b80eb0d6937beb6baa576d82ab042&#34;&gt;2) Scalability, engineering and operations&lt;/h2&gt;
+
+&lt;p&gt;研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。&lt;/p&gt;
+
+&lt;h3 id=&#34;mapreduce-pre-processing-map-algorithm-training-reduce:923b80eb0d6937beb6baa576d82ab042&#34;&gt;MapReduce: pre-processing (map), algorithm training (reduce)&lt;/h3&gt;
+
+&lt;p&gt;いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。&lt;/p&gt;
+
+&lt;h3 id=&#34;monitor-all-the-things:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Monitor all the things&lt;/h3&gt;
+
+&lt;p&gt;入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;テストデータでのprecision/recall&lt;/li&gt;
+&lt;li&gt;入力の素性の分布&lt;/li&gt;
+&lt;li&gt;出力のスコアの分布&lt;/li&gt;
+&lt;li&gt;出力のラベルの分布&lt;/li&gt;
+&lt;li&gt;人間が評価したシステムの質&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;rich-model-objects:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Rich model objects&lt;/h3&gt;
+
+&lt;p&gt;機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために&amp;rdquo;model object&amp;rdquo;を拡張することが重要であると述べている。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-human-in-the-loop:923b80eb0d6937beb6baa576d82ab042&#34;&gt;3) Human-in-the-loop&lt;/h2&gt;
+
+&lt;p&gt;ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。&lt;/p&gt;
+
+&lt;h3 id=&#34;make-efficient-use-of-expert-effort:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Make efficient use of expert effort&lt;/h3&gt;
+
+&lt;p&gt;彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。&lt;/p&gt;
+
+&lt;h3 id=&#34;allow-humans-to-hard-code-rules:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Allow humans to hard-code rules&lt;/h3&gt;
+
+&lt;p&gt;&amp;ldquo;人間が最適な答えを知っている&amp;rdquo;こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。&lt;/p&gt;
+
+&lt;h3 id=&#34;human-evaluation:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Human evaluation&lt;/h3&gt;
+
+&lt;p&gt;専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。&lt;/p&gt;
+
+&lt;p&gt;最後に、彼らはまた一般的なユーザから見てもシステムが上手く動いていることを確かめるために専門家でない人の評価も定期的に行なっている。エンドユーザの満足が究極の目標なので、この評価はとてもいいアイディアだと思う。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
