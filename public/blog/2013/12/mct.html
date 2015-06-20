@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>エッセイ Towards the Machine Comprehension of Text のメモ</h3>
+				<span class="label label-primary">Fri Dec 27, 2013</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/nlp">nlp</a>
+				
+					 , 
+					<a href="/tags/paper">paper</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p><a href="http://research.microsoft.com/apps/pubs/default.aspx?id=206771">エッセイ</a>の一部をメモ。</p>
+
+<p>主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。</p>
+
+<h2 id="introduction:3e496fa1f2ebcbfa8b6521cc8fe94927">Introduction</h2>
+
+<ul>
+<li>Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである</li>
+<li>このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう
+
+<ul>
+<li>※  チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト</li>
+</ul></li>
+<li>Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している</li>
+<li>このエッセイでは、MCTは、&rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&rdquo;とする (つまり質問応答)</li>
+<li>このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである</li>
+</ul>
+
+<h3 id="how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927">How To Measure Progress</h3>
+
+<ul>
+<li>複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
+
+<ul>
+<li>7歳の子供が読めるレベルのフィクションの短いストーリー</li>
+</ul></li>
+<li>Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している
+
+<ul>
+<li>&ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&rdquo;の&rdquo;それ&rdquo;は何を指しているか？</li>
+</ul></li>
+<li>クラウドソーシングなのでスケーラビリティもある</li>
+<li>進捗が早ければ、問題の難易度を上げることもできる
+
+<ul>
+<li>語彙数を現状の8000から増やす</li>
+<li>ノンフィクションなストーリーを混ぜる</li>
+<li>タスクの定義を変える
+
+<ul>
+<li>正解が1つ以上、あるいは正解が1つもない問題など</li>
+<li>回答の根拠を出力するようにする</li>
+</ul></li>
+</ul></li>
+<li>興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである</li>
+</ul>
+
+<h2 id="desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927">Desiderata and some Recent Work</h2>
+
+<p>machine comprehensionに必要なものは、興味深い未解決な問題と通じている</p>
+
+<ol>
+<li>意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである</li>
+<li>モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである</li>
+<li>構築、デバッグの簡易化のためにシステムはモジュール化すべきである
+
+<ul>
+<li>モジュラ性はシステムを効率的に反応できるようにするべきである</li>
+</ul></li>
+<li>エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである</li>
+<li>システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである</li>
+<li>システムは意味表現に対して論理的推論をおこなえるべきである
+
+<ul>
+<li>システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである</li>
+<li>もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)</li>
+</ul></li>
+<li>システムは質問可能であるべきである
+
+<ul>
+<li>任意の仮説に関して、真であるかどうか (の確率) を断言することができること</li>
+<li>私達はなぜその断言ができるか理解することができるべきである</li>
+</ul></li>
+</ol>
+
+<h3 id="最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927">最近の研究では</h3>
+
+<ul>
+<li>論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
+
+<ul>
+<li>興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al., 2011)</li>
+<li>教師なし学習でやる研究もある (Goldwassar et al. (2011) は60%の精度、ただし教師あり学習は80%)</li>
+</ul></li>
+<li>データはクラウドソーシングを利用すればスケールする (特にゲームとして提供すれば (Ahn and Dabbish, 2004))</li>
+<li>大量のラベルなしデータを使えばある粒度の意味のモデル化はできる (らしい) (Mikolove et al., 2013)</li>
+<li>意味モデル化のもう一つの問題は、あるタスク用に作ったモデルが他のタスクに使えないこと</li>
+<li>とても難しいタスクに挑戦するとき、モジュラ性、デバッグ性、解釈性は、良い精度を出すのに役立つ
+
+<ul>
+<li>画像分類タスクの現在のレコードホルダーが畳み込みネットワークが実際に何をしているのかを理解するための手法を設計したのは偶然の一致ではない: (Zeiler and Fergus, 2013)</li>
+<li>修正可能性も強く関連している
+
+<ul>
+<li>現在の機械学習モデルは、誤った例を正しく分類できるように修正するとき、別の例で新たな誤りをしないという保証がない</li>
+</ul></li>
+<li>質問可能性は別のデバッグツールである
+
+<ul>
+<li>理解が簡単であるほど、そのモデルはうまくいく</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2 id="seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927">Seven Signposts</h2>
+
+<h3 id="how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927">How to Incorporate Structure in Learning?</h3>
+
+<ul>
+<li>初期のAIはルールベース
+
+<ul>
+<li>経験的で、もろく、スケールしない</li>
+</ul></li>
+<li>機械学習手法は構造データを扱えるように拡張されているが、主な方法は統計的なものである: 教師あり学習の基本的な設定では、
+
+<ul>
+<li>データはある分布から生成されると仮定</li>
+<li>モデル、コスト関数 (しばしば凸関数) 、ラベル付きデータが必要</li>
+<li>ゴールは手元の訓練データのエラーを最小化すること (正則化は簡単のため考えない)</li>
+</ul></li>
+<li>構造は、コスト関数の探索時に構造の制約を入れることで考慮される
+
+<ul>
+<li>言語はすごく構造的なので、機械学習のモデルを微調整して構造を考慮するよりも、最初からこの構造を認識しておくべきである</li>
+</ul></li>
+<li>言い換えれば機械学習は不確かさを扱う基本的な方法である
+
+<ul>
+<li>もし、あまりに早く不確かさをモデル化することが、データの構造について我々が知っていることのほとんどを無視してしまうことにつながるなら、この誘惑には対抗しなければならない</li>
+<li>そして、ほとんどの機械学習のアルゴリズムは、とてもシンプルなラベル (例えば二値ラベル) を使って、この上なく見事に不確かさをモデル化するように調整されている</li>
+<li>確率的なグラフィカルモデルはモデルの構造の問題に取り組んでいるが、モデルの構造は人手で設計されているのでスケールしない</li>
+</ul></li>
+<li>先程述べたように、最近の研究では論理構造と統計モデルを直接組み合わせているが、まだスケーラビリティが問題ある</li>
+<li>私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている</li>
+</ul>
+
+<h3 id="do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927">Do Large Data and Deep Learning Hold the Key?</h3>
+
+<ul>
+<li>ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
+
+<ul>
+<li>deep neural networkがYouTubeの画像データを使って学習した</li>
+</ul></li>
+<li>しかしながら、意味のモデル化を避け、データの規模に頼っているシステムはもろい</li>
+<li>AskMSR (人手で設計したルールに基づくQAシステム (Brill et al., 2002) に&rdquo;How many feet are there in a lightyear? (1光年は何フィートか)？&rdquo;という質問をしたら&rdquo;Winnie the Pooh&rdquo;と回答した
+
+<ul>
+<li>ディズニーのキャラクターであるBuzz Lightyearが根拠になって回答された</li>
+<li>意味の処理をちゃんとやっていない (質問は&rdquo;how many&rdquo;で始まっているので、回答は数字なはず)</li>
+</ul></li>
+<li>IBMのWatson (IRの様々な技術を組み合わせて人間のクイズ王に勝ったシステム) でさえもUSの都市に関する質問をしたらトロントと答えた</li>
+<li>Deep Learningは強力なパラダイムである
+
+<ul>
+<li>音声認識、画像分類では大きな成果を上げているが、まだシステムが解釈可能でなかったり、質問可能でなかったり、修正可能でなかったり、スケールしなかったりする</li>
+</ul></li>
+</ul>
+
+<h3 id="why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927">Why is NLP so Hard?</h3>
+
+<ul>
+<li>自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
+
+<ul>
+<li>文が意味をなすかどうか、あるいは文が文法的かどうかという人間には簡単な問題すらまだ解けていない
+
+<ul>
+<li>そのドメインにおけるリッチなモデルが、自然言語の理解には必要であるため
+
+<ul>
+<li>しかし、リッチなモデルを作るには、自然言語処理の高い技術が必要</li>
+<li>そのため、問題を限定して解くことが多い</li>
+</ul></li>
+<li>別の理由としては、NLPのタスクで機械学習のモデルを学習するときには、データの構造を直接利用する、というよりは二値ラベルのようなシンプルなものを利用するため問題をうまく解けないということも考えられる</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927">Can we Limit Scope for Manageability, yet Still Achive Scalability?</h3>
+
+<ul>
+<li>意味をモデル化する試みでは、簡単のために、よく問題を限定する</li>
+<li>問題を限定すると、その解はスケールできない</li>
+<li>問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない</li>
+</ul>
+
+<h3 id="are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927">Are Brains Using Machine Learning?</h3>
+
+<ul>
+<li>あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう</li>
+<li>どうやって友達を救いますか？
+
+<ul>
+<li>彼を何テラバイトもの訓練データとともに部屋に閉じ込め、「一週間これでパラメータを更新しといてね」ということはしないでしょう</li>
+<li>あなたはあっという間にもっともありがちな彼の誤解が何なのかを考える
+
+<ul>
+<li>「彼が誤解を修正すべきところはどこなんだろう」</li>
+<li>あなたは一つや二つ、彼に質問をするかもしれない: 彼には質問することができる</li>
+</ul></li>
+</ul></li>
+<li>つまり、あなたは彼の思考に関する解釈可能なモデルを持っていることになる</li>
+<li>モジュラ性は人間の学習の強い区分けによって提案される
+
+<ul>
+<li>人間は自転車に乗る方法を学ぶ時に歯の磨き方を忘れない</li>
+<li>機械は、あらたに間違えたことを修正する時に、もともと正しく分類できていたものを間違えるようになってしまう</li>
+</ul></li>
+<li>難しいタスクにおいてさえ、人間は何かの意味を認識する時に、大量のラベル付きデータを使わない
+
+<ul>
+<li>学習のプロセスは世界知識のモデルを更新する小さなステップに分割される
+
+<ul>
+<li>見えない統計的なパラメータを更新しているわけではない</li>
+</ul></li>
+<li>人間は記録、更新が簡単な意味のモデルを持たなければならない
+
+<ul>
+<li>少なくとも、彼らのモデルは解釈可能で、修正可能で、質問可能であることを示唆している</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h2 id="discussion:3e496fa1f2ebcbfa8b6521cc8fe94927">Discussion</h2>
+
+<ul>
+<li>AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった</li>
+<li>ルールベースなシステムが解けない問題は、あまりない例外であり、それを解けるようにするために人手でルールを更新するというのは大規模なデータに対してスケールしない</li>
+<li>機械学習は多くの場合、強力なツールであるのだけど、多くの場合解釈が難しく、ラベル付きデータ無しに改善することが難しい</li>
+<li>機械学習は、適切な場面で使えば当然強力なツールである
+
+<ul>
+<li>データの構造を最大限活用した後に、データに残っている不確かさのモデル化に使うことに制限することが考えられる</li>
+</ul></li>
+<li>人間にとってテキストが曖昧性を持たないという事実は、不確かさのモデル化は解くべき重要な問題ではないことを示唆している
+
+<ul>
+<li>不確かさがモデル化されなければならない状況やラベルが極めて単純な状況において機械学習アルゴリズムの使用を抑えて、代わりにリッチな構造の、曖昧性のないテキストのために設計された他の手段を模索することは、機械学習が基づく数学的な基礎を放棄しているわけではない</li>
+</ul></li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>CYKアルゴリズム</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>CYKアルゴリズム</h3>
+				<span class="label label-primary">Sat Jan 10, 2015</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/nlp">nlp</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p>明けましておめでとうございます。</p>
+
+<p>確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (<a href="https://github.com/tma15/nlppractice/blob/master/cyk.py">ソースコード</a>)。
+動的計画法。
+表TのT[0, N-1]に&rdquo;S&rdquo;があれば与えられた文法からこの文は導出可能。
+文&rdquo;I eat pizza with Maria&rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$python</span> cyk.py
+I eat pizza with Maria
+   N |    S |    S |      |    S
+     |    V |  S,V |      |  S,V
+     |      |    N |      |    N
+     |      |      |    P |   PP
+     |      |      |      |    N
+	--l &lt;N&gt; -- I 0
+	--r &lt;V&gt; 
+		--l &lt;V&gt; -- eat 1
+		--r &lt;N&gt; 
+			--l &lt;N&gt; -- pizza 2
+			--r &lt;PP&gt; 
+				--l &lt;P&gt; -- with 3
+				--r &lt;N&gt; -- Maria 4
+--
+	--l &lt;S&gt; 
+		--l &lt;N&gt; -- I 0
+		--r &lt;V&gt; 
+			--l &lt;V&gt; -- eat 1
+			--r &lt;N&gt; -- pizza 2
+	--r &lt;PP&gt; 
+		--l &lt;P&gt; -- with 3
+		--r &lt;N&gt; -- Maria 4
+--
+</pre></div>
+</p>
+
+<h2 id="参考:47cac020bebdb99e635ebcb719a258ad">参考</h2>
+
+<div align="center">
+<iframe src="http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&bc1=FFFFFF&IS2=1&bg1=FFFFFF&fc1=000000&lc1=0000FF&t=takuya6315-22&o=9&p=8&l=as1&m=amazon&f=ifr&ref=qf_sp_asin_til&asins=4130654047" style="width:120px;height:240px;" scrolling="no" marginwidth="0" marginheight="0" frameborder="0"></iframe>
+</div>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

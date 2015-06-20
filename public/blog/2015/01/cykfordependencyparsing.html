@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>CYKアルゴリズムで係り受け解析</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>CYKアルゴリズムで係り受け解析</h3>
+				<span class="label label-primary">Wed Jan 14, 2015</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/nlp">nlp</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p>CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
+具体的には参考資料の23ページにあるような変換をする。
+例えば「私は / ピザを / 食べる」という文節で(&ldquo;/&ldquo;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。
+一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。
+ただしこの解析ではO(n^5)の時間がかかる。</p>
+
+<h2 id="参考:a8e6efd19c33c6d823857c018f985360">参考</h2>
+
+<ul>
+<li><a href="http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf">Dependency Parsing Tutorial at COLING-ACL 2006</a></li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

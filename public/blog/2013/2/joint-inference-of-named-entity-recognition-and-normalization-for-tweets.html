@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</h3>
+				<span class="label label-primary">Wed Feb 6, 2013</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/paper">paper</a>
+				
+					 , 
+					<a href="/tags/nlp">nlp</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou</p>
+
+<p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf">pdf</a></p>
+
+<h2 id="解いている問題:836e9543b7834fc340ebe71534bcd743">解いている問題</h2>
+
+<p>tweet (英語のtweetに限定) の集合が与えられたときに</p>
+
+<ul>
+<li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．</li>
+<li>これらの同定されたテキストに対して名寄せをおこなう．
+<ul></li>
+<li>名寄せは，一番単語数が多い表現にまとめる</li>
+<li>最大の単語数の表現が複数あればWikipediaにある表現を採用</li>
+<li>PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．
+</ul></li>
+</ul>
+
+<h2 id="アプローチ:836e9543b7834fc340ebe71534bcd743">アプローチ</h2>
+
+<ul>
+<li>固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
+<ul></li>
+<li>tweetは，エンティティに対していろいろな表現をされる．</li>
+<li>e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など
+</ul></li>
+<li>&rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet
+<ul></li>
+<li>NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．
+</ul></li>
+<li>&rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.. I&rsquo;m craving all sorts of food: mcdonalds, burger king, &hellip;&ldquo;という二つのtweet
+<ul></li>
+<li>NENモデルが&rdquo;Burger King&rdquo;と&rsquo;burger king&rdquo;が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
+</ul></li>
+<li>学習にはCRFを用いる
+<ul></li>
+<li>skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
+<li>ラベルは{B, I, L, O, U}</li>
+<li>一つ目のtweetに含まれる&rdquo;Gaga&rdquo;と二つ目のtweetに含まれる&rdquo;Lady Gaga&rdquo;にPERSONが割り当てられ，一つ目のtweetに含まれる&rdquo;Gaga&rdquo;と二つ目のtweetに含まれる&rdquo;Gaga&rdquo;が同一のエンティティを指していると識別できれば&rdquo;Gaga&rdquo;と&rdquo;Lady Gaga&rdquo;は同じものを指している</li>
+<li>(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
+<li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
+<li>第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値</li>
+<li>初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．</li>
+<li>skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+</ul></li>
+</ul>
+
+<p><strong>複数のtweetを同時に考慮することの利点</strong></p>
+
+<ul>
+<li>&rdquo;&hellip; Bobby Shaw you don&rsquo;t invite the wind&hellip;&ldquo;と&rdquo;&hellip; I own yah! Loool bobby shaw&hellip;&rdquo;
+<ul></li>
+<li>&ldquo;Bobby Shaw&rdquo;をPERSONと識別することは比較的簡単．</li>
+<li>一つ目のtweetの&rdquo;you&rdquo;が，二つ目のtweetの&rsquo;bobby shaw&rdquo;がPERSONであることの手がかりとなる．
+</ul></li>
+</ul>
+
+<p><strong>ラベルの候補の絞り込み</strong></p>
+
+<ul>
+<li>外部資源から固有表現を取ってきて辞書を作っておく．</li>
+<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
+<ul></li>
+<li>&ldquo;new york&rdquo;という句が出てきたとき，辞書にある&rdquo;New York City&rdquo;と&rdquo;New York Times&rdquo;と一致する．</li>
+<li>&ldquo;new&rdquo;には，&rdquo;B-LOCATION&rdquo;, &ldquo;B-ORGANIZATION&rdquo;，&rdquo;york&rdquo;には&rdquo;I-LOCATION&rdquo;, &ldquo;I-ORGANIZATION&rdquo;がラベルの候補の集合にそれぞれ追加される．
+</ul></li>
+<li>ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない</li>
+</ul>
+
+<p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
+
+<ul>
+<li>同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
+<li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1</li>
+<li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0</li>
+</ul>
+
+<p><strong>素性</strong></p>
+
+<ul>
+<li>大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど</li>
+<li>基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど</li>
+<li>ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か</li>
+</ul>
+
+<h2 id="感想-疑問点:836e9543b7834fc340ebe71534bcd743">感想・疑問点</h2>
+
+<ul>
+<li>Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．</li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

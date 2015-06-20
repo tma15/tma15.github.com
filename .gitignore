@@ -1,12 +1,4 @@
 *.swp
-deploy
-.hyde_deps
-about.html
-advanced
-apple-touch-icon.png
-blog.html
-favicon.ico
-first-steps.html
-portfolio
 content
-layout
+layouts
+themes
