@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on Now is better than never.</title>
+    <link>http://tma15.github.io/tags/golang/</link>
+    <description>Recent content in Golang on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://tma15.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>二つの集合に重複して現れる要素の数を数える</title>
+      <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+      <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_cmp := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; i &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+        }
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+            num_cmp += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; j &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #808080&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #808080&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #808080&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+        }
+        i += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i++{
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j++{
+                    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                            num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                    }
+            }
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+    k := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    l := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i:=&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i++{
+            k = append(k, strconv.Itoa(i))
+            l = append(l, strconv.Itoa(i - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;))
+    }
+    cnt_match := CountDuplicateElem(k, l)
+    cnt_match := NaiveCount(k, l)
+    fmt.Println(cnt_match)
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
+それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;今回書いた方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>HMMを実装した</title>
+      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+      <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+      <description>
+
+&lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;勉強のためにGrahamさんが公開されている&lt;a href=&#34;http://www.phontron.com/teaching.php&#34;&gt;資料&lt;/a&gt;を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
+また、実験用のデータ、評価スクリプトも使用させて頂いている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
+Accuracy: 75.83% &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+
+Most common mistakes:
+NNS --&amp;gt; NN      49
+RB --&amp;gt; NN       35
+JJ --&amp;gt; DT       30
+RB --&amp;gt; IN       29
+NN --&amp;gt; JJ       28
+NN --&amp;gt; IN       25
+JJ --&amp;gt; NN       24
+NN --&amp;gt; DT       24
+NNP --&amp;gt; NN      22
+VBN --&amp;gt; NN      22
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
+コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
+      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+      <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+      <description>
+
+&lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
+分類器は何でも良いのだけど、先日書いた&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;AdaGrad+RDA&lt;/a&gt;を使う。&lt;/p&gt;
+
+&lt;p&gt;ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文書を文に分割する。今回は「。」で区切る。&lt;/li&gt;
+&lt;li&gt;文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。&lt;/li&gt;
+&lt;li&gt;訓練データを使って分類器を学習して、できたモデルの中身を見てみる。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;データ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;データ&lt;/h2&gt;
+
+&lt;p&gt;下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://mainichi.jp/sponichi/news/20141020spn00m050016000c.html&#34;&gt;本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html&#34;&gt;観劇収支ズレどう説明、公私混同疑いも…小渕氏&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://ascii.jp/elem/000/000/935/935886/&#34;&gt;古いプログラミング言語がなくならない理由&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data.csv
+スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
+政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
+Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&amp;hellip;以降は省略している。&lt;/p&gt;
+
+&lt;h2 id=&#34;ソースコード:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;ソースコード&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go&#34;&gt;mecab.go&lt;/a&gt; (gist)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go&#34;&gt;text.go&lt;/a&gt; (gist)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;動かしてみる:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;動かしてみる&lt;/h2&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/text data.csv &amp;gt; data
+&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data
+スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
+次に分類器を学習する。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f data -m learn -w model
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
+スポーツ        カルロス・テベス        0.600000
+スポーツ        モチベーション  0.600000
+スポーツ        アルゼンチン    0.600000
+スポーツ        ＡＣミラン      0.600000
+スポーツ        ユベントス      0.600000
+スポーツ        抜け出し        0.600000
+スポーツ        ベローナ        0.600000
+スポーツ        ブラジル        0.600000
+スポーツ        セリエＡ        0.600000
+スポーツ        アウェー        0.600000
+&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^政治&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
+政治    不透明  0.800000
+政治    上回っ  0.800000
+政治    関連    0.800000
+政治    資金    0.800000
+政治    説明    0.800000
+政治    観劇    0.800000
+政治    経済    0.800000
+政治    産業    0.800000
+政治    生じ    0.800000
+政治    焦点    0.800000
+&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^Go言語&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
+Go言語  インタビュー    0.700000
+Go言語  カーニハン      0.700000
+Go言語  グーグル        0.700000
+Go言語  代わる  0.700000
+Go言語  それら  0.700000
+Go言語  いくら  0.700000
+Go言語  言語    0.700000
+Go言語  解決    0.700000
+Go言語  覚え    0.700000
+Go言語  考え    0.700000
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
+たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
+このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。&lt;/p&gt;
+
+&lt;h2 id=&#34;まとめ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
+あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>AdaGrad&#43;RDAをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
+      <description>
+
+&lt;p&gt;論文はこちら。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.magicbroom.info/Papers/DuchiHaSi10.pdf&#34;&gt;Adaptive Subgradient Methods for Online Learning and Stochastic Optimization&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;こちら&lt;/a&gt;。
+多値分類問題にも対応できるようにした。二値分類問題と比べて&lt;a href=&#34;http://en.wikipedia.org/wiki/Hinge_loss&#34;&gt;ヒンジ損失&lt;/a&gt;が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。&lt;/p&gt;
+
+&lt;p&gt;データを次のように作成。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$perl&lt;/span&gt; -MList::Util&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;shuffle -e &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39;&lt;/span&gt; &amp;lt; ../data/news20.binary &amp;gt; news
+&lt;span style=&#34;color: #906030&#34;&gt;$head&lt;/span&gt; -15000 news &amp;gt; news.train
+&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; -4996  news &amp;gt; news.test
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;例えば&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary&#34;&gt;このデータ&lt;/a&gt;は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
+正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.01
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l 1 -c 0.01
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.011142 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;28/2513&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.848485 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;28/33&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.997986 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2478/2483&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.499295 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2478/4963&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Acc: 0.5016012810248198
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.0001
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.836891 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2078/2483&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.833200 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2078/2494&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.834461 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2097/2513&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.838129 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2097/2502&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Acc: 0.8356685348278623
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.00001
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.950463 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2360/2483&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.946651 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2360/2493&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.947075 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2380/2513&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.950859 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2380/2503&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+--
+Acc: 0.9487590072057646
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:c0dd846673ec49aadad9c2ba23120a53&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/echizen_tm/20140914/1410697535&#34;&gt;実装が簡単で高性能な線形識別器、AdaGrad+RDAの解説&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/Christopher-727/20140830&#34;&gt;AdaGrad + RDAを実装してみた&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://code.google.com/p/oll/wiki/OllMainJa&#34;&gt;OllMainJa - oll - oll: Online-Learning Library - Google Project Hosting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1&#34;&gt;行をランダムシャッフルするワンライナー&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron&#34;&gt;Multiclass perceptron&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PA-IIをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
+      <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/gopa&#34;&gt;こちら&lt;/a&gt;。
+下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (p *PassiveAggressive) Update(X &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;) Weight {
+        loss := math.Max(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;-sign*Dot(X, p.weight[y]))
+        &lt;span style=&#34;color: #808080&#34;&gt;//         tau := loss / Norm(X) // PA&lt;/span&gt;
+        tau := loss / (Norm(X) + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; / (&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; * p.C)) &lt;span style=&#34;color: #808080&#34;&gt;// PA-II&lt;/span&gt;
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y]; ok == false {
+            p.weight[y] = &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;{}
+        }
+
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; f, _ := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; X {
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y][f]; ok {
+                    p.weight[y][f] += tau * sign
+                } &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;else&lt;/span&gt; {
+                    p.weight[y][f] = tau * sign
+                }
+        }
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; p.weight
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>パーセプトロンをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
+      <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
+      <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
+ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;素性ベクトルのフォーマットは&amp;lt;数値&amp;gt;:&amp;lt;数値&amp;gt; である必要はなくて、&amp;lt;文字列&amp;gt;:&amp;lt;数値&amp;gt; でも読み込めるようにしました。
+また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
+多値分類もできます。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sports soccer:1 baseball:1
+food beef:1 pork:1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$go&lt;/span&gt; build
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;10
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model
+Acc: 0.8257203773097299
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
+テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。&lt;/p&gt;
+
+&lt;p&gt;このデータは、&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
+7446
+&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
+23510
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。&lt;/del&gt;
+&lt;ins&gt;出力するようにしました。 (2014/09/17追記)&lt;/ins&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

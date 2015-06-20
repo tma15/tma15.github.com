@@ -1,0 +1,1457 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paper on Now is better than never.</title>
+    <link>http://tma15.github.io/tags/paper/</link>
+    <description>Recent content in Paper on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 Dec 2014 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://tma15.github.io/tags/paper/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
+      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+      <description>
+
+&lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;
+
+&lt;h2 id=&#34;導入:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;導入&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する
+
+&lt;ul&gt;
+&lt;li&gt;単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる
+
+&lt;ul&gt;
+&lt;li&gt;単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない&lt;/li&gt;
+&lt;li&gt;深い意味解析をしたり構文木の編集距離 (Tree Edit Distance)をしている研究もあるが、計算コストが高い&lt;/li&gt;
+&lt;li&gt;なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる
+
+&lt;ul&gt;
+&lt;li&gt;浅い意味解析は上位下位語や同義語などを識別するlexical sematics&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;この論文の貢献:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;この論文の貢献&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる&lt;/li&gt;
+&lt;li&gt;lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical semanticsを入れた場合、性能の差は小さくなる
+
+&lt;ul&gt;
+&lt;li&gt;計算コストを下げたいなら、lexical semanticsを使ってシンプルなモデルを使うこともできる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;問題設定:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;問題設定&lt;/h2&gt;
+
+&lt;p&gt;教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。&lt;/p&gt;
+
+&lt;p&gt;実際には文が正解であるかどうかではなく、文が質問文と意味的にマッチするかどうかを学習する。この論文では質問文と文の間には隠れ構造hが存在すると仮定する。隠れ構造hは質問文の単語と文の単語が対応するかどうかを表したバイナリのベクトル。&lt;/p&gt;
+
+&lt;p&gt;文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。&lt;/p&gt;
+
+&lt;h2 id=&#34;lexical-semantic-models:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;lexical semantic models&lt;/h2&gt;
+
+&lt;p&gt;表層系のみのマッチングでは微妙なので言語資源を作成する。&lt;/p&gt;
+
+&lt;h3 id=&#34;類義語と反義語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;類義語と反義語&lt;/h3&gt;
+
+&lt;p&gt;Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。&lt;/p&gt;
+
+&lt;h3 id=&#34;上位語下位語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;上位語下位語&lt;/h3&gt;
+
+&lt;p&gt;WordNetはカバレッジが低いので、&lt;a href=&#34;http://research.microsoft.com/en-us/projects/probase/&#34;&gt;Probase&lt;/a&gt;を使う。ある単語が別の単語の下位語である確率を保持している。&lt;/p&gt;
+
+&lt;h3 id=&#34;意味的な単語の類似度:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
+
+&lt;p&gt;商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。&lt;/p&gt;
+
+&lt;h2 id=&#34;分類器の学習:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;分類器の学習&lt;/h2&gt;
+
+&lt;h3 id=&#34;bag-of-wordsモデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
+
+&lt;p&gt;logistic regressionとboosted decision treeを用いる。&lt;/p&gt;
+
+&lt;h3 id=&#34;隠れ構造モデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;隠れ構造モデル&lt;/h3&gt;
+
+&lt;p&gt;構造的なモデルではLatent-SVMの一種であるLCLRを用いる。目的関数 (単語間の意味的類似度) を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。&lt;/p&gt;
+
+&lt;h3 id=&#34;素性:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;素性&lt;/h3&gt;
+
+&lt;p&gt;すべての素性は単語のIDFで重み付け&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;表層的な単語のマッチング&lt;/li&gt;
+&lt;li&gt;WordNet: 同じsynsetに属する、上位語下位語、反義語関係にある&lt;/li&gt;
+&lt;li&gt;lexical semantics: 上記実数値&lt;/li&gt;
+&lt;li&gt;NE: 単語が同じタイプの固有表現の一部である&lt;/li&gt;
+&lt;li&gt;answer type checking: 質問文がWHを接頭辞とする単語から始まる場合のルール。Whoで始まれば、PersonなNEと対応するみたいなもの。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;結果:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;結果&lt;/h2&gt;
+
+&lt;p&gt;リッチな言語資源を使うほど、どの分類器でもMRR、MAPが向上。&lt;/p&gt;
+
+&lt;h2 id=&#34;所感:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;所感&lt;/h2&gt;
+
+&lt;p&gt;複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
+      <link>http://tma15.github.io/blog/2013/12/mct/</link>
+      <pubDate>Fri, 27 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
+
+&lt;p&gt;主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである&lt;/li&gt;
+&lt;li&gt;このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう
+
+&lt;ul&gt;
+&lt;li&gt;※  チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している&lt;/li&gt;
+&lt;li&gt;このエッセイでは、MCTは、&amp;rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&amp;rdquo;とする (つまり質問応答)&lt;/li&gt;
+&lt;li&gt;このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How To Measure Progress&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
+
+&lt;ul&gt;
+&lt;li&gt;7歳の子供が読めるレベルのフィクションの短いストーリー&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&amp;rdquo;の&amp;rdquo;それ&amp;rdquo;は何を指しているか？&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;クラウドソーシングなのでスケーラビリティもある&lt;/li&gt;
+&lt;li&gt;進捗が早ければ、問題の難易度を上げることもできる
+
+&lt;ul&gt;
+&lt;li&gt;語彙数を現状の8000から増やす&lt;/li&gt;
+&lt;li&gt;ノンフィクションなストーリーを混ぜる&lt;/li&gt;
+&lt;li&gt;タスクの定義を変える
+
+&lt;ul&gt;
+&lt;li&gt;正解が1つ以上、あるいは正解が1つもない問題など&lt;/li&gt;
+&lt;li&gt;回答の根拠を出力するようにする&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
+
+&lt;p&gt;machine comprehensionに必要なものは、興味深い未解決な問題と通じている&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである&lt;/li&gt;
+&lt;li&gt;モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである&lt;/li&gt;
+&lt;li&gt;構築、デバッグの簡易化のためにシステムはモジュール化すべきである
+
+&lt;ul&gt;
+&lt;li&gt;モジュラ性はシステムを効率的に反応できるようにするべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである&lt;/li&gt;
+&lt;li&gt;システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである&lt;/li&gt;
+&lt;li&gt;システムは意味表現に対して論理的推論をおこなえるべきである
+
+&lt;ul&gt;
+&lt;li&gt;システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである&lt;/li&gt;
+&lt;li&gt;もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;システムは質問可能であるべきである
+
+&lt;ul&gt;
+&lt;li&gt;任意の仮説に関して、真であるかどうか (の確率) を断言することができること&lt;/li&gt;
+&lt;li&gt;私達はなぜその断言ができるか理解することができるべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;最近の研究では&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
+
+&lt;ul&gt;
+&lt;li&gt;興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al., 2011)&lt;/li&gt;
+&lt;li&gt;教師なし学習でやる研究もある (Goldwassar et al. (2011) は60%の精度、ただし教師あり学習は80%)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;データはクラウドソーシングを利用すればスケールする (特にゲームとして提供すれば (Ahn and Dabbish, 2004))&lt;/li&gt;
+&lt;li&gt;大量のラベルなしデータを使えばある粒度の意味のモデル化はできる (らしい) (Mikolove et al., 2013)&lt;/li&gt;
+&lt;li&gt;意味モデル化のもう一つの問題は、あるタスク用に作ったモデルが他のタスクに使えないこと&lt;/li&gt;
+&lt;li&gt;とても難しいタスクに挑戦するとき、モジュラ性、デバッグ性、解釈性は、良い精度を出すのに役立つ
+
+&lt;ul&gt;
+&lt;li&gt;画像分類タスクの現在のレコードホルダーが畳み込みネットワークが実際に何をしているのかを理解するための手法を設計したのは偶然の一致ではない: (Zeiler and Fergus, 2013)&lt;/li&gt;
+&lt;li&gt;修正可能性も強く関連している
+
+&lt;ul&gt;
+&lt;li&gt;現在の機械学習モデルは、誤った例を正しく分類できるように修正するとき、別の例で新たな誤りをしないという保証がない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;質問可能性は別のデバッグツールである
+
+&lt;ul&gt;
+&lt;li&gt;理解が簡単であるほど、そのモデルはうまくいく&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Seven Signposts&lt;/h2&gt;
+
+&lt;h3 id=&#34;how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;初期のAIはルールベース
+
+&lt;ul&gt;
+&lt;li&gt;経験的で、もろく、スケールしない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;機械学習手法は構造データを扱えるように拡張されているが、主な方法は統計的なものである: 教師あり学習の基本的な設定では、
+
+&lt;ul&gt;
+&lt;li&gt;データはある分布から生成されると仮定&lt;/li&gt;
+&lt;li&gt;モデル、コスト関数 (しばしば凸関数) 、ラベル付きデータが必要&lt;/li&gt;
+&lt;li&gt;ゴールは手元の訓練データのエラーを最小化すること (正則化は簡単のため考えない)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;構造は、コスト関数の探索時に構造の制約を入れることで考慮される
+
+&lt;ul&gt;
+&lt;li&gt;言語はすごく構造的なので、機械学習のモデルを微調整して構造を考慮するよりも、最初からこの構造を認識しておくべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;言い換えれば機械学習は不確かさを扱う基本的な方法である
+
+&lt;ul&gt;
+&lt;li&gt;もし、あまりに早く不確かさをモデル化することが、データの構造について我々が知っていることのほとんどを無視してしまうことにつながるなら、この誘惑には対抗しなければならない&lt;/li&gt;
+&lt;li&gt;そして、ほとんどの機械学習のアルゴリズムは、とてもシンプルなラベル (例えば二値ラベル) を使って、この上なく見事に不確かさをモデル化するように調整されている&lt;/li&gt;
+&lt;li&gt;確率的なグラフィカルモデルはモデルの構造の問題に取り組んでいるが、モデルの構造は人手で設計されているのでスケールしない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;先程述べたように、最近の研究では論理構造と統計モデルを直接組み合わせているが、まだスケーラビリティが問題ある&lt;/li&gt;
+&lt;li&gt;私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
+
+&lt;ul&gt;
+&lt;li&gt;deep neural networkがYouTubeの画像データを使って学習した&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;しかしながら、意味のモデル化を避け、データの規模に頼っているシステムはもろい&lt;/li&gt;
+&lt;li&gt;AskMSR (人手で設計したルールに基づくQAシステム (Brill et al., 2002) に&amp;rdquo;How many feet are there in a lightyear? (1光年は何フィートか)？&amp;rdquo;という質問をしたら&amp;rdquo;Winnie the Pooh&amp;rdquo;と回答した
+
+&lt;ul&gt;
+&lt;li&gt;ディズニーのキャラクターであるBuzz Lightyearが根拠になって回答された&lt;/li&gt;
+&lt;li&gt;意味の処理をちゃんとやっていない (質問は&amp;rdquo;how many&amp;rdquo;で始まっているので、回答は数字なはず)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;IBMのWatson (IRの様々な技術を組み合わせて人間のクイズ王に勝ったシステム) でさえもUSの都市に関する質問をしたらトロントと答えた&lt;/li&gt;
+&lt;li&gt;Deep Learningは強力なパラダイムである
+
+&lt;ul&gt;
+&lt;li&gt;音声認識、画像分類では大きな成果を上げているが、まだシステムが解釈可能でなかったり、質問可能でなかったり、修正可能でなかったり、スケールしなかったりする&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
+
+&lt;ul&gt;
+&lt;li&gt;文が意味をなすかどうか、あるいは文が文法的かどうかという人間には簡単な問題すらまだ解けていない
+
+&lt;ul&gt;
+&lt;li&gt;そのドメインにおけるリッチなモデルが、自然言語の理解には必要であるため
+
+&lt;ul&gt;
+&lt;li&gt;しかし、リッチなモデルを作るには、自然言語処理の高い技術が必要&lt;/li&gt;
+&lt;li&gt;そのため、問題を限定して解くことが多い&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;別の理由としては、NLPのタスクで機械学習のモデルを学習するときには、データの構造を直接利用する、というよりは二値ラベルのようなシンプルなものを利用するため問題をうまく解けないということも考えられる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;意味をモデル化する試みでは、簡単のために、よく問題を限定する&lt;/li&gt;
+&lt;li&gt;問題を限定すると、その解はスケールできない&lt;/li&gt;
+&lt;li&gt;問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう&lt;/li&gt;
+&lt;li&gt;どうやって友達を救いますか？
+
+&lt;ul&gt;
+&lt;li&gt;彼を何テラバイトもの訓練データとともに部屋に閉じ込め、「一週間これでパラメータを更新しといてね」ということはしないでしょう&lt;/li&gt;
+&lt;li&gt;あなたはあっという間にもっともありがちな彼の誤解が何なのかを考える
+
+&lt;ul&gt;
+&lt;li&gt;「彼が誤解を修正すべきところはどこなんだろう」&lt;/li&gt;
+&lt;li&gt;あなたは一つや二つ、彼に質問をするかもしれない: 彼には質問することができる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;つまり、あなたは彼の思考に関する解釈可能なモデルを持っていることになる&lt;/li&gt;
+&lt;li&gt;モジュラ性は人間の学習の強い区分けによって提案される
+
+&lt;ul&gt;
+&lt;li&gt;人間は自転車に乗る方法を学ぶ時に歯の磨き方を忘れない&lt;/li&gt;
+&lt;li&gt;機械は、あらたに間違えたことを修正する時に、もともと正しく分類できていたものを間違えるようになってしまう&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;難しいタスクにおいてさえ、人間は何かの意味を認識する時に、大量のラベル付きデータを使わない
+
+&lt;ul&gt;
+&lt;li&gt;学習のプロセスは世界知識のモデルを更新する小さなステップに分割される
+
+&lt;ul&gt;
+&lt;li&gt;見えない統計的なパラメータを更新しているわけではない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;人間は記録、更新が簡単な意味のモデルを持たなければならない
+
+&lt;ul&gt;
+&lt;li&gt;少なくとも、彼らのモデルは解釈可能で、修正可能で、質問可能であることを示唆している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;discussion:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Discussion&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった&lt;/li&gt;
+&lt;li&gt;ルールベースなシステムが解けない問題は、あまりない例外であり、それを解けるようにするために人手でルールを更新するというのは大規模なデータに対してスケールしない&lt;/li&gt;
+&lt;li&gt;機械学習は多くの場合、強力なツールであるのだけど、多くの場合解釈が難しく、ラベル付きデータ無しに改善することが難しい&lt;/li&gt;
+&lt;li&gt;機械学習は、適切な場面で使えば当然強力なツールである
+
+&lt;ul&gt;
+&lt;li&gt;データの構造を最大限活用した後に、データに残っている不確かさのモデル化に使うことに制限することが考えられる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;人間にとってテキストが曖昧性を持たないという事実は、不確かさのモデル化は解くべき重要な問題ではないことを示唆している
+
+&lt;ul&gt;
+&lt;li&gt;不確かさがモデル化されなければならない状況やラベルが極めて単純な状況において機械学習アルゴリズムの使用を抑えて、代わりにリッチな構造の、曖昧性のないテキストのために設計された他の手段を模索することは、機械学習が基づく数学的な基礎を放棄しているわけではない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</title>
+      <link>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
+      <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
+slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content&#34;&gt;slideshare&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;まとめ:9b9474284a26779b41c6a09181dec8da&#34;&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;CIKM 2013でBest paperを取った、著者が全員女性(&lt;a href=&#34;http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/&#34;&gt;参考&lt;/a&gt;)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
+何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。&lt;/p&gt;
+
+&lt;p&gt;以下、メモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters:9b9474284a26779b41c6a09181dec8da&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)
+
+&lt;ul&gt;
+&lt;li&gt;羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう&lt;/li&gt;
+&lt;li&gt;くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;serendipity:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h3&gt;
+
+&lt;p&gt;役に立つんだけど、特に探していたわけではないもの。&lt;/p&gt;
+
+&lt;h3 id=&#34;entity-search:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity Search&lt;/h3&gt;
+
+&lt;p&gt;この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。&lt;/p&gt;
+
+&lt;h2 id=&#34;この論文の焦点:9b9474284a26779b41c6a09181dec8da&#34;&gt;この論文の焦点&lt;/h2&gt;
+
+&lt;h3 id=&#34;what:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHAT&lt;/h3&gt;
+
+&lt;p&gt;ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？&lt;/p&gt;
+
+&lt;h3 id=&#34;why:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHY&lt;/h3&gt;
+
+&lt;p&gt;そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？&lt;/p&gt;
+
+&lt;h2 id=&#34;データ:9b9474284a26779b41c6a09181dec8da&#34;&gt;データ&lt;/h2&gt;
+
+&lt;h3 id=&#34;yahoo-answers:9b9474284a26779b41c6a09181dec8da&#34;&gt;Yahoo! Answers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ごくわずかにまとめられた意見、ゴシップ、個人情報&lt;/li&gt;
+&lt;li&gt;観点が多様&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;wikipedia:9b9474284a26779b41c6a09181dec8da&#34;&gt;Wikipedia&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;高品質の情報が整理されている&lt;/li&gt;
+&lt;li&gt;ニッチなトピックが豊富&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;entity-relation-extraction:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
+
+&lt;h3 id=&#34;entity-wikipediaに記述されている概念:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
+
+&lt;p&gt;1 テキストから表層形を識別し、
+2 Wikipediaのentityと紐付けして、&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文脈依存&lt;/li&gt;
+&lt;li&gt;文脈非依存な素性
+
+&lt;ul&gt;
+&lt;li&gt;click log&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)&lt;/p&gt;
+
+&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度:9b9474284a26779b41c6a09181dec8da&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
+
+&lt;p&gt;entityが現れるドキュメントを結合したものがベクトルで表される&lt;/p&gt;
+
+&lt;h2 id=&#34;dataset-features-metadata:9b9474284a26779b41c6a09181dec8da&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
+
+&lt;h3 id=&#34;sentiment:9b9474284a26779b41c6a09181dec8da&#34;&gt;Sentiment&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SentiStrengthを用いてpositive &amp;amp; negativeのスコアを計算する
+
+&lt;ul&gt;
+&lt;li&gt;インフォーマルな英語の極性判定でstate-of-the-art&lt;/li&gt;
+&lt;li&gt;このままだと文書レベルでの極性判定
+
+&lt;ul&gt;
+&lt;li&gt;文単位でpositive、negativeのスコアを割り当てて、それぞれの平均が文書単位の極性のスコアになる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;文書は複数のentityを含むことが多いのでentity単位での極性はうまく測れない&lt;/li&gt;
+&lt;li&gt;まずentityのそれぞれ前後10単語のウィンドウに対して極性のスコアを計算する&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;attitudeとsentimentalityをウィンドウに対して計算する[Kucuktunc&amp;rsquo;12]
+
+&lt;ul&gt;
+&lt;li&gt;attitude: positiveもしくはnegativeに対する傾向&lt;/li&gt;
+&lt;li&gt;sentimentality: 極性の大きさ&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;entityが現れるウィンドウのattitude, sentimentalityの平均値がentity単位の素性とする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;Quality&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可読性&lt;/li&gt;
+&lt;li&gt;Flesch Reading Ease score[14]
+
+&lt;ul&gt;
+&lt;li&gt;スコアが高いほど理解するのが難しい&lt;/li&gt;
+&lt;li&gt;スコアが低いほど理解するのが易しい&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Fig1は二つのデータセットにおけるエンティティの可読性の分布&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;topical-category:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topical Category&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Yahoo Content Taxonomy
+
+&lt;ul&gt;
+&lt;li&gt;Table 2&lt;/li&gt;
+&lt;li&gt;二つのデータ・セット中の概念体型は使わない
+
+&lt;ul&gt;
+&lt;li&gt;整合性をとるため&lt;/li&gt;
+&lt;li&gt;二つのデータセットにおける実験結果を比較するため&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;US-Englishのニュース記事を使って訓練した分類器で文書分類する&lt;/li&gt;
+&lt;li&gt;entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;retrieval:9b9474284a26779b41c6a09181dec8da&#34;&gt;Retrieval&lt;/h2&gt;
+
+&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart:9b9474284a26779b41c6a09181dec8da&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;self-loop probability: beta
+他のノードへの伝搬を遅らせて、random walkの開始ノードの重要性をより高める
+
+&lt;ul&gt;
+&lt;li&gt;先行研究にしたがって、beta = 0.9 [6, 12]&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;follow one of the out-links with probability: 1 - beta
+エッジの重みに比例してrandom walkする&lt;/li&gt;
+&lt;li&gt;random jumpの確率は0 (alpha = 0)
+
+&lt;ul&gt;
+&lt;li&gt;random jumpすると結果が悪くなるため&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;反復の終了条件
+
+&lt;ul&gt;
+&lt;li&gt;前回とのノルムの差が10^-6以下、もしくは30回反復した&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;scoring-method:9b9474284a26779b41c6a09181dec8da&#34;&gt;scoring method&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;testbed:9b9474284a26779b41c6a09181dec8da&#34;&gt;Testbed&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo! Answersの文書中に共に現れる上位50件のクエリ&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;precision-5-map:9b9474284a26779b41c6a09181dec8da&#34;&gt;Precision @5, MAP&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Precision: 66.8% on WP, 72.4% on YA&lt;/li&gt;
+&lt;li&gt;MAP: 0.716 on WP, 0.762 on YA
+ふたつのデータセットでの性能は同等であるものの、ランキングされるentityにはあまり重複がないため、二つのランキング結果を結合すると性能が上がる
+
+&lt;ul&gt;
+&lt;li&gt;Fagin et al. [13]のrank aggregationを使う&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;annotator-agreement:9b9474284a26779b41c6a09181dec8da&#34;&gt;Annotator agreement&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1つのクエリにつき、annotatorは3人
+
+&lt;ul&gt;
+&lt;li&gt;クラウドソーシングしてるので、信頼出来ないannotatorは排除&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(overlap): 0.85%
+
+&lt;ul&gt;
+&lt;li&gt;馴染みのないクエリはagreementが低い (Secosteroid, Sally Kern, &amp;hellip;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;average-overlap-in-top-5:9b9474284a26779b41c6a09181dec8da&#34;&gt;Average overlap in top 5&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;results: 12%
+
+&lt;ul&gt;
+&lt;li&gt;= 0.6 entity/top 5 entities&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;error-analysis:9b9474284a26779b41c6a09181dec8da&#34;&gt;Error analysis&lt;/h3&gt;
+
+&lt;p&gt;提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;例) Egyptに最も近い二つのentity
+
+&lt;ul&gt;
+&lt;li&gt;British Pacific Fleet, FC Groningen (WP)&lt;/li&gt;
+&lt;li&gt;Spring, IGN (YA)&lt;/li&gt;
+&lt;li&gt;Springは&amp;rdquo;Arab Spring&amp;rdquo;と間違えて識別された可能性があるが、このSpringは提案手法があまりEgyptの近くをみないので下位にランクされる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;とても似通ったentityばかりが上位にランクされてしまうこともある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;例) インフルエンザのウィルス名、Mac PowerBookのバージョン名で上位がうまる
+
+&lt;ul&gt;
+&lt;li&gt;random walk時に密度が高いサブグラフにトラップされてしまうことで起きる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;entityは関連していないentityが近くに来ることがある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;entity extractionの失敗&lt;/li&gt;
+&lt;li&gt;文脈類似度を測るときのノイズ&lt;/li&gt;
+&lt;li&gt;例) 同音異義語が強くつながってしまう
+
+&lt;ul&gt;
+&lt;li&gt;意味的な素性を使わずに類似度を測ってしまう&lt;/li&gt;
+&lt;li&gt;(意味が違うなら文脈も違う気もする&amp;hellip;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;制約:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約&lt;/h2&gt;
+
+&lt;p&gt;二つのデータセットが、serendipitous searchに何をもたらしてくれるのか調べる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;YAとWPにおける実験結果を比べる&lt;/li&gt;
+&lt;li&gt;どの素性が検索結果に影響するのか調べる
+
+&lt;ul&gt;
+&lt;li&gt;このために、データセットからメタデータを抽出する&lt;/li&gt;
+&lt;li&gt;そして、sentimentality, quality, topical categoryの次元に対して、検索に制約をかける&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる&lt;/p&gt;
+
+&lt;h3 id=&#34;topic:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topic&lt;/h3&gt;
+
+&lt;p&gt;Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
+Constraint 1: entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;high-low-sentimentalyty:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
+
+&lt;p&gt;Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
+Constraint 2(3): entityは中央値(0.6 for YP, 0 for WP)よりも高いsentimentalityでなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;high-low-readability:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Readability&lt;/h3&gt;
+
+&lt;p&gt;Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
+Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)でなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;制約の結果:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約の結果&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;low-sentimentalityとlow-readabilityが負の影響を持っている&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;serendipity-1:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;accuracy以外にも推薦エンジンの性能を測ることが重要である&lt;/li&gt;
+&lt;li&gt;serendipity = unexpectedness + relevance&lt;/li&gt;
+&lt;li&gt;baselineの結果に入っていない結果のrelの平均
+
+&lt;ul&gt;
+&lt;li&gt;relはannotatorの判断（？）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;baseline
+
+&lt;ul&gt;
+&lt;li&gt;Top: 2つの商用検索エンジンの検索結果のうち、最も上位5位の検索結果に現れる回数が多いentity&lt;/li&gt;
+&lt;li&gt;Top Nwp: TopからqueryのWikipediaの記事を除いたもの。WPに対するバイアスを避けるため&lt;/li&gt;
+&lt;li&gt;Rel: 2つの商用検索エンジンから提案される関連クエリから得られる結果のうち、頻度が高い上位5件のentity&lt;/li&gt;
+&lt;li&gt;Top+Rel: Top, Relの和集合&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Table 5: 各baselineに対する、各制約条件で計算されたserendipity
+
+&lt;ul&gt;
+&lt;li&gt;topic-constrainedな条件ではすべてのbasline/datasetにおけるserendipityを上回っている&lt;/li&gt;
+&lt;li&gt;YAは常にWPを上回っている&lt;/li&gt;
+&lt;li&gt;COMが一番良いserendipityを出せる&lt;/li&gt;
+&lt;li&gt;括弧の中の値は各制約条件で提示されたすべての結果に対するunexpectedでrelaventな結果の割合
+
+&lt;ul&gt;
+&lt;li&gt;baselineによって弾かれていたentityも含めたときの値&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;これはだいたいserendipityと同じくらいの高さになっている
+
+&lt;ul&gt;
+&lt;li&gt;つまり、最も強いbasline Rel+Topと比べた時でさえ、提案手法はすごい数のunexpectedでrelaventな結果を検索している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;user-perceived-quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;User-Perceived Quality&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する&lt;/li&gt;
+&lt;li&gt;順序付きリストの要素のペアワイズで比較する (順番はランダムに決める)
+
+&lt;ul&gt;
+&lt;li&gt;最初のほうが良かった&lt;/li&gt;
+&lt;li&gt;二つ目のほうが良かった&lt;/li&gt;
+&lt;li&gt;両方だめだった&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;reference result rankingを各次元に対して構築する
+
+&lt;ul&gt;
+&lt;li&gt;ランキング結果の集合の和集合(?)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;各ペアは3人のannotatorにより評価される
+
+&lt;ul&gt;
+&lt;li&gt;ほとんど重複がない時に評価するのは非常に手間がかかる&lt;/li&gt;
+&lt;li&gt;適切なランクを推定するために、すべての順序リスト中の要素のペアから比較するペアをサンプリングする
+
+&lt;ul&gt;
+&lt;li&gt;votingによってreference result rankingにおける順位を決める&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf&#34;&gt;http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;labeling:9b9474284a26779b41c6a09181dec8da&#34;&gt;Labeling&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;どちらの結果がよりクエリと関連しているか？&lt;/li&gt;
+&lt;li&gt;そのクエリに興味を持つ人がいたら、その人はこの結果に興味を持つと思うか？&lt;/li&gt;
+&lt;li&gt;あなたがそのクエリに興味がないとしても、この結果はおもしろいか？&lt;/li&gt;
+&lt;li&gt;そのクエリについてなにか新しいことを学んだか？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b:9b9474284a26779b41c6a09181dec8da&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた
+
+&lt;ul&gt;
+&lt;li&gt;Oil Spill -&amp;gt; Sweaters for Penguins&lt;/li&gt;
+&lt;li&gt;Robert Pattinson -&amp;gt; Water for Elephants&lt;/li&gt;
+&lt;li&gt;Egypt -&amp;gt; Ptolematic Kingdom&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;専門的には似ているけど、面白くない例
+
+&lt;ul&gt;
+&lt;li&gt;Egypt -&amp;gt; Cairo Conference&lt;/li&gt;
+&lt;li&gt;Netflix -&amp;gt; Blu-ray Disc&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;YAはreference rankに似た結果を出せている&lt;/li&gt;
+&lt;li&gt;Topical categoryはreferece rankingとの類似度を高めている&lt;/li&gt;
+&lt;li&gt;Sentiment &amp;amp; Readabilityもreferece rankingとの類似度を高めている&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>文書要約メモ（ACL2013）</title>
+      <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
+      <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
+採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。&lt;/p&gt;
+
+&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。&lt;/li&gt;
+&lt;li&gt;先行研究のIneger Linear Programmingに基づいた手法と比べると
+
+&lt;ul&gt;
+&lt;li&gt;提案手法はソルバーを必要としない&lt;/li&gt;
+&lt;li&gt;提案手法は有意に速い&lt;/li&gt;
+&lt;li&gt;提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する&lt;/li&gt;
+&lt;li&gt;TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-1:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する&lt;/li&gt;
+&lt;li&gt;regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。&lt;/li&gt;
+&lt;li&gt;学習では、参照要約中での真の頻度との距離が最小になるように学習をする&lt;/li&gt;
+&lt;li&gt;選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている&lt;/li&gt;
+&lt;li&gt;提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-2:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する&lt;/li&gt;
+&lt;li&gt;提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ&lt;/li&gt;
+&lt;li&gt;非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う&lt;/li&gt;
+&lt;li&gt;三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す&lt;/li&gt;
+&lt;li&gt;DUC 2004とニュース記事に対するユーザのコメントを使って実験&lt;/li&gt;
+&lt;li&gt;サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-3:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;@Pnnc205jさんの論文&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-4:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文書要約において中心性とは元の文書の核となる部分を含むべきだということ&lt;/li&gt;
+&lt;li&gt;既存の手法は冗長性を除いたり文圧縮をおこなうことで中心性を得ようと試みている&lt;/li&gt;
+&lt;li&gt;この論文では元文書のドメインを活用することで文書要約が、抽象型要約に向けてどれくらいこのようなパラダイムから前進できるかを調査する&lt;/li&gt;
+&lt;li&gt;実験ではcaseframeという意味的なレベルで人手の要約とシステムの要約の近さを図る&lt;/li&gt;
+&lt;li&gt;提案手法は
+
+&lt;ul&gt;
+&lt;li&gt;より抽象的で、文のまとめあげをおこなう&lt;/li&gt;
+&lt;li&gt;topicalなcaseframeを他のシステムほど含まない&lt;/li&gt;
+&lt;li&gt;元文書だけから再構築はできないけど、同じドメインの文書を加えればできる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-5:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;クエリ指向型複数文書要約のための文圧縮を使った手法を提案する&lt;/li&gt;
+&lt;li&gt;構文木に基づく文圧縮モデル&lt;/li&gt;
+&lt;li&gt;ビームサーチのデコーダを提案。効率的、高圧縮。&lt;/li&gt;
+&lt;li&gt;圧縮するためのスコア関数にどうやって言語的な特徴やクエリとの関連性を組み込むのかを示す&lt;/li&gt;
+&lt;li&gt;DUC 2006, DUC 2007のstate-of-the-artよりも有意によくなることを示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-6:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう&lt;/li&gt;
+&lt;li&gt;Multiple-Squence Alignmentという他のドメインにも使いまわせる抽象的な要約のテンプレートを使う&lt;/li&gt;
+&lt;li&gt;Overgenerate-and-Rankというものを候補の生成、ランキングに使うらしい&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</title>
+      <link>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
+      <pubDate>Tue, 10 Sep 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
+      <description>
+
+&lt;p&gt;KDD 2013読み会に参加させていただきました。
+せっかくなのでと思い論文を読んで発表してきた。
+主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。
+これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。
+個人的には参加者数が多すぎず少なすぎなかったのが良かった。&lt;/p&gt;
+
+&lt;h2 id=&#34;読んだ論文:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;読んだ論文&lt;/h2&gt;
+
+&lt;p&gt;Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013&lt;/p&gt;
+
+&lt;p&gt;proceeding (&lt;a href=&#34;http://delivery.acm.org/10.1145/2490000/2487636/p32-thakur.pdf?ip=119.72.198.210&amp;amp;id=2487636&amp;amp;acc=OA&amp;amp;key=BF13D071DEA4D3F3B0AA4BA89B4BCA5B&amp;amp;CFID=172417999&amp;amp;CFTOKEN=20689885&amp;amp;__acm__=1378782056_5a16e280ca3058cd06f535a4740ad6be&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。
+カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。
+記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。&lt;/p&gt;
+
+&lt;p&gt;ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。
+これは1/2近似であることを証明する時に必要な性質をもっているため。
+この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。
+今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら&lt;a href=&#34;http://theory.stanford.edu/~sergei/papers/soda10-jaccard.pdf&#34;&gt;他の論文&lt;/a&gt;でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。&lt;/p&gt;
+
+&lt;p&gt;人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。&lt;/p&gt;
+
+&lt;p&gt;関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。&lt;/p&gt;
+
+&lt;h2 id=&#34;発表資料:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;発表資料&lt;/h2&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;//www.scribd.com/embeds/166900012/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-2nk8dys4z67mwblosm6o&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_26933&#34; width=&#34;610&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;議論:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;議論&lt;/h2&gt;
+
+&lt;p&gt;大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。
+自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは&lt;/li&gt;
+&lt;li&gt;diversityを良くしたら本当にユーザにとってためになるものが提供できるのか
+
+&lt;ul&gt;
+&lt;li&gt;極論するとランダムな文書集合で満足するユーザがいるかもしれない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;diversityにも色々あるし、diversityの良さは人によって違うのでは
+
+&lt;ul&gt;
+&lt;li&gt;色々なdiversityと人間の評価の相関とか調べると面白いかも&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Active Sampling for Entity Matching (KDD 2012)を読んだ</title>
+      <link>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</link>
+      <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</guid>
+      <description>
+
+&lt;p&gt;proceeding (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1036/1/main.pdf&#34;&gt;pdf&lt;/a&gt;),
+slide (&lt;a href=&#34;http://shrdocs.com/presentations/9266/index.html&#34;&gt;html&lt;/a&gt;),
+journal (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、
+マリッサ・メイヤーのYahoo! CEO就任は&lt;a href=&#34;http://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AA%E3%83%83%E3%82%B5%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC&#34;&gt;2012年7月17日&lt;/a&gt;、KDD 2012は&lt;a href=&#34;http://kdd2012.sigkdd.org/&#34;&gt;2012年8月中旬&lt;/a&gt;、
+おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという
+余計な詮索をしていた。
+journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
+これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。&lt;/p&gt;
+
+&lt;h2 id=&#34;概要:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
+制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
+ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので
+提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
+に比べて早く、しかも精度もよく学習できることを示している。&lt;/p&gt;
+
+&lt;h2 id=&#34;発表資料:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;発表資料&lt;/h2&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/157827725/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-1si7srgey3zm82empzuw&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_66221&#34; width=&#34;700&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以下メモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;convex-hull-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Convex hull algorithm&lt;/h2&gt;
+
+&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+    &lt;img src=&#34;http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg&#34; width=&#34;500&#34; height=&#34;375&#34;&gt;
+&lt;/div&gt;
+precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法
+のようにして問題から制約を取り除く。
+また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を
+recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。
+探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
+ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。&lt;/p&gt;
+
+&lt;h2 id=&#34;rejection-sampling-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
+
+&lt;p&gt;black boxの学習をおこなう前に呼び出されるアルゴリズム。
+気持ちを理解するには&lt;a href=&#34;http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html&#34;&gt;Machined Learnings: Cost-Sensitive Binary Classification and Active Learning&lt;/a&gt;が詳しい。
+要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して
+少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル
+が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解
+が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。
+今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル
+についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ
+正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。
+棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。&lt;/p&gt;
+
+&lt;p&gt;この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
+見えない場合には現実的な方法である。&lt;/p&gt;
+
+&lt;h2 id=&#34;合わせて読みたい:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;合わせて読みたい&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/&#34;&gt;コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>It takes a long time to become young.</title>
+      <link>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
+      <pubDate>Sun, 07 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
+      <description>
+
+&lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
+いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
+深い言葉であると思う。&lt;/p&gt;
+
+&lt;p&gt;Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)&lt;/p&gt;
+
+&lt;p&gt;proceeding(&lt;a href=&#34;http://cs.stanford.edu/people/jure/pubs/language-www13.pdf&#34;&gt;pdf&lt;/a&gt;),  slide(&lt;a href=&#34;http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
+すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
+タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
+よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
+の関係を調べている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+&lt;img src=&#34;http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg&#34; width=&#34;500&#34; height=&#34;376&#34; alt=&#34;nocountryforoldmembers&#34;&gt;&lt;/a&gt;
+&lt;br&gt;
+※著者スライドより
+&lt;/div&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
+を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
+言葉の変化には適応しなくなるというもの。
+実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
+参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
+流行っている言い回し、言葉を積極的に使う。
+ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
+例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&amp;hellip;などと書くのだけど
+参加して日が浅いユーザはS: spicy&amp;hellip;などと書く。コミュニティ全体としては年を追う毎にS:という表記で
+ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
+つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。
+いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。&lt;/p&gt;
+
+&lt;p&gt;このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
+特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。
+論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。&lt;/p&gt;
+
+&lt;p&gt;以下、スライドを見ながら取ったメモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;取り組む課題:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;取り組む課題&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ユーザはどのようにコミュニティの一員になるのか&lt;/li&gt;
+&lt;li&gt;ユーザとコミュニティはどのように共に成長していくのか&lt;/li&gt;
+&lt;li&gt;ユーザがコミュニティを退会することを予測できるのか&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アイディア:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アイディア&lt;/h2&gt;
+
+&lt;p&gt;コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。&lt;/p&gt;
+
+&lt;h2 id=&#34;アプローチ-取り組む課題と対応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;言葉の変化を捉えるための統計的なフレームワークを提案する&lt;/li&gt;
+&lt;li&gt;言葉の変化に対するユーザの反応を定量化する&lt;/li&gt;
+&lt;li&gt;ユーザがコミュニティを退会することを予測するために有効な素性を提案する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;長期的なデータ:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;長期的なデータ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BeerAdvocate&lt;/li&gt;
+&lt;li&gt;RateBeer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;言葉の変化の例-puzzle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
+
+&lt;p&gt;香りの議論の導入で使われる二つの慣例 (Aroma &amp;amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。&lt;/p&gt;
+
+&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
+
+&lt;p&gt;コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
+ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。&lt;/p&gt;
+
+&lt;h2 id=&#34;二つの変化の関係:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;二つの変化の関係&lt;/h2&gt;
+
+&lt;p&gt;ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。&lt;/p&gt;
+
+&lt;h3 id=&#34;stage1:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage1:&lt;/h3&gt;
+
+&lt;p&gt;ユーザはコミュニティの言葉に順応する&lt;/p&gt;
+
+&lt;h3 id=&#34;stage2:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage2:&lt;/h3&gt;
+
+&lt;p&gt;ユーザの言葉はコミュニティの言語モデルと遠ざかる&lt;/p&gt;
+
+&lt;h3 id=&#34;仮説:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;仮説&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ユーザは新しい言葉を使うようになって距離が遠くなる&lt;/li&gt;
+&lt;li&gt;ユーザは適応することをやめ、変化するコミュニティに合わせなくなる&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;検証:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;検証&lt;/h3&gt;
+
+&lt;p&gt;ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。&lt;/p&gt;
+
+&lt;h2 id=&#34;lexical-innovationへの適応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある&lt;/li&gt;
+&lt;li&gt;新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;puzzle-answer:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;puzzle answer&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。&lt;/li&gt;
+&lt;li&gt;ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;user-lifecycle-summary:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
+
+&lt;h3 id=&#34;オンラインでの言語的なlifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;0%: ユーザはコミュニティに参加&lt;/li&gt;
+&lt;li&gt;Stage 1: コミュニティでの慣例に適応&lt;/li&gt;
+&lt;li&gt;30%: 最も変化に適応する時期&lt;/li&gt;
+&lt;li&gt;Stage 2: 使う言葉が単調になる&lt;/li&gt;
+&lt;li&gt;100%: 退会&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;誕生: リアルなコミュニティに属する&lt;/li&gt;
+&lt;li&gt;Stage 1: コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）&lt;/li&gt;
+&lt;li&gt;17歳: コミュニティの慣例に最も適応する時期&lt;/li&gt;
+&lt;li&gt;Stage 2: 大人になって使う言葉が安定する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。&lt;/p&gt;
+
+&lt;h2 id=&#34;elastic-lifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Elastic lifecycle&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。&lt;/li&gt;
+&lt;li&gt;Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage 1が終わる、などの絶対期な時間ではないということ。&lt;/li&gt;
+&lt;li&gt;適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;これらの特徴を利用してユーザの最終的なlifespanを予測する。&lt;/p&gt;
+
+&lt;h2 id=&#34;predicting-user-lifespan:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Predicting user lifespan&lt;/h2&gt;
+
+&lt;h3 id=&#34;task:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Task&lt;/h3&gt;
+
+&lt;p&gt;最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。&lt;/p&gt;
+
+&lt;h3 id=&#34;linguistic-change-features:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Linguistic change features:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;コミュニティの言語モデルとの距離&lt;/li&gt;
+&lt;li&gt;そのユーザの言葉の安定性&lt;/li&gt;
+&lt;li&gt;lexical inovationへの適応&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;baselines:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Baselines:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;投稿の頻度&lt;/li&gt;
+&lt;li&gt;月ごとの投稿の割合&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。&lt;/p&gt;
+
+&lt;h3 id=&#34;結果:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結果&lt;/h3&gt;
+
+&lt;p&gt;最大でBaselineよりも12ポイント高い&lt;/p&gt;
+
+&lt;h2 id=&#34;結論:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結論&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;言語の変化を捉えるフレームワークの提案した&lt;/li&gt;
+&lt;li&gt;相対的な二段階のlifecycleを示した&lt;/li&gt;
+&lt;li&gt;ユーザの退会予測に取り組んだ&lt;/li&gt;
+&lt;li&gt;ユーザとコミュニティの共同的な進化を分析した&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
+      <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+      <pubDate>Sat, 16 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+      <description>
+
+&lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
+Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Named entity disambiguationをする&lt;/li&gt;
+&lt;li&gt;Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく&lt;/li&gt;
+&lt;li&gt;mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;e.g. MadridでManchesterとBarcelonaの試合があった&lt;/li&gt;
+&lt;li&gt;Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アプローチ:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;アプローチ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
+&lt;ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;priorは、mentionに含まれる表現が一般的にentity e_jである確率&lt;/li&gt;
+&lt;li&gt;context similarityはmentionとentityの文脈類似度&lt;/li&gt;
+&lt;li&gt;coherenceは他のmentionのentityとの意味的な近さ
+&lt;ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標
+&lt;/ul&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;グラフの中からサブグラフを選択
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;サブグラフは、一つのmentionが一つのentityとエッジをもつ&lt;/li&gt;
+&lt;li&gt;サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる&lt;/li&gt;
+&lt;li&gt;サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない
+&lt;ul&gt;
+    + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない
+&lt;/ul&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く&lt;/li&gt;
+&lt;li&gt;アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする
+&lt;ul&gt;
+こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除
+&lt;/ul&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
+      <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+      <pubDate>Wed, 06 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+      <description>
+
+&lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:836e9543b7834fc340ebe71534bcd743&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;p&gt;tweet (英語のtweetに限定) の集合が与えられたときに&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．&lt;/li&gt;
+&lt;li&gt;これらの同定されたテキストに対して名寄せをおこなう．
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;名寄せは，一番単語数が多い表現にまとめる&lt;/li&gt;
+&lt;li&gt;最大の単語数の表現が複数あればWikipediaにある表現を採用&lt;/li&gt;
+&lt;li&gt;PERSONと識別された三つの表現&amp;rdquo;Gaga&amp;rdquo;, &amp;ldquo;Lady Gaaaga&amp;rdquo;, &amp;ldquo;Lady Gaga&amp;rdquo;は&amp;rdquo;Lady Gaga&amp;rdquo;にまとめる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アプローチ:836e9543b7834fc340ebe71534bcd743&#34;&gt;アプローチ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;tweetは，エンティティに対していろいろな表現をされる．&lt;/li&gt;
+&lt;li&gt;e.g. &amp;ldquo;Anne Gronloh&amp;rdquo;というエンティティには&amp;rdquo;Mw.,Gronloh&amp;rdquo;, &amp;ldquo;Anneke Kronloh&amp;rdquo;, &amp;ldquo;Mevrouw G&amp;rdquo;など
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;rdquo;&amp;hellip; Alex&amp;rsquo;s jokes. &amp;hellip;&amp;ldquo;と&amp;rdquo;&amp;hellip; Alex Russo was like&amp;hellip;&amp;ldquo;という二つのtweet
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;NERモデルにより&amp;rdquo;Alex&amp;rdquo;と&amp;rdquo;Alex Russo&amp;rdquo;がともにPERSONであることが識別できれば，NENモデルは&amp;rdquo;Alex&amp;rdquo;を&amp;rdquo;Alex Russo&amp;rdquo;に名寄せできる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;rdquo; &amp;hellip; she knew Burger King when &amp;hellip;&amp;ldquo;と&amp;rdquo;.. I&amp;rsquo;m craving all sorts of food: mcdonalds, burger king, &amp;hellip;&amp;ldquo;という二つのtweet
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;NENモデルが&amp;rdquo;Burger King&amp;rdquo;と&amp;rsquo;burger king&amp;rdquo;が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;学習にはCRFを用いる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．&lt;/li&gt;
+&lt;li&gt;ラベルは{B, I, L, O, U}&lt;/li&gt;
+&lt;li&gt;一つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;と二つ目のtweetに含まれる&amp;rdquo;Lady Gaga&amp;rdquo;にPERSONが割り当てられ，一つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;と二つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;が同一のエンティティを指していると識別できれば&amp;rdquo;Gaga&amp;rdquo;と&amp;rdquo;Lady Gaga&amp;rdquo;は同じものを指している&lt;/li&gt;
+&lt;li&gt;(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．&lt;/li&gt;
+&lt;li&gt;初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値&lt;/li&gt;
+&lt;li&gt;第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値&lt;/li&gt;
+&lt;li&gt;初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．&lt;/li&gt;
+&lt;li&gt;skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;複数のtweetを同時に考慮することの利点&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;rdquo;&amp;hellip; Bobby Shaw you don&amp;rsquo;t invite the wind&amp;hellip;&amp;ldquo;と&amp;rdquo;&amp;hellip; I own yah! Loool bobby shaw&amp;hellip;&amp;rdquo;
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Bobby Shaw&amp;rdquo;をPERSONと識別することは比較的簡単．&lt;/li&gt;
+&lt;li&gt;一つ目のtweetの&amp;rdquo;you&amp;rdquo;が，二つ目のtweetの&amp;rsquo;bobby shaw&amp;rdquo;がPERSONであることの手がかりとなる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;ラベルの候補の絞り込み&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;外部資源から固有表現を取ってきて辞書を作っておく．&lt;/li&gt;
+&lt;li&gt;tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;new york&amp;rdquo;という句が出てきたとき，辞書にある&amp;rdquo;New York City&amp;rdquo;と&amp;rdquo;New York Times&amp;rdquo;と一致する．&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;new&amp;rdquo;には，&amp;rdquo;B-LOCATION&amp;rdquo;, &amp;ldquo;B-ORGANIZATION&amp;rdquo;，&amp;rdquo;york&amp;rdquo;には&amp;rdquo;I-LOCATION&amp;rdquo;, &amp;ldquo;I-ORGANIZATION&amp;rdquo;がラベルの候補の集合にそれぞれ追加される．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;normalization変数zもルールである程度決めてしまう&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．&lt;/li&gt;
+&lt;li&gt;tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1&lt;/li&gt;
+&lt;li&gt;tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;素性&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど&lt;/li&gt;
+&lt;li&gt;基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど&lt;/li&gt;
+&lt;li&gt;ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;感想-疑問点:836e9543b7834fc340ebe71534bcd743&#34;&gt;感想・疑問点&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
+      <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+      <pubDate>Fri, 01 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+      <description>
+
+&lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:381a36f16f92869b9003e45a4b32267c&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;p&gt;名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。&lt;/p&gt;
+
+&lt;p&gt;課題&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい&lt;/li&gt;
+&lt;li&gt;テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい&lt;/li&gt;
+&lt;li&gt;テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない&lt;/li&gt;
+&lt;li&gt;テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;提案手法のモチベーション:381a36f16f92869b9003e45a4b32267c&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。&lt;/li&gt;
+&lt;li&gt;ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。&lt;/li&gt;
+&lt;li&gt;具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。&lt;/li&gt;
+&lt;li&gt;このラベル付きの事例は各ステップでラベルを変更することができる。&lt;/li&gt;
+&lt;li&gt;どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;曖昧性解消のアプローチ:381a36f16f92869b9003e45a4b32267c&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;（良くない）シンプルな正例の作り方の例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。&lt;/li&gt;
+&lt;li&gt;こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。&lt;/li&gt;
+&lt;li&gt;具体的には、EMアルゴリズムを使う&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;訓練データの初期状態としてありうる二つのパターン&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;訓練データは真に正例の事例と、大量のラベルなしの事例からなる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある&lt;/li&gt;
+&lt;li&gt;ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;E-step&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる&lt;/li&gt;
+&lt;li&gt;具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;α^x_{min}は、事例ごとに決定されるパラメータ
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;M-step&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;分類器R&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。&lt;/li&gt;
+&lt;li&gt;このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。&lt;/li&gt;
+&lt;li&gt;ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。&lt;/li&gt;
+&lt;li&gt;分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。&lt;/li&gt;
+&lt;li&gt;また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。&lt;/li&gt;
+&lt;li&gt;SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;疑問点:381a36f16f92869b9003e45a4b32267c&#34;&gt;疑問点&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)&lt;/li&gt;
+&lt;li&gt;α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか
+（ある単語のパターンでは負例になりやすいとかそういうことではない？）&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
