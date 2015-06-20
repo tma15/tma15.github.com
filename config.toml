@@ -1,8 +1,7 @@
 baseurl = "http://tma15.github.io/"
 languageCode = "en-us"
 title = "Now is better than never."
-buildDrafts = false
-publishdir = "public"
-#uglyUrls = true
+buildDrafts = true
 
+Paginate = 1
 pygmentsstyle = "colorful"
