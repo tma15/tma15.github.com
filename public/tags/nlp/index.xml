@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nlp on Now is better than never.</title>
-    <link>http://localhost:1313/tags/nlp.html</link>
+    <link>http://tma15.github.io/tags/nlp/</link>
     <description>Recent content in Nlp on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 14 Jan 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/nlp.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://tma15.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>CYKアルゴリズムで係り受け解析</title>
-      <link>http://localhost:1313/blog/2015/01/cykfordependencyparsing.html</link>
+      <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
       <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2015/01/cykfordependencyparsing.html</guid>
+      <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
       <description>
 
 &lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
@@ -33,10 +33,10 @@
     
     <item>
       <title>CYKアルゴリズム</title>
-      <link>http://localhost:1313/blog/2015/01/cykmemo.html</link>
+      <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
       <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2015/01/cykmemo.html</guid>
+      <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
       <description>
 
 &lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
@@ -84,10 +84,10 @@ I eat pizza with Maria
     
     <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-      <link>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models.html</link>
+      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models.html</guid>
+      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
       <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
@@ -185,10 +185,10 @@ I eat pizza with Maria
     
     <item>
       <title>HMMを実装した</title>
-      <link>http://localhost:1313/blog/2014/10/hmm.html</link>
+      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
       <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2014/10/hmm.html</guid>
+      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
@@ -222,10 +222,10 @@ VBN --&amp;gt; NN      22
     
     <item>
       <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-      <link>http://localhost:1313/blog/2014/10/document-classification.html</link>
+      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
       <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2014/10/document-classification.html</guid>
+      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
@@ -335,10 +335,10 @@ Go言語  考え    0.700000
     
     <item>
       <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
-      <link>http://localhost:1313/blog/2013/12/mct.html</link>
+      <link>http://tma15.github.io/blog/2013/12/mct/</link>
       <pubDate>Fri, 27 Dec 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2013/12/mct.html</guid>
+      <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
@@ -589,10 +589,10 @@ Go言語  考え    0.700000
     
     <item>
       <title>文書要約メモ（ACL2013）</title>
-      <link>http://localhost:1313/blog/2013/9/acl2013-summ-note.html</link>
+      <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
       <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2013/9/acl2013-summ-note.html</guid>
+      <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
@@ -693,10 +693,10 @@ Go言語  考え    0.700000
     
     <item>
       <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
-      <link>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text.html</link>
+      <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
       <pubDate>Sat, 16 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text.html</guid>
+      <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
       <description>
 
 &lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
@@ -758,10 +758,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
     <item>
       <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
-      <link>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html</link>
+      <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
       <pubDate>Wed, 06 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets.html</guid>
+      <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
       <description>
 
 &lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
@@ -859,10 +859,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
     <item>
       <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
-      <link>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data.html</link>
+      <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
       <pubDate>Fri, 01 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data.html</guid>
+      <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
       <description>
 
 &lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
