@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never.</title>
-    <link>http://tma15.github.io/</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 21 Feb 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://tma15.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Dropoutの実装で気になって調べたこと</title>
-      <link>http://tma15.github.io/blog/2015/02/21/</link>
+      <link>http://localhost:1313/blog/2015/02/21/</link>
       <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+      <guid>http://localhost:1313/blog/2015/02/21/</guid>
       <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
@@ -46,20 +46,20 @@
     
     <item>
       <title>コメント欄を付けた</title>
-      <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
+      <link>http://localhost:1313/blog/2015/01/add-comment/</link>
       <pubDate>Sat, 17 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
+      <guid>http://localhost:1313/blog/2015/01/add-comment/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>CYKアルゴリズムで係り受け解析</title>
-      <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
+      <link>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</link>
       <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
+      <guid>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</guid>
       <description>
 
 &lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
@@ -78,10 +78,10 @@
     
     <item>
       <title>CYKアルゴリズム</title>
-      <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
+      <link>http://localhost:1313/blog/2015/01/cykmemo/</link>
       <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
+      <guid>http://localhost:1313/blog/2015/01/cykmemo/</guid>
       <description>
 
 &lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
@@ -129,10 +129,10 @@ I eat pizza with Maria
     
     <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+      <link>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+      <guid>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
       <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
@@ -230,10 +230,10 @@ I eat pizza with Maria
     
     <item>
       <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+      <link>http://localhost:1313/blog/2014/11/use-es-py/</link>
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+      <guid>http://localhost:1313/blog/2014/11/use-es-py/</guid>
       <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
@@ -453,10 +453,10 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
     
     <item>
       <title>二つの集合に重複して現れる要素の数を数える</title>
-      <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+      <link>http://localhost:1313/blog/2014/11/count-elem-go/</link>
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+      <guid>http://localhost:1313/blog/2014/11/count-elem-go/</guid>
       <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
@@ -549,10 +549,10 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
     
     <item>
       <title>mafが便利そう</title>
-      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+      <link>http://localhost:1313/blog/2014/11/maf-memo/</link>
       <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+      <guid>http://localhost:1313/blog/2014/11/maf-memo/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
@@ -727,20 +727,20 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
     
     <item>
       <title>atom.xmlを加えた</title>
-      <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
+      <link>http://localhost:1313/blog/2014/11/add-atom/</link>
       <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
+      <guid>http://localhost:1313/blog/2014/11/add-atom/</guid>
       <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
 </description>
     </item>
     
     <item>
       <title>HMMを実装した</title>
-      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+      <link>http://localhost:1313/blog/2014/10/hmm/</link>
       <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+      <guid>http://localhost:1313/blog/2014/10/hmm/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
@@ -774,10 +774,10 @@ VBN --&amp;gt; NN      22
     
     <item>
       <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+      <link>http://localhost:1313/blog/2014/10/document-classification/</link>
       <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+      <guid>http://localhost:1313/blog/2014/10/document-classification/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
@@ -887,10 +887,10 @@ Go言語  考え    0.700000
     
     <item>
       <title>PA-IIをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
+      <link>http://localhost:1313/blog/2014/10/go-pa2/</link>
       <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
+      <guid>http://localhost:1313/blog/2014/10/go-pa2/</guid>
       <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
@@ -922,10 +922,10 @@ Go言語  考え    0.700000
     
     <item>
       <title>AdaGrad&#43;RDAをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
+      <link>http://localhost:1313/blog/2014/10/go-adagrad/</link>
       <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
+      <guid>http://localhost:1313/blog/2014/10/go-adagrad/</guid>
       <description>
 
 &lt;p&gt;論文はこちら。&lt;/p&gt;
@@ -993,10 +993,10 @@ Acc: 0.9487590072057646
     
     <item>
       <title>パーセプトロンをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
+      <link>http://localhost:1313/blog/2014/10/go-perceptron/</link>
       <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
+      <guid>http://localhost:1313/blog/2014/10/go-perceptron/</guid>
       <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
 ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 
@@ -1039,10 +1039,10 @@ Acc: 0.8257203773097299
     
     <item>
       <title>Induced SortingをPythonで書いた</title>
-      <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+      <link>http://localhost:1313/blog/2014/5/induced_sorting_py/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+      <guid>http://localhost:1313/blog/2014/5/induced_sorting_py/</guid>
       <description>
 
 &lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。

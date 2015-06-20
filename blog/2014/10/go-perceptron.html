@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>パーセプトロンをGoで書いた</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>パーセプトロンをGoで書いた</h3>
+				<span class="label label-primary">Sat Oct 11, 2014</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/golang">golang</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
+ソースコードは<a href="https://github.com/tma15/goperceptron">こちら</a>。</p>
+
+<p>素性ベクトルのフォーマットは&lt;数値&gt;:&lt;数値&gt; である必要はなくて、&lt;文字列&gt;:&lt;数値&gt; でも読み込めるようにしました。
+また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
+多値分類もできます。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sports soccer:1 baseball:1
+food beef:1 pork:1
+</pre></div>
+</p>
+
+<p>今回は<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/">LIBSVM Data: Classification, Regression, and Multi-label</a>で公開されている二値分類用データを使って動かしてみました。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$go</span> build
+<span style="color: #906030">$.</span>/perceptron -f<span style="color: #303030">=</span>../data/a1a -m<span style="color: #303030">=</span>learn -w<span style="color: #303030">=</span>model -l<span style="color: #303030">=</span>10
+<span style="color: #906030">$.</span>/perceptron -f<span style="color: #303030">=</span>../data/a1a.t -m<span style="color: #303030">=</span><span style="color: #007020">test</span> -w<span style="color: #303030">=</span>model
+Acc: 0.8257203773097299
+</pre></div>
+</p>
+
+<p>-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
+テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。</p>
+
+<p>このデータは、</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$grep</span> <span style="background-color: #fff0f0">&quot;^+1&quot;</span> ../data/a1a.t|wc -l
+7446
+<span style="color: #906030">$grep</span> <span style="background-color: #fff0f0">&quot;^-1&quot;</span> ../data/a1a.t|wc -l
+23510
+</pre></div>
+</p>
+
+<p>とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。</p>
+
+<p><del>confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。</del>
+<ins>出力するようにしました。 (2014/09/17追記)</ins></p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

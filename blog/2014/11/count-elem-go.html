@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>二つの集合に重複して現れる要素の数を数える</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>二つの集合に重複して現れる要素の数を数える</h3>
+				<span class="label label-primary">Sat Nov 8, 2014</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/golang">golang</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p>go言語で書いた (<a href="https://gist.github.com/tma15/1277c7826a67a1c76212">gist</a>)。集合の要素は前もってソートしておいて、比較回数を減らしている。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">package</span> main
+
+<span style="color: #008000; font-weight: bold">import</span> (
+    <span style="background-color: #fff0f0">&quot;fmt&quot;</span>
+    <span style="background-color: #fff0f0">&quot;sort&quot;</span>
+    <span style="background-color: #fff0f0">&quot;strconv&quot;</span>
+)
+
+<span style="color: #008000; font-weight: bold">func</span> CountDuplicateElem(x, y []<span style="color: #007020">string</span>) <span style="color: #007020">int</span> {
+    i := <span style="color: #0000D0; font-weight: bold">0</span>
+    j := <span style="color: #0000D0; font-weight: bold">0</span>
+    num_match := <span style="color: #0000D0; font-weight: bold">0</span>
+    num_cmp := <span style="color: #0000D0; font-weight: bold">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> {
+        <span style="color: #008000; font-weight: bold">if</span> i &gt;= <span style="color: #007020">len</span>(x){
+            <span style="color: #008000; font-weight: bold">break</span>
+        }
+        <span style="color: #008000; font-weight: bold">for</span> {
+            num_cmp += <span style="color: #0000D0; font-weight: bold">1</span>
+            <span style="color: #008000; font-weight: bold">if</span> j &gt;= <span style="color: #007020">len</span>(y) { <span style="color: #808080">// 位置jがyの長さを超えたら終了</span>
+                <span style="color: #008000; font-weight: bold">break</span>
+            }
+            <span style="color: #008000; font-weight: bold">if</span> x[i] &lt; y[j] { <span style="color: #808080">// 辞書順でx[i]がy[j]よりも小さければ終了</span>
+                <span style="color: #008000; font-weight: bold">break</span> <span style="color: #808080">// ソートされていればjより大きな位置の文字で一致することは無い</span>
+            }
+            <span style="color: #008000; font-weight: bold">if</span> x[i] == y[j] {
+                num_match += <span style="color: #0000D0; font-weight: bold">1</span>
+                j += <span style="color: #0000D0; font-weight: bold">1</span>
+                <span style="color: #008000; font-weight: bold">break</span>
+            }
+            j += <span style="color: #0000D0; font-weight: bold">1</span>
+        }
+        i += <span style="color: #0000D0; font-weight: bold">1</span>
+    }
+    <span style="color: #008000; font-weight: bold">return</span> num_match
+}
+</pre></div>
+</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> NaiveCount(x, y []<span style="color: #007020">string</span>) <span style="color: #007020">int</span> {
+    num_match := <span style="color: #0000D0; font-weight: bold">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i := <span style="color: #0000D0; font-weight: bold">0</span>; i&lt;<span style="color: #007020">len</span>(x);i++{
+            <span style="color: #008000; font-weight: bold">for</span> j := <span style="color: #0000D0; font-weight: bold">0</span>; j&lt;<span style="color: #007020">len</span>(y);j++{
+                    <span style="color: #008000; font-weight: bold">if</span> x[i] == y[j] {
+                            num_match += <span style="color: #0000D0; font-weight: bold">1</span>
+                    }
+            }
+    }
+    <span style="color: #008000; font-weight: bold">return</span> num_match
+}
+</pre></div>
+</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> main() {
+    k := []<span style="color: #007020">string</span>{}
+    l := []<span style="color: #007020">string</span>{}
+    <span style="color: #008000; font-weight: bold">for</span> i:=<span style="color: #0000D0; font-weight: bold">0</span>; i&lt;<span style="color: #0000D0; font-weight: bold">100000</span>; i++{
+            k = append(k, strconv.Itoa(i))
+            l = append(l, strconv.Itoa(i - <span style="color: #0000D0; font-weight: bold">1</span>))
+    }
+    cnt_match := CountDuplicateElem(k, l)
+    cnt_match := NaiveCount(k, l)
+    fmt.Println(cnt_match)
+}
+</pre></div>
+</p>
+
+<p>数を多めにしてナイーブな方法と比較してみる。
+それぞれの要素をfor文で回すとてもナイーブな方法:</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">time </span>go run countelem.go
+99999
+go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+</pre></div>
+</p>
+
+<p>今回書いた方法:</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">time </span>go run countelem.go
+99999
+go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+</pre></div>
+</p>
+
+<p>各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。</p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript"
+          src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    </body>
+</html>
+

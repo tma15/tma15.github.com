@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/python/</link>
+    <link>http://localhost:1313/tags/python/</link>
     <description>Recent content in Python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+      <link>http://localhost:1313/blog/2014/11/use-es-py/</link>
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+      <guid>http://localhost:1313/blog/2014/11/use-es-py/</guid>
       <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
@@ -234,10 +234,10 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
     
     <item>
       <title>mafが便利そう</title>
-      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+      <link>http://localhost:1313/blog/2014/11/maf-memo/</link>
       <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+      <guid>http://localhost:1313/blog/2014/11/maf-memo/</guid>
       <description>
 
 &lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
@@ -412,10 +412,10 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
     
     <item>
       <title>Induced SortingをPythonで書いた</title>
-      <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+      <link>http://localhost:1313/blog/2014/5/induced_sorting_py/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+      <guid>http://localhost:1313/blog/2014/5/induced_sorting_py/</guid>
       <description>
 
 &lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
@@ -446,10 +446,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
     
     <item>
       <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <link>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
       <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <guid>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
       <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
@@ -542,10 +542,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
     
     <item>
       <title>食べログAPIのPythonラッパーを書いた</title>
-      <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
+      <link>http://localhost:1313/blog/2013/5/python-tabelog/</link>
       <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
+      <guid>http://localhost:1313/blog/2013/5/python-tabelog/</guid>
       <description>
 
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
@@ -626,10 +626,10 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
     
     <item>
       <title>Hello World</title>
-      <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+      <link>http://localhost:1313/blog/2012/11/helloworld/</link>
       <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+      <guid>http://localhost:1313/blog/2012/11/helloworld/</guid>
       <description>&lt;p&gt;なんとなくつくってみた。
 &lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
 </description>

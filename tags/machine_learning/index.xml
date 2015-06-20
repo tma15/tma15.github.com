@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Machine_learning on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/machine_learning/</link>
+    <link>http://localhost:1313/tags/machine_learning/</link>
     <description>Recent content in Machine_learning on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 21 Feb 2015 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Dropoutの実装で気になって調べたこと</title>
-      <link>http://tma15.github.io/blog/2015/02/21/</link>
+      <link>http://localhost:1313/blog/2015/02/21/</link>
       <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+      <guid>http://localhost:1313/blog/2015/02/21/</guid>
       <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
@@ -46,10 +46,10 @@
     
     <item>
       <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <link>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
       <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <guid>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
       <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
@@ -142,10 +142,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
     
     <item>
       <title>Practical Machine Learning Tricks</title>
-      <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+      <link>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</link>
       <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+      <guid>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
