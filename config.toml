@@ -3,6 +3,6 @@ languageCode = "en-us"
 title = "Now is better than never."
 buildDrafts = false
 publishdir = "public"
+#uglyUrls = true
 
-Paginate = 1
 pygmentsstyle = "colorful"
