@@ -548,6 +548,16 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
     </item>
     
     <item>
+      <title>atom.xmlを加えた</title>
+      <link>http://localhost:1313/blog/2014/11/add-atom/</link>
+      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/blog/2014/11/add-atom/</guid>
+      <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>mafが便利そう</title>
       <link>http://localhost:1313/blog/2014/11/maf-memo/</link>
       <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
@@ -726,16 +736,6 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
     </item>
     
     <item>
-      <title>atom.xmlを加えた</title>
-      <link>http://localhost:1313/blog/2014/11/add-atom/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/blog/2014/11/add-atom/</guid>
-      <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>HMMを実装した</title>
       <link>http://localhost:1313/blog/2014/10/hmm/</link>
       <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
@@ -886,41 +886,6 @@ Go言語  考え    0.700000
     </item>
     
     <item>
-      <title>PA-IIをGoで書いた</title>
-      <link>http://localhost:1313/blog/2014/10/go-pa2/</link>
-      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
-      
-      <guid>http://localhost:1313/blog/2014/10/go-pa2/</guid>
-      <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/gopa&#34;&gt;こちら&lt;/a&gt;。
-下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (p *PassiveAggressive) Update(X &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;) Weight {
-        loss := math.Max(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;-sign*Dot(X, p.weight[y]))
-        &lt;span style=&#34;color: #808080&#34;&gt;//         tau := loss / Norm(X) // PA&lt;/span&gt;
-        tau := loss / (Norm(X) + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; / (&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; * p.C)) &lt;span style=&#34;color: #808080&#34;&gt;// PA-II&lt;/span&gt;
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y]; ok == false {
-            p.weight[y] = &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;{}
-        }
-
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; f, _ := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; X {
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y][f]; ok {
-                    p.weight[y][f] += tau * sign
-                } &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;else&lt;/span&gt; {
-                    p.weight[y][f] = tau * sign
-                }
-        }
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; p.weight
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
       <title>AdaGrad&#43;RDAをGoで書いた</title>
       <link>http://localhost:1313/blog/2014/10/go-adagrad/</link>
       <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
@@ -988,6 +953,41 @@ Acc: 0.9487590072057646
 &lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1&#34;&gt;行をランダムシャッフルするワンライナー&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron&#34;&gt;Multiclass perceptron&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PA-IIをGoで書いた</title>
+      <link>http://localhost:1313/blog/2014/10/go-pa2/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/blog/2014/10/go-pa2/</guid>
+      <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/gopa&#34;&gt;こちら&lt;/a&gt;。
+下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (p *PassiveAggressive) Update(X &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;) Weight {
+        loss := math.Max(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;-sign*Dot(X, p.weight[y]))
+        &lt;span style=&#34;color: #808080&#34;&gt;//         tau := loss / Norm(X) // PA&lt;/span&gt;
+        tau := loss / (Norm(X) + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; / (&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; * p.C)) &lt;span style=&#34;color: #808080&#34;&gt;// PA-II&lt;/span&gt;
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y]; ok == false {
+            p.weight[y] = &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;{}
+        }
+
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; f, _ := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; X {
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok := p.weight[y][f]; ok {
+                    p.weight[y][f] += tau * sign
+                } &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;else&lt;/span&gt; {
+                    p.weight[y][f] = tau * sign
+                }
+        }
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; p.weight
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
 </description>
     </item>
     
