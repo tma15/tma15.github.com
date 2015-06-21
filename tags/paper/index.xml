@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Paper on Now is better than never.</title>
-    <link>tma15.github.io/tags/paper/</link>
+    <link>http://tma15.github.io/tags/paper/</link>
     <description>Recent content in Paper on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 03 Dec 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="tma15.github.io/tags/paper/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://tma15.github.io/tags/paper/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-      <link>/tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
       <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
@@ -112,10 +112,10 @@
     
     <item>
       <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
-      <link>/tma15.github.io/blog/2013/12/mct/</link>
+      <link>http://tma15.github.io/blog/2013/12/mct/</link>
       <pubDate>Fri, 27 Dec 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/12/mct/</guid>
+      <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
@@ -366,10 +366,10 @@
     
     <item>
       <title>Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</title>
-      <link>/tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
+      <link>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
       <pubDate>Sat, 14 Dec 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
+      <guid>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
@@ -754,10 +754,10 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
     
     <item>
       <title>文書要約メモ（ACL2013）</title>
-      <link>/tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
+      <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
       <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
+      <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
@@ -858,10 +858,10 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
     
     <item>
       <title>Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</title>
-      <link>/tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
+      <link>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
       <pubDate>Tue, 10 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
+      <guid>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
       <description>
 
 &lt;p&gt;KDD 2013読み会に参加させていただきました。
@@ -918,10 +918,10 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
     
     <item>
       <title>Active Sampling for Entity Matching (KDD 2012)を読んだ</title>
-      <link>/tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</link>
+      <link>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</link>
       <pubDate>Sat, 03 Aug 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</guid>
+      <guid>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</guid>
       <description>
 
 &lt;p&gt;proceeding (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1036/1/main.pdf&#34;&gt;pdf&lt;/a&gt;),
@@ -987,10 +987,10 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
     
     <item>
       <title>It takes a long time to become young.</title>
-      <link>/tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
+      <link>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
       <pubDate>Sun, 07 Jul 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
+      <guid>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
       <description>
 
 &lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
@@ -1179,10 +1179,10 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
     
     <item>
       <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
-      <link>/tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+      <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
       <pubDate>Sat, 16 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+      <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
       <description>
 
 &lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
@@ -1244,10 +1244,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
     <item>
       <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
-      <link>/tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+      <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
       <pubDate>Wed, 06 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+      <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
       <description>
 
 &lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
@@ -1345,10 +1345,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
     <item>
       <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
-      <link>/tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+      <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
       <pubDate>Fri, 01 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>/tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+      <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
       <description>
 
 &lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
