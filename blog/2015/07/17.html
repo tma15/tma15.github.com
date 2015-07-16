@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Hugoに移行してみた</title>
+    <title>オンライン学習の実装いろいろ</title>
 
  	
 	<link href="/css/journal.css" rel="stylesheet">
@@ -43,12 +43,15 @@
 <div class="container">	
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
-			<h3>Hugoに移行してみた</h3>
-				<span class="label label-primary">Sun Jun 21, 2015</span> in 
+			<h3>オンライン学習の実装いろいろ</h3>
+				<span class="label label-primary">Fri Jul 17, 2015</span> in 
 				 using tags 			 
 				
 					
-					<a href="/tags/diary">diary</a>
+					<a href="/tags/golang">golang</a>
+				
+					 , 
+					<a href="/tags/machine_learning">machine_learning</a>
 				
 			</small>
 		</div>
@@ -56,8 +59,19 @@
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
 			<br>
-			<p>記事の生成が速いと噂のHugoへ移行した。
-もともと使っていたジェネレータがPythonのHydeだったのだけどドキュメントが少なく、色々と面倒臭かったのでドキュメントが充実している点でも有り難みがある。</p>
+			<p>最近はデモをgolangで実装して見せることが多くなってきた。
+その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。</p>
+
+<p><a href="https://github.com/tma15/gonline">gonline</a></p>
+
+<p>パーセプトロンから、(Multi Class) Confidence WeightedやAROWまでを提供している。
+<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#news20">news20</a> を使って評価はしたのだけど
+<a href="http://yans.anlp.jp/symposium/2010/paper/Yans2010_No23.pdf">こちらの論文</a> と比べると低めになっているので、もしかしたら
+実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。
+SCWはパラメータの調整が面倒で、それほど性能が大きく上がるわけでもなさそう？だったので、実装していない。</p>
+
+<p><a href="https://github.com/tma15/gonline/releases">github release</a>でバイナリの配布もしている (今回が初めて)。
+これを使えば、とりあえず何も考えずに分類器を学習できる。</p>
 
 		</div>
 	</div>

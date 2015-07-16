@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>Hugoに移行してみた</title>
+    <title>オンライン学習の実装いろいろ</title>
 
  	
 	<link href="/css/journal.css" rel="stylesheet">
@@ -43,12 +43,15 @@
 <div class="container">	
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
-			<h3>Hugoに移行してみた</h3>
-				<span class="label label-primary">Sun Jun 21, 2015</span> in 
+			<h3>オンライン学習の実装いろいろ</h3>
+				<span class="label label-primary">Fri Jul 17, 2015</span> in 
 				 using tags 			 
 				
 					
-					<a href="/tags/diary">diary</a>
+					<a href="/tags/golang">golang</a>
+				
+					 , 
+					<a href="/tags/machine_learning">machine_learning</a>
 				
 			</small>
 		</div>
@@ -56,8 +59,20 @@
 	<div class="row">
 		<div class="col-md-offset-1 col-md-10">
 			<br>
-			<p>記事の生成が速いと噂のHugoへ移行した。
-もともと使っていたジェネレータがPythonのHydeだったのだけどドキュメントが少なく、色々と面倒臭かったのでドキュメントが充実している点でも有り難みがある。</p>
+			<p>最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
+その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
+実装が簡単で学習が速いオンライン学習手法を実装した。</p>
+
+<p><a href="https://github.com/tma15/gonline">gonline</a></p>
+
+<p>パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。
+<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#news20">news20</a> を使って評価はしたのだけど
+<a href="http://yans.anlp.jp/symposium/2010/paper/Yans2010_No23.pdf">こちらの論文</a> と比べると精度が低めになっているので、もしかしたら
+実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。
+SCWはいつか実装する。</p>
+
+<p>golangらしく？<a href="https://github.com/tma15/gonline/releases">github release</a>でバイナリの配布もしている (今回初めてやってみた)。
+これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。</p>
 
 		</div>
 	</div>
@@ -107,6 +122,9 @@
     <script type="text/javascript"
           src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
-    </body>
+    <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
 </html>
 
