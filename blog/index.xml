@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/blog/</link>
-    <description>Recent content in Blogs on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2015 23:09:00 +0900</lastBuildDate>
-    <atom:link href="http://tma15.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2015-07-17 23:09:00 &#43;0900 JST</updated>
+
     
-    <item>
-      <title>オンライン学習の実装いろいろ</title>
-      <link>http://tma15.github.io/blog/2015/07/17/</link>
-      <pubDate>Fri, 17 Jul 2015 23:09:00 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/07/17/</guid>
-      <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
+        <item>
+          <title>オンライン学習の実装いろいろ</title>
+          <link>http://tma15.github.io/blog/2015/07/17/</link>
+          <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+          <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
 
@@ -30,26 +31,30 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;p&gt;golangらしく？&lt;a href=&#34;https://github.com/tma15/gonline/releases&#34;&gt;github release&lt;/a&gt;でバイナリの配布もしている (今回初めてやってみた)。
 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Hugoに移行してみた</title>
-      <link>http://tma15.github.io/blog/2015/06/21/</link>
-      <pubDate>Sun, 21 Jun 2015 10:44:18 +0900</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/06/21/</guid>
-      <description>&lt;p&gt;記事の生成が速いと噂のHugoへ移行した。
+    
+      
+        <item>
+          <title>Hugoに移行してみた</title>
+          <link>http://tma15.github.io/blog/2015/06/21/</link>
+          <pubDate>Sun, 21 Jun 2015 10:44:18 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/06/21/</guid>
+          <description>&lt;p&gt;記事の生成が速いと噂のHugoへ移行した。
 もともと使っていたジェネレータがPythonのHydeだったのだけどドキュメントが少なく、色々と面倒臭かったのでドキュメントが充実している点でも有り難みがある。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Dropoutの実装で気になって調べたこと</title>
-      <link>http://tma15.github.io/blog/2015/02/21/</link>
-      <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Dropoutの実装で気になって調べたこと</title>
+          <link>http://tma15.github.io/blog/2015/02/21/</link>
+          <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+          <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
 
@@ -76,25 +81,29 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf&#34;&gt;Dropout: A Simple Way to Prevent Neural Networks from Overfitting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>コメント欄を付けた</title>
-      <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
-      <pubDate>Sat, 17 Jan 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
+    
+      
+        <item>
+          <title>コメント欄を付けた</title>
+          <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
+          <pubDate>Sat, 17 Jan 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>CYKアルゴリズムで係り受け解析</title>
-      <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
-      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
-      <description>
+    
+      
+        <item>
+          <title>CYKアルゴリズムで係り受け解析</title>
+          <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
+          <pubDate>Wed, 14 Jan 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
+          <description>
 
 &lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
 具体的には参考資料の23ページにあるような変換をする。
@@ -108,15 +117,17 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf&#34;&gt;Dependency Parsing Tutorial at COLING-ACL 2006&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>CYKアルゴリズム</title>
-      <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
-      <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
-      <description>
+    
+      
+        <item>
+          <title>CYKアルゴリズム</title>
+          <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
+          <pubDate>Sat, 10 Jan 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
+          <description>
 
 &lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
 
@@ -159,15 +170,17 @@ I eat pizza with Maria
 &lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=FFFFFF&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;m=amazon&amp;f=ifr&amp;ref=qf_sp_asin_til&amp;asins=4130654047&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
-      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
+          <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+          <pubDate>Wed, 03 Dec 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+          <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
 
@@ -260,15 +273,17 @@ I eat pizza with Maria
 
 &lt;p&gt;複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
-      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
-      <description>
+    
+      
+        <item>
+          <title>PythonでElasticsearchを使うときのメモ</title>
+          <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+          <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
@@ -483,15 +498,17 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>二つの集合に重複して現れる要素の数を数える</title>
-      <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
-      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
-      <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
+    
+      
+        <item>
+          <title>二つの集合に重複して現れる要素の数を数える</title>
+          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
 
@@ -579,25 +596,29 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 
 &lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>atom.xmlを加えた</title>
-      <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
-      <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
+    
+      
+        <item>
+          <title>atom.xmlを加えた</title>
+          <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
+          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
+          <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>mafが便利そう</title>
-      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
-      <description>
+    
+      
+        <item>
+          <title>mafが便利そう</title>
+          <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
 
@@ -767,15 +788,17 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
 &lt;li&gt;&lt;a href=&#34;http://research.preferred.jp/2013/12/maf/&#34;&gt;データ解析作業の救世主！ 超絶☆実験ビルドシステムmafをOSS公開しました&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>HMMを実装した</title>
-      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
-      <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
-      <description>
+    
+      
+        <item>
+          <title>HMMを実装した</title>
+          <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+          <pubDate>Sat, 25 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
 
@@ -804,15 +827,17 @@ VBN --&amp;gt; NN      22
 &lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
 コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
-      <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
+          <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+          <pubDate>Mon, 20 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
 
@@ -917,15 +942,17 @@ Go言語  考え    0.700000
 &lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
 あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>AdaGrad&#43;RDAをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
-      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
-      <description>
+    
+      
+        <item>
+          <title>AdaGrad&#43;RDAをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
+          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
+          <description>
 
 &lt;p&gt;論文はこちら。&lt;/p&gt;
 
@@ -988,15 +1015,17 @@ Acc: 0.9487590072057646
 &lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron&#34;&gt;Multiclass perceptron&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>PA-IIをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
-      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
-      <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
+    
+      
+        <item>
+          <title>PA-IIをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
+          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
+          <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
 
@@ -1023,7 +1052,2072 @@ Acc: 0.9487590072057646
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+      
+        <item>
+          <title>パーセプトロンをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
+          <pubDate>Sat, 11 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
+          <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
+ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;素性ベクトルのフォーマットは&amp;lt;数値&amp;gt;:&amp;lt;数値&amp;gt; である必要はなくて、&amp;lt;文字列&amp;gt;:&amp;lt;数値&amp;gt; でも読み込めるようにしました。
+また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
+多値分類もできます。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sports soccer:1 baseball:1
+food beef:1 pork:1
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$go&lt;/span&gt; build
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;10
+&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model
+Acc: 0.8257203773097299
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
+テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。&lt;/p&gt;
+
+&lt;p&gt;このデータは、&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
+7446
+&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
+23510
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。&lt;/del&gt;
+&lt;ins&gt;出力するようにしました。 (2014/09/17追記)&lt;/ins&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Induced SortingをPythonで書いた</title>
+          <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+          <pubDate>Wed, 07 May 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+          <description>
+
+&lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
+Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。
+詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。&lt;/p&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=4000069748&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;GitHubにコードを上げた (&lt;a href=&#34;https://github.com/tma15/tma15Str/blob/master/sais.py&#34;&gt;sais.py&lt;/a&gt;)。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:62ecce6453abcfc5527a4a74a305b3da&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://blog.beam2d.net/2011/08/suffix-array-sa-is.html&#34;&gt;Suffix Array を作る - SA-IS の実装&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/beam2d/sara&#34;&gt;https://github.com/beam2d/sara&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/sile/20101213/1292190698&#34;&gt;SA-IS: SuffixArray線形構築&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;実装時にはやはり元の論文を読まないとよくわからなかった。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.google.co.jp/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;cad=rja&amp;amp;uact=8&amp;amp;ved=0CDEQFjAA&amp;amp;url=https%3A%2F%2Fge-nong.googlecode.com%2Ffiles%2FTwo%2520Efficient%2520Algorithms%2520for%2520Linear%2520Time%2520Suffix%2520Array%2520Construction.pdf&amp;amp;ei=zCpqU9WkGor-8QXIoYDQBA&amp;amp;usg=AFQjCNECfjoa7Bg_ep0326micFbio0UCgw&amp;amp;sig2=OpSYI5Z01mLRBR4Gbwwbvg&amp;amp;bvm=bv.66111022,d.dGc&#34;&gt;Two Efficient Algorithms for Linear Time Suffix Array Construction&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>北京滞在メモ</title>
+          <link>http://tma15.github.io/blog/2014/3/i-visited-beijing/</link>
+          <pubDate>Sat, 15 Mar 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/3/i-visited-beijing/</guid>
+          <description>
+
+&lt;p&gt;北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;交通事情:aedaa52d8f937fabc3177e9b7d68f9da&#34;&gt;交通事情&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい&lt;/li&gt;
+&lt;li&gt;空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全&lt;/li&gt;
+&lt;li&gt;普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある&lt;/li&gt;
+&lt;li&gt;普通のタクシーはナンバーが「京B&amp;hellip;」で始まるので、それ以外のタクシーは怪しい&lt;/li&gt;
+&lt;li&gt;たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い&lt;/li&gt;
+&lt;li&gt;めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない&lt;/li&gt;
+&lt;li&gt;中国人はタクシーに乗るときは、まず助手席に座る
+
+&lt;ul&gt;
+&lt;li&gt;カーナビがないので近くに座って道案内しないといけない&lt;/li&gt;
+&lt;li&gt;精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある&lt;/li&gt;
+&lt;li&gt;エスカレータは右側に立つ&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;飲食事情:aedaa52d8f937fabc3177e9b7d68f9da&#34;&gt;飲食事情&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。&lt;/li&gt;
+&lt;li&gt;たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。&lt;/li&gt;
+&lt;li&gt;中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
+          <link>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</link>
+          <pubDate>Mon, 17 Feb 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</guid>
+          <description>&lt;div align=&#34;center&#34;&gt;
+&lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=B00H3WR470&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Amazonの中の話はあまりWeb上で見たことがなかったので興味深く読めた。&lt;/p&gt;
+
+&lt;p&gt;会社の方針は、ジェフ・ベゾスの意思を強く反映している感じ。
+ジェフ・ベゾスは顧客のことを第一に考えていて、それを背景にして社員の福利厚生はかなり貧しい感じ。
+例えば、社員にバスが動いている時間に帰ってほしくないから、という理由でバスの定期を買う際の補助金を却下しているらしい。
+また、長期的なメリットを考えて、短期的な利益は考えずに赤字覚悟で商品の価格を引き下げたりしている。
+これで競合他社が立ち入る隙を見せないようにしている。すごい。。
+いちAmazonユーザからすると、なんて顧客のことを考えてくれる会社なんだろうと思う。&lt;/p&gt;
+
+&lt;p&gt;誰かを雇ったら、その人を基準に次はもっと優れた人を雇うようにすると言った、Googleなどの話でも聞いたようなことをやっていて、
+人材はどの企業でも大事なんだなあと改めて思った (小並感)。&lt;/p&gt;
+
+&lt;p&gt;ジェフ・ベゾス個人の話も書いてあった。
+仕事では冷徹で、鬼のような怖さだけど、家族には優しい一面ものぞかせいている。&lt;/p&gt;
+
+&lt;p&gt;A9がたまに学会のスポンサーとかで見かけていて、Amazonのにっこりマークが付いていてどういう関係なんだろうと思っていたが、A9はAmazonの技術系の子会社だということもこの本で知った。
+あと、もともと本を始めとする小売業のようなことをやっていたのに、どのようにAmazon Web Serviceを提供するに至ったかの話も書いてあって面白かった。&lt;/p&gt;
+
+&lt;p&gt;個人的には、部門間の調整が難しいという大企業ならではの問題をなんとかしたいと思った中間管理職のチームが、部門間の対話を推進する仕組みを提案した時にジェフ・ベゾスが言った以下の言葉が印象に残った。&lt;/p&gt;
+
+&lt;p&gt;「言いたいことはわかるが、それは大まちがいだ。コミュニケーションは機能不全の印なんだ。緊密で有機的につながる仕事ができないから、関係者のコミュニケーションが必要になる。部署間のコミュニケーションを増やす方法ではなく、減らす方法を探すべきだ。」&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>2013年と2014年</title>
+          <link>http://tma15.github.io/blog/2014/1/2013-2014/</link>
+          <pubDate>Thu, 02 Jan 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/1/2013-2014/</guid>
+          <description>
+
+&lt;h2 id=&#34;2013年の振り返り:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2013年の振り返り&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://tma15.github.io/blog/2013/1/start-of-2013.html&#34;&gt;2013年の抱負&lt;/a&gt;と照らしあわせて。&lt;/p&gt;
+
+&lt;h3 id=&#34;飲み過ぎない:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;飲み過ぎない&lt;/h3&gt;
+
+&lt;p&gt;12月は飲み過ぎた。次の日に食欲がなくなったりしてしまったり、ひどい時は2,3日胃がむかむかする感じだったので、反省。回数は多くても、一回あたりに飲む量を少し減らしたい。他の月は適度に楽しめたと思う。いつもお世話になっている美容師さん曰く、&lt;/p&gt;
+
+&lt;p&gt;「最初に飲む量を決めると良い。」&lt;/p&gt;
+
+&lt;h3 id=&#34;反転してシュート:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;反転してシュート&lt;/h3&gt;
+
+&lt;p&gt;あまり出来なかった。どうしても前を向いている後ろの選手にはたこうという気持ちが強すぎる。一旦「パスを出せ」と怒られるくらいのプレーが必要かも。&lt;/p&gt;
+
+&lt;h3 id=&#34;論文を読む:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;論文を読む&lt;/h3&gt;
+
+&lt;p&gt;二日に一本読む、というのは出来なかった（無謀すぎた&amp;hellip;）。とはいえ、すずかけ台論文読み会を主催し、今年は7回開催することが出来た点に関しては満足している。&lt;/p&gt;
+
+&lt;p&gt;この読み会は次の二つの（自分が享受したい）メリットを狙って、参加者は少人数にしぼり、基本的には参加者は読んだ論文をみんなの前で紹介するというスタイルにした:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;他の参加者にわかりやすく伝えるようにするためにより紹介する論文を読み込むようになる&lt;/li&gt;
+&lt;li&gt;参加者は少人数に絞っているので、気楽に場を止めて質問することができる&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;ので自分を含め、参加した人の得るものはそれなりに多くできたと思う。ただ、自分は紹介する論文に対してまだ曖昧な理解をしているままなことも多く、ありがたいご指摘も多々受けるので、もっと読み込まなければいけないところ。&lt;/p&gt;
+
+&lt;p&gt;参加者の規模はこのままで良いのだけど、紹介する論文を参加者にとって有益そうなものにする仕組みを採用すべきかな、とぼんやり考えたり。ある程度人数がいれば、対象となる学会を絞って、気になる論文に投票するという形もありだと思うけど、少人数ではこの形は難しいので、2014年は色々と模索したい。&lt;/p&gt;
+
+&lt;h2 id=&#34;2014年の抱負:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2014年の抱負&lt;/h2&gt;
+
+&lt;p&gt;いくつもあっても大変なので大きく二つ。&lt;/p&gt;
+
+&lt;h3 id=&#34;論文を書く:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;論文を書く&lt;/h3&gt;
+
+&lt;p&gt;有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.cs.ucr.edu/~eamonn/Keogh_SIGKDD09_tutorial.pdf&#34;&gt;How to do good research, get it published in SIGKDD and get it cited&lt;/a&gt;とか&lt;/p&gt;
+
+&lt;p&gt;&lt;blockquote class=&#34;twitter-tweet&#34; lang=&#34;ja&#34;&gt;&lt;p&gt;&lt;a href=&#34;https://twitter.com/Pnnc205j&#34;&gt;@Pnnc205j&lt;/a&gt; だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。&lt;/p&gt;&amp;mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) &lt;a href=&#34;https://twitter.com/tetsuyasakai/statuses/184170104878141440&#34;&gt;2012, 3月 26&lt;/a&gt;&lt;/blockquote&gt;
+&lt;script async src=&#34;//platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;とか。&lt;a href=&#34;http://ymatsuo.com/japanese/ronbun_eng.html&#34;&gt;松尾ぐみの論文の書き方：英語論文&lt;/a&gt;でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。&lt;/p&gt;
+
+&lt;h3 id=&#34;サボれないフットサル-サッカー環境に身を置く:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;サボれないフットサル・サッカー環境に身を置く&lt;/h3&gt;
+
+&lt;p&gt;T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
+          <link>http://tma15.github.io/blog/2013/12/mct/</link>
+          <pubDate>Fri, 27 Dec 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
+          <description>
+
+&lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
+
+&lt;p&gt;主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Introduction&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである&lt;/li&gt;
+&lt;li&gt;このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう
+
+&lt;ul&gt;
+&lt;li&gt;※  チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している&lt;/li&gt;
+&lt;li&gt;このエッセイでは、MCTは、&amp;rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&amp;rdquo;とする (つまり質問応答)&lt;/li&gt;
+&lt;li&gt;このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How To Measure Progress&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
+
+&lt;ul&gt;
+&lt;li&gt;7歳の子供が読めるレベルのフィクションの短いストーリー&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している
+
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&amp;rdquo;の&amp;rdquo;それ&amp;rdquo;は何を指しているか？&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;クラウドソーシングなのでスケーラビリティもある&lt;/li&gt;
+&lt;li&gt;進捗が早ければ、問題の難易度を上げることもできる
+
+&lt;ul&gt;
+&lt;li&gt;語彙数を現状の8000から増やす&lt;/li&gt;
+&lt;li&gt;ノンフィクションなストーリーを混ぜる&lt;/li&gt;
+&lt;li&gt;タスクの定義を変える
+
+&lt;ul&gt;
+&lt;li&gt;正解が1つ以上、あるいは正解が1つもない問題など&lt;/li&gt;
+&lt;li&gt;回答の根拠を出力するようにする&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
+
+&lt;p&gt;machine comprehensionに必要なものは、興味深い未解決な問題と通じている&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである&lt;/li&gt;
+&lt;li&gt;モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである&lt;/li&gt;
+&lt;li&gt;構築、デバッグの簡易化のためにシステムはモジュール化すべきである
+
+&lt;ul&gt;
+&lt;li&gt;モジュラ性はシステムを効率的に反応できるようにするべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである&lt;/li&gt;
+&lt;li&gt;システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである&lt;/li&gt;
+&lt;li&gt;システムは意味表現に対して論理的推論をおこなえるべきである
+
+&lt;ul&gt;
+&lt;li&gt;システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである&lt;/li&gt;
+&lt;li&gt;もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;システムは質問可能であるべきである
+
+&lt;ul&gt;
+&lt;li&gt;任意の仮説に関して、真であるかどうか (の確率) を断言することができること&lt;/li&gt;
+&lt;li&gt;私達はなぜその断言ができるか理解することができるべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;最近の研究では&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
+
+&lt;ul&gt;
+&lt;li&gt;興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al., 2011)&lt;/li&gt;
+&lt;li&gt;教師なし学習でやる研究もある (Goldwassar et al. (2011) は60%の精度、ただし教師あり学習は80%)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;データはクラウドソーシングを利用すればスケールする (特にゲームとして提供すれば (Ahn and Dabbish, 2004))&lt;/li&gt;
+&lt;li&gt;大量のラベルなしデータを使えばある粒度の意味のモデル化はできる (らしい) (Mikolove et al., 2013)&lt;/li&gt;
+&lt;li&gt;意味モデル化のもう一つの問題は、あるタスク用に作ったモデルが他のタスクに使えないこと&lt;/li&gt;
+&lt;li&gt;とても難しいタスクに挑戦するとき、モジュラ性、デバッグ性、解釈性は、良い精度を出すのに役立つ
+
+&lt;ul&gt;
+&lt;li&gt;画像分類タスクの現在のレコードホルダーが畳み込みネットワークが実際に何をしているのかを理解するための手法を設計したのは偶然の一致ではない: (Zeiler and Fergus, 2013)&lt;/li&gt;
+&lt;li&gt;修正可能性も強く関連している
+
+&lt;ul&gt;
+&lt;li&gt;現在の機械学習モデルは、誤った例を正しく分類できるように修正するとき、別の例で新たな誤りをしないという保証がない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;質問可能性は別のデバッグツールである
+
+&lt;ul&gt;
+&lt;li&gt;理解が簡単であるほど、そのモデルはうまくいく&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Seven Signposts&lt;/h2&gt;
+
+&lt;h3 id=&#34;how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;初期のAIはルールベース
+
+&lt;ul&gt;
+&lt;li&gt;経験的で、もろく、スケールしない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;機械学習手法は構造データを扱えるように拡張されているが、主な方法は統計的なものである: 教師あり学習の基本的な設定では、
+
+&lt;ul&gt;
+&lt;li&gt;データはある分布から生成されると仮定&lt;/li&gt;
+&lt;li&gt;モデル、コスト関数 (しばしば凸関数) 、ラベル付きデータが必要&lt;/li&gt;
+&lt;li&gt;ゴールは手元の訓練データのエラーを最小化すること (正則化は簡単のため考えない)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;構造は、コスト関数の探索時に構造の制約を入れることで考慮される
+
+&lt;ul&gt;
+&lt;li&gt;言語はすごく構造的なので、機械学習のモデルを微調整して構造を考慮するよりも、最初からこの構造を認識しておくべきである&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;言い換えれば機械学習は不確かさを扱う基本的な方法である
+
+&lt;ul&gt;
+&lt;li&gt;もし、あまりに早く不確かさをモデル化することが、データの構造について我々が知っていることのほとんどを無視してしまうことにつながるなら、この誘惑には対抗しなければならない&lt;/li&gt;
+&lt;li&gt;そして、ほとんどの機械学習のアルゴリズムは、とてもシンプルなラベル (例えば二値ラベル) を使って、この上なく見事に不確かさをモデル化するように調整されている&lt;/li&gt;
+&lt;li&gt;確率的なグラフィカルモデルはモデルの構造の問題に取り組んでいるが、モデルの構造は人手で設計されているのでスケールしない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;先程述べたように、最近の研究では論理構造と統計モデルを直接組み合わせているが、まだスケーラビリティが問題ある&lt;/li&gt;
+&lt;li&gt;私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
+
+&lt;ul&gt;
+&lt;li&gt;deep neural networkがYouTubeの画像データを使って学習した&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;しかしながら、意味のモデル化を避け、データの規模に頼っているシステムはもろい&lt;/li&gt;
+&lt;li&gt;AskMSR (人手で設計したルールに基づくQAシステム (Brill et al., 2002) に&amp;rdquo;How many feet are there in a lightyear? (1光年は何フィートか)？&amp;rdquo;という質問をしたら&amp;rdquo;Winnie the Pooh&amp;rdquo;と回答した
+
+&lt;ul&gt;
+&lt;li&gt;ディズニーのキャラクターであるBuzz Lightyearが根拠になって回答された&lt;/li&gt;
+&lt;li&gt;意味の処理をちゃんとやっていない (質問は&amp;rdquo;how many&amp;rdquo;で始まっているので、回答は数字なはず)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;IBMのWatson (IRの様々な技術を組み合わせて人間のクイズ王に勝ったシステム) でさえもUSの都市に関する質問をしたらトロントと答えた&lt;/li&gt;
+&lt;li&gt;Deep Learningは強力なパラダイムである
+
+&lt;ul&gt;
+&lt;li&gt;音声認識、画像分類では大きな成果を上げているが、まだシステムが解釈可能でなかったり、質問可能でなかったり、修正可能でなかったり、スケールしなかったりする&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
+
+&lt;ul&gt;
+&lt;li&gt;文が意味をなすかどうか、あるいは文が文法的かどうかという人間には簡単な問題すらまだ解けていない
+
+&lt;ul&gt;
+&lt;li&gt;そのドメインにおけるリッチなモデルが、自然言語の理解には必要であるため
+
+&lt;ul&gt;
+&lt;li&gt;しかし、リッチなモデルを作るには、自然言語処理の高い技術が必要&lt;/li&gt;
+&lt;li&gt;そのため、問題を限定して解くことが多い&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;別の理由としては、NLPのタスクで機械学習のモデルを学習するときには、データの構造を直接利用する、というよりは二値ラベルのようなシンプルなものを利用するため問題をうまく解けないということも考えられる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;意味をモデル化する試みでは、簡単のために、よく問題を限定する&lt;/li&gt;
+&lt;li&gt;問題を限定すると、その解はスケールできない&lt;/li&gt;
+&lt;li&gt;問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう&lt;/li&gt;
+&lt;li&gt;どうやって友達を救いますか？
+
+&lt;ul&gt;
+&lt;li&gt;彼を何テラバイトもの訓練データとともに部屋に閉じ込め、「一週間これでパラメータを更新しといてね」ということはしないでしょう&lt;/li&gt;
+&lt;li&gt;あなたはあっという間にもっともありがちな彼の誤解が何なのかを考える
+
+&lt;ul&gt;
+&lt;li&gt;「彼が誤解を修正すべきところはどこなんだろう」&lt;/li&gt;
+&lt;li&gt;あなたは一つや二つ、彼に質問をするかもしれない: 彼には質問することができる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;つまり、あなたは彼の思考に関する解釈可能なモデルを持っていることになる&lt;/li&gt;
+&lt;li&gt;モジュラ性は人間の学習の強い区分けによって提案される
+
+&lt;ul&gt;
+&lt;li&gt;人間は自転車に乗る方法を学ぶ時に歯の磨き方を忘れない&lt;/li&gt;
+&lt;li&gt;機械は、あらたに間違えたことを修正する時に、もともと正しく分類できていたものを間違えるようになってしまう&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;難しいタスクにおいてさえ、人間は何かの意味を認識する時に、大量のラベル付きデータを使わない
+
+&lt;ul&gt;
+&lt;li&gt;学習のプロセスは世界知識のモデルを更新する小さなステップに分割される
+
+&lt;ul&gt;
+&lt;li&gt;見えない統計的なパラメータを更新しているわけではない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;人間は記録、更新が簡単な意味のモデルを持たなければならない
+
+&lt;ul&gt;
+&lt;li&gt;少なくとも、彼らのモデルは解釈可能で、修正可能で、質問可能であることを示唆している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;discussion:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Discussion&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった&lt;/li&gt;
+&lt;li&gt;ルールベースなシステムが解けない問題は、あまりない例外であり、それを解けるようにするために人手でルールを更新するというのは大規模なデータに対してスケールしない&lt;/li&gt;
+&lt;li&gt;機械学習は多くの場合、強力なツールであるのだけど、多くの場合解釈が難しく、ラベル付きデータ無しに改善することが難しい&lt;/li&gt;
+&lt;li&gt;機械学習は、適切な場面で使えば当然強力なツールである
+
+&lt;ul&gt;
+&lt;li&gt;データの構造を最大限活用した後に、データに残っている不確かさのモデル化に使うことに制限することが考えられる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;人間にとってテキストが曖昧性を持たないという事実は、不確かさのモデル化は解くべき重要な問題ではないことを示唆している
+
+&lt;ul&gt;
+&lt;li&gt;不確かさがモデル化されなければならない状況やラベルが極めて単純な状況において機械学習アルゴリズムの使用を抑えて、代わりにリッチな構造の、曖昧性のないテキストのために設計された他の手段を模索することは、機械学習が基づく数学的な基礎を放棄しているわけではない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</title>
+          <link>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
+          <pubDate>Sat, 14 Dec 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
+          <description>
+
+&lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
+slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content&#34;&gt;slideshare&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;まとめ:9b9474284a26779b41c6a09181dec8da&#34;&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;CIKM 2013でBest paperを取った、著者が全員女性(&lt;a href=&#34;http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/&#34;&gt;参考&lt;/a&gt;)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
+何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。&lt;/p&gt;
+
+&lt;p&gt;以下、メモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters:9b9474284a26779b41c6a09181dec8da&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)
+
+&lt;ul&gt;
+&lt;li&gt;羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう&lt;/li&gt;
+&lt;li&gt;くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;serendipity:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h3&gt;
+
+&lt;p&gt;役に立つんだけど、特に探していたわけではないもの。&lt;/p&gt;
+
+&lt;h3 id=&#34;entity-search:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity Search&lt;/h3&gt;
+
+&lt;p&gt;この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。&lt;/p&gt;
+
+&lt;h2 id=&#34;この論文の焦点:9b9474284a26779b41c6a09181dec8da&#34;&gt;この論文の焦点&lt;/h2&gt;
+
+&lt;h3 id=&#34;what:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHAT&lt;/h3&gt;
+
+&lt;p&gt;ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？&lt;/p&gt;
+
+&lt;h3 id=&#34;why:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHY&lt;/h3&gt;
+
+&lt;p&gt;そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？&lt;/p&gt;
+
+&lt;h2 id=&#34;データ:9b9474284a26779b41c6a09181dec8da&#34;&gt;データ&lt;/h2&gt;
+
+&lt;h3 id=&#34;yahoo-answers:9b9474284a26779b41c6a09181dec8da&#34;&gt;Yahoo! Answers&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ごくわずかにまとめられた意見、ゴシップ、個人情報&lt;/li&gt;
+&lt;li&gt;観点が多様&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;wikipedia:9b9474284a26779b41c6a09181dec8da&#34;&gt;Wikipedia&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;高品質の情報が整理されている&lt;/li&gt;
+&lt;li&gt;ニッチなトピックが豊富&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;entity-relation-extraction:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
+
+&lt;h3 id=&#34;entity-wikipediaに記述されている概念:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
+
+&lt;p&gt;1 テキストから表層形を識別し、
+2 Wikipediaのentityと紐付けして、&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文脈依存&lt;/li&gt;
+&lt;li&gt;文脈非依存な素性
+
+&lt;ul&gt;
+&lt;li&gt;click log&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)&lt;/p&gt;
+
+&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度:9b9474284a26779b41c6a09181dec8da&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
+
+&lt;p&gt;entityが現れるドキュメントを結合したものがベクトルで表される&lt;/p&gt;
+
+&lt;h2 id=&#34;dataset-features-metadata:9b9474284a26779b41c6a09181dec8da&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
+
+&lt;h3 id=&#34;sentiment:9b9474284a26779b41c6a09181dec8da&#34;&gt;Sentiment&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SentiStrengthを用いてpositive &amp;amp; negativeのスコアを計算する
+
+&lt;ul&gt;
+&lt;li&gt;インフォーマルな英語の極性判定でstate-of-the-art&lt;/li&gt;
+&lt;li&gt;このままだと文書レベルでの極性判定
+
+&lt;ul&gt;
+&lt;li&gt;文単位でpositive、negativeのスコアを割り当てて、それぞれの平均が文書単位の極性のスコアになる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;文書は複数のentityを含むことが多いのでentity単位での極性はうまく測れない&lt;/li&gt;
+&lt;li&gt;まずentityのそれぞれ前後10単語のウィンドウに対して極性のスコアを計算する&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;attitudeとsentimentalityをウィンドウに対して計算する[Kucuktunc&amp;rsquo;12]
+
+&lt;ul&gt;
+&lt;li&gt;attitude: positiveもしくはnegativeに対する傾向&lt;/li&gt;
+&lt;li&gt;sentimentality: 極性の大きさ&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;entityが現れるウィンドウのattitude, sentimentalityの平均値がentity単位の素性とする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;Quality&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;可読性&lt;/li&gt;
+&lt;li&gt;Flesch Reading Ease score[14]
+
+&lt;ul&gt;
+&lt;li&gt;スコアが高いほど理解するのが難しい&lt;/li&gt;
+&lt;li&gt;スコアが低いほど理解するのが易しい&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Fig1は二つのデータセットにおけるエンティティの可読性の分布&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;topical-category:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topical Category&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Yahoo Content Taxonomy
+
+&lt;ul&gt;
+&lt;li&gt;Table 2&lt;/li&gt;
+&lt;li&gt;二つのデータ・セット中の概念体型は使わない
+
+&lt;ul&gt;
+&lt;li&gt;整合性をとるため&lt;/li&gt;
+&lt;li&gt;二つのデータセットにおける実験結果を比較するため&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;US-Englishのニュース記事を使って訓練した分類器で文書分類する&lt;/li&gt;
+&lt;li&gt;entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;retrieval:9b9474284a26779b41c6a09181dec8da&#34;&gt;Retrieval&lt;/h2&gt;
+
+&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart:9b9474284a26779b41c6a09181dec8da&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;self-loop probability: beta
+他のノードへの伝搬を遅らせて、random walkの開始ノードの重要性をより高める
+
+&lt;ul&gt;
+&lt;li&gt;先行研究にしたがって、beta = 0.9 [6, 12]&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;follow one of the out-links with probability: 1 - beta
+エッジの重みに比例してrandom walkする&lt;/li&gt;
+&lt;li&gt;random jumpの確率は0 (alpha = 0)
+
+&lt;ul&gt;
+&lt;li&gt;random jumpすると結果が悪くなるため&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;反復の終了条件
+
+&lt;ul&gt;
+&lt;li&gt;前回とのノルムの差が10^-6以下、もしくは30回反復した&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&#34;scoring-method:9b9474284a26779b41c6a09181dec8da&#34;&gt;scoring method&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;testbed:9b9474284a26779b41c6a09181dec8da&#34;&gt;Testbed&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo! Answersの文書中に共に現れる上位50件のクエリ&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;precision-5-map:9b9474284a26779b41c6a09181dec8da&#34;&gt;Precision @5, MAP&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Precision: 66.8% on WP, 72.4% on YA&lt;/li&gt;
+&lt;li&gt;MAP: 0.716 on WP, 0.762 on YA
+ふたつのデータセットでの性能は同等であるものの、ランキングされるentityにはあまり重複がないため、二つのランキング結果を結合すると性能が上がる
+
+&lt;ul&gt;
+&lt;li&gt;Fagin et al. [13]のrank aggregationを使う&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;annotator-agreement:9b9474284a26779b41c6a09181dec8da&#34;&gt;Annotator agreement&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;1つのクエリにつき、annotatorは3人
+
+&lt;ul&gt;
+&lt;li&gt;クラウドソーシングしてるので、信頼出来ないannotatorは排除&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;(overlap): 0.85%
+
+&lt;ul&gt;
+&lt;li&gt;馴染みのないクエリはagreementが低い (Secosteroid, Sally Kern, &amp;hellip;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;average-overlap-in-top-5:9b9474284a26779b41c6a09181dec8da&#34;&gt;Average overlap in top 5&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;results: 12%
+
+&lt;ul&gt;
+&lt;li&gt;= 0.6 entity/top 5 entities&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;error-analysis:9b9474284a26779b41c6a09181dec8da&#34;&gt;Error analysis&lt;/h3&gt;
+
+&lt;p&gt;提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;例) Egyptに最も近い二つのentity
+
+&lt;ul&gt;
+&lt;li&gt;British Pacific Fleet, FC Groningen (WP)&lt;/li&gt;
+&lt;li&gt;Spring, IGN (YA)&lt;/li&gt;
+&lt;li&gt;Springは&amp;rdquo;Arab Spring&amp;rdquo;と間違えて識別された可能性があるが、このSpringは提案手法があまりEgyptの近くをみないので下位にランクされる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;とても似通ったentityばかりが上位にランクされてしまうこともある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;例) インフルエンザのウィルス名、Mac PowerBookのバージョン名で上位がうまる
+
+&lt;ul&gt;
+&lt;li&gt;random walk時に密度が高いサブグラフにトラップされてしまうことで起きる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;entityは関連していないentityが近くに来ることがある&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;entity extractionの失敗&lt;/li&gt;
+&lt;li&gt;文脈類似度を測るときのノイズ&lt;/li&gt;
+&lt;li&gt;例) 同音異義語が強くつながってしまう
+
+&lt;ul&gt;
+&lt;li&gt;意味的な素性を使わずに類似度を測ってしまう&lt;/li&gt;
+&lt;li&gt;(意味が違うなら文脈も違う気もする&amp;hellip;)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;制約:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約&lt;/h2&gt;
+
+&lt;p&gt;二つのデータセットが、serendipitous searchに何をもたらしてくれるのか調べる&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;YAとWPにおける実験結果を比べる&lt;/li&gt;
+&lt;li&gt;どの素性が検索結果に影響するのか調べる
+
+&lt;ul&gt;
+&lt;li&gt;このために、データセットからメタデータを抽出する&lt;/li&gt;
+&lt;li&gt;そして、sentimentality, quality, topical categoryの次元に対して、検索に制約をかける&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる&lt;/p&gt;
+
+&lt;h3 id=&#34;topic:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topic&lt;/h3&gt;
+
+&lt;p&gt;Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
+Constraint 1: entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;high-low-sentimentalyty:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
+
+&lt;p&gt;Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
+Constraint 2(3): entityは中央値(0.6 for YP, 0 for WP)よりも高いsentimentalityでなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;high-low-readability:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Readability&lt;/h3&gt;
+
+&lt;p&gt;Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
+Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)でなければならない&lt;/p&gt;
+
+&lt;h3 id=&#34;制約の結果:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約の結果&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;low-sentimentalityとlow-readabilityが負の影響を持っている&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;serendipity-1:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;accuracy以外にも推薦エンジンの性能を測ることが重要である&lt;/li&gt;
+&lt;li&gt;serendipity = unexpectedness + relevance&lt;/li&gt;
+&lt;li&gt;baselineの結果に入っていない結果のrelの平均
+
+&lt;ul&gt;
+&lt;li&gt;relはannotatorの判断（？）&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;baseline
+
+&lt;ul&gt;
+&lt;li&gt;Top: 2つの商用検索エンジンの検索結果のうち、最も上位5位の検索結果に現れる回数が多いentity&lt;/li&gt;
+&lt;li&gt;Top Nwp: TopからqueryのWikipediaの記事を除いたもの。WPに対するバイアスを避けるため&lt;/li&gt;
+&lt;li&gt;Rel: 2つの商用検索エンジンから提案される関連クエリから得られる結果のうち、頻度が高い上位5件のentity&lt;/li&gt;
+&lt;li&gt;Top+Rel: Top, Relの和集合&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;Table 5: 各baselineに対する、各制約条件で計算されたserendipity
+
+&lt;ul&gt;
+&lt;li&gt;topic-constrainedな条件ではすべてのbasline/datasetにおけるserendipityを上回っている&lt;/li&gt;
+&lt;li&gt;YAは常にWPを上回っている&lt;/li&gt;
+&lt;li&gt;COMが一番良いserendipityを出せる&lt;/li&gt;
+&lt;li&gt;括弧の中の値は各制約条件で提示されたすべての結果に対するunexpectedでrelaventな結果の割合
+
+&lt;ul&gt;
+&lt;li&gt;baselineによって弾かれていたentityも含めたときの値&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;これはだいたいserendipityと同じくらいの高さになっている
+
+&lt;ul&gt;
+&lt;li&gt;つまり、最も強いbasline Rel+Topと比べた時でさえ、提案手法はすごい数のunexpectedでrelaventな結果を検索している&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;user-perceived-quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;User-Perceived Quality&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する&lt;/li&gt;
+&lt;li&gt;順序付きリストの要素のペアワイズで比較する (順番はランダムに決める)
+
+&lt;ul&gt;
+&lt;li&gt;最初のほうが良かった&lt;/li&gt;
+&lt;li&gt;二つ目のほうが良かった&lt;/li&gt;
+&lt;li&gt;両方だめだった&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;reference result rankingを各次元に対して構築する
+
+&lt;ul&gt;
+&lt;li&gt;ランキング結果の集合の和集合(?)&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;各ペアは3人のannotatorにより評価される
+
+&lt;ul&gt;
+&lt;li&gt;ほとんど重複がない時に評価するのは非常に手間がかかる&lt;/li&gt;
+&lt;li&gt;適切なランクを推定するために、すべての順序リスト中の要素のペアから比較するペアをサンプリングする
+
+&lt;ul&gt;
+&lt;li&gt;votingによってreference result rankingにおける順位を決める&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf&#34;&gt;http://www.cs.cmu.edu/~callan/Papers/ecir11-jarguello.pdf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;labeling:9b9474284a26779b41c6a09181dec8da&#34;&gt;Labeling&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;どちらの結果がよりクエリと関連しているか？&lt;/li&gt;
+&lt;li&gt;そのクエリに興味を持つ人がいたら、その人はこの結果に興味を持つと思うか？&lt;/li&gt;
+&lt;li&gt;あなたがそのクエリに興味がないとしても、この結果はおもしろいか？&lt;/li&gt;
+&lt;li&gt;そのクエリについてなにか新しいことを学んだか？&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b:9b9474284a26779b41c6a09181dec8da&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた
+
+&lt;ul&gt;
+&lt;li&gt;Oil Spill -&amp;gt; Sweaters for Penguins&lt;/li&gt;
+&lt;li&gt;Robert Pattinson -&amp;gt; Water for Elephants&lt;/li&gt;
+&lt;li&gt;Egypt -&amp;gt; Ptolematic Kingdom&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;専門的には似ているけど、面白くない例
+
+&lt;ul&gt;
+&lt;li&gt;Egypt -&amp;gt; Cairo Conference&lt;/li&gt;
+&lt;li&gt;Netflix -&amp;gt; Blu-ray Disc&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;YAはreference rankに似た結果を出せている&lt;/li&gt;
+&lt;li&gt;Topical categoryはreferece rankingとの類似度を高めている&lt;/li&gt;
+&lt;li&gt;Sentiment &amp;amp; Readabilityもreferece rankingとの類似度を高めている&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <description>
+
+&lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
+
+&lt;h2 id=&#34;気になったところ:354c44db974ee48c03ece6648b7b14ff&#34;&gt;気になったところ&lt;/h2&gt;
+
+&lt;p&gt;データに正規分布を仮定したときのナイーブベイズ分類器について。
+平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は&lt;/p&gt;
+
+&lt;p&gt;\[
+p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}
+\]&lt;/p&gt;
+
+&lt;p&gt;これのlogをとると、
+\[
+\begin{split}
+\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\\
+&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、&lt;/p&gt;
+
+&lt;p&gt;\[
+\begin{split}
+\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod&lt;em&gt;{n=1}^N p(\mathbf{x}_n, y_n))\\
+&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y&lt;em&gt;n)p(\mathbf{x}_n|y_n))\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\\
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu&lt;em&gt;{y_nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は&lt;/p&gt;
+
+&lt;p&gt;\[
+\begin{split}
+\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits&lt;em&gt;y \log p(\mathbf{x}, y)\\
+&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\\
+&amp;amp; = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;em&gt;{yk}^2) - \frac{(x_k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
+\end{split}
+\]&lt;/p&gt;
+
+&lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+
+joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(classes)):
+    &lt;span style=&#34;color: #808080&#34;&gt;# 事前分布の対数&lt;/span&gt;
+    log_prior &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(class_piror[i])
+    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
+    log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; sigma[i, :]))
+    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
+    log_gauss2 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt; sigma[i, :])
+    &lt;span style=&#34;color: #808080&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
+    joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss2)
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;br&gt;
+となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
+        X &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; array2d(X)
+        joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;classes_)):
+            jointi &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;class_prior_[i])
+            n_ij &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #808080&#34;&gt;# np.piの前に2がない&lt;/span&gt;
+            n_ij &lt;span style=&#34;color: #303030&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt;
+                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+            joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; n_ij)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;数式の展開が間違えているのだろうか&amp;hellip;。それとも2は必要ないのだろうか&amp;hellip;。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:354c44db974ee48c03ece6648b7b14ff&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/&#34;&gt;Naive Bayesの復習（導出編）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>文書要約メモ（ACL2013）</title>
+          <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
+          <pubDate>Mon, 30 Sep 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
+          <description>
+
+&lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
+採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。&lt;/p&gt;
+
+&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。&lt;/li&gt;
+&lt;li&gt;先行研究のIneger Linear Programmingに基づいた手法と比べると
+
+&lt;ul&gt;
+&lt;li&gt;提案手法はソルバーを必要としない&lt;/li&gt;
+&lt;li&gt;提案手法は有意に速い&lt;/li&gt;
+&lt;li&gt;提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する&lt;/li&gt;
+&lt;li&gt;TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-1:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する&lt;/li&gt;
+&lt;li&gt;regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。&lt;/li&gt;
+&lt;li&gt;学習では、参照要約中での真の頻度との距離が最小になるように学習をする&lt;/li&gt;
+&lt;li&gt;選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている&lt;/li&gt;
+&lt;li&gt;提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-2:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する&lt;/li&gt;
+&lt;li&gt;提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ&lt;/li&gt;
+&lt;li&gt;非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う&lt;/li&gt;
+&lt;li&gt;三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す&lt;/li&gt;
+&lt;li&gt;DUC 2004とニュース記事に対するユーザのコメントを使って実験&lt;/li&gt;
+&lt;li&gt;サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-3:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;@Pnnc205jさんの論文&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-4:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;文書要約において中心性とは元の文書の核となる部分を含むべきだということ&lt;/li&gt;
+&lt;li&gt;既存の手法は冗長性を除いたり文圧縮をおこなうことで中心性を得ようと試みている&lt;/li&gt;
+&lt;li&gt;この論文では元文書のドメインを活用することで文書要約が、抽象型要約に向けてどれくらいこのようなパラダイムから前進できるかを調査する&lt;/li&gt;
+&lt;li&gt;実験ではcaseframeという意味的なレベルで人手の要約とシステムの要約の近さを図る&lt;/li&gt;
+&lt;li&gt;提案手法は
+
+&lt;ul&gt;
+&lt;li&gt;より抽象的で、文のまとめあげをおこなう&lt;/li&gt;
+&lt;li&gt;topicalなcaseframeを他のシステムほど含まない&lt;/li&gt;
+&lt;li&gt;元文書だけから再構築はできないけど、同じドメインの文書を加えればできる&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-5:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;クエリ指向型複数文書要約のための文圧縮を使った手法を提案する&lt;/li&gt;
+&lt;li&gt;構文木に基づく文圧縮モデル&lt;/li&gt;
+&lt;li&gt;ビームサーチのデコーダを提案。効率的、高圧縮。&lt;/li&gt;
+&lt;li&gt;圧縮するためのスコア関数にどうやって言語的な特徴やクエリとの関連性を組み込むのかを示す&lt;/li&gt;
+&lt;li&gt;DUC 2006, DUC 2007のstate-of-the-artよりも有意によくなることを示す&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
+
+&lt;h2 id=&#34;概要-6:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう&lt;/li&gt;
+&lt;li&gt;Multiple-Squence Alignmentという他のドメインにも使いまわせる抽象的な要約のテンプレートを使う&lt;/li&gt;
+&lt;li&gt;Overgenerate-and-Rankというものを候補の生成、ランキングに使うらしい&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</title>
+          <link>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
+          <pubDate>Tue, 10 Sep 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
+          <description>
+
+&lt;p&gt;KDD 2013読み会に参加させていただきました。
+せっかくなのでと思い論文を読んで発表してきた。
+主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。
+これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。
+個人的には参加者数が多すぎず少なすぎなかったのが良かった。&lt;/p&gt;
+
+&lt;h2 id=&#34;読んだ論文:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;読んだ論文&lt;/h2&gt;
+
+&lt;p&gt;Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013&lt;/p&gt;
+
+&lt;p&gt;proceeding (&lt;a href=&#34;http://delivery.acm.org/10.1145/2490000/2487636/p32-thakur.pdf?ip=119.72.198.210&amp;amp;id=2487636&amp;amp;acc=OA&amp;amp;key=BF13D071DEA4D3F3B0AA4BA89B4BCA5B&amp;amp;CFID=172417999&amp;amp;CFTOKEN=20689885&amp;amp;__acm__=1378782056_5a16e280ca3058cd06f535a4740ad6be&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。
+カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。
+記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。&lt;/p&gt;
+
+&lt;p&gt;ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。
+これは1/2近似であることを証明する時に必要な性質をもっているため。
+この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。
+今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら&lt;a href=&#34;http://theory.stanford.edu/~sergei/papers/soda10-jaccard.pdf&#34;&gt;他の論文&lt;/a&gt;でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。&lt;/p&gt;
+
+&lt;p&gt;人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。&lt;/p&gt;
+
+&lt;p&gt;関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。&lt;/p&gt;
+
+&lt;h2 id=&#34;発表資料:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;発表資料&lt;/h2&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;//www.scribd.com/embeds/166900012/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-2nk8dys4z67mwblosm6o&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_26933&#34; width=&#34;610&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&#34;議論:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;議論&lt;/h2&gt;
+
+&lt;p&gt;大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。
+自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは&lt;/li&gt;
+&lt;li&gt;diversityを良くしたら本当にユーザにとってためになるものが提供できるのか
+
+&lt;ul&gt;
+&lt;li&gt;極論するとランダムな文書集合で満足するユーザがいるかもしれない&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;diversityにも色々あるし、diversityの良さは人によって違うのでは
+
+&lt;ul&gt;
+&lt;li&gt;色々なdiversityと人間の評価の相関とか調べると面白いかも&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Active Sampling for Entity Matching (KDD 2012)を読んだ</title>
+          <link>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</link>
+          <pubDate>Sat, 03 Aug 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</guid>
+          <description>
+
+&lt;p&gt;proceeding (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1036/1/main.pdf&#34;&gt;pdf&lt;/a&gt;),
+slide (&lt;a href=&#34;http://shrdocs.com/presentations/9266/index.html&#34;&gt;html&lt;/a&gt;),
+journal (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、
+マリッサ・メイヤーのYahoo! CEO就任は&lt;a href=&#34;http://ja.wikipedia.org/wiki/%E3%83%9E%E3%83%AA%E3%83%83%E3%82%B5%E3%83%BB%E3%83%A1%E3%82%A4%E3%83%A4%E3%83%BC&#34;&gt;2012年7月17日&lt;/a&gt;、KDD 2012は&lt;a href=&#34;http://kdd2012.sigkdd.org/&#34;&gt;2012年8月中旬&lt;/a&gt;、
+おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという
+余計な詮索をしていた。
+journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
+これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。&lt;/p&gt;
+
+&lt;h2 id=&#34;概要:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;概要&lt;/h2&gt;
+
+&lt;p&gt;entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
+制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
+ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので
+提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
+に比べて早く、しかも精度もよく学習できることを示している。&lt;/p&gt;
+
+&lt;h2 id=&#34;発表資料:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;発表資料&lt;/h2&gt;
+
+&lt;div align=&#34;center&#34;&gt;
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/157827725/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-1si7srgey3zm82empzuw&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_66221&#34; width=&#34;700&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以下メモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;convex-hull-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Convex hull algorithm&lt;/h2&gt;
+
+&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+    &lt;img src=&#34;http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg&#34; width=&#34;500&#34; height=&#34;375&#34;&gt;
+&lt;/div&gt;
+precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法
+のようにして問題から制約を取り除く。
+また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を
+recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。
+探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
+ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。&lt;/p&gt;
+
+&lt;h2 id=&#34;rejection-sampling-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
+
+&lt;p&gt;black boxの学習をおこなう前に呼び出されるアルゴリズム。
+気持ちを理解するには&lt;a href=&#34;http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html&#34;&gt;Machined Learnings: Cost-Sensitive Binary Classification and Active Learning&lt;/a&gt;が詳しい。
+要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して
+少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル
+が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解
+が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。
+今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル
+についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ
+正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。
+棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。&lt;/p&gt;
+
+&lt;p&gt;この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
+見えない場合には現実的な方法である。&lt;/p&gt;
+
+&lt;h2 id=&#34;合わせて読みたい:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;合わせて読みたい&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/&#34;&gt;コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>It takes a long time to become young.</title>
+          <link>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
+          <pubDate>Sun, 07 Jul 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
+          <description>
+
+&lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
+いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
+深い言葉であると思う。&lt;/p&gt;
+
+&lt;p&gt;Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)&lt;/p&gt;
+
+&lt;p&gt;proceeding(&lt;a href=&#34;http://cs.stanford.edu/people/jure/pubs/language-www13.pdf&#34;&gt;pdf&lt;/a&gt;),  slide(&lt;a href=&#34;http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
+すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
+タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
+よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
+の関係を調べている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+&lt;img src=&#34;http://farm4.staticflickr.com/3790/9226399165_f556c04baf.jpg&#34; width=&#34;500&#34; height=&#34;376&#34; alt=&#34;nocountryforoldmembers&#34;&gt;&lt;/a&gt;
+&lt;br&gt;
+※著者スライドより
+&lt;/div&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉
+を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって
+言葉の変化には適応しなくなるというもの。
+実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに
+参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、
+流行っている言い回し、言葉を積極的に使う。
+ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。
+例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&amp;hellip;などと書くのだけど
+参加して日が浅いユーザはS: spicy&amp;hellip;などと書く。コミュニティ全体としては年を追う毎にS:という表記で
+ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。
+つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。
+いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。&lt;/p&gt;
+
+&lt;p&gt;このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の
+特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。
+論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。&lt;/p&gt;
+
+&lt;p&gt;以下、スライドを見ながら取ったメモ。&lt;/p&gt;
+
+&lt;h2 id=&#34;取り組む課題:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;取り組む課題&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ユーザはどのようにコミュニティの一員になるのか&lt;/li&gt;
+&lt;li&gt;ユーザとコミュニティはどのように共に成長していくのか&lt;/li&gt;
+&lt;li&gt;ユーザがコミュニティを退会することを予測できるのか&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アイディア:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アイディア&lt;/h2&gt;
+
+&lt;p&gt;コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。&lt;/p&gt;
+
+&lt;h2 id=&#34;アプローチ-取り組む課題と対応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;言葉の変化を捉えるための統計的なフレームワークを提案する&lt;/li&gt;
+&lt;li&gt;言葉の変化に対するユーザの反応を定量化する&lt;/li&gt;
+&lt;li&gt;ユーザがコミュニティを退会することを予測するために有効な素性を提案する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;長期的なデータ:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;長期的なデータ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BeerAdvocate&lt;/li&gt;
+&lt;li&gt;RateBeer&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;言葉の変化の例-puzzle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
+
+&lt;p&gt;香りの議論の導入で使われる二つの慣例 (Aroma &amp;amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。&lt;/p&gt;
+
+&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
+
+&lt;p&gt;コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
+ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。&lt;/p&gt;
+
+&lt;h2 id=&#34;二つの変化の関係:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;二つの変化の関係&lt;/h2&gt;
+
+&lt;p&gt;ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。&lt;/p&gt;
+
+&lt;h3 id=&#34;stage1:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage1:&lt;/h3&gt;
+
+&lt;p&gt;ユーザはコミュニティの言葉に順応する&lt;/p&gt;
+
+&lt;h3 id=&#34;stage2:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage2:&lt;/h3&gt;
+
+&lt;p&gt;ユーザの言葉はコミュニティの言語モデルと遠ざかる&lt;/p&gt;
+
+&lt;h3 id=&#34;仮説:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;仮説&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;ユーザは新しい言葉を使うようになって距離が遠くなる&lt;/li&gt;
+&lt;li&gt;ユーザは適応することをやめ、変化するコミュニティに合わせなくなる&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;検証:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;検証&lt;/h3&gt;
+
+&lt;p&gt;ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。&lt;/p&gt;
+
+&lt;h2 id=&#34;lexical-innovationへの適応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある&lt;/li&gt;
+&lt;li&gt;新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;puzzle-answer:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;puzzle answer&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。&lt;/li&gt;
+&lt;li&gt;ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;user-lifecycle-summary:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
+
+&lt;h3 id=&#34;オンラインでの言語的なlifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;0%: ユーザはコミュニティに参加&lt;/li&gt;
+&lt;li&gt;Stage 1: コミュニティでの慣例に適応&lt;/li&gt;
+&lt;li&gt;30%: 最も変化に適応する時期&lt;/li&gt;
+&lt;li&gt;Stage 2: 使う言葉が単調になる&lt;/li&gt;
+&lt;li&gt;100%: 退会&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;誕生: リアルなコミュニティに属する&lt;/li&gt;
+&lt;li&gt;Stage 1: コミュニティとの言語的な同化（小さい子供が周りの大人の言葉を真似して使う感じ）&lt;/li&gt;
+&lt;li&gt;17歳: コミュニティの慣例に最も適応する時期&lt;/li&gt;
+&lt;li&gt;Stage 2: 大人になって使う言葉が安定する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。&lt;/p&gt;
+
+&lt;h2 id=&#34;elastic-lifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Elastic lifecycle&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。&lt;/li&gt;
+&lt;li&gt;Stage 1の終了はユーザの最終的なlifespanの関数である。これは60 reviewをしたらStage 1が終わる、あるいは1年活動したらStage 1が終わる、などの絶対期な時間ではないということ。&lt;/li&gt;
+&lt;li&gt;適応する度合いはユーザの最終的なlifespanと関係している。これは長く活動するユーザほど適応する確率が高いことを言っている。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;これらの特徴を利用してユーザの最終的なlifespanを予測する。&lt;/p&gt;
+
+&lt;h2 id=&#34;predicting-user-lifespan:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Predicting user lifespan&lt;/h2&gt;
+
+&lt;h3 id=&#34;task:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Task&lt;/h3&gt;
+
+&lt;p&gt;最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。&lt;/p&gt;
+
+&lt;h3 id=&#34;linguistic-change-features:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Linguistic change features:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;コミュニティの言語モデルとの距離&lt;/li&gt;
+&lt;li&gt;そのユーザの言葉の安定性&lt;/li&gt;
+&lt;li&gt;lexical inovationへの適応&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;baselines:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Baselines:&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;投稿の頻度&lt;/li&gt;
+&lt;li&gt;月ごとの投稿の割合&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。&lt;/p&gt;
+
+&lt;h3 id=&#34;結果:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結果&lt;/h3&gt;
+
+&lt;p&gt;最大でBaselineよりも12ポイント高い&lt;/p&gt;
+
+&lt;h2 id=&#34;結論:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結論&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;言語の変化を捉えるフレームワークの提案した&lt;/li&gt;
+&lt;li&gt;相対的な二段階のlifecycleを示した&lt;/li&gt;
+&lt;li&gt;ユーザの退会予測に取り組んだ&lt;/li&gt;
+&lt;li&gt;ユーザとコミュニティの共同的な進化を分析した&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>簡単に、奥深く</title>
+          <link>http://tma15.github.io/blog/2013/6/joined-jm2013/</link>
+          <pubDate>Mon, 03 Jun 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/6/joined-jm2013/</guid>
+          <description>&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+&lt;img src=&#34;http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg&#34; width=&#34;600&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;
+&lt;/div&gt;
+&lt;br&gt;&lt;/p&gt;
+
+&lt;p&gt;暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで
+久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。
+一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、
+すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。&lt;/p&gt;
+
+&lt;p&gt;ところでこの前、東工大奥村・高村研、お茶大小林研の&lt;a href=&#34;http://www.lr.pi.titech.ac.jp/jm2013/&#34;&gt;合同研究会&lt;/a&gt;
+に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」
+というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど
+少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど）
+事前にLDAを実装したり、更新式の導出を追ったりしていた。
+実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。&lt;/p&gt;
+
+&lt;p&gt;学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。
+発表に関して言うと、最近自分が痛感したことが一つある。
+「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。
+自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは
+学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている)
+人しかいなかったからということ。
+これは自分の経験に基づいた考えなのだけど、
+たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って
+もらうためには自分がどんな職種であれ
+全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを
+わかりやすく説明する必要が出てくるんじゃないかと思う
+(もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。
+しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという
+ことも伝えられなければならない。
+バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している
+聴講者へ発表することよりも難しい。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;「あなたは何をやっているかよく分からない」&lt;/li&gt;
+&lt;li&gt;「あなたがやっていることは誰でも出来る簡単なことじゃないか」&lt;/li&gt;
+&lt;li&gt;「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>食べログAPIのPythonラッパーを書いた</title>
+          <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
+          <pubDate>Sun, 12 May 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
+          <description>
+
+&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;食べログapi利用登録:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;食べログAPI利用登録&lt;/h2&gt;
+
+&lt;p&gt;まず&lt;a href=&#34;http://tabelog.com/help/api/&#34;&gt;食べログAPI サービス案内&lt;/a&gt;から利用登録をして
+access key (40桁の文字列)を入手する。&lt;/p&gt;
+
+&lt;h2 id=&#34;インストール:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git clone https://github.com/tma15/python-tabelog.git
+&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;python-tabelog
+python setup.py install
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h2 id=&#34;使い方:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;使い方&lt;/h2&gt;
+
+&lt;h3 id=&#34;最初に:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;最初に&lt;/h3&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
+
+key &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;Your access key here.&amp;#39;&lt;/span&gt;
+tabelog &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Tabelog(key)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h3 id=&#34;レストラン検索:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;レストラン検索&lt;/h3&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;prefecture &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
+station &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;渋谷&amp;#39;&lt;/span&gt;
+restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_restaurant(prefecture&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;prefecture, station&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;station)
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; restaurant &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; restaurants:
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;rcd:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rcd
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;name:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;name
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tabelogurl
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mobile url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tabelogmobileurl
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dinnerprice
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;lunchprice
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;totalscore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tastescore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;servicescore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;moodscore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;category:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;category
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;station:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;station
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;situation:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;situation
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;h4 id=&#34;search-restaurant-が受け取れるその他の主な変数:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;search_restaurant()が受け取れるその他の主な変数&lt;/h4&gt;
+
+&lt;ul&gt;
+&lt;li&gt;latitude: 経度 （例）35.684&lt;/li&gt;
+&lt;li&gt;longitude: 緯度 （例）139.756&lt;/li&gt;
+&lt;li&gt;search_range: small (約300m以内), medium (約600m以内), large (約1.5km以内)の3つのどれか。デフォルトはmedium。&lt;/li&gt;
+&lt;li&gt;sort_order: highprice (夜の価格が高い順), lowprice (夜の価格が低い順), reviewcount (口コミ数が多い順)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;レビュー収集:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;レビュー収集&lt;/h3&gt;
+
+&lt;p&gt;お店のレビューが欲しい時はそのお店のレコード番号を指定する。
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;reviews &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_review(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;13004626&lt;/span&gt;) &lt;span style=&#34;color: #808080&#34;&gt;# restaurant.rcd&lt;/span&gt;
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; review &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; reviews:
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;nickname:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;nickname
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;title:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;title
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dinnerprice
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;lunchprice
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;totalscore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;servicescore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tastescore
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;moodscore
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Good style - Writing for Computer Science</title>
+          <link>http://tma15.github.io/blog/2013/3/good-style/</link>
+          <pubDate>Wed, 27 Mar 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/3/good-style/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
+
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/132605868/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-wgir7vee0ytkouj0q99&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_18069&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Giving presentations - Writing for Computer Science</title>
+          <link>http://tma15.github.io/blog/2013/2/giving-presentaions/</link>
+          <pubDate>Sat, 23 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/giving-presentaions/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
+
+&lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/126837452/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-18r6gyvswmhjnapds9dz&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29936305732484&#34; scrolling=&#34;no&#34; id=&#34;doc_32667&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
+          <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+          <pubDate>Sat, 16 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+          <description>
+
+&lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
+Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Named entity disambiguationをする&lt;/li&gt;
+&lt;li&gt;Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく&lt;/li&gt;
+&lt;li&gt;mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;e.g. MadridでManchesterとBarcelonaの試合があった&lt;/li&gt;
+&lt;li&gt;Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アプローチ:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;アプローチ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
+&lt;ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;priorは、mentionに含まれる表現が一般的にentity e_jである確率&lt;/li&gt;
+&lt;li&gt;context similarityはmentionとentityの文脈類似度&lt;/li&gt;
+&lt;li&gt;coherenceは他のmentionのentityとの意味的な近さ
+&lt;ul&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標
+&lt;/ul&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;グラフの中からサブグラフを選択
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;サブグラフは、一つのmentionが一つのentityとエッジをもつ&lt;/li&gt;
+&lt;li&gt;サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる&lt;/li&gt;
+&lt;li&gt;サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない
+&lt;ul&gt;
+    + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない
+&lt;/ul&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く&lt;/li&gt;
+&lt;li&gt;アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする
+&lt;ul&gt;
+こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除
+&lt;/ul&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Togakushi</title>
+          <link>http://tma15.github.io/blog/2013/2/togakushi/</link>
+          <pubDate>Tue, 12 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/togakushi/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8466317921/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
+          <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+          <pubDate>Wed, 06 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+          <description>
+
+&lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:836e9543b7834fc340ebe71534bcd743&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;p&gt;tweet (英語のtweetに限定) の集合が与えられたときに&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．&lt;/li&gt;
+&lt;li&gt;これらの同定されたテキストに対して名寄せをおこなう．
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;名寄せは，一番単語数が多い表現にまとめる&lt;/li&gt;
+&lt;li&gt;最大の単語数の表現が複数あればWikipediaにある表現を採用&lt;/li&gt;
+&lt;li&gt;PERSONと識別された三つの表現&amp;rdquo;Gaga&amp;rdquo;, &amp;ldquo;Lady Gaaaga&amp;rdquo;, &amp;ldquo;Lady Gaga&amp;rdquo;は&amp;rdquo;Lady Gaga&amp;rdquo;にまとめる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;アプローチ:836e9543b7834fc340ebe71534bcd743&#34;&gt;アプローチ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;tweetは，エンティティに対していろいろな表現をされる．&lt;/li&gt;
+&lt;li&gt;e.g. &amp;ldquo;Anne Gronloh&amp;rdquo;というエンティティには&amp;rdquo;Mw.,Gronloh&amp;rdquo;, &amp;ldquo;Anneke Kronloh&amp;rdquo;, &amp;ldquo;Mevrouw G&amp;rdquo;など
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;rdquo;&amp;hellip; Alex&amp;rsquo;s jokes. &amp;hellip;&amp;ldquo;と&amp;rdquo;&amp;hellip; Alex Russo was like&amp;hellip;&amp;ldquo;という二つのtweet
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;NERモデルにより&amp;rdquo;Alex&amp;rdquo;と&amp;rdquo;Alex Russo&amp;rdquo;がともにPERSONであることが識別できれば，NENモデルは&amp;rdquo;Alex&amp;rdquo;を&amp;rdquo;Alex Russo&amp;rdquo;に名寄せできる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;rdquo; &amp;hellip; she knew Burger King when &amp;hellip;&amp;ldquo;と&amp;rdquo;.. I&amp;rsquo;m craving all sorts of food: mcdonalds, burger king, &amp;hellip;&amp;ldquo;という二つのtweet
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;NENモデルが&amp;rdquo;Burger King&amp;rdquo;と&amp;rsquo;burger king&amp;rdquo;が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;学習にはCRFを用いる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．&lt;/li&gt;
+&lt;li&gt;ラベルは{B, I, L, O, U}&lt;/li&gt;
+&lt;li&gt;一つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;と二つ目のtweetに含まれる&amp;rdquo;Lady Gaga&amp;rdquo;にPERSONが割り当てられ，一つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;と二つ目のtweetに含まれる&amp;rdquo;Gaga&amp;rdquo;が同一のエンティティを指していると識別できれば&amp;rdquo;Gaga&amp;rdquo;と&amp;rdquo;Lady Gaga&amp;rdquo;は同じものを指している&lt;/li&gt;
+&lt;li&gt;(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．&lt;/li&gt;
+&lt;li&gt;初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値&lt;/li&gt;
+&lt;li&gt;第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値&lt;/li&gt;
+&lt;li&gt;初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．&lt;/li&gt;
+&lt;li&gt;skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;複数のtweetを同時に考慮することの利点&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&amp;rdquo;&amp;hellip; Bobby Shaw you don&amp;rsquo;t invite the wind&amp;hellip;&amp;ldquo;と&amp;rdquo;&amp;hellip; I own yah! Loool bobby shaw&amp;hellip;&amp;rdquo;
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;Bobby Shaw&amp;rdquo;をPERSONと識別することは比較的簡単．&lt;/li&gt;
+&lt;li&gt;一つ目のtweetの&amp;rdquo;you&amp;rdquo;が，二つ目のtweetの&amp;rsquo;bobby shaw&amp;rdquo;がPERSONであることの手がかりとなる．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;ラベルの候補の絞り込み&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;外部資源から固有表現を取ってきて辞書を作っておく．&lt;/li&gt;
+&lt;li&gt;tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;new york&amp;rdquo;という句が出てきたとき，辞書にある&amp;rdquo;New York City&amp;rdquo;と&amp;rdquo;New York Times&amp;rdquo;と一致する．&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;new&amp;rdquo;には，&amp;rdquo;B-LOCATION&amp;rdquo;, &amp;ldquo;B-ORGANIZATION&amp;rdquo;，&amp;rdquo;york&amp;rdquo;には&amp;rdquo;I-LOCATION&amp;rdquo;, &amp;ldquo;I-ORGANIZATION&amp;rdquo;がラベルの候補の集合にそれぞれ追加される．
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;normalization変数zもルールである程度決めてしまう&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．&lt;/li&gt;
+&lt;li&gt;tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1&lt;/li&gt;
+&lt;li&gt;tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;素性&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど&lt;/li&gt;
+&lt;li&gt;基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど&lt;/li&gt;
+&lt;li&gt;ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;感想-疑問点:836e9543b7834fc340ebe71534bcd743&#34;&gt;感想・疑問点&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
+          <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+          <pubDate>Fri, 01 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+          <description>
+
+&lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
+
+&lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;解いている問題:381a36f16f92869b9003e45a4b32267c&#34;&gt;解いている問題&lt;/h2&gt;
+
+&lt;p&gt;名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。&lt;/p&gt;
+
+&lt;p&gt;課題&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい&lt;/li&gt;
+&lt;li&gt;テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい&lt;/li&gt;
+&lt;li&gt;テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない&lt;/li&gt;
+&lt;li&gt;テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;提案手法のモチベーション:381a36f16f92869b9003e45a4b32267c&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。&lt;/li&gt;
+&lt;li&gt;ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。&lt;/li&gt;
+&lt;li&gt;具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。&lt;/li&gt;
+&lt;li&gt;このラベル付きの事例は各ステップでラベルを変更することができる。&lt;/li&gt;
+&lt;li&gt;どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;曖昧性解消のアプローチ:381a36f16f92869b9003e45a4b32267c&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;（良くない）シンプルな正例の作り方の例&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。&lt;/li&gt;
+&lt;li&gt;こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。&lt;/li&gt;
+&lt;li&gt;具体的には、EMアルゴリズムを使う&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;訓練データの初期状態としてありうる二つのパターン&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;訓練データは真に正例の事例と、大量のラベルなしの事例からなる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある&lt;/li&gt;
+&lt;li&gt;ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;E-step&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる&lt;/li&gt;
+&lt;li&gt;具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる
+&lt;ul&gt;&lt;/li&gt;
+&lt;li&gt;α^x_{min}は、事例ごとに決定されるパラメータ
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;M-step&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;分類器R&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。&lt;/li&gt;
+&lt;li&gt;このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。&lt;/li&gt;
+&lt;li&gt;ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。&lt;/li&gt;
+&lt;li&gt;分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。&lt;/li&gt;
+&lt;li&gt;また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。&lt;/li&gt;
+&lt;li&gt;SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;疑問点:381a36f16f92869b9003e45a4b32267c&#34;&gt;疑問点&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)&lt;/li&gt;
+&lt;li&gt;α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか
+（ある単語のパターンでは負例になりやすいとかそういうことではない？）&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>2013年の抱負</title>
+          <link>http://tma15.github.io/blog/2013/1/start-of-2013/</link>
+          <pubDate>Tue, 08 Jan 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/1/start-of-2013/</guid>
+          <description>
+
+&lt;h2 id=&#34;飲み過ぎない:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;飲み過ぎない&lt;/h2&gt;
+
+&lt;p&gt;歳を重ねてもお酒を美味しく飲みたいから。
+若いからといって毎日飲みまくるのはやめる。
+健康第一。&lt;/p&gt;
+
+&lt;h2 id=&#34;反転してシュート:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;反転してシュート&lt;/h2&gt;
+
+&lt;p&gt;言わずもがな。&lt;/p&gt;
+
+&lt;h2 id=&#34;論文を読む:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;論文を読む&lt;/h2&gt;
+
+&lt;p&gt;2012年末頃はほとんど読めていなかった。
+本当は一日一本くらいのペースで読めたらかっこいいけど、
+二日に一本読めたら上出来くらいの低めの目標で。
+（事情によりあまり開催できていないけど）身内と細々とやっている
+機械学習勉強会でも積極的に発表したい。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Practical Machine Learning Tricks</title>
+          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+          <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+          <description>
+
+&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。&lt;/p&gt;
+
+&lt;p&gt;結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。&lt;/p&gt;
+
+&lt;p&gt;カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/ja//pubs/archive/37195.pdf&#34;&gt;Detecting Adversarial Advertisements in the Wild&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel,
+  John Hainsworth, Yunkai Zhou&lt;/p&gt;
+
+&lt;p&gt;一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。&lt;/p&gt;
+
+&lt;p&gt;この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。&lt;/p&gt;
+
+&lt;h2 id=&#34;1-classification:923b80eb0d6937beb6baa576d82ab042&#34;&gt;1) Classification&lt;/h2&gt;
+
+&lt;p&gt;機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは&lt;a href=&#34;http://code.google.com/p/sofia-ml/&#34;&gt;ソースコード&lt;/a&gt;が入手可能である。&lt;/p&gt;
+
+&lt;h3 id=&#34;abe-always-be-ensemble-ing:923b80eb0d6937beb6baa576d82ab042&#34;&gt;ABE: Always Be Ensemble-ing&lt;/h3&gt;
+
+&lt;p&gt;Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。&lt;/p&gt;
+
+&lt;h3 id=&#34;only-auto-block-or-auto-allow-on-high-confidence-predictions:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Only auto-block or auto-allow on high-confidence predictions&lt;/h3&gt;
+
+&lt;p&gt;訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。&lt;/p&gt;
+
+&lt;h3 id=&#34;throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Throw a ton of features at the model and let L1 sparsity figure it out&lt;/h3&gt;
+
+&lt;p&gt;素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。&lt;/p&gt;
+
+&lt;h3 id=&#34;map-features-with-the-hashing-trick:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Map features with the &amp;ldquo;hashing trick&amp;rdquo;&lt;/h3&gt;
+
+&lt;p&gt;これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは&lt;a href=&#34;http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick&#34;&gt;MetaOptimize discussion board&lt;/a&gt;でうまく説明されている。&lt;/p&gt;
+
+&lt;h3 id=&#34;handle-the-class-imbalance-problem-with-ranking:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Handle the class imbalance problem with ranking&lt;/h3&gt;
+
+&lt;p&gt;ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。&lt;/p&gt;
+
+&lt;h3 id=&#34;use-a-cascade-of-classifiers:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Use a cascade of classifiers&lt;/h3&gt;
+
+&lt;p&gt;ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。&lt;/p&gt;
+
+&lt;h2 id=&#34;2-scalability-engineering-and-operations:923b80eb0d6937beb6baa576d82ab042&#34;&gt;2) Scalability, engineering and operations&lt;/h2&gt;
+
+&lt;p&gt;研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。&lt;/p&gt;
+
+&lt;h3 id=&#34;mapreduce-pre-processing-map-algorithm-training-reduce:923b80eb0d6937beb6baa576d82ab042&#34;&gt;MapReduce: pre-processing (map), algorithm training (reduce)&lt;/h3&gt;
+
+&lt;p&gt;いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。&lt;/p&gt;
+
+&lt;h3 id=&#34;monitor-all-the-things:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Monitor all the things&lt;/h3&gt;
+
+&lt;p&gt;入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;テストデータでのprecision/recall&lt;/li&gt;
+&lt;li&gt;入力の素性の分布&lt;/li&gt;
+&lt;li&gt;出力のスコアの分布&lt;/li&gt;
+&lt;li&gt;出力のラベルの分布&lt;/li&gt;
+&lt;li&gt;人間が評価したシステムの質&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;rich-model-objects:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Rich model objects&lt;/h3&gt;
+
+&lt;p&gt;機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために&amp;rdquo;model object&amp;rdquo;を拡張することが重要であると述べている。&lt;/p&gt;
+
+&lt;h2 id=&#34;3-human-in-the-loop:923b80eb0d6937beb6baa576d82ab042&#34;&gt;3) Human-in-the-loop&lt;/h2&gt;
+
+&lt;p&gt;ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。&lt;/p&gt;
+
+&lt;h3 id=&#34;make-efficient-use-of-expert-effort:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Make efficient use of expert effort&lt;/h3&gt;
+
+&lt;p&gt;彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。&lt;/p&gt;
+
+&lt;h3 id=&#34;allow-humans-to-hard-code-rules:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Allow humans to hard-code rules&lt;/h3&gt;
+
+&lt;p&gt;&amp;ldquo;人間が最適な答えを知っている&amp;rdquo;こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。&lt;/p&gt;
+
+&lt;h3 id=&#34;human-evaluation:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Human evaluation&lt;/h3&gt;
+
+&lt;p&gt;専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。&lt;/p&gt;
+
+&lt;p&gt;最後に、彼らはまた一般的なユーザから見てもシステムが上手く動いていることを確かめるために専門家でない人の評価も定期的に行なっている。エンドユーザの満足が究極の目標なので、この評価はとてもいいアイディアだと思う。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>without sns</title>
+          <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/withoutsns/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.lifehacker.jp/2012/09/12092730withoutsns.html&#34;&gt;「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;この記事を初めて読んだとき、自分には無理だなあと思っていた。&lt;/p&gt;
+
+&lt;p&gt;でも、やってみたら、できた。そして記事で書かれていることを体験して、強く同意した。&lt;/p&gt;
+
+&lt;p&gt;最初の2、3日に起きる禁断症状を乗り越えてしまえばそんなに辛くないし、ぼーっとストリーム
+を眺めている時間は無くなった。&lt;/p&gt;
+
+&lt;p&gt;（TwipicのCTOには遠くおよばないけど）プログラミングの時間は増えたと
+思っているし、友人たちとより密度の濃い時間を過ごすことができている。
+（友人といる時にちょっと関心の薄い話題になって退屈になるとiPhoneで
+SNS覗いたり、なんてことをしてたんだけど、今は意識的にそういう事はやめてる。）&lt;/p&gt;
+
+&lt;p&gt;本を書いたりなんて当然してないんだけど、技術書を読む時間や論文を読む時間が増えた。&lt;/p&gt;
+
+&lt;p&gt;SNSなんかやめても他のことに無駄に時間を使うことだけだ、と思っていたことも
+あるし、実際に無駄な時間の使い方をしていると感じることもあるけど、SNS
+に入り浸っていた時よりは確実に良い時間の使い方をできている。&lt;/p&gt;
+
+&lt;p&gt;記事をなぞったようなことしかやっていないのだけど、この「情報ダイエット」は自分にとって
+価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
+
+&lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>kaanapali</title>
+          <link>http://tma15.github.io/blog/2012/11/kaanapali/</link>
+          <pubDate>Thu, 15 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/kaanapali/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8187971604/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg&#34; width=&#34;800&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Hello World</title>
+          <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+          <pubDate>Sat, 10 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+          <description>&lt;p&gt;なんとなくつくってみた。
+&lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+
   </channel>
 </rss>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Elasticsearch on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/tags/elasticsearch/</link>
-    <description>Recent content in Elasticsearch on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2014-11-08 00:00:00 &#43;0000 UTC</updated>
+
     
-    <item>
-      <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
-      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
-      <description>
+        <item>
+          <title>PythonでElasticsearchを使うときのメモ</title>
+          <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+          <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
@@ -230,7 +231,9 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+
   </channel>
 </rss>

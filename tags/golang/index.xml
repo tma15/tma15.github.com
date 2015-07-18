@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Golang on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/tags/golang/</link>
-    <description>Recent content in Golang on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2015 23:09:00 +0900</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2015-07-17 23:09:00 &#43;0900 JST</updated>
+
     
-    <item>
-      <title>オンライン学習の実装いろいろ</title>
-      <link>http://tma15.github.io/blog/2015/07/17/</link>
-      <pubDate>Fri, 17 Jul 2015 23:09:00 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/07/17/</guid>
-      <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
+        <item>
+          <title>オンライン学習の実装いろいろ</title>
+          <link>http://tma15.github.io/blog/2015/07/17/</link>
+          <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+          <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
 
@@ -30,15 +31,17 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;p&gt;golangらしく？&lt;a href=&#34;https://github.com/tma15/gonline/releases&#34;&gt;github release&lt;/a&gt;でバイナリの配布もしている (今回初めてやってみた)。
 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>二つの集合に重複して現れる要素の数を数える</title>
-      <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
-      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
-      <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
+    
+      
+        <item>
+          <title>二つの集合に重複して現れる要素の数を数える</title>
+          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
 
@@ -126,15 +129,17 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 
 &lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>HMMを実装した</title>
-      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
-      <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
-      <description>
+    
+      
+        <item>
+          <title>HMMを実装した</title>
+          <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+          <pubDate>Sat, 25 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
 
@@ -163,15 +168,17 @@ VBN --&amp;gt; NN      22
 &lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
 コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
-      <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
+          <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+          <pubDate>Mon, 20 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
 
@@ -276,15 +283,17 @@ Go言語  考え    0.700000
 &lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
 あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>AdaGrad&#43;RDAをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
-      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
-      <description>
+    
+      
+        <item>
+          <title>AdaGrad&#43;RDAをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
+          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
+          <description>
 
 &lt;p&gt;論文はこちら。&lt;/p&gt;
 
@@ -347,15 +356,17 @@ Acc: 0.9487590072057646
 &lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron&#34;&gt;Multiclass perceptron&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>PA-IIをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
-      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
-      <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
+    
+      
+        <item>
+          <title>PA-IIをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
+          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
+          <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
 
@@ -382,15 +393,17 @@ Acc: 0.9487590072057646
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>パーセプトロンをGoで書いた</title>
-      <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
-      <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
-      <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
+    
+      
+        <item>
+          <title>パーセプトロンをGoで書いた</title>
+          <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
+          <pubDate>Sat, 11 Oct 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
+          <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
 ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 
 &lt;p&gt;素性ベクトルのフォーマットは&amp;lt;数値&amp;gt;:&amp;lt;数値&amp;gt; である必要はなくて、&amp;lt;文字列&amp;gt;:&amp;lt;数値&amp;gt; でも読み込めるようにしました。
@@ -428,7 +441,9 @@ Acc: 0.8257203773097299
 &lt;p&gt;&lt;del&gt;confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。&lt;/del&gt;
 &lt;ins&gt;出力するようにしました。 (2014/09/17追記)&lt;/ins&gt;&lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+
   </channel>
 </rss>

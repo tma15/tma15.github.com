@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Diary on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/tags/diary/</link>
-    <description>Recent content in Diary on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Jun 2015 10:44:18 +0900</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/diary/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2015-06-21 10:44:18 &#43;0900 JST</updated>
+
     
-    <item>
-      <title>Hugoに移行してみた</title>
-      <link>http://tma15.github.io/blog/2015/06/21/</link>
-      <pubDate>Sun, 21 Jun 2015 10:44:18 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/06/21/</guid>
-      <description>&lt;p&gt;記事の生成が速いと噂のHugoへ移行した。
+        <item>
+          <title>Hugoに移行してみた</title>
+          <link>http://tma15.github.io/blog/2015/06/21/</link>
+          <pubDate>Sun, 21 Jun 2015 10:44:18 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/06/21/</guid>
+          <description>&lt;p&gt;記事の生成が速いと噂のHugoへ移行した。
 もともと使っていたジェネレータがPythonのHydeだったのだけどドキュメントが少なく、色々と面倒臭かったのでドキュメントが充実している点でも有り難みがある。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>コメント欄を付けた</title>
-      <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
-      <pubDate>Sat, 17 Jan 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
+    
+      
+        <item>
+          <title>コメント欄を付けた</title>
+          <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
+          <pubDate>Sat, 17 Jan 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>atom.xmlを加えた</title>
-      <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
-      <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
+    
+      
+        <item>
+          <title>atom.xmlを加えた</title>
+          <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
+          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
+          <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>北京滞在メモ</title>
-      <link>http://tma15.github.io/blog/2014/3/i-visited-beijing/</link>
-      <pubDate>Sat, 15 Mar 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/3/i-visited-beijing/</guid>
-      <description>
+    
+      
+        <item>
+          <title>北京滞在メモ</title>
+          <link>http://tma15.github.io/blog/2014/3/i-visited-beijing/</link>
+          <pubDate>Sat, 15 Mar 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/3/i-visited-beijing/</guid>
+          <description>
 
 &lt;p&gt;北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。&lt;/p&gt;
 
@@ -77,15 +84,17 @@
 &lt;li&gt;中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>2013年と2014年</title>
-      <link>http://tma15.github.io/blog/2014/1/2013-2014/</link>
-      <pubDate>Thu, 02 Jan 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/1/2013-2014/</guid>
-      <description>
+    
+      
+        <item>
+          <title>2013年と2014年</title>
+          <link>http://tma15.github.io/blog/2014/1/2013-2014/</link>
+          <pubDate>Thu, 02 Jan 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/1/2013-2014/</guid>
+          <description>
 
 &lt;h2 id=&#34;2013年の振り返り:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2013年の振り返り&lt;/h2&gt;
 
@@ -135,15 +144,17 @@
 
 &lt;p&gt;T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>簡単に、奥深く</title>
-      <link>http://tma15.github.io/blog/2013/6/joined-jm2013/</link>
-      <pubDate>Mon, 03 Jun 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/6/joined-jm2013/</guid>
-      <description>&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
+    
+      
+        <item>
+          <title>簡単に、奥深く</title>
+          <link>http://tma15.github.io/blog/2013/6/joined-jm2013/</link>
+          <pubDate>Mon, 03 Jun 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/6/joined-jm2013/</guid>
+          <description>&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
 &lt;img src=&#34;http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg&#34; width=&#34;600&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;
 &lt;/div&gt;
 &lt;br&gt;&lt;/p&gt;
@@ -185,25 +196,29 @@
 
 &lt;p&gt;発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Togakushi</title>
-      <link>http://tma15.github.io/blog/2013/2/togakushi/</link>
-      <pubDate>Tue, 12 Feb 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/2/togakushi/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8466317921/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+    
+      
+        <item>
+          <title>Togakushi</title>
+          <link>http://tma15.github.io/blog/2013/2/togakushi/</link>
+          <pubDate>Tue, 12 Feb 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/2/togakushi/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8466317921/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>2013年の抱負</title>
-      <link>http://tma15.github.io/blog/2013/1/start-of-2013/</link>
-      <pubDate>Tue, 08 Jan 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/1/start-of-2013/</guid>
-      <description>
+    
+      
+        <item>
+          <title>2013年の抱負</title>
+          <link>http://tma15.github.io/blog/2013/1/start-of-2013/</link>
+          <pubDate>Tue, 08 Jan 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/1/start-of-2013/</guid>
+          <description>
 
 &lt;h2 id=&#34;飲み過ぎない:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;飲み過ぎない&lt;/h2&gt;
 
@@ -223,25 +238,29 @@
 （事情によりあまり開催できていないけど）身内と細々とやっている
 機械学習勉強会でも積極的に発表したい。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Hakone Museum of Art</title>
-      <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
-      <pubDate>Thu, 29 Nov 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+    
+      
+        <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>without sns</title>
-      <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
-      <pubDate>Thu, 29 Nov 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/11/withoutsns/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.lifehacker.jp/2012/09/12092730withoutsns.html&#34;&gt;「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話&lt;/a&gt;&lt;/p&gt;
+    
+      
+        <item>
+          <title>without sns</title>
+          <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/withoutsns/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.lifehacker.jp/2012/09/12092730withoutsns.html&#34;&gt;「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;この記事を初めて読んだとき、自分には無理だなあと思っていた。&lt;/p&gt;
 
@@ -266,28 +285,34 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 
 &lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>kaanapali</title>
-      <link>http://tma15.github.io/blog/2012/11/kaanapali/</link>
-      <pubDate>Thu, 15 Nov 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/11/kaanapali/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8187971604/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg&#34; width=&#34;800&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+    
+      
+        <item>
+          <title>kaanapali</title>
+          <link>http://tma15.github.io/blog/2012/11/kaanapali/</link>
+          <pubDate>Thu, 15 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/kaanapali/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8187971604/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg&#34; width=&#34;800&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
-      <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
-      <description>&lt;p&gt;なんとなくつくってみた。
+    
+      
+        <item>
+          <title>Hello World</title>
+          <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+          <pubDate>Sat, 10 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+          <description>&lt;p&gt;なんとなくつくってみた。
 &lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+
   </channel>
 </rss>

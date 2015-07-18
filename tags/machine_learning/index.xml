@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Machine_learning on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/tags/machine_learning/</link>
-    <description>Recent content in Machine_learning on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Jul 2015 23:09:00 +0900</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2015-07-17 23:09:00 &#43;0900 JST</updated>
+
     
-    <item>
-      <title>オンライン学習の実装いろいろ</title>
-      <link>http://tma15.github.io/blog/2015/07/17/</link>
-      <pubDate>Fri, 17 Jul 2015 23:09:00 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/07/17/</guid>
-      <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
+        <item>
+          <title>オンライン学習の実装いろいろ</title>
+          <link>http://tma15.github.io/blog/2015/07/17/</link>
+          <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+          <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
 
@@ -30,15 +31,17 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;p&gt;golangらしく？&lt;a href=&#34;https://github.com/tma15/gonline/releases&#34;&gt;github release&lt;/a&gt;でバイナリの配布もしている (今回初めてやってみた)。
 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Dropoutの実装で気になって調べたこと</title>
-      <link>http://tma15.github.io/blog/2015/02/21/</link>
-      <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Dropoutの実装で気になって調べたこと</title>
+          <link>http://tma15.github.io/blog/2015/02/21/</link>
+          <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+          <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
 
@@ -65,15 +68,17 @@ SCWはいつか実装する。&lt;/p&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf&#34;&gt;Dropout: A Simple Way to Prevent Neural Networks from Overfitting&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
-      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
-      <description>
+    
+      
+        <item>
+          <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
 
@@ -161,15 +166,17 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Practical Machine Learning Tricks</title>
-      <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
-      <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Practical Machine Learning Tricks</title>
+          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+          <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+          <description>
 
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
 
@@ -262,7 +269,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 
 &lt;p&gt;最後に、彼らはまた一般的なユーザから見てもシステムが上手く動いていることを確かめるために専門家でない人の評価も定期的に行なっている。エンドユーザの満足が究極の目標なので、この評価はとてもいいアイディアだと思う。&lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+
   </channel>
 </rss>

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Python on Now is better than never.</title>
+    <title>Now is better than never. </title>
     <link>http://tma15.github.io/tags/python/</link>
-    <description>Recent content in Python on Now is better than never.</description>
-    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <author></author>
+    <rights>(C) 2015</rights>
+    <updated>2014-11-08 00:00:00 &#43;0000 UTC</updated>
+
     
-    <item>
-      <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
-      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
-      <description>
+        <item>
+          <title>PythonでElasticsearchを使うときのメモ</title>
+          <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+          <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
@@ -230,15 +231,17 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>mafが便利そう</title>
-      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
-      <description>
+    
+      
+        <item>
+          <title>mafが便利そう</title>
+          <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+          <description>
 
 &lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
 
@@ -408,15 +411,17 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
 &lt;li&gt;&lt;a href=&#34;http://research.preferred.jp/2013/12/maf/&#34;&gt;データ解析作業の救世主！ 超絶☆実験ビルドシステムmafをOSS公開しました&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Induced SortingをPythonで書いた</title>
-      <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
-      <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
-      <description>
+    
+      
+        <item>
+          <title>Induced SortingをPythonで書いた</title>
+          <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+          <pubDate>Wed, 07 May 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+          <description>
 
 &lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。
@@ -442,15 +447,17 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;&lt;a href=&#34;https://www.google.co.jp/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;cad=rja&amp;amp;uact=8&amp;amp;ved=0CDEQFjAA&amp;amp;url=https%3A%2F%2Fge-nong.googlecode.com%2Ffiles%2FTwo%2520Efficient%2520Algorithms%2520for%2520Linear%2520Time%2520Suffix%2520Array%2520Construction.pdf&amp;amp;ei=zCpqU9WkGor-8QXIoYDQBA&amp;amp;usg=AFQjCNECfjoa7Bg_ep0326micFbio0UCgw&amp;amp;sig2=OpSYI5Z01mLRBR4Gbwwbvg&amp;amp;bvm=bv.66111022,d.dGc&#34;&gt;Two Efficient Algorithms for Linear Time Suffix Array Construction&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
-      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
-      <description>
+    
+      
+        <item>
+          <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
 
@@ -538,15 +545,17 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>食べログAPIのPythonラッパーを書いた</title>
-      <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
-      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
-      <description>
+    
+      
+        <item>
+          <title>食べログAPIのPythonラッパーを書いた</title>
+          <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
+          <pubDate>Sun, 12 May 2013 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
+          <description>
 
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 
@@ -622,18 +631,22 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
-      <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
+        </item>
       
-      <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
-      <description>&lt;p&gt;なんとなくつくってみた。
+    
+      
+        <item>
+          <title>Hello World</title>
+          <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+          <pubDate>Sat, 10 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+          <description>&lt;p&gt;なんとなくつくってみた。
 &lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
 </description>
-    </item>
+        </item>
+      
     
+
   </channel>
 </rss>
