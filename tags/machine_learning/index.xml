@@ -2,20 +2,204 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://tma15.github.io/tags/machine_learning/</link>
+    <link>http://localhost:61563/tags/machine_learning/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2015</rights>
-    <updated>2015-07-17 23:09:00 &#43;0900 JST</updated>
+    <updated>2015-08-31 20:03:45 &#43;0900 JST</updated>
 
     
       
         <item>
+          <title>並列での学習アルゴリズムの追加</title>
+          <link>http://localhost:61563/blog/2015/09/01/</link>
+          <pubDate>Mon, 31 Aug 2015 20:03:45 JST</pubDate>
+          <author></author>
+          <guid>http://localhost:61563/blog/2015/09/01/</guid>
+          <description>&lt;p&gt;拙作の&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;に並列での学習もサポートするようにした。
+分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。
+並列での学習にはIterative Parameter Mixture (&lt;a href=&#34;http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf&#34;&gt;pdf&lt;/a&gt;)を提供している。&lt;/p&gt;
+
+&lt;p&gt;シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
+CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale
+   15935 news20.scale
+&lt;span style=&#34;color: #906030&#34;&gt;$touch&lt;/span&gt; news20.scale.big
+&lt;span style=&#34;color: #906030&#34;&gt;$for&lt;/span&gt; i in 1 2 3 4 5; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;do &lt;/span&gt;cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
+   79675 news20.scale.big
+&lt;span style=&#34;color: #906030&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+&lt;span style=&#34;color: #906030&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 1 -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Iterative Parameter Mixtureに関するコードは以下。&lt;/p&gt;
+
+&lt;p&gt;ipm.go&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners *[]LearnerInterface, x *[]&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y *[]&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) {
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*learners)
+	num_data := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*x)
+	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
+	sizechunk := num_data/num_learner + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
+		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				start := j * sizechunk
+				end := (j + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;) * sizechunk
+				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; end &amp;gt;= num_data {
+					end = num_data - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+				}
+				x_j := (*x)[start:end]
+				y_j := (*y)[start:end]
+				(*learners)[j].Fit(&amp;amp;x_j, &amp;amp;y_j)
+			}
+		}(buffer)
+	}
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
+		buffer &amp;lt;- i
+	}
+	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
+	wg.Wait()
+}
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; average_two(learner1, learner2 *LearnerInterface) *LearnerInterface {
+	params := (*learner1).GetParams()
+	num_params := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*params)
+	avg_params := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][][]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, num_params, num_params)
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_params; i++ {
+		avg_params[i] = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;10&lt;/span&gt;)
+	}
+
+	avg_ftdic := NewDict()
+	avg_labeldic := NewDict()
+	learners := []LearnerInterface{*learner1, *learner2}
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; _, learner := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; learners {
+		params := learner.GetParams()
+		num_params := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*params)
+		ftdict, labeldict := learner.GetDics()
+
+		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; p := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; p &amp;lt; num_params; p++ {
+			param := (*params)[p]
+			avg_param := &amp;amp;avg_params[p]
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; yid := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; yid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(labeldict.Id2elem); yid++ {
+				y := labeldict.Id2elem[yid]
+				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_labeldic.HasElem(y) {
+					avg_labeldic.AddElem(y)
+				}
+				yid_avg := avg_labeldic.Elem2id[y]
+				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*avg_param); i &amp;lt;= yid_avg; i++ {
+					*avg_param = append(*avg_param, &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1000&lt;/span&gt;))
+				}
+				avg_param_y := &amp;amp;avg_params[p][yid_avg]
+				param_y := param[yid]
+
+				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; ftid := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; ftid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(param[yid]); ftid++ {
+					ft := ftdict.Id2elem[ftid]
+					&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_ftdic.HasElem(ft) {
+						avg_ftdic.AddElem(ft)
+					}
+					ftid_avg := avg_ftdic.Elem2id[ft]
+					&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*avg_param_y); i &amp;lt;= ftid_avg; i++ {
+						*avg_param_y = append(*avg_param_y, &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.&lt;/span&gt;)
+					}
+					(*avg_param_y)[ftid_avg] += param_y[ftid] / &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners))
+
+				}
+			}
+		}
+	}
+	(*learner1).SetParams(&amp;amp;avg_params)
+	(*learner1).SetDics(&amp;amp;avg_ftdic, &amp;amp;avg_labeldic)
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; learner1
+}
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; AverageModels(learners []LearnerInterface) *LearnerInterface {
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)%&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; != &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt; { &lt;span style=&#34;color: #808080&#34;&gt;/* add learner to make length of learners is even number */&lt;/span&gt;
+		learners = append(learners, learners[&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;])
+	}
+	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)
+	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
+	results := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; *LearnerInterface, num_learner)
+
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
+		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				l1 := learners[j]
+				l2 := learners[j+num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;]
+				l_avg := average_two(&amp;amp;l1, &amp;amp;l2)
+				results &amp;lt;- l_avg
+			}
+		}(buffer)
+	}
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;; i++ {
+		buffer &amp;lt;- i
+	}
+	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
+	wg.Wait()
+	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(results)
+	learners_avg := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]LearnerInterface, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;)
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; l_avg := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; results {
+		learners_avg = append(learners_avg, *l_avg)
+	}
+
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners_avg) == &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; {
+		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; &amp;amp;learners_avg[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;]
+	}
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; AverageModels(learners_avg)
+}
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; BroadCastModel(avg_learner *LearnerInterface, learners *[]LearnerInterface) {
+	params := (*avg_learner).GetParams()
+	avg_ftdic, avg_labeldic := (*avg_learner).GetDics()
+	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*learners)
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
+		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				(*learners)[j].SetParams(params)
+				(*learners)[j].SetDics(avg_ftdic, avg_labeldic)
+			}
+		}(buffer)
+	}
+	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
+		buffer &amp;lt;- i
+	}
+	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
+	wg.Wait()
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;main.go
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;gonline.FitLearners(&amp;amp;learners, x_train, y_train)
+learner_avg = gonline.AverageModels(learners)
+gonline.BroadCastModel(learner_avg, &amp;amp;learners)
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>オンライン学習の実装いろいろ</title>
-          <link>http://tma15.github.io/blog/2015/07/17/</link>
+          <link>http://localhost:61563/blog/2015/07/17/</link>
           <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+          <guid>http://localhost:61563/blog/2015/07/17/</guid>
           <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
@@ -37,10 +221,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>Dropoutの実装で気になって調べたこと</title>
-          <link>http://tma15.github.io/blog/2015/02/21/</link>
+          <link>http://localhost:61563/blog/2015/02/21/</link>
           <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+          <guid>http://localhost:61563/blog/2015/02/21/</guid>
           <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
@@ -74,10 +258,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <link>http://localhost:61563/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
           <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <guid>http://localhost:61563/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
           <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
@@ -172,10 +356,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
       
         <item>
           <title>Practical Machine Learning Tricks</title>
-          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+          <link>http://localhost:61563/blog/2012/12/practical-machine-learning-kdd2011/</link>
           <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+          <guid>http://localhost:61563/blog/2012/12/practical-machine-learning-kdd2011/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
