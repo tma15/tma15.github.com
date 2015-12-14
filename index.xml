@@ -6,8 +6,10 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2015</rights>
-    <updated>2015-08-31 20:03:45 &#43;0900 JST</updated>
+    <updated>2015-11-29 09:19:21 &#43;0900 JST</updated>
 
+    
+      
     
       
         <item>
@@ -462,104 +464,6 @@ I eat pizza with Maria
     
       
         <item>
-          <title>二つの集合に重複して現れる要素の数を数える</title>
-          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
-          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
-          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
-
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
-)
-
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
-    i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_cmp := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; i &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-        }
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-            num_cmp += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; j &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #808080&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #808080&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #808080&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
-                num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-        }
-        i += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-    }
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
-    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i++{
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j++{
-                    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
-                            num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                    }
-            }
-    }
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
-    k := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
-    l := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i:=&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i++{
-            k = append(k, strconv.Itoa(i))
-            l = append(l, strconv.Itoa(i - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;))
-    }
-    cnt_match := CountDuplicateElem(k, l)
-    cnt_match := NaiveCount(k, l)
-    fmt.Println(cnt_match)
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
-それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
-99999
-go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;今回書いた方法:&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
-99999
-go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>PythonでElasticsearchを使うときのメモ</title>
           <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
           <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
@@ -779,6 +683,104 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 &lt;/p&gt;
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>二つの集合に重複して現れる要素の数を数える</title>
+          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_cmp := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; i &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+        }
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+            num_cmp += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; j &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #808080&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #808080&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #808080&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+        }
+        i += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i++{
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j++{
+                    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                            num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                    }
+            }
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+    k := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    l := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i:=&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i++{
+            k = append(k, strconv.Itoa(i))
+            l = append(l, strconv.Itoa(i - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;))
+    }
+    cnt_match := CountDuplicateElem(k, l)
+    cnt_match := NaiveCount(k, l)
+    fmt.Println(cnt_match)
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
+それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;今回書いた方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
 </description>
         </item>
       
@@ -3232,18 +3234,6 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
       
         <item>
-          <title>Hakone Museum of Art</title>
-          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>without sns</title>
           <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
           <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
@@ -3273,6 +3263,18 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
 
 &lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       
