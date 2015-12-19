@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>gitで指定したコミットIDの状態に戻す</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>gitで指定したコミットIDの状態に戻す</h3>
+				<span class="label label-primary">Sun Dec 20, 2015</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/git">git</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<p><a href="http://qiita.com/ysekky/items/3db54349452dd8a336fb">私が機械学習研究をするときのコード・データ管理方法 - Qiita</a>がいい話で参考になった。
+特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。</p>
+
+<h3 id="1-プログラムを作成-コミットする:eae282e3e4b12108386442085f9d1a62">1. プログラムを作成、コミットする。</h3>
+
+<p>プログラム<code>calc.py</code>を作成。
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">calc</span>(a, b):
+    retunr a <span style="color: #303030">+</span> b
+
+<span style="color: #008000; font-weight: bold">print</span> calc(<span style="color: #0000D0; font-weight: bold">1</span>, <span style="color: #0000D0; font-weight: bold">2</span>)
+</pre></div>
+</p>
+
+<p>作ったプログラムをコミットする。
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git add -A
+git commit -m <span style="background-color: #fff0f0">&quot;最初のコミット&quot;</span>
+</pre></div>
+</p>
+
+<h3 id="2-プログラムを修正-コミットする:eae282e3e4b12108386442085f9d1a62">2. プログラムを修正、コミットする。</h3>
+
+<p>プログラム<code>calc.py</code>を修正。
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">calc</span>(a, b):
+    retunr a <span style="color: #303030">+</span> <span style="color: #0000D0; font-weight: bold">2</span> <span style="color: #303030">*</span> b
+
+<span style="color: #008000; font-weight: bold">print</span> calc(<span style="color: #0000D0; font-weight: bold">1</span>, <span style="color: #0000D0; font-weight: bold">2</span>)
+</pre></div>
+</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git add -A
+git commit -m <span style="background-color: #fff0f0">&quot;計算方法を修正&quot;</span>
+git log
+</pre></div>
+</p>
+
+<p>git logの出力は以下の様な感じ。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
+...
+
+    計算方法の修正
+
+commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
+...
+
+    最初のコミット
+</pre></div>
+</p>
+
+<h3 id="3-プログラムを指定したコミットidの状態に戻す:eae282e3e4b12108386442085f9d1a62">3. プログラムを指定したコミットIDの状態に戻す。</h3>
+
+<p>以下のようにプログラムの中身を確認して、
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git show 5e63:calc.py <span style="color: #808080">### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定</span>
+</pre></div>
+</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #808080">#!/usr/bin/python</span>
+
+def calc<span style="color: #303030">(</span>a, b<span style="color: #303030">)</span>:
+    <span style="color: #008000; font-weight: bold">return </span>a + b
+
+    print calc<span style="color: #303030">(</span>1, 2<span style="color: #303030">)</span>
+</pre></div>
+</p>
+
+<p>あるいは、以下のように差分を確認して、</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git diff HEAD:calc.py 5e63:calc.py
+</pre></div>
+</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">diff --git a/HEAD:calc.py b/5e63:calc.py
+index e2c3e48..6ce682f 100644
+--- a/HEAD:calc.py
++++ b/5e63:calc.py
+@@ -1,6 +1,6 @@
+ <span style="color: #808080">#!/usr/bin/python</span>
+
+  def calc<span style="color: #303030">(</span>a, b<span style="color: #303030">)</span>:
+  -    <span style="color: #008000; font-weight: bold">return </span>a + 2 * b
+  +    <span style="color: #008000; font-weight: bold">return </span>a + b
+
+   print calc<span style="color: #303030">(</span>1, 2<span style="color: #303030">)</span>
+</pre></div>
+</p>
+
+<p>確かに自分が戻したいコミットであれば、以下のようにして戻す:</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #808080">### topicブランチを作成して、コミットIDが5e63...の状態に戻す。</span>
+</pre></div>
+</p>
+
+<p>ブランチを作らずにcheckoutで指定した状態に戻してプログラムを変更しても、どのブランチにもその変更が反映されない (実験的な変更を加えるのが目的なら問題ない)。
+ブランチを作らずにcheckoutして、やっぱり変更をコミットしたいという場合は、一時的なブランチを作成して、masterへ移動後、マージする。</p>
+
+<h4 id="ブランチを作成せずに指定したコミットidに戻した後に-加えた変更を反映したい場合:eae282e3e4b12108386442085f9d1a62">ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合</h4>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #808080">### ブランチを作成せずに、5e63...の状態に戻る</span>
+git branch tmp <span style="color: #808080">### 一時的なブランチtmpを作成して移動</span>
+git checkout master <span style="color: #808080">### masterブランチへ移動</span>
+git merge tmp <span style="color: #808080">### tmpをmasterへマージ</span>
+git branch -d tmp <span style="color: #808080">### tmpを削除</span>
+</pre></div>
+</p>
+
+<p>参考: <a href="http://d.hatena.ne.jp/nishiohirokazu/20110513/1305290792">gitのHEADがブランチから外れてしまう現象とその直し方 - 西尾泰和のはてなダイアリー</a></p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20414370-4']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    </body>
+</html>
+
