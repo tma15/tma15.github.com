@@ -6,8 +6,48 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2015</rights>
-    <updated>2015-12-20 07:57:41 &#43;0900 JST</updated>
+    <updated>2015-12-29 15:20:02 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>grepでデータの重複を調べられる</title>
+          <link>http://tma15.github.io/blog/2015/12/29/</link>
+          <pubDate>Tue, 29 Dec 2015 15:20:02 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2015/12/29/</guid>
+          <description>&lt;p&gt;実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、&lt;code&gt;grep&lt;/code&gt;を使えば簡単にデータに重複があるかどうかを確認することができる。&lt;/p&gt;
+
+&lt;p&gt;今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。&lt;/p&gt;
+
+&lt;p&gt;例えば学習データの中身が以下で、&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$cat train.csv
+1,aaa
+-1,bbb
+1,abc
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;テストデータの中身が以下の様な場合、&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$cat test.csv
+1,aaa
+-1,bbc
+1,aab
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;次のようにして重複するデータを出力できる:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$grep -x -f train.csv test.csv
+1,aaa
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;何も出力されなければ、2つのファイルに重複はない。&lt;/p&gt;
+
+&lt;p&gt;参考: &lt;a href=&#34;http://d.hatena.ne.jp/rx7/20130829/p1&#34;&gt;Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3353,18 +3393,6 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
       
         <item>
-          <title>Hakone Museum of Art</title>
-          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>without sns</title>
           <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
           <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
@@ -3394,6 +3422,18 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
 
 &lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       
