@@ -5,9 +5,78 @@
     <link>http://tma15.github.io/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2015</rights>
-    <updated>2015-12-29 15:20:02 &#43;0900 JST</updated>
+    <rights>(C) 2016</rights>
+    <updated>2016-01-09 11:00:24 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>構造化パーセプトロンを実装する</title>
+          <link>http://tma15.github.io/blog/2016/01/09/</link>
+          <pubDate>Sat, 09 Jan 2016 11:00:24 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/01/09/</guid>
+          <description>&lt;p&gt;勉強がてら、Goで構造化パーセプトロンを&lt;a href=&#34;https://github.com/tma15/gostruct&#34;&gt;実装&lt;/a&gt;した。
+構造化パーセプトロンとは、品詞タグ付けや、名詞句のチャンキングなどの系列ラベリング
+に用いられる機械学習のモデルであり、パーセプトロンを構造を持つ出力の予測に拡張したもの。&lt;/p&gt;
+
+&lt;p&gt;実装の際には色々な情報を参考にしているのだけど、特に&lt;a href=&#34;https://taku910.github.io/crfpp/&#34;&gt;CRF++: Yet Another CRF toolkit&lt;/a&gt;の実装を参考にしている。
+実際に自分で実装してみると、論文では触れられていないような
+部分でどう実装すればよいのかわからないところが出てきて、そういった所を、色々な情報を調べながら実装することは、車輪の再発明であるのだけど、自分にとって非常に良い勉強になると思っている。
+Goで実装しているのは、最近自分が何かを実装する際のメインの言語だからなのだけど、
+並列処理の実装が簡単なので、どの部分が並列化出来るか、ということを
+考えるクセがつくところが気に入っている (ただし、現在の構造化パーセプトロンの実装はまだ並列化していない)。&lt;/p&gt;
+
+&lt;p&gt;去年は分類問題で使えるようなライブラリを書いたことで、色々と勉強になったので、
+構造学習でも同じように自分で実装してみたという次第だ。構造学習ではビタビアルゴリズムのような、
+分類問題では無かったような探索アルゴリズムが出てくるためである。
+実装上は、素性テンプレートの仕組みを勉強出来たと思う。&lt;/p&gt;
+
+&lt;p&gt;最低限、自分にとって実際に使えるものにするために、今後もプログラムを修正していく予定。&lt;/p&gt;
+
+&lt;p&gt;CoNLL 2000のNP Chunkingの&lt;a href=&#34;http://www.cnts.ua.ac.be/conll2000/chunking/&#34;&gt;データ&lt;/a&gt;で学習させて、テストデータを予測してみたところ、一列目が単語、二列目が正解のラベル、三列目がモデルが予測したラベルとした出力結果は以下で、見た感じ、ひとまず予測はできていそうな感じである。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;In      B-PP    B-PP
+Los     B-NP    B-NP
+Angeles I-NP    I-NP
+,       O       O
+for     B-PP    B-PP
+example B-NP    B-NP
+,       O       O
+Central B-NP    B-NP
+has     B-VP    B-VP
+had     I-VP    I-VP
+a       B-NP    B-NP
+strong  I-NP    I-NP
+market  I-NP    I-NP
+position        I-NP    I-NP
+while   B-SBAR  B-SBAR
+Unilab  B-NP    B-NP
+&#39;s      B-NP    B-NP
+presence        I-NP    I-NP
+has     B-VP    B-VP
+been    I-VP    I-VP
+less    B-ADJP  B-ADJP
+prominent       I-ADJP  I-ADJP
+,       O       O
+according       B-PP    B-PP
+to      B-PP    B-PP
+Mr.     B-NP    B-NP
+Harlow  I-NP    I-NP
+.       O       O
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;実装の時に参考にしたもの:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://taku910.github.io/crfpp/&#34;&gt;CRF++: Yet Another CRF toolkit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.slideshare.net/uchumik/crf-8416551&#34;&gt;Crfと素性テンプレート&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.phontron.com/slides/nlp-programming-ja-12-struct.pdf&#34;&gt;自然言語処理プログラミング勉強会 11 構造化パーセプトロン&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.amazon.co.jp/%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80-%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E9%AB%98%E6%9D%91-%E5%A4%A7%E4%B9%9F/dp/4339027510/ref=sr_1_1?ie=UTF8&amp;amp;qid=1452081334&amp;amp;sr=8-1&amp;amp;keywords=%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80+%28%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA%29&#34;&gt;Amazon.co.jp： 言語処理のための機械学習入門 (自然言語処理シリーズ): 高村 大也, 奥村 学: 本&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
