@@ -38,6 +38,19 @@
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; err != nil {
         &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; nil, err
     }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; list, nil
+}
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; MyReadDirSortByInode(dirname &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) ([]os.FileInfo, error) {
+    f, err := os.Open(dirname)
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; err != nil {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; nil, err
+    }
+    list, err := f.Readdir(-&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+    f.Close()
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; err != nil {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; nil, err
+    }
     sort.Sort(byInode(list))
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; list, nil
 }
@@ -58,9 +71,9 @@ go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
 &lt;/p&gt;
 
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://gist.github.com/tma15/78146f0762e8c12571e0&#34;&gt;gist&lt;/a&gt;にアップロードした。
-上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定すると名前順にソートする。&lt;/p&gt;
+上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定するとソートをしない。&lt;/p&gt;
 
-&lt;p&gt;ext4でも、ファイルを名前順にソートするよりも、inode順にソートするほうが高速にファイルを読み込めそうである。&lt;/p&gt;
+&lt;p&gt;ext4でも、ソートしないよりも、inode順にソートするほうが高速にファイルを読み込めそうである。&lt;/p&gt;
 </description>
         </item>
       
