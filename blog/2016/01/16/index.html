@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>大量のファイルをGoで高速に読み込む</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>大量のファイルをGoで高速に読み込む</h3>
+				<span class="label label-primary">Sat Jan 16, 2016</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/linux">linux</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			<p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">type</span> byInode []os.FileInfo
+
+<span style="color: #008000; font-weight: bold">func</span> (this byInode) Len() <span style="color: #007020">int</span> { <span style="color: #008000; font-weight: bold">return</span> <span style="color: #007020">len</span>(this) }
+<span style="color: #008000; font-weight: bold">func</span> (this byInode) Less(i, j <span style="color: #007020">int</span>) bool {
+    fstat_i := this[i].Sys().(*syscall.Stat_t)
+    fstat_j := this[j].Sys().(*syscall.Stat_t)
+    <span style="color: #008000; font-weight: bold">return</span> fstat_i.Ino &lt; fstat_j.Ino
+}
+<span style="color: #008000; font-weight: bold">func</span> (this byInode) Swap(i, j <span style="color: #007020">int</span>) { this[i], this[j] = this[j], this[i] }
+
+<span style="color: #008000; font-weight: bold">func</span> MyReadDir(dirname <span style="color: #007020">string</span>) ([]os.FileInfo, error) {
+    f, err := os.Open(dirname)
+    <span style="color: #008000; font-weight: bold">if</span> err != nil {
+        <span style="color: #008000; font-weight: bold">return</span> nil, err
+    }
+    list, err := f.Readdir(-<span style="color: #0000D0; font-weight: bold">1</span>)
+    f.Close()
+    <span style="color: #008000; font-weight: bold">if</span> err != nil {
+        <span style="color: #008000; font-weight: bold">return</span> nil, err
+    }
+    sort.Sort(byInode(list))
+<span style="color: #008000; font-weight: bold">return</span> list, nil
+}
+</pre></div>
+</p>
+
+<p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
+ファイルシステムはext4を使用している。</p>
+
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sudo sysctl -w vm.drop_caches<span style="color: #303030">=</span>3
+<span style="color: #007020">time </span>go run dirdump.go dir 1
+go run dirdump.go large 1  4.07s user 4.54s system 19% cpu 43.450 total
+
+sudo sysctl -w vm.drop_caches<span style="color: #303030">=</span>3
+<span style="color: #007020">time </span>go run dirdump.go dir 2
+go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
+</pre></div>
+</p>
+
+<p>ソースコードは<a href="https://gist.github.com/tma15/78146f0762e8c12571e0">gist</a>にアップロードした。
+上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定すると名前順にソートする。</p>
+
+<p>ext4でも、ファイルを名前順にソートするよりも、inode順にソートするほうが高速にファイルを読み込めそうである。</p>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20414370-4']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    </body>
+</html>
+

@@ -6,8 +6,64 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-01-09 11:00:24 &#43;0900 JST</updated>
+    <updated>2016-01-16 10:55:26 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>大量のファイルをGoで高速に読み込む</title>
+          <link>http://tma15.github.io/blog/2016/01/16/</link>
+          <pubDate>Sat, 16 Jan 2016 10:55:26 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/01/16/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20090727/1248652900&#34;&gt;ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転&lt;/a&gt;を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある&lt;a href=&#34;https://golang.org/pkg/io/ioutil/#ReadDir&#34;&gt;ReadDir&lt;/a&gt;はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Len() &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(this) }
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Less(i, j &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) bool {
+    fstat_i := this[i].Sys().(*syscall.Stat_t)
+    fstat_j := this[j].Sys().(*syscall.Stat_t)
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; fstat_i.Ino &amp;lt; fstat_j.Ino
+}
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Swap(i, j &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) { this[i], this[j] = this[j], this[i] }
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; MyReadDir(dirname &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) ([]os.FileInfo, error) {
+    f, err := os.Open(dirname)
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; err != nil {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; nil, err
+    }
+    list, err := f.Readdir(-&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+    f.Close()
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; err != nil {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; nil, err
+    }
+    sort.Sort(byInode(list))
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; list, nil
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
+ファイルシステムはext4を使用している。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;3
+&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run dirdump.go dir 1
+go run dirdump.go large 1  4.07s user 4.54s system 19% cpu 43.450 total
+
+sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;3
+&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run dirdump.go dir 2
+go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;ソースコードは&lt;a href=&#34;https://gist.github.com/tma15/78146f0762e8c12571e0&#34;&gt;gist&lt;/a&gt;にアップロードした。
+上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定すると名前順にソートする。&lt;/p&gt;
+
+&lt;p&gt;ext4でも、ファイルを名前順にソートするよりも、inode順にソートするほうが高速にファイルを読み込めそうである。&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3462,6 +3518,18 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
       
         <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>without sns</title>
           <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
           <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
@@ -3491,18 +3559,6 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
 
 &lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>Hakone Museum of Art</title>
-          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       
