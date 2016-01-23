@@ -6,8 +6,40 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-01-16 10:55:26 &#43;0900 JST</updated>
+    <updated>2016-01-23 16:04:13 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>行列式をLU分解で求める</title>
+          <link>http://tma15.github.io/blog/2016/01/23/</link>
+          <pubDate>Sat, 23 Jan 2016 16:04:13 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/01/23/</guid>
+          <description>
+
+&lt;p&gt;EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、
+行列式の計算をどのように実装するのかわからなかったので調べて
+実装してみた (&lt;a href=&#34;https://gist.github.com/tma15/bc2e556ca79f055bf3cb&#34;&gt;gist&lt;/a&gt;)。&lt;/p&gt;
+
+&lt;p&gt;\[
+\frac{1}{\sqrt{2\pi^D |\Sigma|}} \exp\{-\frac{1}{2}({\mathbf x}-{\mathbf \mu})^T\Sigma^{-1}({\mathbf x}-{\mathbf \mu})\}
+\]&lt;/p&gt;
+
+&lt;p&gt;NumPyの&lt;a href=&#34;https://github.com/numpy/numpy/blob/v1.10.1/numpy/linalg/linalg.py#L1723-L1781&#34;&gt;det&lt;/a&gt;関数を覗いてみると&amp;rdquo;The determinant is computed via LU factorization using the LAPACK routine z/dgetrf.&amp;ldquo;とのこと。
+LU分解を使って計算している。恥ずかしながら、LU分解は名前しか聞いたことが無かったが、行列を上三角行列Uと下三角行列Lに分解することらしい。
+なぜLU分解で行列式を求めるのかを調べると、行列の積の行列式は、行列式の積に等しくて (see &lt;a href=&#34;http://w3e.kanazawa-it.ac.jp/math/category/gyouretu/senkeidaisu/henkan-tex.cgi?target=/math/category/gyouretu/senkeidaisu/seki_no_gyouretusiki.html&#34;&gt;行列の積の行列式&lt;/a&gt;)、三角行列の行列式は対角成分の積に等しいため。
+計算の途中で、Uの対角成分が小さい場合にゼロ除算が起こりうるので、事前に行列の行を、対角成分が大きくなるように並び替える処理が必要。そうして求めたLとUは、並び替え後の行列に対するものなので、並び替える前のもとの行列の行列式を求める際には、並び替え後の行列の行列式に対して、並び替えた回数だけ-1をかける。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:b0c5fe2e1172846fafcbfd89ed49cdef&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://rosettacode.org/wiki/LU_decomposition#Go&#34;&gt;LU decomposition - Rosetta Code&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://akita-nct.jp/yamamoto/lecture/2004/5E/linear_equations/text/html/node4.html&#34;&gt;4 LU分解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -3562,18 +3594,6 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
       
         <item>
-          <title>Hakone Museum of Art</title>
-          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>without sns</title>
           <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
           <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
@@ -3603,6 +3623,18 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
 
 &lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
       
