@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://tma15.github.io/tags/nlp/</link>
+    <link>http://localhost:1313/tags/nlp/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>N-best解の探索</title>
-          <link>http://tma15.github.io/blog/2016/01/31/</link>
+          <link>http://localhost:1313/blog/2016/01/31/</link>
           <pubDate>Sun, 31 Jan 2016 19:17:31 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/31/</guid>
+          <guid>http://localhost:1313/blog/2016/01/31/</guid>
           <description>
 
 &lt;p&gt;系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
@@ -74,111 +74,11 @@ Backtrack ### ビタビアルゴリズムで求めたパス
     
       
         <item>
-          <title>構造化パーセプトロンを実装する</title>
-          <link>http://tma15.github.io/blog/2016/01/09/</link>
-          <pubDate>Sat, 09 Jan 2016 11:00:24 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/09/</guid>
-          <description>
-
-&lt;p&gt;勉強がてら、Goで構造化パーセプトロンを&lt;a href=&#34;https://github.com/tma15/gostruct&#34;&gt;実装&lt;/a&gt;した。
-構造化パーセプトロンとは、品詞タグ付けや、名詞句のチャンキングなどの系列ラベリング
-に用いられる機械学習のモデルであり、パーセプトロンを構造を持つ出力の予測に拡張したもの。&lt;/p&gt;
-
-&lt;p&gt;実装の際には色々な情報を参考にしているのだけど、特に&lt;a href=&#34;https://taku910.github.io/crfpp/&#34;&gt;CRF++: Yet Another CRF toolkit&lt;/a&gt;の実装を参考にしている。
-実際に自分で実装してみると、論文では触れられていないような
-部分でどう実装すればよいのかわからないところが出てきて、そういった所を、色々な情報を調べながら実装することは、車輪の再発明であるのだけど、自分にとって非常に良い勉強になると思っている。
-Goで実装しているのは、最近自分が何かを実装する際のメインの言語だからなのだけど、
-並列処理の実装が簡単なので、どの部分が並列化出来るか、ということを
-考えるクセがつくところが気に入っている (ただし、現在の構造化パーセプトロンの実装はまだ並列化していない)。&lt;/p&gt;
-
-&lt;p&gt;去年は分類問題で使えるようなライブラリを書いたことで、色々と勉強になったので、
-構造学習でも同じように自分で実装してみたという次第だ。構造学習ではビタビアルゴリズムのような、
-分類問題では無かったような探索アルゴリズムが出てくるためである。
-実装上は、素性テンプレートの仕組みを勉強出来たと思う。&lt;/p&gt;
-
-&lt;p&gt;最低限、自分にとって実際に使えるものにするために、今後もプログラムを修正していく予定。&lt;/p&gt;
-
-&lt;p&gt;CoNLL 2000のNP Chunkingの&lt;a href=&#34;http://www.cnts.ua.ac.be/conll2000/chunking/&#34;&gt;データ&lt;/a&gt;で学習させて、テストデータを予測してみたところ、一列目が単語、二列目が正解のラベル、三列目がモデルが予測したラベルとした出力結果は以下で、見た感じ、ひとまず予測はできていそうな感じである。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;In      B-PP    B-PP
-Los     B-NP    B-NP
-Angeles I-NP    I-NP
-,       O       O
-for     B-PP    B-PP
-example B-NP    B-NP
-,       O       O
-Central B-NP    B-NP
-has     B-VP    B-VP
-had     I-VP    I-VP
-a       B-NP    B-NP
-strong  I-NP    I-NP
-market  I-NP    I-NP
-position        I-NP    I-NP
-while   B-SBAR  B-SBAR
-Unilab  B-NP    B-NP
-&#39;s      B-NP    B-NP
-presence        I-NP    I-NP
-has     B-VP    B-VP
-been    I-VP    I-VP
-less    B-ADJP  B-ADJP
-prominent       I-ADJP  I-ADJP
-,       O       O
-according       B-PP    B-PP
-to      B-PP    B-PP
-Mr.     B-NP    B-NP
-Harlow  I-NP    I-NP
-.       O       O
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;実装の時に参考にしたもの:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://taku910.github.io/crfpp/&#34;&gt;CRF++: Yet Another CRF toolkit&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.slideshare.net/uchumik/crf-8416551&#34;&gt;Crfと素性テンプレート&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.phontron.com/slides/nlp-programming-ja-12-struct.pdf&#34;&gt;自然言語処理プログラミング勉強会 11 構造化パーセプトロン&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.amazon.co.jp/%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80-%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA-%E9%AB%98%E6%9D%91-%E5%A4%A7%E4%B9%9F/dp/4339027510/ref=sr_1_1?ie=UTF8&amp;amp;qid=1452081334&amp;amp;sr=8-1&amp;amp;keywords=%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80+%28%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA%29&#34;&gt;Amazon.co.jp： 言語処理のための機械学習入門 (自然言語処理シリーズ): 高村 大也, 奥村 学: 本&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;追記-2016-01-17:a32e73496f4c5372eed28cad17945de9&#34;&gt;追記 (2016/01/17)&lt;/h2&gt;
-
-&lt;p&gt;CoNLL 2000 Shared taskのNPチャンキングタスクに対しておこなった定量的な評価値は以下のようになった。
-他の手法と比べて、中の下くらいな結果。各ラベルごとのprecision、recallと、評価データ全体でのprecision、recall、f-scoreを計算している。
-学習を平均化パーセプトロンにするとか、素性をいじるなどすれば改善の余地はある。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;I-PP 0.632 (12/19) 0.250 (12/48)
-B-PRT 0.355 (98/276) 0.925 (98/106)
-I-VP 0.923 (2032/2202) 0.768 (2032/2646)
-B-ADJP 0.490 (257/525) 0.587 (257/438)
-B-ADVP 0.772 (619/802) 0.715 (619/866)
-I-ADVP 0.630 (29/46) 0.326 (29/89)
-I-SBAR 0.083 (1/12) 0.250 (1/4)
-B-VP 0.889 (4232/4758) 0.909 (4232/4658)
-B-PP 0.945 (4501/4764) 0.936 (4501/4811)
-O 0.948 (5746/6062) 0.930 (5746/6180)
-B-CONJP 0.667 (4/6) 0.444 (4/9)
-B-NP 0.950 (11607/12218) 0.934 (11607/12422)
-I-NP 0.919 (13780/14994) 0.959 (13780/14376)
-B-SBAR 0.750 (464/619) 0.867 (464/535)
-I-ADJP 0.779 (53/68) 0.317 (53/167)
-I-CONJP 0.800 (4/5) 0.308 (4/13)
-B-INTJ 1.000 (1/1) 0.500 (1/2)
-
-precision: 0.916901 (43440/47377)
-recall: 0.917036 (43440/47370)
-f-score: 0.916968
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>CYKアルゴリズムで係り受け解析</title>
-          <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
+          <link>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</link>
           <pubDate>Wed, 14 Jan 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
+          <guid>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</guid>
           <description>
 
 &lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
@@ -199,10 +99,10 @@ f-score: 0.916968
       
         <item>
           <title>CYKアルゴリズム</title>
-          <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
+          <link>http://localhost:1313/blog/2015/01/cykmemo/</link>
           <pubDate>Sat, 10 Jan 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
+          <guid>http://localhost:1313/blog/2015/01/cykmemo/</guid>
           <description>
 
 &lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
@@ -252,10 +152,10 @@ I eat pizza with Maria
       
         <item>
           <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-          <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+          <link>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
           <pubDate>Wed, 03 Dec 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+          <guid>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
           <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
@@ -355,10 +255,10 @@ I eat pizza with Maria
       
         <item>
           <title>HMMを実装した</title>
-          <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+          <link>http://localhost:1313/blog/2014/10/hmm/</link>
           <pubDate>Sat, 25 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+          <guid>http://localhost:1313/blog/2014/10/hmm/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
@@ -394,10 +294,10 @@ VBN --&amp;gt; NN      22
       
         <item>
           <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-          <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+          <link>http://localhost:1313/blog/2014/10/document-classification/</link>
           <pubDate>Mon, 20 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+          <guid>http://localhost:1313/blog/2014/10/document-classification/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
@@ -509,10 +409,10 @@ Go言語  考え    0.700000
       
         <item>
           <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
-          <link>http://tma15.github.io/blog/2013/12/mct/</link>
+          <link>http://localhost:1313/blog/2013/12/mct/</link>
           <pubDate>Fri, 27 Dec 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
+          <guid>http://localhost:1313/blog/2013/12/mct/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
@@ -765,10 +665,10 @@ Go言語  考え    0.700000
       
         <item>
           <title>文書要約メモ（ACL2013）</title>
-          <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
+          <link>http://localhost:1313/blog/2013/9/acl2013-summ-note/</link>
           <pubDate>Mon, 30 Sep 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
+          <guid>http://localhost:1313/blog/2013/9/acl2013-summ-note/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
@@ -871,10 +771,10 @@ Go言語  考え    0.700000
       
         <item>
           <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
-          <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+          <link>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
           <pubDate>Sat, 16 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+          <guid>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
           <description>
 
 &lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
@@ -938,10 +838,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
-          <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+          <link>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
           <pubDate>Wed, 06 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+          <guid>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
           <description>
 
 &lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
@@ -1041,10 +941,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
-          <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+          <link>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
           <pubDate>Fri, 01 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+          <guid>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
           <description>
 
 &lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
