@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://localhost:1313/</link>
+    <link>http://tma15.github.io/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>N-best解の探索</title>
-          <link>http://localhost:1313/blog/2016/01/31/</link>
+          <link>http://tma15.github.io/blog/2016/01/31/</link>
           <pubDate>Sun, 31 Jan 2016 19:17:31 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2016/01/31/</guid>
+          <guid>http://tma15.github.io/blog/2016/01/31/</guid>
           <description>
 
 &lt;p&gt;系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
@@ -75,10 +75,10 @@ Backtrack ### ビタビアルゴリズムで求めたパス
       
         <item>
           <title>行列式をLU分解で求める</title>
-          <link>http://localhost:1313/blog/2016/01/23/</link>
+          <link>http://tma15.github.io/blog/2016/01/23/</link>
           <pubDate>Sat, 23 Jan 2016 16:04:13 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2016/01/23/</guid>
+          <guid>http://tma15.github.io/blog/2016/01/23/</guid>
           <description>
 
 &lt;p&gt;EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、
@@ -107,10 +107,10 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
       
         <item>
           <title>大量のファイルをGoで高速に読み込む</title>
-          <link>http://localhost:1313/blog/2016/01/16/</link>
+          <link>http://tma15.github.io/blog/2016/01/16/</link>
           <pubDate>Sat, 16 Jan 2016 10:55:26 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2016/01/16/</guid>
+          <guid>http://tma15.github.io/blog/2016/01/16/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20090727/1248652900&#34;&gt;ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転&lt;/a&gt;を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある&lt;a href=&#34;https://golang.org/pkg/io/ioutil/#ReadDir&#34;&gt;ReadDir&lt;/a&gt;はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
@@ -176,10 +176,10 @@ go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
       
         <item>
           <title>grepでデータの重複を調べられる</title>
-          <link>http://localhost:1313/blog/2015/12/29/</link>
+          <link>http://tma15.github.io/blog/2015/12/29/</link>
           <pubDate>Tue, 29 Dec 2015 15:20:02 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/12/29/</guid>
+          <guid>http://tma15.github.io/blog/2015/12/29/</guid>
           <description>&lt;p&gt;実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、&lt;code&gt;grep&lt;/code&gt;を使えば簡単にデータに重複があるかどうかを確認することができる。&lt;/p&gt;
 
 &lt;p&gt;今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。&lt;/p&gt;
@@ -216,10 +216,10 @@ go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
       
         <item>
           <title>gitで指定したコミットIDの状態に戻す</title>
-          <link>http://localhost:1313/blog/2015/12/20/</link>
+          <link>http://tma15.github.io/blog/2015/12/20/</link>
           <pubDate>Sun, 20 Dec 2015 07:57:41 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/12/20/</guid>
+          <guid>http://tma15.github.io/blog/2015/12/20/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://qiita.com/ysekky/items/3db54349452dd8a336fb&#34;&gt;私が機械学習研究をするときのコード・データ管理方法 - Qiita&lt;/a&gt;がいい話で参考になった。
@@ -337,10 +337,10 @@ git branch -d tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpを削除&lt
       
         <item>
           <title>並列での学習アルゴリズムの追加</title>
-          <link>http://localhost:1313/blog/2015/09/01/</link>
+          <link>http://tma15.github.io/blog/2015/09/01/</link>
           <pubDate>Mon, 31 Aug 2015 20:03:45 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/09/01/</guid>
+          <guid>http://tma15.github.io/blog/2015/09/01/</guid>
           <description>&lt;p&gt;拙作の&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;に並列での学習もサポートするようにした。
 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。
 並列での学習にはIterative Parameter Mixture (&lt;a href=&#34;http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf&#34;&gt;pdf&lt;/a&gt;)を提供している。&lt;/p&gt;
@@ -521,10 +521,10 @@ gonline.BroadCastModel(learner_avg, &amp;amp;learners)
       
         <item>
           <title>オンライン学習の実装いろいろ</title>
-          <link>http://localhost:1313/blog/2015/07/17/</link>
+          <link>http://tma15.github.io/blog/2015/07/17/</link>
           <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/07/17/</guid>
+          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
           <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
@@ -546,10 +546,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>Hugoに移行してみた</title>
-          <link>http://localhost:1313/blog/2015/06/21/</link>
+          <link>http://tma15.github.io/blog/2015/06/21/</link>
           <pubDate>Sun, 21 Jun 2015 10:44:18 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/06/21/</guid>
+          <guid>http://tma15.github.io/blog/2015/06/21/</guid>
           <description>&lt;p&gt;記事の生成が速いと噂のHugoへ移行した。
 もともと使っていたジェネレータがPythonのHydeだったのだけどドキュメントが少なく、色々と面倒臭かったのでドキュメントが充実している点でも有り難みがある。&lt;/p&gt;
 </description>
@@ -559,10 +559,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>Dropoutの実装で気になって調べたこと</title>
-          <link>http://localhost:1313/blog/2015/02/21/</link>
+          <link>http://tma15.github.io/blog/2015/02/21/</link>
           <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/02/21/</guid>
+          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
           <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
@@ -596,10 +596,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>コメント欄を付けた</title>
-          <link>http://localhost:1313/blog/2015/01/add-comment/</link>
+          <link>http://tma15.github.io/blog/2015/01/add-comment/</link>
           <pubDate>Sat, 17 Jan 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/01/add-comment/</guid>
+          <guid>http://tma15.github.io/blog/2015/01/add-comment/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;https://disqus.com/&#34;&gt;DISQUS&lt;/a&gt;を使ってこのブログにコメント欄をつけてみた。&lt;/p&gt;
 </description>
         </item>
@@ -608,10 +608,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>CYKアルゴリズムで係り受け解析</title>
-          <link>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</link>
+          <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
           <pubDate>Wed, 14 Jan 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/01/cykfordependencyparsing/</guid>
+          <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
           <description>
 
 &lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。
@@ -632,10 +632,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>CYKアルゴリズム</title>
-          <link>http://localhost:1313/blog/2015/01/cykmemo/</link>
+          <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
           <pubDate>Sat, 10 Jan 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/01/cykmemo/</guid>
+          <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
           <description>
 
 &lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
@@ -685,10 +685,10 @@ I eat pizza with Maria
       
         <item>
           <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-          <link>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+          <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
           <pubDate>Wed, 03 Dec 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+          <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
           <description>
 
 &lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
@@ -787,109 +787,11 @@ I eat pizza with Maria
     
       
         <item>
-          <title>二つの集合に重複して現れる要素の数を数える</title>
-          <link>http://localhost:1313/blog/2014/11/count-elem-go/</link>
-          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://localhost:1313/blog/2014/11/count-elem-go/</guid>
-          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
-
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
-)
-
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
-    i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_cmp := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; i &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-        }
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-            num_cmp += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; j &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #808080&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #808080&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #808080&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
-                num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-        }
-        i += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-    }
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
-    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i++{
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j++{
-                    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
-                            num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                    }
-            }
-    }
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
-    k := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
-    l := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i:=&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i++{
-            k = append(k, strconv.Itoa(i))
-            l = append(l, strconv.Itoa(i - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;))
-    }
-    cnt_match := CountDuplicateElem(k, l)
-    cnt_match := NaiveCount(k, l)
-    fmt.Println(cnt_match)
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
-それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
-99999
-go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;今回書いた方法:&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
-99999
-go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>PythonでElasticsearchを使うときのメモ</title>
-          <link>http://localhost:1313/blog/2014/11/use-es-py/</link>
+          <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
           <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/11/use-es-py/</guid>
+          <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
           <description>
 
 &lt;p&gt;全文検索したくなったときのためのメモ。
@@ -1110,11 +1012,109 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
     
       
         <item>
+          <title>二つの集合に重複して現れる要素の数を数える</title>
+          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    num_cmp := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; i &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+        }
+        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+            num_cmp += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; j &amp;gt;= &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #808080&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #808080&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #808080&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
+            }
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;break&lt;/span&gt;
+            }
+            j += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+        }
+        i += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
+    num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i++{
+            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j++{
+                    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] == y[j] {
+                            num_match += &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+                    }
+            }
+    }
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+    k := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    l := []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;{}
+    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i:=&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i++{
+            k = append(k, strconv.Itoa(i))
+            l = append(l, strconv.Itoa(i - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;))
+    }
+    cnt_match := CountDuplicateElem(k, l)
+    cnt_match := NaiveCount(k, l)
+    fmt.Println(cnt_match)
+}
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
+それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;今回書いた方法:&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+99999
+go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>mafが便利そう</title>
-          <link>http://localhost:1313/blog/2014/11/maf-memo/</link>
+          <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
           <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/11/maf-memo/</guid>
+          <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
@@ -1291,10 +1291,10 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
       
         <item>
           <title>atom.xmlを加えた</title>
-          <link>http://localhost:1313/blog/2014/11/add-atom/</link>
+          <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
           <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/11/add-atom/</guid>
+          <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
           <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
 </description>
         </item>
@@ -1303,10 +1303,10 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
       
         <item>
           <title>HMMを実装した</title>
-          <link>http://localhost:1313/blog/2014/10/hmm/</link>
+          <link>http://tma15.github.io/blog/2014/10/hmm/</link>
           <pubDate>Sat, 25 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/10/hmm/</guid>
+          <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
@@ -1342,10 +1342,10 @@ VBN --&amp;gt; NN      22
       
         <item>
           <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-          <link>http://localhost:1313/blog/2014/10/document-classification/</link>
+          <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
           <pubDate>Mon, 20 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/10/document-classification/</guid>
+          <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
@@ -1457,10 +1457,10 @@ Go言語  考え    0.700000
       
         <item>
           <title>PA-IIをGoで書いた</title>
-          <link>http://localhost:1313/blog/2014/10/go-pa2/</link>
+          <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
           <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/10/go-pa2/</guid>
+          <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
           <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
@@ -1494,10 +1494,10 @@ Go言語  考え    0.700000
       
         <item>
           <title>AdaGrad&#43;RDAをGoで書いた</title>
-          <link>http://localhost:1313/blog/2014/10/go-adagrad/</link>
+          <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
           <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/10/go-adagrad/</guid>
+          <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
           <description>
 
 &lt;p&gt;論文はこちら。&lt;/p&gt;
@@ -1567,10 +1567,10 @@ Acc: 0.9487590072057646
       
         <item>
           <title>パーセプトロンをGoで書いた</title>
-          <link>http://localhost:1313/blog/2014/10/go-perceptron/</link>
+          <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
           <pubDate>Sat, 11 Oct 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/10/go-perceptron/</guid>
+          <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
           <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
 ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 
@@ -1615,10 +1615,10 @@ Acc: 0.8257203773097299
       
         <item>
           <title>Induced SortingをPythonで書いた</title>
-          <link>http://localhost:1313/blog/2014/5/induced_sorting_py/</link>
+          <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
           <pubDate>Wed, 07 May 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/5/induced_sorting_py/</guid>
+          <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
           <description>
 
 &lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
@@ -1651,10 +1651,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
       
         <item>
           <title>北京滞在メモ</title>
-          <link>http://localhost:1313/blog/2014/3/i-visited-beijing/</link>
+          <link>http://tma15.github.io/blog/2014/3/i-visited-beijing/</link>
           <pubDate>Sat, 15 Mar 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/3/i-visited-beijing/</guid>
+          <guid>http://tma15.github.io/blog/2014/3/i-visited-beijing/</guid>
           <description>
 
 &lt;p&gt;北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。&lt;/p&gt;
@@ -1692,10 +1692,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
       
         <item>
           <title>ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
-          <link>http://localhost:1313/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</link>
+          <link>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</link>
           <pubDate>Mon, 17 Feb 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</guid>
+          <guid>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</guid>
           <description>&lt;div align=&#34;center&#34;&gt;
 &lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=B00H3WR470&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
@@ -1728,10 +1728,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
       
         <item>
           <title>2013年と2014年</title>
-          <link>http://localhost:1313/blog/2014/1/2013-2014/</link>
+          <link>http://tma15.github.io/blog/2014/1/2013-2014/</link>
           <pubDate>Thu, 02 Jan 2014 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2014/1/2013-2014/</guid>
+          <guid>http://tma15.github.io/blog/2014/1/2013-2014/</guid>
           <description>
 
 &lt;h2 id=&#34;2013年の振り返り:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2013年の振り返り&lt;/h2&gt;
@@ -1788,10 +1788,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
       
         <item>
           <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
-          <link>http://localhost:1313/blog/2013/12/mct/</link>
+          <link>http://tma15.github.io/blog/2013/12/mct/</link>
           <pubDate>Fri, 27 Dec 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/12/mct/</guid>
+          <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://research.microsoft.com/apps/pubs/default.aspx?id=206771&#34;&gt;エッセイ&lt;/a&gt;の一部をメモ。&lt;/p&gt;
@@ -2044,10 +2044,10 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
       
         <item>
           <title>Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ</title>
-          <link>http://localhost:1313/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
+          <link>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</link>
           <pubDate>Sat, 14 Dec 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
+          <guid>http://tma15.github.io/blog/2013/12/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
@@ -2434,10 +2434,10 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
       
         <item>
           <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-          <link>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
           <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
           <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
@@ -2532,10 +2532,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
       
         <item>
           <title>文書要約メモ（ACL2013）</title>
-          <link>http://localhost:1313/blog/2013/9/acl2013-summ-note/</link>
+          <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
           <pubDate>Mon, 30 Sep 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/9/acl2013-summ-note/</guid>
+          <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
@@ -2638,10 +2638,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
       
         <item>
           <title>Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ</title>
-          <link>http://localhost:1313/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
+          <link>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</link>
           <pubDate>Tue, 10 Sep 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
+          <guid>http://tma15.github.io/blog/2013/9/diversity-maximization-under-matroid-constraints/</guid>
           <description>
 
 &lt;p&gt;KDD 2013読み会に参加させていただきました。
@@ -2700,10 +2700,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
       
         <item>
           <title>Active Sampling for Entity Matching (KDD 2012)を読んだ</title>
-          <link>http://localhost:1313/blog/2013/8/active-sampling-for-entity-matching/</link>
+          <link>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</link>
           <pubDate>Sat, 03 Aug 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/8/active-sampling-for-entity-matching/</guid>
+          <guid>http://tma15.github.io/blog/2013/8/active-sampling-for-entity-matching/</guid>
           <description>
 
 &lt;p&gt;proceeding (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1036/1/main.pdf&#34;&gt;pdf&lt;/a&gt;),
@@ -2771,10 +2771,10 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
       
         <item>
           <title>It takes a long time to become young.</title>
-          <link>http://localhost:1313/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
+          <link>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</link>
           <pubDate>Sun, 07 Jul 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
+          <guid>http://tma15.github.io/blog/2013/7/it-takes-a-long-time-to-become-young/</guid>
           <description>
 
 &lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
@@ -2965,10 +2965,10 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
       
         <item>
           <title>簡単に、奥深く</title>
-          <link>http://localhost:1313/blog/2013/6/joined-jm2013/</link>
+          <link>http://tma15.github.io/blog/2013/6/joined-jm2013/</link>
           <pubDate>Mon, 03 Jun 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/6/joined-jm2013/</guid>
+          <guid>http://tma15.github.io/blog/2013/6/joined-jm2013/</guid>
           <description>&lt;p&gt;&lt;div align=&#34;center&#34;&gt;
 &lt;img src=&#34;http://farm6.staticflickr.com/5330/8929487751_2503227fcf.jpg&#34; width=&#34;600&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;
 &lt;/div&gt;
@@ -3017,10 +3017,10 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
       
         <item>
           <title>食べログAPIのPythonラッパーを書いた</title>
-          <link>http://localhost:1313/blog/2013/5/python-tabelog/</link>
+          <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
           <pubDate>Sun, 12 May 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/5/python-tabelog/</guid>
+          <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
           <description>
 
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
@@ -3103,10 +3103,10 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
       
         <item>
           <title>Good style - Writing for Computer Science</title>
-          <link>http://localhost:1313/blog/2013/3/good-style/</link>
+          <link>http://tma15.github.io/blog/2013/3/good-style/</link>
           <pubDate>Wed, 27 Mar 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/3/good-style/</guid>
+          <guid>http://tma15.github.io/blog/2013/3/good-style/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
 
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/132605868/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-wgir7vee0ytkouj0q99&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_18069&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -3117,10 +3117,10 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
       
         <item>
           <title>Giving presentations - Writing for Computer Science</title>
-          <link>http://localhost:1313/blog/2013/2/giving-presentaions/</link>
+          <link>http://tma15.github.io/blog/2013/2/giving-presentaions/</link>
           <pubDate>Sat, 23 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/2/giving-presentaions/</guid>
+          <guid>http://tma15.github.io/blog/2013/2/giving-presentaions/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.amazon.co.jp/Writing-Computer-Science-Justin-Zobel/dp/1852338024&#34;&gt;Writing for Computer Science&lt;/a&gt; のメモ&lt;/p&gt;
 
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/126837452/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-18r6gyvswmhjnapds9dz&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29936305732484&#34; scrolling=&#34;no&#34; id=&#34;doc_32667&#34; width=&#34;700&#34; height=&#34;550&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -3131,10 +3131,10 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
       
         <item>
           <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
-          <link>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+          <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
           <pubDate>Sat, 16 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+          <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
           <description>
 
 &lt;p&gt;Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal,
@@ -3198,10 +3198,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Togakushi</title>
-          <link>http://localhost:1313/blog/2013/2/togakushi/</link>
+          <link>http://tma15.github.io/blog/2013/2/togakushi/</link>
           <pubDate>Tue, 12 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/2/togakushi/</guid>
+          <guid>http://tma15.github.io/blog/2013/2/togakushi/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8466317921/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8521/8466317921_d1a2397cfd_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
@@ -3210,10 +3210,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
-          <link>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+          <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
           <pubDate>Wed, 06 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+          <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
           <description>
 
 &lt;p&gt;Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou&lt;/p&gt;
@@ -3313,10 +3313,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
-          <link>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+          <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
           <pubDate>Fri, 01 Feb 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+          <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
           <description>
 
 &lt;p&gt;Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender&lt;/p&gt;
@@ -3425,10 +3425,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>2013年の抱負</title>
-          <link>http://localhost:1313/blog/2013/1/start-of-2013/</link>
+          <link>http://tma15.github.io/blog/2013/1/start-of-2013/</link>
           <pubDate>Tue, 08 Jan 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2013/1/start-of-2013/</guid>
+          <guid>http://tma15.github.io/blog/2013/1/start-of-2013/</guid>
           <description>
 
 &lt;h2 id=&#34;飲み過ぎない:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;飲み過ぎない&lt;/h2&gt;
@@ -3455,10 +3455,10 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
       
         <item>
           <title>Practical Machine Learning Tricks</title>
-          <link>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</link>
+          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
           <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
@@ -3557,11 +3557,23 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
     
       
         <item>
-          <title>without sns</title>
-          <link>http://localhost:1313/blog/2012/11/withoutsns/</link>
+          <title>Hakone Museum of Art</title>
+          <link>http://tma15.github.io/blog/2012/11/autumncolor/</link>
           <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2012/11/withoutsns/</guid>
+          <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
+          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
+          <title>without sns</title>
+          <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
+          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2012/11/withoutsns/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.lifehacker.jp/2012/09/12092730withoutsns.html&#34;&gt;「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;この記事を初めて読んだとき、自分には無理だなあと思っていた。&lt;/p&gt;
@@ -3592,23 +3604,11 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
     
       
         <item>
-          <title>Hakone Museum of Art</title>
-          <link>http://localhost:1313/blog/2012/11/autumncolor/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://localhost:1313/blog/2012/11/autumncolor/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
           <title>kaanapali</title>
-          <link>http://localhost:1313/blog/2012/11/kaanapali/</link>
+          <link>http://tma15.github.io/blog/2012/11/kaanapali/</link>
           <pubDate>Thu, 15 Nov 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2012/11/kaanapali/</guid>
+          <guid>http://tma15.github.io/blog/2012/11/kaanapali/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8187971604/&#34; title=&#34;Untitled by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8482/8187971604_b6513f9eed_c.jpg&#34; width=&#34;800&#34; height=&#34;600&#34; alt=&#34;Untitled&#34;&gt;&lt;/a&gt;&lt;/p&gt;
 </description>
         </item>
@@ -3617,10 +3617,10 @@ SNS覗いたり、なんてことをしてたんだけど、今は意識的に�
       
         <item>
           <title>Hello World</title>
-          <link>http://localhost:1313/blog/2012/11/helloworld/</link>
+          <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
           <pubDate>Sat, 10 Nov 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2012/11/helloworld/</guid>
+          <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
           <description>&lt;p&gt;なんとなくつくってみた。
 &lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
 </description>
