@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://tma15.github.io/tags/linux/</link>
+    <link>http://localhost:1313/tags/linux/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>大量のファイルをGoで高速に読み込む</title>
-          <link>http://tma15.github.io/blog/2016/01/16/</link>
+          <link>http://localhost:1313/blog/2016/01/16/</link>
           <pubDate>Sat, 16 Jan 2016 10:55:26 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/16/</guid>
+          <guid>http://localhost:1313/blog/2016/01/16/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20090727/1248652900&#34;&gt;ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転&lt;/a&gt;を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある&lt;a href=&#34;https://golang.org/pkg/io/ioutil/#ReadDir&#34;&gt;ReadDir&lt;/a&gt;はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
@@ -81,10 +81,10 @@ go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
       
         <item>
           <title>grepでデータの重複を調べられる</title>
-          <link>http://tma15.github.io/blog/2015/12/29/</link>
+          <link>http://localhost:1313/blog/2015/12/29/</link>
           <pubDate>Tue, 29 Dec 2015 15:20:02 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/12/29/</guid>
+          <guid>http://localhost:1313/blog/2015/12/29/</guid>
           <description>&lt;p&gt;実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、&lt;code&gt;grep&lt;/code&gt;を使えば簡単にデータに重複があるかどうかを確認することができる。&lt;/p&gt;
 
 &lt;p&gt;今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。&lt;/p&gt;

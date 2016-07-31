@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://tma15.github.io/tags/machine_learning/</link>
+    <link>http://localhost:1313/tags/machine_learning/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>平均化パーセプトロンの効率的な計算</title>
-          <link>http://tma15.github.io/blog/2016/07/31/</link>
+          <link>http://localhost:1313/blog/2016/07/31/</link>
           <pubDate>Sun, 31 Jul 2016 10:13:38 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2016/07/31/</guid>
+          <guid>http://localhost:1313/blog/2016/07/31/</guid>
           <description>
 
 &lt;h2 id=&#34;概要:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;概要&lt;/h2&gt;
@@ -70,7 +70,7 @@ for (x_i, y_i) in D
     w += u
     w_all += t * u ### uの要素に対してtを掛ける
     t += 1
-w_avg = w - w_all / T ### w_allの要素に対してTで割る
+w_avg = w - w_all / t ### w_allの要素に対してTで割る
 return w_avg
 &lt;/code&gt;&lt;/pre&gt;
 
@@ -86,7 +86,7 @@ return w_avg
 \end{eqnarray}
 $$&lt;/p&gt;
 
-&lt;p&gt;このことから、例えば&lt;code&gt;T=4&lt;/code&gt;のときの&lt;code&gt;w_avg&lt;/code&gt;は次のように計算することができる。&lt;/p&gt;
+&lt;p&gt;このことから、例えば&lt;code&gt;t=4&lt;/code&gt;のときの&lt;code&gt;w_avg&lt;/code&gt;は次のように計算することができる。&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{eqnarray}
@@ -116,10 +116,10 @@ $$&lt;/p&gt;
       
         <item>
           <title>並列での学習アルゴリズムの追加</title>
-          <link>http://tma15.github.io/blog/2015/09/01/</link>
+          <link>http://localhost:1313/blog/2015/09/01/</link>
           <pubDate>Mon, 31 Aug 2015 20:03:45 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/09/01/</guid>
+          <guid>http://localhost:1313/blog/2015/09/01/</guid>
           <description>&lt;p&gt;拙作の&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;に並列での学習もサポートするようにした。
 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。
 並列での学習にはIterative Parameter Mixture (&lt;a href=&#34;http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf&#34;&gt;pdf&lt;/a&gt;)を提供している。&lt;/p&gt;
@@ -300,10 +300,10 @@ gonline.BroadCastModel(learner_avg, &amp;amp;learners)
       
         <item>
           <title>オンライン学習の実装いろいろ</title>
-          <link>http://tma15.github.io/blog/2015/07/17/</link>
+          <link>http://localhost:1313/blog/2015/07/17/</link>
           <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+          <guid>http://localhost:1313/blog/2015/07/17/</guid>
           <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
 実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
@@ -325,10 +325,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>Dropoutの実装で気になって調べたこと</title>
-          <link>http://tma15.github.io/blog/2015/02/21/</link>
+          <link>http://localhost:1313/blog/2015/02/21/</link>
           <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+          <guid>http://localhost:1313/blog/2015/02/21/</guid>
           <description>
 
 &lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
@@ -362,10 +362,10 @@ SCWはいつか実装する。&lt;/p&gt;
       
         <item>
           <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+          <link>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
           <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+          <guid>http://localhost:1313/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
           <description>
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
@@ -460,10 +460,10 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
       
         <item>
           <title>Practical Machine Learning Tricks</title>
-          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+          <link>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</link>
           <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+          <guid>http://localhost:1313/blog/2012/12/practical-machine-learning-kdd2011/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;

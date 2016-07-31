@@ -26,13 +26,13 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+					<a class="navbar-brand" href="http://localhost:1313/">Now is better than never.</a> 
 				</div>
 				<div class="navbar-collapse collapse navbar-responsive-collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a href="http://tma15.github.io/">Home</a></li>
-						<li><a href="http://tma15.github.io//about/">About</a></li>
-						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+						<li><a href="http://localhost:1313/">Home</a></li>
+						<li><a href="http://localhost:1313//about/">About</a></li>
+						<li><a href="http://localhost:1313//blog/">Blog</a></li>
 					</ul>
 				</div>
 			</div>
@@ -110,7 +110,7 @@ for (x_i, y_i) in D
     w += u
     w_all += t * u ### uの要素に対してtを掛ける
     t += 1
-w_avg = w - w_all / T ### w_allの要素に対してTで割る
+w_avg = w - w_all / t ### w_allの要素に対してTで割る
 return w_avg
 </code></pre>
 
@@ -126,7 +126,7 @@ return w_avg
 \end{eqnarray}
 $$</p>
 
-<p>このことから、例えば<code>T=4</code>のときの<code>w_avg</code>は次のように計算することができる。</p>
+<p>このことから、例えば<code>t=4</code>のときの<code>w_avg</code>は次のように計算することができる。</p>
 
 <p>$$
 \begin{eqnarray}
@@ -209,6 +209,9 @@ $$</p>
       })();
 
     </script>
-    </body>
+    <script data-no-instant>document.write('<script src="http://'
+        + (location.host || 'localhost').split(':')[0]
+		+ ':1313/livereload.js?mindelay=10"></'
+        + 'script>')</script></body>
 </html>
 
