@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>平均化パーセプトロンの効率的な計算</title>
+
+ 	
+	<link href="/css/journal.css" rel="stylesheet">
+
+ 	
+ 	<link href="/css/style.css" rel="stylesheet">
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="http://tma15.github.io/">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="http://tma15.github.io/">Home</a></li>
+						<li><a href="http://tma15.github.io//about/">About</a></li>
+						<li><a href="http://tma15.github.io//blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>平均化パーセプトロンの効率的な計算</h3>
+				<span class="label label-primary">Sun Jul 31, 2016</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/machine_learning">machine_learning</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<h2 id="概要:ea8492b34791ddaedc8373ecd6020d2d">概要</h2>
+
+<ul>
+<li>パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する</li>
+<li>平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する</li>
+<li>平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い</li>
+<li>素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い</li>
+</ul>
+
+<h2 id="準備:ea8492b34791ddaedc8373ecd6020d2d">準備</h2>
+
+<p>パーセプトロンを学習するにあたって利用する表記は以下のとおり。</p>
+
+<ul>
+<li><code>N</code>: 素性の数</li>
+<li><code>x</code>: 学習事例。実数値の<code>N</code>次元ベクトル</li>
+<li><code>y</code>: 学習事例に対するラベル。 {-1, 1}</li>
+<li><code>D</code>: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &lt;= i &lt;= K)</li>
+<li><code>w</code>: 重みベクトル。実数値の<code>N</code>次元ベクトル</li>
+<li><code>dot(a, b)</code>: 二つのベクトルの内積を返す</li>
+<li><code>sign(x)</code>: 1 if x &gt;= 0 else -1</li>
+</ul>
+
+<h2 id="パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d">パーセプトロン</h2>
+
+<p>パーセプトロンの学習の擬似コードは次の通り。
+学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。</p>
+
+<pre><code>w = [0, ..., 0] ### N次元
+for (x_i, y_i) in D
+  y = sign(dot(x_i, w))
+  if y != y_i
+    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
+    w += u
+return w
+</code></pre>
+
+<h2 id="平均化パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d">平均化パーセプトロン</h2>
+
+<p>平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
+パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして<code>w_all</code>、<code>w_avg</code>が増えていること。この<code>w_avg</code>が&rdquo;過去の反復で学習した重みベクトルの平均&rdquo;となっている。</p>
+
+<pre><code>w = [0, ..., 0] ### N次元
+w_all = [0, ..., 0] ### N次元
+t = 1 ### 更新回数
+for (x_i, y_i) in D
+  y = sign(dot(x_i, w))
+  if y != y_i
+    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
+    w += u
+    w_all += t * u ### uの要素に対してtを掛ける
+    t += 1
+w_avg = w - w_all / T ### w_allの要素に対してTで割る
+return w_avg
+</code></pre>
+
+<p>では、なぜこのようにして<code>w_avg</code>が計算されるのかを考えてみる。
+ここで、<code>u_t</code>を<code>t</code>回目の更新における重みの更新幅とすると、各更新の重みベクトルは次のような関係にある。</p>
+
+<p>$$
+\begin{eqnarray}
+\mathbf{w}_1 &amp;=&amp; \mathbf{0} \\
+\mathbf{w}_2 &amp;=&amp; \mathbf{w}_1 + \mathbf{u}_1\\
+\mathbf{w}_3 &amp;=&amp; \mathbf{w}_2 + \mathbf{u}_2\\
+\mathbf{w}_4 &amp;=&amp; \mathbf{w}_3 + \mathbf{u}_3\\
+\end{eqnarray}
+$$</p>
+
+<p>このことから、例えば<code>T=4</code>のときの<code>w_avg</code>は次のように計算することができる。</p>
+
+<p>$$
+\begin{eqnarray}
+\mathbf{ w}_{avg} &amp;=&amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\
+&amp;=&amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\
+&amp;=&amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
+\end{eqnarray}
+$$</p>
+
+<p>単純に毎回<code>w</code>を<code>w_all</code>に足しこんでいって、最後に更新回数で割っても同様の結果になるが、
+更新された要素のみを保持する方が足し込む数が減るので、計算が効率的。</p>
+
+<h2 id="参考:ea8492b34791ddaedc8373ecd6020d2d">参考</h2>
+
+<ul>
+<li><a href="http://www.ss.cs.tut.ac.jp/nlp2011/nlp2010_tutorial_okanohara.pdf">超高速テキスト処理のためのアルゴリズムとデータ構造</a></li>
+</ul>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20414370-4']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    </body>
+</html>
+

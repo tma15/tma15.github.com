@@ -6,8 +6,112 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-01-31 19:17:31 &#43;0900 JST</updated>
+    <updated>2016-07-31 10:13:38 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>平均化パーセプトロンの効率的な計算</title>
+          <link>http://tma15.github.io/blog/2016/07/31/</link>
+          <pubDate>Sun, 31 Jul 2016 10:13:38 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/07/31/</guid>
+          <description>
+
+&lt;h2 id=&#34;概要:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する&lt;/li&gt;
+&lt;li&gt;平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する&lt;/li&gt;
+&lt;li&gt;平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い&lt;/li&gt;
+&lt;li&gt;素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;準備:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;準備&lt;/h2&gt;
+
+&lt;p&gt;パーセプトロンを学習するにあたって利用する表記は以下のとおり。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;N&lt;/code&gt;: 素性の数&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;x&lt;/code&gt;: 学習事例。実数値の&lt;code&gt;N&lt;/code&gt;次元ベクトル&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;y&lt;/code&gt;: 学習事例に対するラベル。 {-1, 1}&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;D&lt;/code&gt;: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &amp;lt;= i &amp;lt;= K)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;w&lt;/code&gt;: 重みベクトル。実数値の&lt;code&gt;N&lt;/code&gt;次元ベクトル&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dot(a, b)&lt;/code&gt;: 二つのベクトルの内積を返す&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sign(x)&lt;/code&gt;: 1 if x &amp;gt;= 0 else -1&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;パーセプトロン&lt;/h2&gt;
+
+&lt;p&gt;パーセプトロンの学習の擬似コードは次の通り。
+学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;w = [0, ..., 0] ### N次元
+for (x_i, y_i) in D
+  y = sign(dot(x_i, w))
+  if y != y_i
+    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
+    w += u
+return w
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;平均化パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;平均化パーセプトロン&lt;/h2&gt;
+
+&lt;p&gt;平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
+パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして&lt;code&gt;w_all&lt;/code&gt;、&lt;code&gt;w_avg&lt;/code&gt;が増えていること。この&lt;code&gt;w_avg&lt;/code&gt;が&amp;rdquo;過去の反復で学習した重みベクトルの平均&amp;rdquo;となっている。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;w = [0, ..., 0] ### N次元
+w_all = [0, ..., 0] ### N次元
+t = 1 ### 更新回数
+for (x_i, y_i) in D
+  y = sign(dot(x_i, w))
+  if y != y_i
+    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
+    w += u
+    w_all += t * u ### uの要素に対してtを掛ける
+    t += 1
+w_avg = w - w_all / T ### w_allの要素に対してTで割る
+return w_avg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;では、なぜこのようにして&lt;code&gt;w_avg&lt;/code&gt;が計算されるのかを考えてみる。
+ここで、&lt;code&gt;u_t&lt;/code&gt;を&lt;code&gt;t&lt;/code&gt;回目の更新における重みの更新幅とすると、各更新の重みベクトルは次のような関係にある。&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{eqnarray}
+\mathbf{w}_1 &amp;amp;=&amp;amp; \mathbf{0} \\
+\mathbf{w}_2 &amp;amp;=&amp;amp; \mathbf{w}_1 + \mathbf{u}_1\\
+\mathbf{w}_3 &amp;amp;=&amp;amp; \mathbf{w}_2 + \mathbf{u}_2\\
+\mathbf{w}_4 &amp;amp;=&amp;amp; \mathbf{w}_3 + \mathbf{u}_3\\
+\end{eqnarray}
+$$&lt;/p&gt;
+
+&lt;p&gt;このことから、例えば&lt;code&gt;T=4&lt;/code&gt;のときの&lt;code&gt;w_avg&lt;/code&gt;は次のように計算することができる。&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{eqnarray}
+\mathbf{ w}_{avg} &amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;amp;=&amp;amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;amp;=&amp;amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\
+&amp;amp;=&amp;amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\
+&amp;amp;=&amp;amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
+\end{eqnarray}
+$$&lt;/p&gt;
+
+&lt;p&gt;単純に毎回&lt;code&gt;w&lt;/code&gt;を&lt;code&gt;w_all&lt;/code&gt;に足しこんでいって、最後に更新回数で割っても同様の結果になるが、
+更新された要素のみを保持する方が足し込む数が減るので、計算が効率的。&lt;/p&gt;
+
+&lt;h2 id=&#34;参考:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;参考&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;http://www.ss.cs.tut.ac.jp/nlp2011/nlp2010_tutorial_okanohara.pdf&#34;&gt;超高速テキスト処理のためのアルゴリズムとデータ構造&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -1110,6 +1214,18 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
     
       
         <item>
+          <title>atom.xmlを加えた</title>
+          <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
+          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
+          <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
+</description>
+        </item>
+      
+    
+      
+        <item>
           <title>mafが便利そう</title>
           <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
           <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
@@ -1284,18 +1400,6 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
 &lt;li&gt;&lt;a href=&#34;http://pfi.github.io/maf/usage.html&#34;&gt;mafの使い方&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;http://research.preferred.jp/2013/12/maf/&#34;&gt;データ解析作業の救世主！ 超絶☆実験ビルドシステムmafをOSS公開しました&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>atom.xmlを加えた</title>
-          <link>http://tma15.github.io/blog/2014/11/add-atom/</link>
-          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/11/add-atom/</guid>
-          <description>&lt;p&gt;今さらだが、 &lt;a href=&#34;http://tma15.github.io/blog/atom.xml&#34;&gt;atom.xml&lt;/a&gt; を追加して更新情報を配信できるようにした。&lt;/p&gt;
 </description>
         </item>
       
