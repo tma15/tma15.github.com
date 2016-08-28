@@ -154,11 +154,11 @@ $$</p>
 
 <p>(Gao &amp; Zhou, 13): マージンの平均だけではなく、マージンの分散にも注意を払うべきである。</p>
 
-<h2 id="large-margin-distrubution-machine:6f46916486ef6d372bfe0b46613e634e">Large Margin Distrubution Machine</h2>
+<h2 id="large-margin-distribution-machine:6f46916486ef6d372bfe0b46613e634e">Large Margin Distribution Machine</h2>
 
 <h3 id="large-marginとlarge-margin-distributionの大きな違い:6f46916486ef6d372bfe0b46613e634e">Large marginとLarge margin distributionの大きな違い</h3>
 
-<p>Large marginは最小マージンを最大化する。Large margine distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf">スライド</a>p.45の例が分かりやすい。
+<p>Large marginは最小マージンを最大化する。Large margin distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf">スライド</a>p.45の例が分かりやすい。
 利点として、サポートベクターのみに依存せずに超平面を引ける。また外れ値やノイズに対して敏感になりにくいなどが挙げられる。</p>
 
 <h3 id="定式化と最適化:6f46916486ef6d372bfe0b46613e634e">定式化と最適化</h3>
@@ -177,7 +177,7 @@ $$</p>
 <p>つまり、学習データ$\{(\mathbf{x}_i, y_i)\}_{i=1}^m$
 をマージンが1以上で正しく分類するという条件のもと、マージンの平均を大きく、かつマージンの分散が小さくなるような$\mathbf{w}$を見つける、という問題となっている。</p>
 
-<p>この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margine Distribution Machineと呼んでいる。</p>
+<p>この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margin Distribution Machineと呼んでいる。</p>
 
 <h3 id="結果:6f46916486ef6d372bfe0b46613e634e">結果</h3>
 
