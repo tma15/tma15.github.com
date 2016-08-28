@@ -6,8 +6,153 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-07-31 10:13:38 &#43;0900 JST</updated>
+    <updated>2016-08-28 18:59:58 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>AdaBoostからLarge Margin Distribution Machineの流れ</title>
+          <link>http://tma15.github.io/blog/2016/08/28/</link>
+          <pubDate>Sun, 28 Aug 2016 18:59:58 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/08/28/</guid>
+          <description>
+
+&lt;p&gt;AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。&lt;/p&gt;
+
+&lt;p&gt;具体的には&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/&#34;&gt;Zhi-Hua Zhou&lt;/a&gt;先生のスライド (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;From AdaBoost to LDM&lt;/a&gt;) を眺めて、自分の理解のためにメモとして残したものになっている。&lt;/p&gt;
+
+&lt;h2 id=&#34;adaboost:6f46916486ef6d372bfe0b46613e634e&#34;&gt;AdaBoost&lt;/h2&gt;
+
+&lt;p&gt;学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Initialize: 分布D_0をセットする
+以下の処理をT回繰り返す:
+1. 分布D_tを用いて弱学習器h_tを学習する
+2. h_tの信頼度a_tを計算する
+3. 次のラウンドの分布D_{t+1}を計算する
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:&lt;/p&gt;
+
+&lt;p&gt;$$
+y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))).
+$$&lt;/p&gt;
+
+&lt;h3 id=&#34;なぜadaboostは良いのか:6f46916486ef6d372bfe0b46613e634e&#34;&gt;なぜAdaBoostは良いのか&lt;/h3&gt;
+
+&lt;ol&gt;
+&lt;li&gt;実装が簡単な割に高い予測性能である事が多い&lt;/li&gt;
+&lt;li&gt;亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる)&lt;/li&gt;
+&lt;li&gt;経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;汎化誤差:6f46916486ef6d372bfe0b46613e634e&#34;&gt;汎化誤差&lt;/h3&gt;
+
+&lt;p&gt;汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp;amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。&lt;/p&gt;
+
+&lt;p&gt;しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。&lt;/p&gt;
+
+&lt;h2 id=&#34;adaboostの主な研究:6f46916486ef6d372bfe0b46613e634e&#34;&gt;AdaBoostの主な研究&lt;/h2&gt;
+
+&lt;p&gt;ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Statistical view&lt;/li&gt;
+&lt;li&gt;Margin theory&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;statistical-view:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Statistical view&lt;/h3&gt;
+
+&lt;p&gt;弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。&lt;/p&gt;
+
+&lt;p&gt;なぜ過学習しにくいのかは説明できない。
+サイズが大きな決定木 (複雑なモデル) ほど過学習しやすい、という話があるが、サイズが大きな決定木を弱学習器としたほうが良い結果になっている。&lt;/p&gt;
+
+&lt;h3 id=&#34;margin-theory:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theory&lt;/h3&gt;
+
+&lt;p&gt;マージンは超平面からの距離であり、大きいほど分類器が自信を持っているとみなせる。&lt;/p&gt;
+
+&lt;p&gt;(Schapire+, 98)はAdaBoostの汎化誤差は（他の変数を固定すると）学習データのマージンが大きいほど小さくなる、ということを証明した。そのためMargin theoryは過学習が起きにくい理由を次のように説明できる:「経験誤差が0になった後も、マージンは大きくなるから」&lt;/p&gt;
+
+&lt;p&gt;最小のマージンが大きいほど、誤り率は小さくなる。よって、最小のマージンを考えることによって、BreimanはSchapireらよりも低い、汎化誤差の上限を証明した。&lt;/p&gt;
+
+&lt;h2 id=&#34;margin-theoryの疑問:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theoryの疑問&lt;/h2&gt;
+
+&lt;p&gt;(Breiman, 99)はarc-gvを提案した。arc-gvは最小のマージンを直接最大化する手法である。つまり、arc-gvはAdaBoostよりも良い性能であることが期待される。しかしながら、AdaBoostとの比較実験から次のことが分かった:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;arc-gvはAdaBoostより一様に大きい最小マージンを作る&lt;/li&gt;
+&lt;li&gt;ほぼすべての場合において汎化誤差はAdaBoostよりも増加する&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;そのためBreimanはこのMargin theoryは疑わしいという結論に至り、このmargin theoryは廃れることになる。&lt;/p&gt;
+
+&lt;h3 id=&#34;それから7年後:6f46916486ef6d372bfe0b46613e634e&#34;&gt;それから7年後&lt;/h3&gt;
+
+&lt;p&gt;(Reyzin &amp;amp; Schapire, 06)はBreimanは実験においてモデルの複雑性をうまくコントロールしていなかったことを見つけた:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Breimanは葉の数を固定して決定木 (モデル) の複雑性をコントロールした&lt;/li&gt;
+&lt;li&gt;Reyzin &amp;amp; Schapireはarc-gvの木がAdaBoostの木よりも深い事が多いことを指摘した&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Reyzin &amp;amp; SchapireはBreimanの実験を、decision stump (一つの素性の有無で分類をおこなう分類器) を使っておこなった。この実験ではarc-gvはより大きな最小マージンを伴うが、より悪いマージンの分布を伴っていた。&lt;/p&gt;
+
+&lt;h3 id=&#34;margin-theoryは生き残るのか:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theoryは生き残るのか？&lt;/h3&gt;
+
+&lt;p&gt;Reyzin &amp;amp; Schapireは最小マージンは重要ではなく、マージンの平均や中央値が重要であると主張した。マージンの分布がより重要であると主張するには、マージンの分布に基づく上限が、最小マージンに基づく上限と同等に低い必要がある。&lt;/p&gt;
+
+&lt;p&gt;Reyzin &amp;amp; Schapire以降はmarginの平均と、マージンの分散によって汎化誤差の上限を保証した研究がなされていった。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;(Wang+, 08)&lt;/li&gt;
+&lt;li&gt;(Gao &amp;amp; Zhou, 13)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;新しい知見:6f46916486ef6d372bfe0b46613e634e&#34;&gt;新しい知見&lt;/h3&gt;
+
+&lt;p&gt;(Gao &amp;amp; Zhou, 13): マージンの平均だけではなく、マージンの分散にも注意を払うべきである。&lt;/p&gt;
+
+&lt;h2 id=&#34;large-margin-distrubution-machine:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Large Margin Distrubution Machine&lt;/h2&gt;
+
+&lt;h3 id=&#34;large-marginとlarge-margin-distributionの大きな違い:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Large marginとLarge margin distributionの大きな違い&lt;/h3&gt;
+
+&lt;p&gt;Large marginは最小マージンを最大化する。Large margine distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;スライド&lt;/a&gt;p.45の例が分かりやすい。
+利点として、サポートベクターのみに依存せずに超平面を引ける。また外れ値やノイズに対して敏感になりにくいなどが挙げられる。&lt;/p&gt;
+
+&lt;h3 id=&#34;定式化と最適化:6f46916486ef6d372bfe0b46613e634e&#34;&gt;定式化と最適化&lt;/h3&gt;
+
+&lt;p&gt;定式化および最適化については元論文 (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/kdd14ldm.pdf&#34;&gt;Large Margin Distribution Machine&lt;/a&gt;, KDD 2014)を読んだほうが良いので割愛する。ざっくり言うと、以下の様な定式化をおこなう:&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{eqnarray}
+\min_{\mathbf{w}} &amp;amp;&amp;amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \\
+\textrm{s.t.} &amp;amp;&amp;amp; y_i \mathbf{w} \mathbf{x}_i \geq 1, 1 \leq i \leq m.
+\end{eqnarray}
+$$&lt;/p&gt;
+
+&lt;p&gt;ただし、$\bar{\gamma}$はマージンの平均、$\hat{\gamma}$はマージンの分散を表し、$\lambda_1$および$\lambda_2$はそれらの項をどれくらい重視するかを決める定数を表す。&lt;/p&gt;
+
+&lt;p&gt;つまり、学習データ$\{(\mathbf{x}_i, y_i)\}_{i=1}^m$
+をマージンが1以上で正しく分類するという条件のもと、マージンの平均を大きく、かつマージンの分散が小さくなるような$\mathbf{w}$を見つける、という問題となっている。&lt;/p&gt;
+
+&lt;p&gt;この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margine Distribution Machineと呼んでいる。&lt;/p&gt;
+
+&lt;h3 id=&#34;結果:6f46916486ef6d372bfe0b46613e634e&#34;&gt;結果&lt;/h3&gt;
+
+&lt;p&gt;複数のデータセットで実験をおこない、Kernel Large Distribution Machineは、カーネル化したSVMよりも良い予測性能を出している。さらに学習時間もLIBLINEARより短く、ハイパーパラメータにも過敏ではない、などの結果も得られている。&lt;/p&gt;
+
+&lt;h2 id=&#34;まとめ:6f46916486ef6d372bfe0b46613e634e&#34;&gt;まとめ&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;AdaBoostの汎化能力はマージンを大きくすることによって高くなる&lt;/li&gt;
+&lt;li&gt;arc-gvの失敗を分析して、最小マージンを大きくするのではなく、マージンの分散を小さくする方が良いことが分かった&lt;/li&gt;
+&lt;li&gt;Large Margin Distribution Machineはマージンの平均を大きく、かつマージンの分散を小さくするための手法であり、複数のデータセットにおいて、SVMよりも良い性能を示している&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
