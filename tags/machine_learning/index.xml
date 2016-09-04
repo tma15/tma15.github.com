@@ -6,8 +6,171 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-08-28 18:59:58 &#43;0900 JST</updated>
+    <updated>2016-09-04 11:00:13 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>Early updateは収束が保証される</title>
+          <link>http://tma15.github.io/blog/2016/09/04/</link>
+          <pubDate>Sun, 04 Sep 2016 11:00:13 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/09/04/</guid>
+          <description>
+
+&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;
+
+&lt;h2 id=&#34;violation:ea6ca57e2b11cd721c55720df169800b&#34;&gt;violation&lt;/h2&gt;
+
+&lt;p&gt;violationは構造化パーセプトロンの収束を考えるために必要な定義である。
+violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
+モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い
+組をviolationという。
+言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
+のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。&lt;/p&gt;
+
+&lt;h2 id=&#34;構造化パーセプトロン:ea6ca57e2b11cd721c55720df169800b&#34;&gt;構造化パーセプトロン&lt;/h2&gt;
+
+&lt;p&gt;ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
+さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。&lt;/p&gt;
+
+&lt;h3 id=&#34;概要:ea6ca57e2b11cd721c55720df169800b&#34;&gt;概要&lt;/h3&gt;
+
+&lt;p&gt;構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
+$$
+z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s).
+$$&lt;/p&gt;
+
+&lt;p&gt;$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&amp;rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&amp;rsquo;)\leq \mathbf{w}\phi(x,z)$である。
+更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。&lt;/p&gt;
+
+&lt;h3 id=&#34;収束性:ea6ca57e2b11cd721c55720df169800b&#34;&gt;収束性&lt;/h3&gt;
+
+&lt;p&gt;学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
+$$
+R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|,
+$$&lt;/p&gt;
+
+&lt;p&gt;$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$
+であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される:
+$$
+\delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z),
+$$&lt;/p&gt;
+
+&lt;p&gt;学習データが線形分離可能であれば、パーセプトロンは有限回の更新で収束する:&lt;/p&gt;
+
+&lt;p&gt;$$
+\textrm{err}\leq R^2/\delta^2
+$$&lt;/p&gt;
+
+&lt;h3 id=&#34;証明:ea6ca57e2b11cd721c55720df169800b&#34;&gt;証明&lt;/h3&gt;
+
+&lt;p&gt;証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。&lt;/p&gt;
+
+&lt;p&gt;重みの更新則は$\mathbf{w}^{(k+1)}=\mathbf{w}^(k)+\Delta \mathbf{\phi}(x,y,z)$
+であるため、&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{eqnarray}
+\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;amp;=&amp;amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \\
+&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \\
+&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \\
+&amp;amp;&amp;hellip;&amp;amp; \\
+&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(0)}+k\delta.
+\end{eqnarray}
+$$&lt;/p&gt;
+
+&lt;p&gt;$\mathbf{w}^{(0)}=\mathbf{0}$より、&lt;/p&gt;
+
+&lt;p&gt;$$
+\mathbf{u}\cdot \mathbf{w}^{(k+1)} = k\delta.
+$$&lt;/p&gt;
+
+&lt;p&gt;また、コーシー・シュワルツの不等式 (任意の二つのベクトル$\mathbf{a}, \mathbf{b}$について$|\mathbf{a}||\mathbf{b}|\geq \mathbf{a}\cdot\mathbf{b}$) より&lt;/p&gt;
+
+&lt;p&gt;$$
+|\mathbf{u}||\mathbf{w}^{(k+1)}|\geq \mathbf{u} \cdot \mathbf{w}^{(k+1)}\geq k\delta
+$$&lt;/p&gt;
+
+&lt;p&gt;また$|\mathbf{u}|=1$より、&lt;/p&gt;
+
+&lt;p&gt;$$
+|\mathbf{w}^{(k+1)}| \geq k\delta
+$$&lt;/p&gt;
+
+&lt;p&gt;が成り立つ。
+ここで、$|\mathbf{a}+\mathbf{b}|^2=|\mathbf{a}|^2 + |\mathbf{b}|^2 + 2\mathbf{a}\cdot \mathbf{b}$であること、
+および重みを更新する条件が正解のラベル列のスコアが不正解のラベル列のスコアよりも低い場合 ($\mathbf{w}^{(k)}\cdot \Delta \mathbf{\phi}(x,y,z) \leq 0$)
+であることより、&lt;/p&gt;
+
+&lt;p&gt;$$
+\begin{eqnarray}
+|\mathbf{w}^{(k+1)}|^2 &amp;amp;=&amp;amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \\
+&amp;amp;=&amp;amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \\
+&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \\
+&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \\
+&amp;amp;&amp;hellip;&amp;amp; \\
+&amp;amp;\leq&amp;amp; kR^2.
+\end{eqnarray}
+$$&lt;/p&gt;
+
+&lt;p&gt;$|\mathbf{w}^{(k+1)}| \geq k\delta$および$|\mathbf{w}^{(k+1)}|^2 \leq kR^2$より、有限回の更新で収束する:&lt;/p&gt;
+
+&lt;p&gt;$$
+k \leq R^2/\delta^2.
+$$&lt;/p&gt;
+
+&lt;p&gt;パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。&lt;/p&gt;
+
+&lt;h3 id=&#34;近似的な探索では収束が保証されない:ea6ca57e2b11cd721c55720df169800b&#34;&gt;近似的な探索では収束が保証されない&lt;/h3&gt;
+
+&lt;p&gt;近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
+探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
+正解のラベル列のスコアが不正解のラベル列のスコアよりも大きい場合がある。この場合、$(x,y,z)$
+はviolationではない。よって、構造化パーセプトロンの収束性は保証されない (&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt; Figure 1の例を参照)。&lt;/p&gt;
+
+&lt;p&gt;自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
+このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。&lt;/p&gt;
+
+&lt;h2 id=&#34;ビームサーチとearly-update:ea6ca57e2b11cd721c55720df169800b&#34;&gt;ビームサーチとearly update&lt;/h2&gt;
+
+&lt;p&gt;early updateを用いた構造化パーセプトロンの学習は以下のようになる:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;for (x, y) in D:
+  (x, y&#39;, z) = FIND_VIOLATION(x, y, w)
+  if y&#39; != z:
+    w += phi(x, y&#39;) - phi(x, z)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;FIND_VIOLATIONではビームサーチをおこない、ビームサーチが保持する仮説のリストから正解が漏れた段階で正解のラベル列と最大のスコアの予測ラベル列を返す:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;# B[][]: 位置iにおいてスコアが高い上位k個の仮説を保持するリスト
+function FIND_VIOLATION(x, y, w)
+  B[0] = []
+  for i in |x|
+    B[i] = BEST(x, B[i-1], k) ### スコアが高い上位k個の仮説を得る
+    if not y[:i] in B[i]: ### i番目までの正解のラベル列がビームサーチの探索範囲から漏れてしまった場合
+      return (x, y[:i], B[i][0]) ### ビームサーチの中で最大のスコアの仮説を返す
+  return (x, y, B[|x|][0])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;B&lt;/code&gt;はスコアが高い上位の仮説を保持するリストであるから、正解が&lt;code&gt;B&lt;/code&gt;に入っていない場合、正解のスコアは
+&lt;code&gt;B&lt;/code&gt;に入っている仮説よりもスコアが低い。
+early updateでは正解の部分ラベル列y&amp;rsquo;のスコアと、ビームサーチが保持する仮説の中でスコアが最大のラベル列z (&lt;code&gt;B[i][0]&lt;/code&gt;もしくは&lt;code&gt;B[|x|][0]&lt;/code&gt;) のスコアに対して、
+$\mathbf{w}\cdot \phi(x,y&amp;rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\Delta \phi(x,y&amp;rsquo;,z)\leq 0$となる。
+よって、early updateで重みの学習に用いるデータはすべてviolationである。
+そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。&lt;/p&gt;
+
+&lt;h2 id=&#34;まとめ:ea6ca57e2b11cd721c55720df169800b&#34;&gt;まとめ&lt;/h2&gt;
+
+&lt;p&gt;early updateは収束が保証される。&lt;/p&gt;
+</description>
+        </item>
+      
     
       
         <item>

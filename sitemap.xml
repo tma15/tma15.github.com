@@ -3,8 +3,13 @@
   
   <url>
     <loc>http://tma15.github.io/</loc>
-    <lastmod>2016-08-28T18:59:58+09:00</lastmod>
+    <lastmod>2016-09-04T11:00:13+09:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>http://tma15.github.io/blog/2016/09/04/</loc>
+    <lastmod>2016-09-04T11:00:13+09:00</lastmod>
   </url>
   
   <url>
@@ -118,12 +123,12 @@
   </url>
   
   <url>
-    <loc>http://tma15.github.io/blog/2014/10/go-adagrad/</loc>
+    <loc>http://tma15.github.io/blog/2014/10/go-pa2/</loc>
     <lastmod>2014-10-18T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tma15.github.io/blog/2014/10/go-pa2/</loc>
+    <loc>http://tma15.github.io/blog/2014/10/go-adagrad/</loc>
     <lastmod>2014-10-18T00:00:00+00:00</lastmod>
   </url>
   
@@ -238,12 +243,12 @@
   </url>
   
   <url>
-    <loc>http://tma15.github.io/blog/2012/11/withoutsns/</loc>
+    <loc>http://tma15.github.io/blog/2012/11/autumncolor/</loc>
     <lastmod>2012-11-29T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>http://tma15.github.io/blog/2012/11/autumncolor/</loc>
+    <loc>http://tma15.github.io/blog/2012/11/withoutsns/</loc>
     <lastmod>2012-11-29T00:00:00+00:00</lastmod>
   </url>
   
