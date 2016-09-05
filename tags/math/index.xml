@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://tma15.github.io/tags/math/</link>
+    <link>http://localhost:1313/tags/math/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>行列式をLU分解で求める</title>
-          <link>http://tma15.github.io/blog/2016/01/23/</link>
+          <link>http://localhost:1313/blog/2016/01/23/</link>
           <pubDate>Sat, 23 Jan 2016 16:04:13 JST</pubDate>
           <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/23/</guid>
+          <guid>http://localhost:1313/blog/2016/01/23/</guid>
           <description>
 
 &lt;p&gt;EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、
