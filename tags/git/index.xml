@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Now is better than never. </title>
-    <link>http://localhost:1313/tags/git/</link>
+    <link>http://tma15.github.io/tags/git/</link>
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
@@ -12,10 +12,10 @@
       
         <item>
           <title>gitで指定したコミットIDの状態に戻す</title>
-          <link>http://localhost:1313/blog/2015/12/20/</link>
+          <link>http://tma15.github.io/blog/2015/12/20/</link>
           <pubDate>Sun, 20 Dec 2015 07:57:41 JST</pubDate>
           <author></author>
-          <guid>http://localhost:1313/blog/2015/12/20/</guid>
+          <guid>http://tma15.github.io/blog/2015/12/20/</guid>
           <description>
 
 &lt;p&gt;&lt;a href=&#34;http://qiita.com/ysekky/items/3db54349452dd8a336fb&#34;&gt;私が機械学習研究をするときのコード・データ管理方法 - Qiita&lt;/a&gt;がいい話で参考になった。
