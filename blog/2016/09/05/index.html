@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <title>SWIGを使ってPythonラッパーを生成する</title>
+
+ 	
+    <link href="/css/journal.css" rel="stylesheet">
+
+ 	
+    <link href="/css/style.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/atom+xml"  href="/blog/index.xml" >
+</head>
+<body lang="en">
+	<div class="container">
+		<div class="row">
+			<div class="navbar navbar-default navbar-inverse" role="navigation">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="">Now is better than never.</a> 
+				</div>
+				<div class="navbar-collapse collapse navbar-responsive-collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="">Home</a></li>
+						<li><a href="/about/">About</a></li>
+						<li><a href="/blog/">Blog</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<div class="container">	
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<h3>SWIGを使ってPythonラッパーを生成する</h3>
+				<span class="label label-primary">Mon Sep 5, 2016</span> in 
+				 using tags 			 
+				
+					
+					<a href="/tags/c&#43;&#43;">C&#43;&#43;</a>
+				
+			</small>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<br>
+			
+
+<h1 id="swigを使ってpythonラッパーを生成する">SWIGを使ってPythonラッパーを生成する</h1>
+
+<p>このエントリでは<a href="http://www.swig.org/">SWIG</a>を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。</p>
+
+<p>例えば自然言語処理でよく使われている<a href="http://taku910.github.io/mecab/">MeCab</a>や<a href="http://www.chokkan.org/software/crfsuite/">CRFsuite</a>などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。</p>
+
+<p>またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。</p>
+
+<p>(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)</p>
+
+<h2 id="利用するツールおよび環境">利用するツールおよび環境</h2>
+
+<p>このエントリでは以下のツールを利用する:</p>
+
+<ul>
+<li>SWIG (3.0.8)</li>
+<li>gcc-c++ (4.4.7)</li>
+<li>autoconf (2.63)</li>
+<li>automake (1.11.1)</li>
+<li>libtool (2.2.6b)</li>
+<li>Python (3.5.0)</li>
+</ul>
+
+<p>またOSはCentOS release 6.8 (さくらのVPS) を利用する。</p>
+
+<h2 id="概要">概要</h2>
+
+<ul>
+<li>C++の実装を作成する</li>
+<li>SWIGのインターフェースファイルを作成する</li>
+<li>setup.pyを用意する</li>
+<li>Makefile.amを作成する</li>
+<li>インストールする</li>
+</ul>
+
+<h2 id="c-の実装を作成する">C++の実装を作成する</h2>
+
+<p>このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは
+平均化パーセプトロンの<a href="https://github.com/tma15/onlineml">実装</a>を用いる。</p>
+
+<h2 id="swigのインターフェースファイルを作成する">SWIGのインターフェースファイルを作成する</h2>
+
+<p>インターフェースファイルはSWIGへの入力になる。</p>
+
+<p>インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:</p>
+
+<pre><code>%module onlineml
+
+%include &quot;std_pair.i&quot;
+%include &quot;std_string.i&quot;
+%include &quot;std_map.i&quot;
+%include &quot;std_vector.i&quot;
+
+%{
+#define SWIG_FILE_WITH_INIT
+#include &lt;onlineml/learner/learner.hpp&gt;
+#include &lt;onlineml/learner/perceptron.hpp&gt;
+#include &lt;onlineml/common/classifier.hpp&gt;
+#include &lt;onlineml/learner/averaged_perceptron.hpp&gt;
+%}
+
+
+%template() std::pair&lt;std::string, float&gt;;
+%template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;;
+%template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;;
+%template(StringVectors) std::vector&lt;std::string&gt;;
+
+%include &lt;onlineml/learner/learner.hpp&gt;
+%include &lt;onlineml/learner/perceptron.hpp&gt;
+%include &lt;onlineml/learner/averaged_perceptron.hpp&gt;
+%include &lt;onlineml/common/classifier.hpp&gt;
+</code></pre>
+
+<ul>
+<li><code>#define SWIG_FILE_WITH_INIT</code>は出力されるラッパーファイルがPython用の拡張としてビルドされることを指定するマクロ (<a href="http://www.swig.org/Doc3.0/Python.html#Python_nn4">Running SWIG</a>)</li>
+<li><code>%template</code>はC++で定義されている型をPythonでどう記述するかを指定する (<a href="http://www.swig.org/Doc3.0/Python.html#Python_nn26">C++ templates</a>)</li>
+<li><code>%include</code>は指定したファイルに記述された関数をインターフェースファイルに挿入する (<a href="http://www.swig.org/Doc1.1/HTML/Library.html#n1">The %include directive</a>)</li>
+<li><code>%{...%}</code>は生成されるラッパーにそのままコピーされる (<a href="http://www.swig.org/Doc3.0/SWIG.html#SWIG_nn3">Input format</a>)。</li>
+</ul>
+
+<p>生成されるラッパーファイル (例: onlineml_wrap.cxx) の中には以下の様な記述ができる:</p>
+
+<pre><code>#define SWIG_FILE_WITH_INIT
+#include &lt;onlineml/learner/learner.h&gt;
+#include &lt;onlineml/learner/perceptron.h&gt;
+#include &lt;onlineml/learner/averaged_perceptron.h&gt;
+#include &lt;onlineml/common/classifier.h&gt;
+</code></pre>
+
+<h2 id="setup-pyを用意する">setup.pyを用意する</h2>
+
+<p>setup.pyは以下の様な目的で使うスクリプト (<a href="http://docs.python.jp/3/distutils/setupscript.html">2. setup スクリプトを書く Python 3.5.2 ドキュメント</a>)。</p>
+
+<blockquote>
+<p>setup スクリプトは、Distutils を使ってモジュールをビルドし、配布し、インストールする際の全ての動作の中心になります。 setup スクリプトの主な目的は、モジュール配布物について Distutils に伝え、モジュール配布を操作するための様々なコマンドを正しく動作させることにあります。</p>
+</blockquote>
+
+<p>次のようにする:</p>
+
+<pre><code>#!/usr/bin/env python
+from distutils.core import setup, Extension
+
+module = Extension('_onlineml',
+    sources=['onlineml_wrap.cxx'],
+    extra_compile_args=[&quot;-O3&quot;],
+    language=&quot;c++&quot;,
+)
+
+setup(
+    name = 'onlineml',
+    version = &quot;0.1&quot;,
+    author      = &quot;Takuya Makino&quot;,
+    description = &quot;&quot;&quot;online machine learning algorithms&quot;&quot;&quot;,
+    ext_modules = [module],
+</code></pre>
+
+<h2 id="makefile-amを作成する">Makefile.amを作成する</h2>
+
+<p>プロジェクトを以下のディレクトリ構成とする:</p>
+
+<pre><code>onlineml
+├── Makefile.am
+├── configure.ac
+├── onlineml
+│   ├── common
+│   │   ├── classifier.hpp
+│   │   ...
+│   ├── learner
+│   │   ├── learner.hpp
+│   │   ...
+└── swig
+    ├── Makefile.am
+    ├── onlineml.swigcxx
+    ├── sample.py
+    └── setup.py
+</code></pre>
+
+<p><code>confiugre</code>時に、<code>--prefix</code>でインストール場所を指定した場合を想定する。<code>onlineml/Makefile.am</code>のswigに関わる部分は以下のようにする:</p>
+
+<pre><code>SUBDIRS = swig
+python:
+        cd swig &amp;&amp; \
+        swig -c++ -I../ -python onlineml.swigcxx &amp;&amp; \
+        python setup.py build_ext --inplace --include-dirs=@prefix@/include \
+        --library-dirs=@prefix@/lib &amp;&amp; \
+        cd -
+</code></pre>
+
+<p>ここでは、<code>python setup.py build_ext</code>によって<code>*.so</code>ファイルを生成している。</p>
+
+<p>また<code>make dist</code>で生成されるパッケージにswigも含まれるように、<code>onlineml/swig/Makefile.am</code>中で以下のように<code>EXTRA_DIST</code>に配布したいスクリプトを含める:</p>
+
+<pre><code>EXTRA_DIST = \
+             onlineml.swigcxx \
+             sample.py \
+             setup.py
+</code></pre>
+
+<h3 id="インストールする">インストールする</h3>
+
+<p>以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:</p>
+
+<pre><code>./configure
+make
+make install
+make python
+</code></pre>
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<hr>
+		</div>
+	</div>	
+        <div id="disqus_thread"></div>
+<script type="text/javascript">
+     
+    var disqus_shortname = 'nowisbetterthannever'; 
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+</div>
+
+  <div class="container">
+    <div class="row col-md-12">
+          <footer>
+            <div>
+                <p>
+                    &copy; 2014  ~ Powered By <a href="http://hugo.spf13.com">Hugo</a>
+                </p>
+            </div>
+            </footer>
+        </div>
+    </div>
+
+    
+    
+    <script src="/js/jquery-min-2.1.1.js"></script>
+    <script src="/js/bootstrap.min-3.1.1.js"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+            tex2jax: { inlineMath: [['$','$'],['\\(','\\)']] }
+        });
+    </script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-20414370-4']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+    </body>
+</html>
+

@@ -68,7 +68,7 @@
 <p>シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$wc</span> -l news20.scale
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$wc</span> -l news20.scale
    15935 news20.scale
 <span style="color: #906030">$touch</span> news20.scale.big
 <span style="color: #906030">$for</span> i in 1 2 3 4 5; <span style="color: #008000; font-weight: bold">do </span>cat news20.scale &gt;&gt; news20.scale.big; <span style="color: #008000; font-weight: bold">done</span>
@@ -79,13 +79,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 <span style="color: #906030">$time</span> ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 1 -s ipm ./news20.scale.big
 ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
 </pre></div>
-</p>
+
 
 <p>Iterative Parameter Mixtureに関するコードは以下。</p>
 
 <p>ipm.go</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> FitLearners(learners *[]LearnerInterface, x *[]<span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>, y *[]<span style="color: #007020">string</span>) {
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> FitLearners(learners *[]LearnerInterface, x *[]<span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>, y *[]<span style="color: #007020">string</span>) {
 	<span style="color: #008000; font-weight: bold">var</span> wg sync.WaitGroup
 	num_learner := <span style="color: #007020">len</span>(*learners)
 	num_data := <span style="color: #007020">len</span>(*x)
@@ -226,7 +226,7 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 	wg.Wait()
 }
 </pre></div>
-</p>
+
 
 <p>main.go
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">gonline.FitLearners(&amp;learners, x_train, y_train)

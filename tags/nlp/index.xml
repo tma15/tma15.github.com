@@ -63,7 +63,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
 &lt;p&gt;Kevin Gimpel, Dhruv Batra, Chris Dyer, and Gregory Shakhnarovich. &amp;ldquo;A Systematic Exploration of Diversity in Machine Translation&amp;rdquo;, EMNLP, 2013. &lt;a href=&#34;http://ttic.uchicago.edu/~gregory/papers/emnlp2013diversity.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/jetbead/20160119/1453139047&#34;&gt;ラティスのNbestを求める - Negative/Positive Thinking&lt;/a&gt;&lt;/li&gt;
@@ -87,7 +87,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。
 ただしこの解析ではO(n^5)の時間がかかる。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:a8e6efd19c33c6d823857c018f985360&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf&#34;&gt;Dependency Parsing Tutorial at COLING-ACL 2006&lt;/a&gt;&lt;/li&gt;
@@ -112,7 +112,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 表TのT[0, N-1]に&amp;rdquo;S&amp;rdquo;があれば与えられた文法からこの文は導出可能。
 文&amp;rdquo;I eat pizza with Maria&amp;rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; cyk.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; cyk.py
 I eat pizza with Maria
    N |    S |    S |      |    S
      |    V |  S,V |      |  S,V
@@ -138,9 +138,9 @@ I eat pizza with Maria
 		--r &amp;lt;N&amp;gt; -- Maria 4
 --
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:47cac020bebdb99e635ebcb719a258ad&#34;&gt;参考&lt;/h2&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=FFFFFF&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;m=amazon&amp;f=ifr&amp;ref=qf_sp_asin_til&amp;asins=4130654047&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -162,7 +162,7 @@ I eat pizza with Maria
 
 &lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;
 
-&lt;h2 id=&#34;導入:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;導入&lt;/h2&gt;
+&lt;h2 id=&#34;導入&#34;&gt;導入&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する
@@ -184,7 +184,7 @@ I eat pizza with Maria
 &lt;li&gt;この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;この論文の貢献:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;この論文の貢献&lt;/h2&gt;
+&lt;h2 id=&#34;この論文の貢献&#34;&gt;この論文の貢献&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる&lt;/li&gt;
@@ -195,7 +195,7 @@ I eat pizza with Maria
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;問題設定:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;問題設定&lt;/h2&gt;
+&lt;h2 id=&#34;問題設定&#34;&gt;問題設定&lt;/h2&gt;
 
 &lt;p&gt;教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。&lt;/p&gt;
 
@@ -203,33 +203,33 @@ I eat pizza with Maria
 
 &lt;p&gt;文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。&lt;/p&gt;
 
-&lt;h2 id=&#34;lexical-semantic-models:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;lexical semantic models&lt;/h2&gt;
+&lt;h2 id=&#34;lexical-semantic-models&#34;&gt;lexical semantic models&lt;/h2&gt;
 
 &lt;p&gt;表層系のみのマッチングでは微妙なので言語資源を作成する。&lt;/p&gt;
 
-&lt;h3 id=&#34;類義語と反義語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;類義語と反義語&lt;/h3&gt;
+&lt;h3 id=&#34;類義語と反義語&#34;&gt;類義語と反義語&lt;/h3&gt;
 
 &lt;p&gt;Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。&lt;/p&gt;
 
-&lt;h3 id=&#34;上位語下位語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;上位語下位語&lt;/h3&gt;
+&lt;h3 id=&#34;上位語下位語&#34;&gt;上位語下位語&lt;/h3&gt;
 
 &lt;p&gt;WordNetはカバレッジが低いので、&lt;a href=&#34;http://research.microsoft.com/en-us/projects/probase/&#34;&gt;Probase&lt;/a&gt;を使う。ある単語が別の単語の下位語である確率を保持している。&lt;/p&gt;
 
-&lt;h3 id=&#34;意味的な単語の類似度:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
+&lt;h3 id=&#34;意味的な単語の類似度&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
 
 &lt;p&gt;商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。&lt;/p&gt;
 
-&lt;h2 id=&#34;分類器の学習:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;分類器の学習&lt;/h2&gt;
+&lt;h2 id=&#34;分類器の学習&#34;&gt;分類器の学習&lt;/h2&gt;
 
-&lt;h3 id=&#34;bag-of-wordsモデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
+&lt;h3 id=&#34;bag-of-wordsモデル&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
 
 &lt;p&gt;logistic regressionとboosted decision treeを用いる。&lt;/p&gt;
 
-&lt;h3 id=&#34;隠れ構造モデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;隠れ構造モデル&lt;/h3&gt;
+&lt;h3 id=&#34;隠れ構造モデル&#34;&gt;隠れ構造モデル&lt;/h3&gt;
 
 &lt;p&gt;構造的なモデルではLatent-SVMの一種であるLCLRを用いる。目的関数 (単語間の意味的類似度) を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。&lt;/p&gt;
 
-&lt;h3 id=&#34;素性:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;素性&lt;/h3&gt;
+&lt;h3 id=&#34;素性&#34;&gt;素性&lt;/h3&gt;
 
 &lt;p&gt;すべての素性は単語のIDFで重み付け&lt;/p&gt;
 
@@ -241,11 +241,11 @@ I eat pizza with Maria
 &lt;li&gt;answer type checking: 質問文がWHを接頭辞とする単語から始まる場合のルール。Whoで始まれば、PersonなNEと対応するみたいなもの。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;結果:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;結果&lt;/h2&gt;
+&lt;h2 id=&#34;結果&#34;&gt;結果&lt;/h2&gt;
 
 &lt;p&gt;リッチな言語資源を使うほど、どの分類器でもMRR、MAPが向上。&lt;/p&gt;
 
-&lt;h2 id=&#34;所感:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;所感&lt;/h2&gt;
+&lt;h2 id=&#34;所感&#34;&gt;所感&lt;/h2&gt;
 
 &lt;p&gt;複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。&lt;/p&gt;
 </description>
@@ -261,12 +261,12 @@ I eat pizza with Maria
           <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;勉強のためにGrahamさんが公開されている&lt;a href=&#34;http://www.phontron.com/teaching.php&#34;&gt;資料&lt;/a&gt;を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
 また、実験用のデータ、評価スクリプトも使用させて頂いている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
 Accuracy: 75.83% &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
@@ -283,7 +283,7 @@ NN --&amp;gt; DT       24
 NNP --&amp;gt; NN      22
 VBN --&amp;gt; NN      22
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
 コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
@@ -300,7 +300,7 @@ VBN --&amp;gt; NN      22
           <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
 分類器は何でも良いのだけど、先日書いた&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;AdaGrad+RDA&lt;/a&gt;を使う。&lt;/p&gt;
@@ -313,7 +313,7 @@ VBN --&amp;gt; NN      22
 &lt;li&gt;訓練データを使って分類器を学習して、できたモデルの中身を見てみる。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;データ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;データ&lt;/h2&gt;
+&lt;h2 id=&#34;データ&#34;&gt;データ&lt;/h2&gt;
 
 &lt;p&gt;下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。&lt;/p&gt;
 
@@ -323,42 +323,42 @@ VBN --&amp;gt; NN      22
 &lt;li&gt;&lt;a href=&#34;http://ascii.jp/elem/000/000/935/935886/&#34;&gt;古いプログラミング言語がなくならない理由&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data.csv
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data.csv
 スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
 Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&amp;hellip;以降は省略している。&lt;/p&gt;
 
-&lt;h2 id=&#34;ソースコード:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;ソースコード&lt;/h2&gt;
+&lt;h2 id=&#34;ソースコード&#34;&gt;ソースコード&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go&#34;&gt;mecab.go&lt;/a&gt; (gist)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go&#34;&gt;text.go&lt;/a&gt; (gist)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;動かしてみる:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;動かしてみる&lt;/h2&gt;
+&lt;h2 id=&#34;動かしてみる&#34;&gt;動かしてみる&lt;/h2&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/text data.csv &amp;gt; data
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/text data.csv &amp;gt; data
 &lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data
 スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
 Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
 次に分類器を学習する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f data -m learn -w model
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f data -m learn -w model
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
 スポーツ        カルロス・テベス        0.600000
 スポーツ        モチベーション  0.600000
 スポーツ        アルゼンチン    0.600000
@@ -392,13 +392,13 @@ Go言語  解決    0.700000
 Go言語  覚え    0.700000
 Go言語  考え    0.700000
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
 たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
 このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
 あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
@@ -419,7 +419,7 @@ Go言語  考え    0.700000
 
 &lt;p&gt;主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。&lt;/p&gt;
 
-&lt;h2 id=&#34;introduction:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである&lt;/li&gt;
@@ -433,7 +433,7 @@ Go言語  考え    0.700000
 &lt;li&gt;このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How To Measure Progress&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-measure-progress&#34;&gt;How To Measure Progress&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
@@ -462,7 +462,7 @@ Go言語  考え    0.700000
 &lt;li&gt;興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
+&lt;h2 id=&#34;desiderata-and-some-recent-work&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
 
 &lt;p&gt;machine comprehensionに必要なものは、興味深い未解決な問題と通じている&lt;/p&gt;
 
@@ -490,7 +490,7 @@ Go言語  考え    0.700000
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;最近の研究では&lt;/h3&gt;
+&lt;h3 id=&#34;最近の研究では&#34;&gt;最近の研究では&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
@@ -519,9 +519,9 @@ Go言語  考え    0.700000
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Seven Signposts&lt;/h2&gt;
+&lt;h2 id=&#34;seven-signposts&#34;&gt;Seven Signposts&lt;/h2&gt;
 
-&lt;h3 id=&#34;how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-incorporate-structure-in-learning&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;初期のAIはルールベース
@@ -552,7 +552,7 @@ Go言語  考え    0.700000
 &lt;li&gt;私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
+&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
@@ -575,7 +575,7 @@ Go言語  考え    0.700000
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-nlp-so-hard&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
@@ -595,7 +595,7 @@ Go言語  考え    0.700000
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
+&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;意味をモデル化する試みでは、簡単のために、よく問題を限定する&lt;/li&gt;
@@ -603,7 +603,7 @@ Go言語  考え    0.700000
 &lt;li&gt;問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;are-brains-using-machine-learning&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう&lt;/li&gt;
@@ -641,7 +641,7 @@ Go言語  考え    0.700000
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;discussion:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Discussion&lt;/h2&gt;
+&lt;h2 id=&#34;discussion&#34;&gt;Discussion&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった&lt;/li&gt;
@@ -674,9 +674,9 @@ Go言語  考え    0.700000
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。&lt;/p&gt;
 
-&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。&lt;/li&gt;
@@ -691,9 +691,9 @@ Go言語  考え    0.700000
 &lt;li&gt;TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-1:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-1&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する&lt;/li&gt;
@@ -703,9 +703,9 @@ Go言語  考え    0.700000
 &lt;li&gt;提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-2:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-2&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する&lt;/li&gt;
@@ -716,17 +716,17 @@ Go言語  考え    0.700000
 &lt;li&gt;サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-3:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-3&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;@Pnnc205jさんの論文&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-4:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-4&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;文書要約において中心性とは元の文書の核となる部分を含むべきだということ&lt;/li&gt;
@@ -743,9 +743,9 @@ Go言語  考え    0.700000
 &lt;li&gt;実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-5:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-5&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;クエリ指向型複数文書要約のための文圧縮を使った手法を提案する&lt;/li&gt;
@@ -755,9 +755,9 @@ Go言語  考え    0.700000
 &lt;li&gt;DUC 2006, DUC 2007のstate-of-the-artよりも有意によくなることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-6:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-6&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう&lt;/li&gt;
@@ -782,7 +782,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Named entity disambiguationをする&lt;/li&gt;
@@ -794,7 +794,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
@@ -848,7 +848,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:836e9543b7834fc340ebe71534bcd743&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;tweet (英語のtweetに限定) の集合が与えられたときに&lt;/p&gt;
 
@@ -862,7 +862,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:836e9543b7834fc340ebe71534bcd743&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
@@ -929,7 +929,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;感想-疑問点:836e9543b7834fc340ebe71534bcd743&#34;&gt;感想・疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;感想-疑問点&#34;&gt;感想・疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．&lt;/li&gt;
@@ -951,7 +951,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:381a36f16f92869b9003e45a4b32267c&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。&lt;/p&gt;
 
@@ -964,7 +964,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;提案手法のモチベーション:381a36f16f92869b9003e45a4b32267c&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
+&lt;h2 id=&#34;提案手法のモチベーション&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。&lt;/li&gt;
@@ -978,7 +978,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;曖昧性解消のアプローチ:381a36f16f92869b9003e45a4b32267c&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;曖昧性解消のアプローチ&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;（良くない）シンプルな正例の作り方の例&lt;/strong&gt;&lt;/p&gt;
 
@@ -1039,7 +1039,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;疑問点:381a36f16f92869b9003e45a4b32267c&#34;&gt;疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;疑問点&#34;&gt;疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)&lt;/li&gt;

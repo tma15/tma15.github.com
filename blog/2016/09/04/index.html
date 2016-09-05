@@ -66,7 +66,7 @@
 
 <p>構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。</p>
 
-<h2 id="violation:ea6ca57e2b11cd721c55720df169800b">violation</h2>
+<h2 id="violation">violation</h2>
 
 <p>violationは構造化パーセプトロンの収束を考えるために必要な定義である。
 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
@@ -75,12 +75,12 @@ violationを定義するために、インスタンス$x$と正解のラベル�
 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
 のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。</p>
 
-<h2 id="構造化パーセプトロン:ea6ca57e2b11cd721c55720df169800b">構造化パーセプトロン</h2>
+<h2 id="構造化パーセプトロン">構造化パーセプトロン</h2>
 
 <p>ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。</p>
 
-<h3 id="概要:ea6ca57e2b11cd721c55720df169800b">概要</h3>
+<h3 id="概要">概要</h3>
 
 <p>構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
 $$
@@ -90,7 +90,7 @@ $$</p>
 <p>$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。
 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。</p>
 
-<h3 id="収束性:ea6ca57e2b11cd721c55720df169800b">収束性</h3>
+<h3 id="収束性">収束性</h3>
 
 <p>学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
 $$
@@ -109,7 +109,7 @@ $$</p>
 \textrm{err}\leq R^2/\delta^2
 $$</p>
 
-<h3 id="証明:ea6ca57e2b11cd721c55720df169800b">証明</h3>
+<h3 id="証明">証明</h3>
 
 <p>証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。</p>
 
@@ -118,10 +118,10 @@ $$</p>
 
 <p>$$
 \begin{eqnarray}
-\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;=&amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \\
-&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \\
-&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \\
-&amp;&hellip;&amp; \\
+\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;=&amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \<br />
+&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \<br />
+&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \<br />
+&amp;&hellip;&amp; \<br />
 &amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(0)}+k\delta.
 \end{eqnarray}
 $$</p>
@@ -151,11 +151,11 @@ $$</p>
 
 <p>$$
 \begin{eqnarray}
-|\mathbf{w}^{(k+1)}|^2 &amp;=&amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \\
-&amp;=&amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \\
-&amp;\leq&amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \\
-&amp;\leq&amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \\
-&amp;&hellip;&amp; \\
+|\mathbf{w}^{(k+1)}|^2 &amp;=&amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \<br />
+&amp;=&amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \<br />
+&amp;\leq&amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \<br />
+&amp;\leq&amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \<br />
+&amp;&hellip;&amp; \<br />
 &amp;\leq&amp; kR^2.
 \end{eqnarray}
 $$</p>
@@ -168,7 +168,7 @@ $$</p>
 
 <p>パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。</p>
 
-<h3 id="近似的な探索では収束が保証されない:ea6ca57e2b11cd721c55720df169800b">近似的な探索では収束が保証されない</h3>
+<h3 id="近似的な探索では収束が保証されない">近似的な探索では収束が保証されない</h3>
 
 <p>近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
 探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
@@ -178,7 +178,7 @@ $$</p>
 <p>自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
 このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。</p>
 
-<h2 id="ビームサーチとearly-update:ea6ca57e2b11cd721c55720df169800b">ビームサーチとearly update</h2>
+<h2 id="ビームサーチとearly-update">ビームサーチとearly update</h2>
 
 <p>early updateを用いた構造化パーセプトロンの学習は以下のようになる:</p>
 
@@ -207,7 +207,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
 よって、early updateで重みの学習に用いるデータはすべてviolationである。
 そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。</p>
 
-<h2 id="まとめ:ea6ca57e2b11cd721c55720df169800b">まとめ</h2>
+<h2 id="まとめ">まとめ</h2>
 
 <p>early updateは収束が保証される。</p>
 

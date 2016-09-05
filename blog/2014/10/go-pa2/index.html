@@ -65,7 +65,7 @@
 <p>ソースコードは<a href="https://github.com/tma15/gopa">こちら</a>。
 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> (p *PassiveAggressive) Update(X <span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>, y <span style="color: #007020">string</span>, sign <span style="color: #007020">float64</span>) Weight {
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> (p *PassiveAggressive) Update(X <span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>, y <span style="color: #007020">string</span>, sign <span style="color: #007020">float64</span>) Weight {
         loss := math.Max(<span style="color: #0000D0; font-weight: bold">0</span>, <span style="color: #0000D0; font-weight: bold">1</span>-sign*Dot(X, p.weight[y]))
         <span style="color: #808080">//         tau := loss / Norm(X) // PA</span>
         tau := loss / (Norm(X) + <span style="color: #0000D0; font-weight: bold">1</span> / (<span style="color: #0000D0; font-weight: bold">2</span> * p.C)) <span style="color: #808080">// PA-II</span>
@@ -83,7 +83,7 @@
         <span style="color: #008000; font-weight: bold">return</span> p.weight
 }
 </pre></div>
-</p>
+
 
 		</div>
 	</div>

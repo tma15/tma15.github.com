@@ -66,12 +66,12 @@
 <p>全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/bin/elasticsearch -v
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/bin/elasticsearch -v
 Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 </pre></div>
-</p>
 
-<h2 id="準備:647719a1bad10e39832189e1d3d02b5b">準備</h2>
+
+<h2 id="準備">準備</h2>
 
 <p>日本語を扱いたいことが想定されるので、 <a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji">elasticsearch-analysis-kuromoji</a> をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。</p>
 
@@ -80,35 +80,35 @@ Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 <li><a href="http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins">Manual install of Elasticsearch plugins</a></li>
 </ul>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
 </pre></div>
-</p>
+
 
 <p>デフォルトのanalyzerをkuromojiにしておく。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$tail</span> config/elasticsearch.yml
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$tail</span> config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
 index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 </pre></div>
-</p>
 
-<h2 id="インストール:647719a1bad10e39832189e1d3d02b5b">インストール</h2>
+
+<h2 id="インストール">インストール</h2>
 
 <p>では、まずはPythonラッパーをインストール。
 使い方は<a href="http://elasticsearch-py.readthedocs.org/en/master/">Python Elasticsearch Client</a>が参考になりそう。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pip install elasticsearch
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pip install elasticsearch
 </pre></div>
-</p>
+
 
 <p>ここ以降は<a href="http://code46.hatenablog.com/entry/2014/01/21/115620">Elasticsearchチュートリアル</a>を参考にさせていただいた。データもそれに合わせて<a href="https://github.com/livedoor/datasets">livedoor/datasets</a>を使用させていただいている。</p>
 
-<h2 id="ドキュメントを登録していく:647719a1bad10e39832189e1d3d02b5b">ドキュメントを登録していく</h2>
+<h2 id="ドキュメントを登録していく">ドキュメントを登録していく</h2>
 
 <p>mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> mapping.yaml
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> mapping.yaml
 mappings:
   restaurant:
     properties:
@@ -121,11 +121,11 @@ mappings:
       adress:
         <span style="color: #007020">type</span>: string
 </pre></div>
-</p>
+
 
 <p>indexを生成して文書を順に追加していくスクリプトを書く。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
 <span style="color: #008000; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">elasticsearch</span> <span style="color: #008000; font-weight: bold">import</span> Elasticsearch
 
 es <span style="color: #303030">=</span> Elasticsearch()
@@ -151,22 +151,22 @@ properties <span style="color: #303030">=</span> setting[<span style="background
     es<span style="color: #303030">.</span>index(index<span style="color: #303030">=</span>index, doc_type<span style="color: #303030">=</span>doc_type, <span style="color: #007020">id</span><span style="color: #303030">=</span>i, body<span style="color: #303030">=</span>data)
     i <span style="color: #303030">+=</span> <span style="color: #0000D0; font-weight: bold">1</span>
 </pre></div>
-</p>
+
 
 <p>実行して登録する。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> restaurants.csv|python post.py
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> restaurants.csv|python post.py
 </pre></div>
-</p>
 
-<h2 id="indexの作成時にanalyzerを設定する-2014-11-22追記:647719a1bad10e39832189e1d3d02b5b">indexの作成時にanalyzerを設定する (2014.11.22追記)</h2>
+
+<h2 id="indexの作成時にanalyzerを設定する-2014-11-22追記">indexの作成時にanalyzerを設定する (2014.11.22追記)</h2>
 
 <p><a href="http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/_controlling_analysis.html#_configuring_analyzers_in_practice">configuring analyzers in practice</a></p>
 
 <p>Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は<a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform">例</a>にある定義を採用。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">settings:
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">settings:
   index:
     analysis:
       analyzer:
@@ -195,22 +195,22 @@ mappings:
         index: analyzed
         analyzer: my_analyzer
 </pre></div>
-</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">setting <span style="color: #303030">=</span> yaml<span style="color: #303030">.</span>load(<span style="color: #007020">open</span>(<span style="background-color: #fff0f0">&#39;./mapping.yaml&#39;</span>))
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">setting <span style="color: #303030">=</span> yaml<span style="color: #303030">.</span>load(<span style="color: #007020">open</span>(<span style="background-color: #fff0f0">&#39;./mapping.yaml&#39;</span>))
 properties <span style="color: #303030">=</span> setting[<span style="background-color: #fff0f0">&quot;mappings&quot;</span>][<span style="background-color: #fff0f0">&quot;restaurant&quot;</span>][<span style="background-color: #fff0f0">&quot;properties&quot;</span>]<span style="color: #303030">.</span>keys()
 <span style="color: #008000; font-weight: bold">print</span> es<span style="color: #303030">.</span>indices<span style="color: #303030">.</span>create(index<span style="color: #303030">=</span>index, body<span style="color: #303030">=</span>setting[<span style="background-color: #fff0f0">&quot;settings&quot;</span>])
 <span style="color: #008000; font-weight: bold">print</span> es<span style="color: #303030">.</span>indices<span style="color: #303030">.</span>put_mapping(index<span style="color: #303030">=</span>index, doc_type<span style="color: #303030">=</span>doc_type, body<span style="color: #303030">=</span>setting[<span style="background-color: #fff0f0">&#39;mappings&#39;</span>])
 <span style="color: #808080">#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)</span>
 <span style="color: #808080">#print json.dumps(es.indices.get_settings(index=index), indent=4)</span>
 </pre></div>
-</p>
 
-<h2 id="ドキュメントを検索する:647719a1bad10e39832189e1d3d02b5b">ドキュメントを検索する</h2>
+
+<h2 id="ドキュメントを検索する">ドキュメントを検索する</h2>
 
 <p>検索するスクリプトを書く。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">elasticsearch</span> <span style="color: #008000; font-weight: bold">import</span> Elasticsearch
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">elasticsearch</span> <span style="color: #008000; font-weight: bold">import</span> Elasticsearch
 
 es <span style="color: #303030">=</span> Elasticsearch()
 index <span style="color: #303030">=</span> <span style="background-color: #fff0f0">&quot;ldgroumet&quot;</span>
@@ -230,11 +230,11 @@ query <span style="color: #303030">=</span> {
         <span style="color: #008000; font-weight: bold">print</span> k, v<span style="color: #303030">.</span>encode(<span style="background-color: #fff0f0">&#39;utf8&#39;</span>)
     <span style="color: #008000; font-weight: bold">print</span>
 </pre></div>
-</p>
+
 
 <p>実行する。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$python</span> search.py
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$python</span> search.py
 address <span style="background-color: #fff0f0">&quot;新宿区西新宿1-1-3新宿ミロード 8F&quot;</span>
 description <span style="background-color: #fff0f0">&quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&quot;</span>
 name_kana <span style="background-color: #fff0f0">&quot;はなてまり&quot;</span>
@@ -272,7 +272,7 @@ description <span style="background-color: #fff0f0">&quot;分かりにくい処�
 
 ...
 </pre></div>
-</p>
+
 
 <p>「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。</p>
 

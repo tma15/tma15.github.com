@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Now is better than never. </title>
+    <link>http://tma15.github.io/tags/c&#43;&#43;/</link>
+    <language>en-us</language>
+    <author></author>
+    <rights>(C) 2016</rights>
+    <updated>2016-09-05 19:28:46 &#43;0900 JST</updated>
+
+    
+      
+        <item>
+          <title>SWIGを使ってPythonラッパーを生成する</title>
+          <link>http://tma15.github.io/blog/2016/09/05/</link>
+          <pubDate>Mon, 05 Sep 2016 19:28:46 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/09/05/</guid>
+          <description>
+
+&lt;h1 id=&#34;swigを使ってpythonラッパーを生成する&#34;&gt;SWIGを使ってPythonラッパーを生成する&lt;/h1&gt;
+
+&lt;p&gt;このエントリでは&lt;a href=&#34;http://www.swig.org/&#34;&gt;SWIG&lt;/a&gt;を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。&lt;/p&gt;
+
+&lt;p&gt;例えば自然言語処理でよく使われている&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;や&lt;a href=&#34;http://www.chokkan.org/software/crfsuite/&#34;&gt;CRFsuite&lt;/a&gt;などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。&lt;/p&gt;
+
+&lt;p&gt;またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。&lt;/p&gt;
+
+&lt;p&gt;(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)&lt;/p&gt;
+
+&lt;h2 id=&#34;利用するツールおよび環境&#34;&gt;利用するツールおよび環境&lt;/h2&gt;
+
+&lt;p&gt;このエントリでは以下のツールを利用する:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SWIG (3.0.8)&lt;/li&gt;
+&lt;li&gt;gcc-c++ (4.4.7)&lt;/li&gt;
+&lt;li&gt;autoconf (2.63)&lt;/li&gt;
+&lt;li&gt;automake (1.11.1)&lt;/li&gt;
+&lt;li&gt;libtool (2.2.6b)&lt;/li&gt;
+&lt;li&gt;Python (3.5.0)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;またOSはCentOS release 6.8 (さくらのVPS) を利用する。&lt;/p&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;C++の実装を作成する&lt;/li&gt;
+&lt;li&gt;SWIGのインターフェースファイルを作成する&lt;/li&gt;
+&lt;li&gt;setup.pyを用意する&lt;/li&gt;
+&lt;li&gt;Makefile.amを作成する&lt;/li&gt;
+&lt;li&gt;インストールする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;c-の実装を作成する&#34;&gt;C++の実装を作成する&lt;/h2&gt;
+
+&lt;p&gt;このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは
+平均化パーセプトロンの&lt;a href=&#34;https://github.com/tma15/onlineml&#34;&gt;実装&lt;/a&gt;を用いる。&lt;/p&gt;
+
+&lt;h2 id=&#34;swigのインターフェースファイルを作成する&#34;&gt;SWIGのインターフェースファイルを作成する&lt;/h2&gt;
+
+&lt;p&gt;インターフェースファイルはSWIGへの入力になる。&lt;/p&gt;
+
+&lt;p&gt;インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%module onlineml
+
+%include &amp;quot;std_pair.i&amp;quot;
+%include &amp;quot;std_string.i&amp;quot;
+%include &amp;quot;std_map.i&amp;quot;
+%include &amp;quot;std_vector.i&amp;quot;
+
+%{
+#define SWIG_FILE_WITH_INIT
+#include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
+#include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
+#include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
+#include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
+%}
+
+
+%template() std::pair&amp;lt;std::string, float&amp;gt;;
+%template(PairVector) std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt;;
+%template(PairVectors) std::vector&amp;lt; std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt; &amp;gt;;
+%template(StringVectors) std::vector&amp;lt;std::string&amp;gt;;
+
+%include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
+%include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
+%include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
+%include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT&lt;/code&gt;は出力されるラッパーファイルがPython用の拡張としてビルドされることを指定するマクロ (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn4&#34;&gt;Running SWIG&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%template&lt;/code&gt;はC++で定義されている型をPythonでどう記述するかを指定する (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn26&#34;&gt;C++ templates&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%include&lt;/code&gt;は指定したファイルに記述された関数をインターフェースファイルに挿入する (&lt;a href=&#34;http://www.swig.org/Doc1.1/HTML/Library.html#n1&#34;&gt;The %include directive&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%{...%}&lt;/code&gt;は生成されるラッパーにそのままコピーされる (&lt;a href=&#34;http://www.swig.org/Doc3.0/SWIG.html#SWIG_nn3&#34;&gt;Input format&lt;/a&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;生成されるラッパーファイル (例: onlineml_wrap.cxx) の中には以下の様な記述ができる:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT
+#include &amp;lt;onlineml/learner/learner.h&amp;gt;
+#include &amp;lt;onlineml/learner/perceptron.h&amp;gt;
+#include &amp;lt;onlineml/learner/averaged_perceptron.h&amp;gt;
+#include &amp;lt;onlineml/common/classifier.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;setup-pyを用意する&#34;&gt;setup.pyを用意する&lt;/h2&gt;
+
+&lt;p&gt;setup.pyは以下の様な目的で使うスクリプト (&lt;a href=&#34;http://docs.python.jp/3/distutils/setupscript.html&#34;&gt;2. setup スクリプトを書く Python 3.5.2 ドキュメント&lt;/a&gt;)。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;setup スクリプトは、Distutils を使ってモジュールをビルドし、配布し、インストールする際の全ての動作の中心になります。 setup スクリプトの主な目的は、モジュール配布物について Distutils に伝え、モジュール配布を操作するための様々なコマンドを正しく動作させることにあります。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;次のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+from distutils.core import setup, Extension
+
+module = Extension(&#39;_onlineml&#39;,
+    sources=[&#39;onlineml_wrap.cxx&#39;],
+    extra_compile_args=[&amp;quot;-O3&amp;quot;],
+    language=&amp;quot;c++&amp;quot;,
+)
+
+setup(
+    name = &#39;onlineml&#39;,
+    version = &amp;quot;0.1&amp;quot;,
+    author      = &amp;quot;Takuya Makino&amp;quot;,
+    description = &amp;quot;&amp;quot;&amp;quot;online machine learning algorithms&amp;quot;&amp;quot;&amp;quot;,
+    ext_modules = [module],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;makefile-amを作成する&#34;&gt;Makefile.amを作成する&lt;/h2&gt;
+
+&lt;p&gt;プロジェクトを以下のディレクトリ構成とする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;onlineml
+├── Makefile.am
+├── configure.ac
+├── onlineml
+│   ├── common
+│   │   ├── classifier.hpp
+│   │   ...
+│   ├── learner
+│   │   ├── learner.hpp
+│   │   ...
+└── swig
+    ├── Makefile.am
+    ├── onlineml.swigcxx
+    ├── sample.py
+    └── setup.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;confiugre&lt;/code&gt;時に、&lt;code&gt;--prefix&lt;/code&gt;でインストール場所を指定した場合を想定する。&lt;code&gt;onlineml/Makefile.am&lt;/code&gt;のswigに関わる部分は以下のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SUBDIRS = swig
+python:
+        cd swig &amp;amp;&amp;amp; \
+        swig -c++ -I../ -python onlineml.swigcxx &amp;amp;&amp;amp; \
+        python setup.py build_ext --inplace --include-dirs=@prefix@/include \
+        --library-dirs=@prefix@/lib &amp;amp;&amp;amp; \
+        cd -
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ここでは、&lt;code&gt;python setup.py build_ext&lt;/code&gt;によって&lt;code&gt;*.so&lt;/code&gt;ファイルを生成している。&lt;/p&gt;
+
+&lt;p&gt;また&lt;code&gt;make dist&lt;/code&gt;で生成されるパッケージにswigも含まれるように、&lt;code&gt;onlineml/swig/Makefile.am&lt;/code&gt;中で以下のように&lt;code&gt;EXTRA_DIST&lt;/code&gt;に配布したいスクリプトを含める:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;EXTRA_DIST = \
+             onlineml.swigcxx \
+             sample.py \
+             setup.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;インストールする&#34;&gt;インストールする&lt;/h3&gt;
+
+&lt;p&gt;以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./configure
+make
+make install
+make python
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+      
+    
+
+  </channel>
+</rss>

@@ -67,7 +67,7 @@
 
 <p>Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013</p>
 
-<h2 id="導入:0c900bf3c3048202b19eec2aaa898aac">導入</h2>
+<h2 id="導入">導入</h2>
 
 <ul>
 <li>自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する
@@ -89,7 +89,7 @@
 <li>この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する</li>
 </ul>
 
-<h2 id="この論文の貢献:0c900bf3c3048202b19eec2aaa898aac">この論文の貢献</h2>
+<h2 id="この論文の貢献">この論文の貢献</h2>
 
 <ul>
 <li>色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる</li>
@@ -100,7 +100,7 @@
 </ul></li>
 </ul>
 
-<h2 id="問題設定:0c900bf3c3048202b19eec2aaa898aac">問題設定</h2>
+<h2 id="問題設定">問題設定</h2>
 
 <p>教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。</p>
 
@@ -108,33 +108,33 @@
 
 <p>文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。</p>
 
-<h2 id="lexical-semantic-models:0c900bf3c3048202b19eec2aaa898aac">lexical semantic models</h2>
+<h2 id="lexical-semantic-models">lexical semantic models</h2>
 
 <p>表層系のみのマッチングでは微妙なので言語資源を作成する。</p>
 
-<h3 id="類義語と反義語:0c900bf3c3048202b19eec2aaa898aac">類義語と反義語</h3>
+<h3 id="類義語と反義語">類義語と反義語</h3>
 
 <p>Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。</p>
 
-<h3 id="上位語下位語:0c900bf3c3048202b19eec2aaa898aac">上位語下位語</h3>
+<h3 id="上位語下位語">上位語下位語</h3>
 
 <p>WordNetはカバレッジが低いので、<a href="http://research.microsoft.com/en-us/projects/probase/">Probase</a>を使う。ある単語が別の単語の下位語である確率を保持している。</p>
 
-<h3 id="意味的な単語の類似度:0c900bf3c3048202b19eec2aaa898aac">意味的な単語の類似度</h3>
+<h3 id="意味的な単語の類似度">意味的な単語の類似度</h3>
 
 <p>商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。</p>
 
-<h2 id="分類器の学習:0c900bf3c3048202b19eec2aaa898aac">分類器の学習</h2>
+<h2 id="分類器の学習">分類器の学習</h2>
 
-<h3 id="bag-of-wordsモデル:0c900bf3c3048202b19eec2aaa898aac">Bag-of-Wordsモデル</h3>
+<h3 id="bag-of-wordsモデル">Bag-of-Wordsモデル</h3>
 
 <p>logistic regressionとboosted decision treeを用いる。</p>
 
-<h3 id="隠れ構造モデル:0c900bf3c3048202b19eec2aaa898aac">隠れ構造モデル</h3>
+<h3 id="隠れ構造モデル">隠れ構造モデル</h3>
 
 <p>構造的なモデルではLatent-SVMの一種であるLCLRを用いる。目的関数 (単語間の意味的類似度) を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。</p>
 
-<h3 id="素性:0c900bf3c3048202b19eec2aaa898aac">素性</h3>
+<h3 id="素性">素性</h3>
 
 <p>すべての素性は単語のIDFで重み付け</p>
 
@@ -146,11 +146,11 @@
 <li>answer type checking: 質問文がWHを接頭辞とする単語から始まる場合のルール。Whoで始まれば、PersonなNEと対応するみたいなもの。</li>
 </ul>
 
-<h2 id="結果:0c900bf3c3048202b19eec2aaa898aac">結果</h2>
+<h2 id="結果">結果</h2>
 
 <p>リッチな言語資源を使うほど、どの分類器でもMRR、MAPが向上。</p>
 
-<h2 id="所感:0c900bf3c3048202b19eec2aaa898aac">所感</h2>
+<h2 id="所感">所感</h2>
 
 <p>複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。</p>
 

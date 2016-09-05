@@ -31,7 +31,7 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
 なぜLU分解で行列式を求めるのかを調べると、行列の積の行列式は、行列式の積に等しくて (see &lt;a href=&#34;http://w3e.kanazawa-it.ac.jp/math/category/gyouretu/senkeidaisu/henkan-tex.cgi?target=/math/category/gyouretu/senkeidaisu/seki_no_gyouretusiki.html&#34;&gt;行列の積の行列式&lt;/a&gt;)、三角行列の行列式は対角成分の積に等しいため。
 計算の途中で、Uの対角成分が小さい場合にゼロ除算が起こりうるので、事前に行列の行を、対角成分が大きくなるように並び替える処理が必要。そうして求めたLとUは、並び替え後の行列に対するものなので、並び替える前のもとの行列の行列式を求める際には、並び替え後の行列の行列式に対して、並び替えた回数だけ-1をかける。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:b0c5fe2e1172846fafcbfd89ed49cdef&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://rosettacode.org/wiki/LU_decomposition#Go&#34;&gt;LU decomposition - Rosetta Code&lt;/a&gt;&lt;/li&gt;

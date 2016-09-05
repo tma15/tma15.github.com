@@ -21,12 +21,12 @@
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
 Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;準備:647719a1bad10e39832189e1d3d02b5b&#34;&gt;準備&lt;/h2&gt;
+
+&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
 
 &lt;p&gt;日本語を扱いたいことが想定されるので、 &lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji&#34;&gt;elasticsearch-analysis-kuromoji&lt;/a&gt; をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。&lt;/p&gt;
 
@@ -35,35 +35,35 @@ Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins&#34;&gt;Manual install of Elasticsearch plugins&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;デフォルトのanalyzerをkuromojiにしておく。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
 index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;インストール:647719a1bad10e39832189e1d3d02b5b&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
 
 &lt;p&gt;では、まずはPythonラッパーをインストール。
 使い方は&lt;a href=&#34;http://elasticsearch-py.readthedocs.org/en/master/&#34;&gt;Python Elasticsearch Client&lt;/a&gt;が参考になりそう。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;ここ以降は&lt;a href=&#34;http://code46.hatenablog.com/entry/2014/01/21/115620&#34;&gt;Elasticsearchチュートリアル&lt;/a&gt;を参考にさせていただいた。データもそれに合わせて&lt;a href=&#34;https://github.com/livedoor/datasets&#34;&gt;livedoor/datasets&lt;/a&gt;を使用させていただいている。&lt;/p&gt;
 
-&lt;h2 id=&#34;ドキュメントを登録していく:647719a1bad10e39832189e1d3d02b5b&#34;&gt;ドキュメントを登録していく&lt;/h2&gt;
+&lt;h2 id=&#34;ドキュメントを登録していく&#34;&gt;ドキュメントを登録していく&lt;/h2&gt;
 
 &lt;p&gt;mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
 mappings:
   restaurant:
     properties:
@@ -76,11 +76,11 @@ mappings:
       adress:
         &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;indexを生成して文書を順に追加していくスクリプトを書く。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
 es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
@@ -106,22 +106,22 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
     es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;data)
     i &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;実行して登録する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;indexの作成時にanalyzerを設定する-2014-11-22追記:647719a1bad10e39832189e1d3d02b5b&#34;&gt;indexの作成時にanalyzerを設定する (2014.11.22追記)&lt;/h2&gt;
+
+&lt;h2 id=&#34;indexの作成時にanalyzerを設定する-2014-11-22追記&#34;&gt;indexの作成時にanalyzerを設定する (2014.11.22追記)&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/_controlling_analysis.html#_configuring_analyzers_in_practice&#34;&gt;configuring analyzers in practice&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は&lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform&#34;&gt;例&lt;/a&gt;にある定義を採用。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
   index:
     analysis:
       analyzer:
@@ -150,22 +150,22 @@ mappings:
         index: analyzed
         analyzer: my_analyzer
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
 properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
 &lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
 &lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;ドキュメントを検索する:647719a1bad10e39832189e1d3d02b5b&#34;&gt;ドキュメントを検索する&lt;/h2&gt;
+
+&lt;h2 id=&#34;ドキュメントを検索する&#34;&gt;ドキュメントを検索する&lt;/h2&gt;
 
 &lt;p&gt;検索するスクリプトを書く。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
 es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
 index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
@@ -185,11 +185,11 @@ query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
         &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;実行する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;新宿区西新宿1-1-3新宿ミロード 8F&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&amp;quot;&lt;/span&gt;
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;はなてまり&amp;quot;&lt;/span&gt;
@@ -227,7 +227,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
 </description>

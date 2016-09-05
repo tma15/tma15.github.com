@@ -60,7 +60,7 @@
 			<br>
 			
 
-<h2 id="概要:ea8492b34791ddaedc8373ecd6020d2d">概要</h2>
+<h2 id="概要">概要</h2>
 
 <ul>
 <li>パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する</li>
@@ -69,7 +69,7 @@
 <li>素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い</li>
 </ul>
 
-<h2 id="準備:ea8492b34791ddaedc8373ecd6020d2d">準備</h2>
+<h2 id="準備">準備</h2>
 
 <p>パーセプトロンを学習するにあたって利用する表記は以下のとおり。</p>
 
@@ -83,7 +83,7 @@
 <li><code>sign(x)</code>: 1 if x &gt;= 0 else -1</li>
 </ul>
 
-<h2 id="パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d">パーセプトロン</h2>
+<h2 id="パーセプトロン">パーセプトロン</h2>
 
 <p>パーセプトロンの学習の擬似コードは次の通り。
 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。</p>
@@ -97,7 +97,7 @@ for (x_i, y_i) in D
 return w
 </code></pre>
 
-<h2 id="平均化パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d">平均化パーセプトロン</h2>
+<h2 id="平均化パーセプトロン">平均化パーセプトロン</h2>
 
 <p>平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして<code>w_all</code>、<code>w_avg</code>が増えていること。この<code>w_avg</code>が&rdquo;過去の反復で学習した重みベクトルの平均&rdquo;となっている。</p>
@@ -121,10 +121,10 @@ return w_avg
 
 <p>$$
 \begin{eqnarray}
-\mathbf{w}_1 &amp;=&amp; \mathbf{0} \\
-\mathbf{w}_2 &amp;=&amp; \mathbf{w}_1 + \mathbf{u}_1\\
-\mathbf{w}_3 &amp;=&amp; \mathbf{w}_2 + \mathbf{u}_2\\
-\mathbf{w}_4 &amp;=&amp; \mathbf{w}_3 + \mathbf{u}_3\\
+\mathbf{w}_1 &amp;=&amp; \mathbf{0} \<br />
+\mathbf{w}_2 &amp;=&amp; \mathbf{w}_1 + \mathbf{u}_1\<br />
+\mathbf{w}_3 &amp;=&amp; \mathbf{w}_2 + \mathbf{u}_2\<br />
+\mathbf{w}_4 &amp;=&amp; \mathbf{w}_3 + \mathbf{u}_3\<br />
 \end{eqnarray}
 $$</p>
 
@@ -132,13 +132,13 @@ $$</p>
 
 <p>$$
 \begin{eqnarray}
-\mathbf{ w}_{avg} &amp;=&amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;=&amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;=&amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\
-&amp;=&amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\
+\mathbf{ w}_{avg} &amp;=&amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \<br />
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \<br />
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \<br />
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \<br />
+&amp;=&amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \<br />
+&amp;=&amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \<br />
+&amp;=&amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \<br />
 &amp;=&amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
 \end{eqnarray}
 $$</p>
@@ -146,7 +146,7 @@ $$</p>
 <p>単純に毎回<code>w</code>を<code>w_all</code>に足しこんでいって、最後に更新回数で割っても同様の結果になるが、
 更新された要素のみを保持する方が足し込む数が減るので、計算が効率的。</p>
 
-<h2 id="参考:ea8492b34791ddaedc8373ecd6020d2d">参考</h2>
+<h2 id="参考">参考</h2>
 
 <ul>
 <li><a href="http://www.ss.cs.tut.ac.jp/nlp2011/nlp2010_tutorial_okanohara.pdf">超高速テキスト処理のためのアルゴリズムとデータ構造</a></li>

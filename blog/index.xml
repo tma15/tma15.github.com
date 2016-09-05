@@ -6,8 +6,188 @@
     <language>en-us</language>
     <author></author>
     <rights>(C) 2016</rights>
-    <updated>2016-09-04 11:00:13 &#43;0900 JST</updated>
+    <updated>2016-09-05 19:28:46 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>SWIGを使ってPythonラッパーを生成する</title>
+          <link>http://tma15.github.io/blog/2016/09/05/</link>
+          <pubDate>Mon, 05 Sep 2016 19:28:46 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2016/09/05/</guid>
+          <description>
+
+&lt;h1 id=&#34;swigを使ってpythonラッパーを生成する&#34;&gt;SWIGを使ってPythonラッパーを生成する&lt;/h1&gt;
+
+&lt;p&gt;このエントリでは&lt;a href=&#34;http://www.swig.org/&#34;&gt;SWIG&lt;/a&gt;を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。&lt;/p&gt;
+
+&lt;p&gt;例えば自然言語処理でよく使われている&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;や&lt;a href=&#34;http://www.chokkan.org/software/crfsuite/&#34;&gt;CRFsuite&lt;/a&gt;などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。&lt;/p&gt;
+
+&lt;p&gt;またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。&lt;/p&gt;
+
+&lt;p&gt;(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)&lt;/p&gt;
+
+&lt;h2 id=&#34;利用するツールおよび環境&#34;&gt;利用するツールおよび環境&lt;/h2&gt;
+
+&lt;p&gt;このエントリでは以下のツールを利用する:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;SWIG (3.0.8)&lt;/li&gt;
+&lt;li&gt;gcc-c++ (4.4.7)&lt;/li&gt;
+&lt;li&gt;autoconf (2.63)&lt;/li&gt;
+&lt;li&gt;automake (1.11.1)&lt;/li&gt;
+&lt;li&gt;libtool (2.2.6b)&lt;/li&gt;
+&lt;li&gt;Python (3.5.0)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;またOSはCentOS release 6.8 (さくらのVPS) を利用する。&lt;/p&gt;
+
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;C++の実装を作成する&lt;/li&gt;
+&lt;li&gt;SWIGのインターフェースファイルを作成する&lt;/li&gt;
+&lt;li&gt;setup.pyを用意する&lt;/li&gt;
+&lt;li&gt;Makefile.amを作成する&lt;/li&gt;
+&lt;li&gt;インストールする&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;c-の実装を作成する&#34;&gt;C++の実装を作成する&lt;/h2&gt;
+
+&lt;p&gt;このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは
+平均化パーセプトロンの&lt;a href=&#34;https://github.com/tma15/onlineml&#34;&gt;実装&lt;/a&gt;を用いる。&lt;/p&gt;
+
+&lt;h2 id=&#34;swigのインターフェースファイルを作成する&#34;&gt;SWIGのインターフェースファイルを作成する&lt;/h2&gt;
+
+&lt;p&gt;インターフェースファイルはSWIGへの入力になる。&lt;/p&gt;
+
+&lt;p&gt;インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;%module onlineml
+
+%include &amp;quot;std_pair.i&amp;quot;
+%include &amp;quot;std_string.i&amp;quot;
+%include &amp;quot;std_map.i&amp;quot;
+%include &amp;quot;std_vector.i&amp;quot;
+
+%{
+#define SWIG_FILE_WITH_INIT
+#include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
+#include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
+#include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
+#include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
+%}
+
+
+%template() std::pair&amp;lt;std::string, float&amp;gt;;
+%template(PairVector) std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt;;
+%template(PairVectors) std::vector&amp;lt; std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt; &amp;gt;;
+%template(StringVectors) std::vector&amp;lt;std::string&amp;gt;;
+
+%include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
+%include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
+%include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
+%include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT&lt;/code&gt;は出力されるラッパーファイルがPython用の拡張としてビルドされることを指定するマクロ (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn4&#34;&gt;Running SWIG&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%template&lt;/code&gt;はC++で定義されている型をPythonでどう記述するかを指定する (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn26&#34;&gt;C++ templates&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%include&lt;/code&gt;は指定したファイルに記述された関数をインターフェースファイルに挿入する (&lt;a href=&#34;http://www.swig.org/Doc1.1/HTML/Library.html#n1&#34;&gt;The %include directive&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;%{...%}&lt;/code&gt;は生成されるラッパーにそのままコピーされる (&lt;a href=&#34;http://www.swig.org/Doc3.0/SWIG.html#SWIG_nn3&#34;&gt;Input format&lt;/a&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;生成されるラッパーファイル (例: onlineml_wrap.cxx) の中には以下の様な記述ができる:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT
+#include &amp;lt;onlineml/learner/learner.h&amp;gt;
+#include &amp;lt;onlineml/learner/perceptron.h&amp;gt;
+#include &amp;lt;onlineml/learner/averaged_perceptron.h&amp;gt;
+#include &amp;lt;onlineml/common/classifier.h&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;setup-pyを用意する&#34;&gt;setup.pyを用意する&lt;/h2&gt;
+
+&lt;p&gt;setup.pyは以下の様な目的で使うスクリプト (&lt;a href=&#34;http://docs.python.jp/3/distutils/setupscript.html&#34;&gt;2. setup スクリプトを書く Python 3.5.2 ドキュメント&lt;/a&gt;)。&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;setup スクリプトは、Distutils を使ってモジュールをビルドし、配布し、インストールする際の全ての動作の中心になります。 setup スクリプトの主な目的は、モジュール配布物について Distutils に伝え、モジュール配布を操作するための様々なコマンドを正しく動作させることにあります。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;次のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
+from distutils.core import setup, Extension
+
+module = Extension(&#39;_onlineml&#39;,
+    sources=[&#39;onlineml_wrap.cxx&#39;],
+    extra_compile_args=[&amp;quot;-O3&amp;quot;],
+    language=&amp;quot;c++&amp;quot;,
+)
+
+setup(
+    name = &#39;onlineml&#39;,
+    version = &amp;quot;0.1&amp;quot;,
+    author      = &amp;quot;Takuya Makino&amp;quot;,
+    description = &amp;quot;&amp;quot;&amp;quot;online machine learning algorithms&amp;quot;&amp;quot;&amp;quot;,
+    ext_modules = [module],
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;makefile-amを作成する&#34;&gt;Makefile.amを作成する&lt;/h2&gt;
+
+&lt;p&gt;プロジェクトを以下のディレクトリ構成とする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;onlineml
+├── Makefile.am
+├── configure.ac
+├── onlineml
+│   ├── common
+│   │   ├── classifier.hpp
+│   │   ...
+│   ├── learner
+│   │   ├── learner.hpp
+│   │   ...
+└── swig
+    ├── Makefile.am
+    ├── onlineml.swigcxx
+    ├── sample.py
+    └── setup.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;confiugre&lt;/code&gt;時に、&lt;code&gt;--prefix&lt;/code&gt;でインストール場所を指定した場合を想定する。&lt;code&gt;onlineml/Makefile.am&lt;/code&gt;のswigに関わる部分は以下のようにする:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;SUBDIRS = swig
+python:
+        cd swig &amp;amp;&amp;amp; \
+        swig -c++ -I../ -python onlineml.swigcxx &amp;amp;&amp;amp; \
+        python setup.py build_ext --inplace --include-dirs=@prefix@/include \
+        --library-dirs=@prefix@/lib &amp;amp;&amp;amp; \
+        cd -
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;ここでは、&lt;code&gt;python setup.py build_ext&lt;/code&gt;によって&lt;code&gt;*.so&lt;/code&gt;ファイルを生成している。&lt;/p&gt;
+
+&lt;p&gt;また&lt;code&gt;make dist&lt;/code&gt;で生成されるパッケージにswigも含まれるように、&lt;code&gt;onlineml/swig/Makefile.am&lt;/code&gt;中で以下のように&lt;code&gt;EXTRA_DIST&lt;/code&gt;に配布したいスクリプトを含める:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;EXTRA_DIST = \
+             onlineml.swigcxx \
+             sample.py \
+             setup.py
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;インストールする&#34;&gt;インストールする&lt;/h3&gt;
+
+&lt;p&gt;以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;./configure
+make
+make install
+make python
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -24,7 +204,7 @@
 
 &lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;
 
-&lt;h2 id=&#34;violation:ea6ca57e2b11cd721c55720df169800b&#34;&gt;violation&lt;/h2&gt;
+&lt;h2 id=&#34;violation&#34;&gt;violation&lt;/h2&gt;
 
 &lt;p&gt;violationは構造化パーセプトロンの収束を考えるために必要な定義である。
 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
@@ -33,12 +213,12 @@ violationを定義するために、インスタンス$x$と正解のラベル�
 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
 のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。&lt;/p&gt;
 
-&lt;h2 id=&#34;構造化パーセプトロン:ea6ca57e2b11cd721c55720df169800b&#34;&gt;構造化パーセプトロン&lt;/h2&gt;
+&lt;h2 id=&#34;構造化パーセプトロン&#34;&gt;構造化パーセプトロン&lt;/h2&gt;
 
 &lt;p&gt;ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。&lt;/p&gt;
 
-&lt;h3 id=&#34;概要:ea6ca57e2b11cd721c55720df169800b&#34;&gt;概要&lt;/h3&gt;
+&lt;h3 id=&#34;概要&#34;&gt;概要&lt;/h3&gt;
 
 &lt;p&gt;構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
 $$
@@ -48,7 +228,7 @@ $$&lt;/p&gt;
 &lt;p&gt;$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&amp;rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&amp;rsquo;)\leq \mathbf{w}\phi(x,z)$である。
 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。&lt;/p&gt;
 
-&lt;h3 id=&#34;収束性:ea6ca57e2b11cd721c55720df169800b&#34;&gt;収束性&lt;/h3&gt;
+&lt;h3 id=&#34;収束性&#34;&gt;収束性&lt;/h3&gt;
 
 &lt;p&gt;学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
 $$
@@ -67,7 +247,7 @@ $$&lt;/p&gt;
 \textrm{err}\leq R^2/\delta^2
 $$&lt;/p&gt;
 
-&lt;h3 id=&#34;証明:ea6ca57e2b11cd721c55720df169800b&#34;&gt;証明&lt;/h3&gt;
+&lt;h3 id=&#34;証明&#34;&gt;証明&lt;/h3&gt;
 
 &lt;p&gt;証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。&lt;/p&gt;
 
@@ -76,10 +256,10 @@ $$&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{eqnarray}
-\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;amp;=&amp;amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \\
-&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \\
-&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \\
-&amp;amp;&amp;hellip;&amp;amp; \\
+\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;amp;=&amp;amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \&lt;br /&gt;
+&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \&lt;br /&gt;
+&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \&lt;br /&gt;
+&amp;amp;&amp;hellip;&amp;amp; \&lt;br /&gt;
 &amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(0)}+k\delta.
 \end{eqnarray}
 $$&lt;/p&gt;
@@ -109,11 +289,11 @@ $$&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{eqnarray}
-|\mathbf{w}^{(k+1)}|^2 &amp;amp;=&amp;amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \\
-&amp;amp;=&amp;amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \\
-&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \\
-&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \\
-&amp;amp;&amp;hellip;&amp;amp; \\
+|\mathbf{w}^{(k+1)}|^2 &amp;amp;=&amp;amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \&lt;br /&gt;
+&amp;amp;=&amp;amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \&lt;br /&gt;
+&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \&lt;br /&gt;
+&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \&lt;br /&gt;
+&amp;amp;&amp;hellip;&amp;amp; \&lt;br /&gt;
 &amp;amp;\leq&amp;amp; kR^2.
 \end{eqnarray}
 $$&lt;/p&gt;
@@ -126,7 +306,7 @@ $$&lt;/p&gt;
 
 &lt;p&gt;パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。&lt;/p&gt;
 
-&lt;h3 id=&#34;近似的な探索では収束が保証されない:ea6ca57e2b11cd721c55720df169800b&#34;&gt;近似的な探索では収束が保証されない&lt;/h3&gt;
+&lt;h3 id=&#34;近似的な探索では収束が保証されない&#34;&gt;近似的な探索では収束が保証されない&lt;/h3&gt;
 
 &lt;p&gt;近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
 探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
@@ -136,7 +316,7 @@ $$&lt;/p&gt;
 &lt;p&gt;自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
 このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。&lt;/p&gt;
 
-&lt;h2 id=&#34;ビームサーチとearly-update:ea6ca57e2b11cd721c55720df169800b&#34;&gt;ビームサーチとearly update&lt;/h2&gt;
+&lt;h2 id=&#34;ビームサーチとearly-update&#34;&gt;ビームサーチとearly update&lt;/h2&gt;
 
 &lt;p&gt;early updateを用いた構造化パーセプトロンの学習は以下のようになる:&lt;/p&gt;
 
@@ -165,7 +345,7 @@ $\mathbf{w}\cdot \phi(x,y&amp;rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり
 よって、early updateで重みの学習に用いるデータはすべてviolationである。
 そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:ea6ca57e2b11cd721c55720df169800b&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;p&gt;early updateは収束が保証される。&lt;/p&gt;
 </description>
@@ -185,7 +365,7 @@ $\mathbf{w}\cdot \phi(x,y&amp;rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり
 
 &lt;p&gt;具体的には&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/&#34;&gt;Zhi-Hua Zhou&lt;/a&gt;先生のスライド (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;From AdaBoost to LDM&lt;/a&gt;) を眺めて、自分の理解のためにメモとして残したものになっている。&lt;/p&gt;
 
-&lt;h2 id=&#34;adaboost:6f46916486ef6d372bfe0b46613e634e&#34;&gt;AdaBoost&lt;/h2&gt;
+&lt;h2 id=&#34;adaboost&#34;&gt;AdaBoost&lt;/h2&gt;
 
 &lt;p&gt;学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:&lt;/p&gt;
 
@@ -202,7 +382,7 @@ $\mathbf{w}\cdot \phi(x,y&amp;rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり
 y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))).
 $$&lt;/p&gt;
 
-&lt;h3 id=&#34;なぜadaboostは良いのか:6f46916486ef6d372bfe0b46613e634e&#34;&gt;なぜAdaBoostは良いのか&lt;/h3&gt;
+&lt;h3 id=&#34;なぜadaboostは良いのか&#34;&gt;なぜAdaBoostは良いのか&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;実装が簡単な割に高い予測性能である事が多い&lt;/li&gt;
@@ -210,13 +390,13 @@ $$&lt;/p&gt;
 &lt;li&gt;経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;汎化誤差:6f46916486ef6d372bfe0b46613e634e&#34;&gt;汎化誤差&lt;/h3&gt;
+&lt;h3 id=&#34;汎化誤差&#34;&gt;汎化誤差&lt;/h3&gt;
 
 &lt;p&gt;汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp;amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。&lt;/p&gt;
 
 &lt;p&gt;しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。&lt;/p&gt;
 
-&lt;h2 id=&#34;adaboostの主な研究:6f46916486ef6d372bfe0b46613e634e&#34;&gt;AdaBoostの主な研究&lt;/h2&gt;
+&lt;h2 id=&#34;adaboostの主な研究&#34;&gt;AdaBoostの主な研究&lt;/h2&gt;
 
 &lt;p&gt;ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:&lt;/p&gt;
 
@@ -225,14 +405,14 @@ $$&lt;/p&gt;
 &lt;li&gt;Margin theory&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;statistical-view:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Statistical view&lt;/h3&gt;
+&lt;h3 id=&#34;statistical-view&#34;&gt;Statistical view&lt;/h3&gt;
 
 &lt;p&gt;弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。&lt;/p&gt;
 
 &lt;p&gt;なぜ過学習しにくいのかは説明できない。
 サイズが大きな決定木 (複雑なモデル) ほど過学習しやすい、という話があるが、サイズが大きな決定木を弱学習器としたほうが良い結果になっている。&lt;/p&gt;
 
-&lt;h3 id=&#34;margin-theory:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theory&lt;/h3&gt;
+&lt;h3 id=&#34;margin-theory&#34;&gt;Margin theory&lt;/h3&gt;
 
 &lt;p&gt;マージンは超平面からの距離であり、大きいほど分類器が自信を持っているとみなせる。&lt;/p&gt;
 
@@ -240,7 +420,7 @@ $$&lt;/p&gt;
 
 &lt;p&gt;最小のマージンが大きいほど、誤り率は小さくなる。よって、最小のマージンを考えることによって、BreimanはSchapireらよりも低い、汎化誤差の上限を証明した。&lt;/p&gt;
 
-&lt;h2 id=&#34;margin-theoryの疑問:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theoryの疑問&lt;/h2&gt;
+&lt;h2 id=&#34;margin-theoryの疑問&#34;&gt;Margin theoryの疑問&lt;/h2&gt;
 
 &lt;p&gt;(Breiman, 99)はarc-gvを提案した。arc-gvは最小のマージンを直接最大化する手法である。つまり、arc-gvはAdaBoostよりも良い性能であることが期待される。しかしながら、AdaBoostとの比較実験から次のことが分かった:&lt;/p&gt;
 
@@ -251,7 +431,7 @@ $$&lt;/p&gt;
 
 &lt;p&gt;そのためBreimanはこのMargin theoryは疑わしいという結論に至り、このmargin theoryは廃れることになる。&lt;/p&gt;
 
-&lt;h3 id=&#34;それから7年後:6f46916486ef6d372bfe0b46613e634e&#34;&gt;それから7年後&lt;/h3&gt;
+&lt;h3 id=&#34;それから7年後&#34;&gt;それから7年後&lt;/h3&gt;
 
 &lt;p&gt;(Reyzin &amp;amp; Schapire, 06)はBreimanは実験においてモデルの複雑性をうまくコントロールしていなかったことを見つけた:&lt;/p&gt;
 
@@ -262,7 +442,7 @@ $$&lt;/p&gt;
 
 &lt;p&gt;Reyzin &amp;amp; SchapireはBreimanの実験を、decision stump (一つの素性の有無で分類をおこなう分類器) を使っておこなった。この実験ではarc-gvはより大きな最小マージンを伴うが、より悪いマージンの分布を伴っていた。&lt;/p&gt;
 
-&lt;h3 id=&#34;margin-theoryは生き残るのか:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Margin theoryは生き残るのか？&lt;/h3&gt;
+&lt;h3 id=&#34;margin-theoryは生き残るのか&#34;&gt;Margin theoryは生き残るのか？&lt;/h3&gt;
 
 &lt;p&gt;Reyzin &amp;amp; Schapireは最小マージンは重要ではなく、マージンの平均や中央値が重要であると主張した。マージンの分布がより重要であると主張するには、マージンの分布に基づく上限が、最小マージンに基づく上限と同等に低い必要がある。&lt;/p&gt;
 
@@ -273,24 +453,24 @@ $$&lt;/p&gt;
 &lt;li&gt;(Gao &amp;amp; Zhou, 13)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;新しい知見:6f46916486ef6d372bfe0b46613e634e&#34;&gt;新しい知見&lt;/h3&gt;
+&lt;h3 id=&#34;新しい知見&#34;&gt;新しい知見&lt;/h3&gt;
 
 &lt;p&gt;(Gao &amp;amp; Zhou, 13): マージンの平均だけではなく、マージンの分散にも注意を払うべきである。&lt;/p&gt;
 
-&lt;h2 id=&#34;large-margin-distribution-machine:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Large Margin Distribution Machine&lt;/h2&gt;
+&lt;h2 id=&#34;large-margin-distribution-machine&#34;&gt;Large Margin Distribution Machine&lt;/h2&gt;
 
-&lt;h3 id=&#34;large-marginとlarge-margin-distributionの大きな違い:6f46916486ef6d372bfe0b46613e634e&#34;&gt;Large marginとLarge margin distributionの大きな違い&lt;/h3&gt;
+&lt;h3 id=&#34;large-marginとlarge-margin-distributionの大きな違い&#34;&gt;Large marginとLarge margin distributionの大きな違い&lt;/h3&gt;
 
 &lt;p&gt;Large marginは最小マージンを最大化する。Large margin distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;スライド&lt;/a&gt;p.45の例が分かりやすい。
 利点として、サポートベクターのみに依存せずに超平面を引ける。また外れ値やノイズに対して敏感になりにくいなどが挙げられる。&lt;/p&gt;
 
-&lt;h3 id=&#34;定式化と最適化:6f46916486ef6d372bfe0b46613e634e&#34;&gt;定式化と最適化&lt;/h3&gt;
+&lt;h3 id=&#34;定式化と最適化&#34;&gt;定式化と最適化&lt;/h3&gt;
 
 &lt;p&gt;定式化および最適化については元論文 (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/kdd14ldm.pdf&#34;&gt;Large Margin Distribution Machine&lt;/a&gt;, KDD 2014)を読んだほうが良いので割愛する。ざっくり言うと、以下の様な定式化をおこなう:&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{eqnarray}
-\min_{\mathbf{w}} &amp;amp;&amp;amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \\
+\min_{\mathbf{w}} &amp;amp;&amp;amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \&lt;br /&gt;
 \textrm{s.t.} &amp;amp;&amp;amp; y_i \mathbf{w} \mathbf{x}_i \geq 1, 1 \leq i \leq m.
 \end{eqnarray}
 $$&lt;/p&gt;
@@ -302,11 +482,11 @@ $$&lt;/p&gt;
 
 &lt;p&gt;この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margin Distribution Machineと呼んでいる。&lt;/p&gt;
 
-&lt;h3 id=&#34;結果:6f46916486ef6d372bfe0b46613e634e&#34;&gt;結果&lt;/h3&gt;
+&lt;h3 id=&#34;結果&#34;&gt;結果&lt;/h3&gt;
 
 &lt;p&gt;複数のデータセットで実験をおこない、Kernel Large Distribution Machineは、カーネル化したSVMよりも良い予測性能を出している。さらに学習時間もLIBLINEARより短く、ハイパーパラメータにも過敏ではない、などの結果も得られている。&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:6f46916486ef6d372bfe0b46613e634e&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;AdaBoostの汎化能力はマージンを大きくすることによって高くなる&lt;/li&gt;
@@ -326,7 +506,7 @@ $$&lt;/p&gt;
           <guid>http://tma15.github.io/blog/2016/07/31/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する&lt;/li&gt;
@@ -335,7 +515,7 @@ $$&lt;/p&gt;
 &lt;li&gt;素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;準備:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;準備&lt;/h2&gt;
+&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
 
 &lt;p&gt;パーセプトロンを学習するにあたって利用する表記は以下のとおり。&lt;/p&gt;
 
@@ -349,7 +529,7 @@ $$&lt;/p&gt;
 &lt;li&gt;&lt;code&gt;sign(x)&lt;/code&gt;: 1 if x &amp;gt;= 0 else -1&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;パーセプトロン&lt;/h2&gt;
+&lt;h2 id=&#34;パーセプトロン&#34;&gt;パーセプトロン&lt;/h2&gt;
 
 &lt;p&gt;パーセプトロンの学習の擬似コードは次の通り。
 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。&lt;/p&gt;
@@ -363,7 +543,7 @@ for (x_i, y_i) in D
 return w
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;h2 id=&#34;平均化パーセプトロン:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;平均化パーセプトロン&lt;/h2&gt;
+&lt;h2 id=&#34;平均化パーセプトロン&#34;&gt;平均化パーセプトロン&lt;/h2&gt;
 
 &lt;p&gt;平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして&lt;code&gt;w_all&lt;/code&gt;、&lt;code&gt;w_avg&lt;/code&gt;が増えていること。この&lt;code&gt;w_avg&lt;/code&gt;が&amp;rdquo;過去の反復で学習した重みベクトルの平均&amp;rdquo;となっている。&lt;/p&gt;
@@ -387,10 +567,10 @@ return w_avg
 
 &lt;p&gt;$$
 \begin{eqnarray}
-\mathbf{w}_1 &amp;amp;=&amp;amp; \mathbf{0} \\
-\mathbf{w}_2 &amp;amp;=&amp;amp; \mathbf{w}_1 + \mathbf{u}_1\\
-\mathbf{w}_3 &amp;amp;=&amp;amp; \mathbf{w}_2 + \mathbf{u}_2\\
-\mathbf{w}_4 &amp;amp;=&amp;amp; \mathbf{w}_3 + \mathbf{u}_3\\
+\mathbf{w}_1 &amp;amp;=&amp;amp; \mathbf{0} \&lt;br /&gt;
+\mathbf{w}_2 &amp;amp;=&amp;amp; \mathbf{w}_1 + \mathbf{u}_1\&lt;br /&gt;
+\mathbf{w}_3 &amp;amp;=&amp;amp; \mathbf{w}_2 + \mathbf{u}_2\&lt;br /&gt;
+\mathbf{w}_4 &amp;amp;=&amp;amp; \mathbf{w}_3 + \mathbf{u}_3\&lt;br /&gt;
 \end{eqnarray}
 $$&lt;/p&gt;
 
@@ -398,13 +578,13 @@ $$&lt;/p&gt;
 
 &lt;p&gt;$$
 \begin{eqnarray}
-\mathbf{ w}_{avg} &amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;amp;=&amp;amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
-&amp;amp;=&amp;amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\
-&amp;amp;=&amp;amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\
+\mathbf{ w}_{avg} &amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \&lt;br /&gt;
+&amp;amp;=&amp;amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \&lt;br /&gt;
 &amp;amp;=&amp;amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
 \end{eqnarray}
 $$&lt;/p&gt;
@@ -412,7 +592,7 @@ $$&lt;/p&gt;
 &lt;p&gt;単純に毎回&lt;code&gt;w&lt;/code&gt;を&lt;code&gt;w_all&lt;/code&gt;に足しこんでいって、最後に更新回数で割っても同様の結果になるが、
 更新された要素のみを保持する方が足し込む数が減るので、計算が効率的。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.ss.cs.tut.ac.jp/nlp2011/nlp2010_tutorial_okanohara.pdf&#34;&gt;超高速テキスト処理のためのアルゴリズムとデータ構造&lt;/a&gt;&lt;/li&gt;
@@ -475,7 +655,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
 &lt;p&gt;Kevin Gimpel, Dhruv Batra, Chris Dyer, and Gregory Shakhnarovich. &amp;ldquo;A Systematic Exploration of Diversity in Machine Translation&amp;rdquo;, EMNLP, 2013. &lt;a href=&#34;http://ttic.uchicago.edu/~gregory/papers/emnlp2013diversity.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:ea8492b34791ddaedc8373ecd6020d2d&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/jetbead/20160119/1453139047&#34;&gt;ラティスのNbestを求める - Negative/Positive Thinking&lt;/a&gt;&lt;/li&gt;
@@ -506,7 +686,7 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
 なぜLU分解で行列式を求めるのかを調べると、行列の積の行列式は、行列式の積に等しくて (see &lt;a href=&#34;http://w3e.kanazawa-it.ac.jp/math/category/gyouretu/senkeidaisu/henkan-tex.cgi?target=/math/category/gyouretu/senkeidaisu/seki_no_gyouretusiki.html&#34;&gt;行列の積の行列式&lt;/a&gt;)、三角行列の行列式は対角成分の積に等しいため。
 計算の途中で、Uの対角成分が小さい場合にゼロ除算が起こりうるので、事前に行列の行を、対角成分が大きくなるように並び替える処理が必要。そうして求めたLとUは、並び替え後の行列に対するものなので、並び替える前のもとの行列の行列式を求める際には、並び替え後の行列の行列式に対して、並び替えた回数だけ-1をかける。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:b0c5fe2e1172846fafcbfd89ed49cdef&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://rosettacode.org/wiki/LU_decomposition#Go&#34;&gt;LU decomposition - Rosetta Code&lt;/a&gt;&lt;/li&gt;
@@ -525,7 +705,7 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
           <guid>http://tma15.github.io/blog/2016/01/16/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20090727/1248652900&#34;&gt;ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転&lt;/a&gt;を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある&lt;a href=&#34;https://golang.org/pkg/io/ioutil/#ReadDir&#34;&gt;ReadDir&lt;/a&gt;はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
 
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Len() &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(this) }
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Less(i, j &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) bool {
@@ -562,7 +742,7 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; list, nil
 }
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。&lt;/p&gt;
@@ -637,7 +817,7 @@ go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
 &lt;p&gt;&lt;a href=&#34;http://qiita.com/ysekky/items/3db54349452dd8a336fb&#34;&gt;私が機械学習研究をするときのコード・データ管理方法 - Qiita&lt;/a&gt;がいい話で参考になった。
 特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。&lt;/p&gt;
 
-&lt;h3 id=&#34;1-プログラムを作成-コミットする:eae282e3e4b12108386442085f9d1a62&#34;&gt;1. プログラムを作成、コミットする。&lt;/h3&gt;
+&lt;h3 id=&#34;1-プログラムを作成-コミットする&#34;&gt;1. プログラムを作成、コミットする。&lt;/h3&gt;
 
 &lt;p&gt;プログラム&lt;code&gt;calc.py&lt;/code&gt;を作成。
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
@@ -653,7 +833,7 @@ git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;h3 id=&#34;2-プログラムを修正-コミットする:eae282e3e4b12108386442085f9d1a62&#34;&gt;2. プログラムを修正、コミットする。&lt;/h3&gt;
+&lt;h3 id=&#34;2-プログラムを修正-コミットする&#34;&gt;2. プログラムを修正、コミットする。&lt;/h3&gt;
 
 &lt;p&gt;プログラム&lt;code&gt;calc.py&lt;/code&gt;を修正。
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
@@ -663,15 +843,15 @@ git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;�
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git add -A
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git add -A
 git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;計算方法を修正&amp;quot;&lt;/span&gt;
 git log
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;git logの出力は以下の様な感じ。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
 ...
 
     計算方法の修正
@@ -681,31 +861,31 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 
     最初のコミット
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h3 id=&#34;3-プログラムを指定したコミットidの状態に戻す:eae282e3e4b12108386442085f9d1a62&#34;&gt;3. プログラムを指定したコミットIDの状態に戻す。&lt;/h3&gt;
+
+&lt;h3 id=&#34;3-プログラムを指定したコミットidの状態に戻す&#34;&gt;3. プログラムを指定したコミットIDの状態に戻す。&lt;/h3&gt;
 
 &lt;p&gt;以下のようにプログラムの中身を確認して、
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git show 5e63:calc.py &lt;span style=&#34;color: #808080&#34;&gt;### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
 
 def calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;:
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return &lt;/span&gt;a + b
 
     print calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;あるいは、以下のように差分を確認して、&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git diff HEAD:calc.py 5e63:calc.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git diff HEAD:calc.py 5e63:calc.py
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
 index e2c3e48..6ce682f 100644
 --- a/HEAD:calc.py
 +++ b/5e63:calc.py
@@ -718,26 +898,26 @@ index e2c3e48..6ce682f 100644
 
    print calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;確かに自分が戻したいコミットであれば、以下のようにして戻す:&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### topicブランチを作成して、コミットIDが5e63...の状態に戻す。&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### topicブランチを作成して、コミットIDが5e63...の状態に戻す。&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;ブランチを作らずにcheckoutで指定した状態に戻してプログラムを変更しても、どのブランチにもその変更が反映されない (実験的な変更を加えるのが目的なら問題ない)。
 ブランチを作らずにcheckoutして、やっぱり変更をコミットしたいという場合は、一時的なブランチを作成して、masterへ移動後、マージする。&lt;/p&gt;
 
-&lt;h4 id=&#34;ブランチを作成せずに指定したコミットidに戻した後に-加えた変更を反映したい場合:eae282e3e4b12108386442085f9d1a62&#34;&gt;ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合&lt;/h4&gt;
+&lt;h4 id=&#34;ブランチを作成せずに指定したコミットidに戻した後に-加えた変更を反映したい場合&#34;&gt;ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合&lt;/h4&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### ブランチを作成せずに、5e63...の状態に戻る&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### ブランチを作成せずに、5e63...の状態に戻る&lt;/span&gt;
 git branch tmp &lt;span style=&#34;color: #808080&#34;&gt;### 一時的なブランチtmpを作成して移動&lt;/span&gt;
 git checkout master &lt;span style=&#34;color: #808080&#34;&gt;### masterブランチへ移動&lt;/span&gt;
 git merge tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpをmasterへマージ&lt;/span&gt;
 git branch -d tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpを削除&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;参考: &lt;a href=&#34;http://d.hatena.ne.jp/nishiohirokazu/20110513/1305290792&#34;&gt;gitのHEADがブランチから外れてしまう現象とその直し方 - 西尾泰和のはてなダイアリー&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -758,7 +938,7 @@ git branch -d tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpを削除&lt
 &lt;p&gt;シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale
    15935 news20.scale
 &lt;span style=&#34;color: #906030&#34;&gt;$touch&lt;/span&gt; news20.scale.big
 &lt;span style=&#34;color: #906030&#34;&gt;$for&lt;/span&gt; i in 1 2 3 4 5; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;do &lt;/span&gt;cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;done&lt;/span&gt;
@@ -769,13 +949,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 &lt;span style=&#34;color: #906030&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 1 -s ipm ./news20.scale.big
 ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;Iterative Parameter Mixtureに関するコードは以下。&lt;/p&gt;
 
 &lt;p&gt;ipm.go&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners *[]LearnerInterface, x *[]&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y *[]&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) {
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners *[]LearnerInterface, x *[]&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y *[]&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) {
 	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
 	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*learners)
 	num_data := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*x)
@@ -916,7 +1096,7 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 	wg.Wait()
 }
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;main.go
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;gonline.FitLearners(&amp;amp;learners, x_train, y_train)
@@ -994,7 +1174,7 @@ SCWはいつか実装する。&lt;/p&gt;
 
 &lt;p&gt;ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。&lt;/p&gt;
 
-&lt;h3 id=&#34;参考:1b5cc0e0e36db826a9a1ce42345d1563&#34;&gt;参考&lt;/h3&gt;
+&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf&#34;&gt;Dropout: A Simple Way to Prevent Neural Networks from Overfitting&lt;/a&gt;&lt;/li&gt;
@@ -1030,7 +1210,7 @@ SCWはいつか実装する。&lt;/p&gt;
 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。
 ただしこの解析ではO(n^5)の時間がかかる。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:a8e6efd19c33c6d823857c018f985360&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://stp.lingfil.uu.se/~nivre/docs/ACLslides.pdf&#34;&gt;Dependency Parsing Tutorial at COLING-ACL 2006&lt;/a&gt;&lt;/li&gt;
@@ -1055,7 +1235,7 @@ SCWはいつか実装する。&lt;/p&gt;
 表TのT[0, N-1]に&amp;rdquo;S&amp;rdquo;があれば与えられた文法からこの文は導出可能。
 文&amp;rdquo;I eat pizza with Maria&amp;rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; cyk.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; cyk.py
 I eat pizza with Maria
    N |    S |    S |      |    S
      |    V |  S,V |      |  S,V
@@ -1081,9 +1261,9 @@ I eat pizza with Maria
 		--r &amp;lt;N&amp;gt; -- Maria 4
 --
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:47cac020bebdb99e635ebcb719a258ad&#34;&gt;参考&lt;/h2&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?lt1=_blank&amp;bc1=FFFFFF&amp;IS2=1&amp;bg1=FFFFFF&amp;fc1=000000&amp;lc1=0000FF&amp;t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;m=amazon&amp;f=ifr&amp;ref=qf_sp_asin_til&amp;asins=4130654047&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -1105,7 +1285,7 @@ I eat pizza with Maria
 
 &lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;
 
-&lt;h2 id=&#34;導入:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;導入&lt;/h2&gt;
+&lt;h2 id=&#34;導入&#34;&gt;導入&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する
@@ -1127,7 +1307,7 @@ I eat pizza with Maria
 &lt;li&gt;この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;この論文の貢献:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;この論文の貢献&lt;/h2&gt;
+&lt;h2 id=&#34;この論文の貢献&#34;&gt;この論文の貢献&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる&lt;/li&gt;
@@ -1138,7 +1318,7 @@ I eat pizza with Maria
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;問題設定:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;問題設定&lt;/h2&gt;
+&lt;h2 id=&#34;問題設定&#34;&gt;問題設定&lt;/h2&gt;
 
 &lt;p&gt;教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。&lt;/p&gt;
 
@@ -1146,33 +1326,33 @@ I eat pizza with Maria
 
 &lt;p&gt;文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。&lt;/p&gt;
 
-&lt;h2 id=&#34;lexical-semantic-models:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;lexical semantic models&lt;/h2&gt;
+&lt;h2 id=&#34;lexical-semantic-models&#34;&gt;lexical semantic models&lt;/h2&gt;
 
 &lt;p&gt;表層系のみのマッチングでは微妙なので言語資源を作成する。&lt;/p&gt;
 
-&lt;h3 id=&#34;類義語と反義語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;類義語と反義語&lt;/h3&gt;
+&lt;h3 id=&#34;類義語と反義語&#34;&gt;類義語と反義語&lt;/h3&gt;
 
 &lt;p&gt;Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。&lt;/p&gt;
 
-&lt;h3 id=&#34;上位語下位語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;上位語下位語&lt;/h3&gt;
+&lt;h3 id=&#34;上位語下位語&#34;&gt;上位語下位語&lt;/h3&gt;
 
 &lt;p&gt;WordNetはカバレッジが低いので、&lt;a href=&#34;http://research.microsoft.com/en-us/projects/probase/&#34;&gt;Probase&lt;/a&gt;を使う。ある単語が別の単語の下位語である確率を保持している。&lt;/p&gt;
 
-&lt;h3 id=&#34;意味的な単語の類似度:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
+&lt;h3 id=&#34;意味的な単語の類似度&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
 
 &lt;p&gt;商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。&lt;/p&gt;
 
-&lt;h2 id=&#34;分類器の学習:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;分類器の学習&lt;/h2&gt;
+&lt;h2 id=&#34;分類器の学習&#34;&gt;分類器の学習&lt;/h2&gt;
 
-&lt;h3 id=&#34;bag-of-wordsモデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
+&lt;h3 id=&#34;bag-of-wordsモデル&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
 
 &lt;p&gt;logistic regressionとboosted decision treeを用いる。&lt;/p&gt;
 
-&lt;h3 id=&#34;隠れ構造モデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;隠れ構造モデル&lt;/h3&gt;
+&lt;h3 id=&#34;隠れ構造モデル&#34;&gt;隠れ構造モデル&lt;/h3&gt;
 
 &lt;p&gt;構造的なモデルではLatent-SVMの一種であるLCLRを用いる。目的関数 (単語間の意味的類似度) を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。&lt;/p&gt;
 
-&lt;h3 id=&#34;素性:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;素性&lt;/h3&gt;
+&lt;h3 id=&#34;素性&#34;&gt;素性&lt;/h3&gt;
 
 &lt;p&gt;すべての素性は単語のIDFで重み付け&lt;/p&gt;
 
@@ -1184,11 +1364,11 @@ I eat pizza with Maria
 &lt;li&gt;answer type checking: 質問文がWHを接頭辞とする単語から始まる場合のルール。Whoで始まれば、PersonなNEと対応するみたいなもの。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;結果:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;結果&lt;/h2&gt;
+&lt;h2 id=&#34;結果&#34;&gt;結果&lt;/h2&gt;
 
 &lt;p&gt;リッチな言語資源を使うほど、どの分類器でもMRR、MAPが向上。&lt;/p&gt;
 
-&lt;h2 id=&#34;所感:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;所感&lt;/h2&gt;
+&lt;h2 id=&#34;所感&#34;&gt;所感&lt;/h2&gt;
 
 &lt;p&gt;複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。&lt;/p&gt;
 </description>
@@ -1207,12 +1387,12 @@ I eat pizza with Maria
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
 Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;準備:647719a1bad10e39832189e1d3d02b5b&#34;&gt;準備&lt;/h2&gt;
+
+&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
 
 &lt;p&gt;日本語を扱いたいことが想定されるので、 &lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji&#34;&gt;elasticsearch-analysis-kuromoji&lt;/a&gt; をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。&lt;/p&gt;
 
@@ -1221,35 +1401,35 @@ Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins&#34;&gt;Manual install of Elasticsearch plugins&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;デフォルトのanalyzerをkuromojiにしておく。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
 index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;インストール:647719a1bad10e39832189e1d3d02b5b&#34;&gt;インストール&lt;/h2&gt;
+
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
 
 &lt;p&gt;では、まずはPythonラッパーをインストール。
 使い方は&lt;a href=&#34;http://elasticsearch-py.readthedocs.org/en/master/&#34;&gt;Python Elasticsearch Client&lt;/a&gt;が参考になりそう。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;ここ以降は&lt;a href=&#34;http://code46.hatenablog.com/entry/2014/01/21/115620&#34;&gt;Elasticsearchチュートリアル&lt;/a&gt;を参考にさせていただいた。データもそれに合わせて&lt;a href=&#34;https://github.com/livedoor/datasets&#34;&gt;livedoor/datasets&lt;/a&gt;を使用させていただいている。&lt;/p&gt;
 
-&lt;h2 id=&#34;ドキュメントを登録していく:647719a1bad10e39832189e1d3d02b5b&#34;&gt;ドキュメントを登録していく&lt;/h2&gt;
+&lt;h2 id=&#34;ドキュメントを登録していく&#34;&gt;ドキュメントを登録していく&lt;/h2&gt;
 
 &lt;p&gt;mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
 mappings:
   restaurant:
     properties:
@@ -1262,11 +1442,11 @@ mappings:
       adress:
         &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;indexを生成して文書を順に追加していくスクリプトを書く。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
 es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
@@ -1292,22 +1472,22 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
     es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;data)
     i &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;実行して登録する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;indexの作成時にanalyzerを設定する-2014-11-22追記:647719a1bad10e39832189e1d3d02b5b&#34;&gt;indexの作成時にanalyzerを設定する (2014.11.22追記)&lt;/h2&gt;
+
+&lt;h2 id=&#34;indexの作成時にanalyzerを設定する-2014-11-22追記&#34;&gt;indexの作成時にanalyzerを設定する (2014.11.22追記)&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/_controlling_analysis.html#_configuring_analyzers_in_practice&#34;&gt;configuring analyzers in practice&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は&lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform&#34;&gt;例&lt;/a&gt;にある定義を採用。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
   index:
     analysis:
       analyzer:
@@ -1336,22 +1516,22 @@ mappings:
         index: analyzed
         analyzer: my_analyzer
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
 properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
 &lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
 &lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;ドキュメントを検索する:647719a1bad10e39832189e1d3d02b5b&#34;&gt;ドキュメントを検索する&lt;/h2&gt;
+
+&lt;h2 id=&#34;ドキュメントを検索する&#34;&gt;ドキュメントを検索する&lt;/h2&gt;
 
 &lt;p&gt;検索するスクリプトを書く。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
 es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
 index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
@@ -1371,11 +1551,11 @@ query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
         &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;実行する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;新宿区西新宿1-1-3新宿ミロード 8F&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&amp;quot;&lt;/span&gt;
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;はなてまり&amp;quot;&lt;/span&gt;
@@ -1413,7 +1593,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
 </description>
@@ -1429,7 +1609,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
           <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
           <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;package&lt;/span&gt; main
 
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; (
     &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
@@ -1466,7 +1646,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
 }
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt; {
     num_match := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
@@ -1507,11 +1687,11 @@ go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
 
 &lt;p&gt;今回書いた方法:&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;go run countelem.go
 99999
 go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
 </description>
@@ -1539,7 +1719,7 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
           <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://github.com/pfi/maf&#34;&gt;maf&lt;/a&gt;というツールが便利そうだったのでメモ。
 評価のために必要なめんどくさい処理が簡略化されそうな気がする。
@@ -1548,20 +1728,20 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 
 &lt;p&gt;今回は色々とパラメータを変えて学習した分類器を評価する例で進める。&lt;/p&gt;
 
-&lt;h2 id=&#34;使ってみた:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;使ってみた&lt;/h2&gt;
+&lt;h2 id=&#34;使ってみた&#34;&gt;使ってみた&lt;/h2&gt;
 
 &lt;p&gt;まず、wafとmafとダウンロードする。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cd&lt;/span&gt; /path/to/project/
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cd&lt;/span&gt; /path/to/project/
 &lt;span style=&#34;color: #906030&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/waf
 &lt;span style=&#34;color: #906030&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/maf.py
 &lt;span style=&#34;color: #906030&#34;&gt;$chmod&lt;/span&gt; +x waf
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;以下の様な &lt;a href=&#34;https://gist.github.com/tma15/1d7bd594d5be774ca6e9&#34;&gt;wscript&lt;/a&gt; を作成。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;json&lt;/span&gt;
 &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;np&lt;/span&gt;
@@ -1659,7 +1839,7 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
             aggregate_by &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
             rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;max(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;))
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;次のように実行。&lt;/p&gt;
 
@@ -1682,11 +1862,11 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;h2 id=&#34;他に:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;他に&lt;/h2&gt;
+&lt;h2 id=&#34;他に&#34;&gt;他に&lt;/h2&gt;
 
 &lt;p&gt;出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
 0       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 0&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
 1       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
 2       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 2&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
@@ -1694,12 +1874,12 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 4       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999994e-12&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
 ...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;また、結果を集約するときなどは、&lt;a href=&#34;http://pfi.github.io/maf/usage.html#json&#34;&gt;JSON形式でデータを扱う必要がある&lt;/a&gt; ので、分類器の出力をJSON形式に加工する関数を作らなければならない。
 GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#34;&gt;サンプルコード&lt;/a&gt; が参考になる。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:7a3ae7300e2315ccfba2a2a08e8ab28a&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;//d.hatena.ne.jp/tanakh/20100212&#34;&gt;waf チュートリアル&lt;/a&gt;&lt;/li&gt;
@@ -1719,12 +1899,12 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
           <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:9610b201c57e29a208df2c8aa692542f&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;勉強のためにGrahamさんが公開されている&lt;a href=&#34;http://www.phontron.com/teaching.php&#34;&gt;資料&lt;/a&gt;を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
 また、実験用のデータ、評価スクリプトも使用させて頂いている。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
 Accuracy: 75.83% &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
@@ -1741,7 +1921,7 @@ NN --&amp;gt; DT       24
 NNP --&amp;gt; NN      22
 VBN --&amp;gt; NN      22
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
 コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
@@ -1758,7 +1938,7 @@ VBN --&amp;gt; NN      22
           <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
           <description>
 
-&lt;h2 id=&#34;概要:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
 分類器は何でも良いのだけど、先日書いた&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;AdaGrad+RDA&lt;/a&gt;を使う。&lt;/p&gt;
@@ -1771,7 +1951,7 @@ VBN --&amp;gt; NN      22
 &lt;li&gt;訓練データを使って分類器を学習して、できたモデルの中身を見てみる。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;データ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;データ&lt;/h2&gt;
+&lt;h2 id=&#34;データ&#34;&gt;データ&lt;/h2&gt;
 
 &lt;p&gt;下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。&lt;/p&gt;
 
@@ -1781,42 +1961,42 @@ VBN --&amp;gt; NN      22
 &lt;li&gt;&lt;a href=&#34;http://ascii.jp/elem/000/000/935/935886/&#34;&gt;古いプログラミング言語がなくならない理由&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data.csv
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data.csv
 スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
 Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&amp;hellip;以降は省略している。&lt;/p&gt;
 
-&lt;h2 id=&#34;ソースコード:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;ソースコード&lt;/h2&gt;
+&lt;h2 id=&#34;ソースコード&#34;&gt;ソースコード&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go&#34;&gt;mecab.go&lt;/a&gt; (gist)&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go&#34;&gt;text.go&lt;/a&gt; (gist)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;動かしてみる:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;動かしてみる&lt;/h2&gt;
+&lt;h2 id=&#34;動かしてみる&#34;&gt;動かしてみる&lt;/h2&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/text data.csv &amp;gt; data
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/text data.csv &amp;gt; data
 &lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; data
 スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
 Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
 次に分類器を学習する。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f data -m learn -w model
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f data -m learn -w model
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
 スポーツ        カルロス・テベス        0.600000
 スポーツ        モチベーション  0.600000
 スポーツ        アルゼンチン    0.600000
@@ -1850,13 +2030,13 @@ Go言語  解決    0.700000
 Go言語  覚え    0.700000
 Go言語  考え    0.700000
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
 たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
 このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:ba2152539007cc70d1ff53f30db5bb8c&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
 あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
@@ -1882,16 +2062,16 @@ Go言語  考え    0.700000
 
 &lt;p&gt;データを次のように作成。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$perl&lt;/span&gt; -MList::Util&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;shuffle -e &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39;&lt;/span&gt; &amp;lt; ../data/news20.binary &amp;gt; news
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$perl&lt;/span&gt; -MList::Util&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;shuffle -e &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39;&lt;/span&gt; &amp;lt; ../data/news20.binary &amp;gt; news
 &lt;span style=&#34;color: #906030&#34;&gt;$head&lt;/span&gt; -15000 news &amp;gt; news.train
 &lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; -4996  news &amp;gt; news.test
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;例えば&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary&#34;&gt;このデータ&lt;/a&gt;は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.01
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.01
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l 1 -c 0.01
 Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.011142 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;28/2513&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
 Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.848485 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;28/33&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
@@ -1901,9 +2081,9 @@ Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#
 --
 Acc: 0.5016012810248198
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.0001
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.train -m learn -w model -l 1 -c 0.0001
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
 Recall&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.836891 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2078/2483&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
 Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #303030&#34;&gt;]&lt;/span&gt;: 0.833200 &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;2078/2494&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
@@ -1922,9 +2102,9 @@ Prec&lt;span style=&#34;color: #303030&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#
 --
 Acc: 0.9487590072057646
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:c0dd846673ec49aadad9c2ba23120a53&#34;&gt;参考&lt;/h2&gt;
+
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/echizen_tm/20140914/1410697535&#34;&gt;実装が簡単で高性能な線形識別器、AdaGrad+RDAの解説&lt;/a&gt;&lt;/li&gt;
@@ -1951,7 +2131,7 @@ Acc: 0.9487590072057646
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/gopa&#34;&gt;こちら&lt;/a&gt;。
 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (p *PassiveAggressive) Update(X &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;) Weight {
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; (p *PassiveAggressive) Update(X &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;) Weight {
         loss := math.Max(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;-sign*Dot(X, p.weight[y]))
         &lt;span style=&#34;color: #808080&#34;&gt;//         tau := loss / Norm(X) // PA&lt;/span&gt;
         tau := loss / (Norm(X) + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; / (&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; * p.C)) &lt;span style=&#34;color: #808080&#34;&gt;// PA-II&lt;/span&gt;
@@ -1969,7 +2149,7 @@ Acc: 0.9487590072057646
         &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; p.weight
 }
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 </description>
         </item>
       
@@ -1988,31 +2168,31 @@ Acc: 0.9487590072057646
 また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
 多値分類もできます。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sports soccer:1 baseball:1
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sports soccer:1 baseball:1
 food beef:1 pork:1
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$go&lt;/span&gt; build
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$go&lt;/span&gt; build
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;10
 &lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/perceptron -f&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;model
 Acc: 0.8257203773097299
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
 テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。&lt;/p&gt;
 
 &lt;p&gt;このデータは、&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
 7446
 &lt;span style=&#34;color: #906030&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
 23510
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。&lt;/p&gt;
 
@@ -2041,7 +2221,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 
 &lt;p&gt;GitHubにコードを上げた (&lt;a href=&#34;https://github.com/tma15/tma15Str/blob/master/sais.py&#34;&gt;sais.py&lt;/a&gt;)。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:62ecce6453abcfc5527a4a74a305b3da&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://blog.beam2d.net/2011/08/suffix-array-sa-is.html&#34;&gt;Suffix Array を作る - SA-IS の実装&lt;/a&gt;&lt;/li&gt;
@@ -2069,7 +2249,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 
 &lt;p&gt;北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;交通事情:aedaa52d8f937fabc3177e9b7d68f9da&#34;&gt;交通事情&lt;/h2&gt;
+&lt;h2 id=&#34;交通事情&#34;&gt;交通事情&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい&lt;/li&gt;
@@ -2088,7 +2268,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;エスカレータは右側に立つ&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;飲食事情:aedaa52d8f937fabc3177e9b7d68f9da&#34;&gt;飲食事情&lt;/h2&gt;
+&lt;h2 id=&#34;飲食事情&#34;&gt;飲食事情&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。&lt;/li&gt;
@@ -2144,21 +2324,21 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
           <guid>http://tma15.github.io/blog/2014/1/2013-2014/</guid>
           <description>
 
-&lt;h2 id=&#34;2013年の振り返り:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2013年の振り返り&lt;/h2&gt;
+&lt;h2 id=&#34;2013年の振り返り&#34;&gt;2013年の振り返り&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://tma15.github.io/blog/2013/1/start-of-2013.html&#34;&gt;2013年の抱負&lt;/a&gt;と照らしあわせて。&lt;/p&gt;
 
-&lt;h3 id=&#34;飲み過ぎない:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;飲み過ぎない&lt;/h3&gt;
+&lt;h3 id=&#34;飲み過ぎない&#34;&gt;飲み過ぎない&lt;/h3&gt;
 
 &lt;p&gt;12月は飲み過ぎた。次の日に食欲がなくなったりしてしまったり、ひどい時は2,3日胃がむかむかする感じだったので、反省。回数は多くても、一回あたりに飲む量を少し減らしたい。他の月は適度に楽しめたと思う。いつもお世話になっている美容師さん曰く、&lt;/p&gt;
 
 &lt;p&gt;「最初に飲む量を決めると良い。」&lt;/p&gt;
 
-&lt;h3 id=&#34;反転してシュート:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;反転してシュート&lt;/h3&gt;
+&lt;h3 id=&#34;反転してシュート&#34;&gt;反転してシュート&lt;/h3&gt;
 
 &lt;p&gt;あまり出来なかった。どうしても前を向いている後ろの選手にはたこうという気持ちが強すぎる。一旦「パスを出せ」と怒られるくらいのプレーが必要かも。&lt;/p&gt;
 
-&lt;h3 id=&#34;論文を読む:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;論文を読む&lt;/h3&gt;
+&lt;h3 id=&#34;論文を読む&#34;&gt;論文を読む&lt;/h3&gt;
 
 &lt;p&gt;二日に一本読む、というのは出来なかった（無謀すぎた&amp;hellip;）。とはいえ、すずかけ台論文読み会を主催し、今年は7回開催することが出来た点に関しては満足している。&lt;/p&gt;
 
@@ -2173,11 +2353,11 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 
 &lt;p&gt;参加者の規模はこのままで良いのだけど、紹介する論文を参加者にとって有益そうなものにする仕組みを採用すべきかな、とぼんやり考えたり。ある程度人数がいれば、対象となる学会を絞って、気になる論文に投票するという形もありだと思うけど、少人数ではこの形は難しいので、2014年は色々と模索したい。&lt;/p&gt;
 
-&lt;h2 id=&#34;2014年の抱負:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;2014年の抱負&lt;/h2&gt;
+&lt;h2 id=&#34;2014年の抱負&#34;&gt;2014年の抱負&lt;/h2&gt;
 
 &lt;p&gt;いくつもあっても大変なので大きく二つ。&lt;/p&gt;
 
-&lt;h3 id=&#34;論文を書く:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;論文を書く&lt;/h3&gt;
+&lt;h3 id=&#34;論文を書く&#34;&gt;論文を書く&lt;/h3&gt;
 
 &lt;p&gt;有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、&lt;/p&gt;
 
@@ -2188,7 +2368,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 
 &lt;p&gt;とか。&lt;a href=&#34;http://ymatsuo.com/japanese/ronbun_eng.html&#34;&gt;松尾ぐみの論文の書き方：英語論文&lt;/a&gt;でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。&lt;/p&gt;
 
-&lt;h3 id=&#34;サボれないフットサル-サッカー環境に身を置く:1028bbdfa99a8afd4e9c196667b36540&#34;&gt;サボれないフットサル・サッカー環境に身を置く&lt;/h3&gt;
+&lt;h3 id=&#34;サボれないフットサル-サッカー環境に身を置く&#34;&gt;サボれないフットサル・サッカー環境に身を置く&lt;/h3&gt;
 
 &lt;p&gt;T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。&lt;/p&gt;
 </description>
@@ -2208,7 +2388,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 
 &lt;p&gt;主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。&lt;/p&gt;
 
-&lt;h2 id=&#34;introduction:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである&lt;/li&gt;
@@ -2222,7 +2402,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How To Measure Progress&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-measure-progress&#34;&gt;How To Measure Progress&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
@@ -2251,7 +2431,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
+&lt;h2 id=&#34;desiderata-and-some-recent-work&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
 
 &lt;p&gt;machine comprehensionに必要なものは、興味深い未解決な問題と通じている&lt;/p&gt;
 
@@ -2279,7 +2459,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;最近の研究では&lt;/h3&gt;
+&lt;h3 id=&#34;最近の研究では&#34;&gt;最近の研究では&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
@@ -2308,9 +2488,9 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Seven Signposts&lt;/h2&gt;
+&lt;h2 id=&#34;seven-signposts&#34;&gt;Seven Signposts&lt;/h2&gt;
 
-&lt;h3 id=&#34;how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-incorporate-structure-in-learning&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;初期のAIはルールベース
@@ -2341,7 +2521,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
+&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
@@ -2364,7 +2544,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-nlp-so-hard&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
@@ -2384,7 +2564,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
+&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;意味をモデル化する試みでは、簡単のために、よく問題を限定する&lt;/li&gt;
@@ -2392,7 +2572,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;li&gt;問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;are-brains-using-machine-learning&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう&lt;/li&gt;
@@ -2430,7 +2610,7 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;discussion:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Discussion&lt;/h2&gt;
+&lt;h2 id=&#34;discussion&#34;&gt;Discussion&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった&lt;/li&gt;
@@ -2463,14 +2643,14 @@ Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム�
 &lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
 slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content&#34;&gt;slideshare&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:9b9474284a26779b41c6a09181dec8da&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;p&gt;CIKM 2013でBest paperを取った、著者が全員女性(&lt;a href=&#34;http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/&#34;&gt;参考&lt;/a&gt;)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
 何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。&lt;/p&gt;
 
 &lt;p&gt;以下、メモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters:9b9474284a26779b41c6a09181dec8da&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
+&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)
@@ -2481,43 +2661,43 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;serendipity:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h3&gt;
+&lt;h3 id=&#34;serendipity&#34;&gt;Serendipity&lt;/h3&gt;
 
 &lt;p&gt;役に立つんだけど、特に探していたわけではないもの。&lt;/p&gt;
 
-&lt;h3 id=&#34;entity-search:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity Search&lt;/h3&gt;
+&lt;h3 id=&#34;entity-search&#34;&gt;Entity Search&lt;/h3&gt;
 
 &lt;p&gt;この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。&lt;/p&gt;
 
-&lt;h2 id=&#34;この論文の焦点:9b9474284a26779b41c6a09181dec8da&#34;&gt;この論文の焦点&lt;/h2&gt;
+&lt;h2 id=&#34;この論文の焦点&#34;&gt;この論文の焦点&lt;/h2&gt;
 
-&lt;h3 id=&#34;what:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHAT&lt;/h3&gt;
+&lt;h3 id=&#34;what&#34;&gt;WHAT&lt;/h3&gt;
 
 &lt;p&gt;ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？&lt;/p&gt;
 
-&lt;h3 id=&#34;why:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHY&lt;/h3&gt;
+&lt;h3 id=&#34;why&#34;&gt;WHY&lt;/h3&gt;
 
 &lt;p&gt;そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？&lt;/p&gt;
 
-&lt;h2 id=&#34;データ:9b9474284a26779b41c6a09181dec8da&#34;&gt;データ&lt;/h2&gt;
+&lt;h2 id=&#34;データ&#34;&gt;データ&lt;/h2&gt;
 
-&lt;h3 id=&#34;yahoo-answers:9b9474284a26779b41c6a09181dec8da&#34;&gt;Yahoo! Answers&lt;/h3&gt;
+&lt;h3 id=&#34;yahoo-answers&#34;&gt;Yahoo! Answers&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ごくわずかにまとめられた意見、ゴシップ、個人情報&lt;/li&gt;
 &lt;li&gt;観点が多様&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;wikipedia:9b9474284a26779b41c6a09181dec8da&#34;&gt;Wikipedia&lt;/h3&gt;
+&lt;h3 id=&#34;wikipedia&#34;&gt;Wikipedia&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;高品質の情報が整理されている&lt;/li&gt;
 &lt;li&gt;ニッチなトピックが豊富&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;entity-relation-extraction:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
+&lt;h2 id=&#34;entity-relation-extraction&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
 
-&lt;h3 id=&#34;entity-wikipediaに記述されている概念:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
+&lt;h3 id=&#34;entity-wikipediaに記述されている概念&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
 
 &lt;p&gt;1 テキストから表層形を識別し、
 2 Wikipediaのentityと紐付けして、&lt;/p&gt;
@@ -2533,13 +2713,13 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 
 &lt;p&gt;3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)&lt;/p&gt;
 
-&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度:9b9474284a26779b41c6a09181dec8da&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
+&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
 
 &lt;p&gt;entityが現れるドキュメントを結合したものがベクトルで表される&lt;/p&gt;
 
-&lt;h2 id=&#34;dataset-features-metadata:9b9474284a26779b41c6a09181dec8da&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
+&lt;h2 id=&#34;dataset-features-metadata&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
 
-&lt;h3 id=&#34;sentiment:9b9474284a26779b41c6a09181dec8da&#34;&gt;Sentiment&lt;/h3&gt;
+&lt;h3 id=&#34;sentiment&#34;&gt;Sentiment&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;SentiStrengthを用いてpositive &amp;amp; negativeのスコアを計算する
@@ -2563,7 +2743,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;entityが現れるウィンドウのattitude, sentimentalityの平均値がentity単位の素性とする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;Quality&lt;/h3&gt;
+&lt;h3 id=&#34;quality&#34;&gt;Quality&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;可読性&lt;/li&gt;
@@ -2576,7 +2756,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;Fig1は二つのデータセットにおけるエンティティの可読性の分布&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;topical-category:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topical Category&lt;/h3&gt;
+&lt;h3 id=&#34;topical-category&#34;&gt;Topical Category&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yahoo Content Taxonomy
@@ -2594,9 +2774,9 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;retrieval:9b9474284a26779b41c6a09181dec8da&#34;&gt;Retrieval&lt;/h2&gt;
+&lt;h2 id=&#34;retrieval&#34;&gt;Retrieval&lt;/h2&gt;
 
-&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart:9b9474284a26779b41c6a09181dec8da&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
+&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;self-loop probability: beta
@@ -2619,19 +2799,19 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;scoring-method:9b9474284a26779b41c6a09181dec8da&#34;&gt;scoring method&lt;/h4&gt;
+&lt;h4 id=&#34;scoring-method&#34;&gt;scoring method&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;testbed:9b9474284a26779b41c6a09181dec8da&#34;&gt;Testbed&lt;/h3&gt;
+&lt;h3 id=&#34;testbed&#34;&gt;Testbed&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo! Answersの文書中に共に現れる上位50件のクエリ&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;precision-5-map:9b9474284a26779b41c6a09181dec8da&#34;&gt;Precision @5, MAP&lt;/h3&gt;
+&lt;h3 id=&#34;precision-5-map&#34;&gt;Precision @5, MAP&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Precision: 66.8% on WP, 72.4% on YA&lt;/li&gt;
@@ -2643,7 +2823,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;annotator-agreement:9b9474284a26779b41c6a09181dec8da&#34;&gt;Annotator agreement&lt;/h3&gt;
+&lt;h3 id=&#34;annotator-agreement&#34;&gt;Annotator agreement&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;1つのクエリにつき、annotatorは3人
@@ -2658,7 +2838,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;average-overlap-in-top-5:9b9474284a26779b41c6a09181dec8da&#34;&gt;Average overlap in top 5&lt;/h3&gt;
+&lt;h3 id=&#34;average-overlap-in-top-5&#34;&gt;Average overlap in top 5&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;results: 12%
@@ -2668,7 +2848,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;error-analysis:9b9474284a26779b41c6a09181dec8da&#34;&gt;Error analysis&lt;/h3&gt;
+&lt;h3 id=&#34;error-analysis&#34;&gt;Error analysis&lt;/h3&gt;
 
 &lt;p&gt;提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる&lt;/p&gt;
 
@@ -2705,7 +2885,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;制約:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約&lt;/h2&gt;
+&lt;h2 id=&#34;制約&#34;&gt;制約&lt;/h2&gt;
 
 &lt;p&gt;二つのデータセットが、serendipitous searchに何をもたらしてくれるのか調べる&lt;/p&gt;
 
@@ -2721,28 +2901,28 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 
 &lt;p&gt;制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる&lt;/p&gt;
 
-&lt;h3 id=&#34;topic:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topic&lt;/h3&gt;
+&lt;h3 id=&#34;topic&#34;&gt;Topic&lt;/h3&gt;
 
 &lt;p&gt;Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
 Constraint 1: entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;high-low-sentimentalyty:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
+&lt;h3 id=&#34;high-low-sentimentalyty&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
 
 &lt;p&gt;Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
 Constraint 2(3): entityは中央値(0.6 for YP, 0 for WP)よりも高いsentimentalityでなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;high-low-readability:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Readability&lt;/h3&gt;
+&lt;h3 id=&#34;high-low-readability&#34;&gt;High/Low Readability&lt;/h3&gt;
 
 &lt;p&gt;Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
 Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)でなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;制約の結果:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約の結果&lt;/h3&gt;
+&lt;h3 id=&#34;制約の結果&#34;&gt;制約の結果&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;low-sentimentalityとlow-readabilityが負の影響を持っている&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;serendipity-1:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h2&gt;
+&lt;h2 id=&#34;serendipity-1&#34;&gt;Serendipity&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;accuracy以外にも推薦エンジンの性能を測ることが重要である&lt;/li&gt;
@@ -2779,7 +2959,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;user-perceived-quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;User-Perceived Quality&lt;/h2&gt;
+&lt;h2 id=&#34;user-perceived-quality&#34;&gt;User-Perceived Quality&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する&lt;/li&gt;
@@ -2808,7 +2988,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;labeling:9b9474284a26779b41c6a09181dec8da&#34;&gt;Labeling&lt;/h3&gt;
+&lt;h3 id=&#34;labeling&#34;&gt;Labeling&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;どちらの結果がよりクエリと関連しているか？&lt;/li&gt;
@@ -2817,7 +2997,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;そのクエリについてなにか新しいことを学んだか？&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b:9b9474284a26779b41c6a09181dec8da&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
+&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた
@@ -2852,7 +3032,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 
 &lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
 
-&lt;h2 id=&#34;気になったところ:354c44db974ee48c03ece6648b7b14ff&#34;&gt;気になったところ&lt;/h2&gt;
+&lt;h2 id=&#34;気になったところ&#34;&gt;気になったところ&lt;/h2&gt;
 
 &lt;p&gt;データに正規分布を仮定したときのナイーブベイズ分類器について。
 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は&lt;/p&gt;
@@ -2864,7 +3044,7 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 &lt;p&gt;これのlogをとると、
 \[
 \begin{split}
-\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\\
+\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\&lt;br /&gt;
 &amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
 \end{split}
 \]&lt;/p&gt;
@@ -2873,11 +3053,11 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 &lt;p&gt;\[
 \begin{split}
-\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod&lt;em&gt;{n=1}^N p(\mathbf{x}_n, y_n))\\
-&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y&lt;em&gt;n)p(\mathbf{x}_n|y_n))\\
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\\
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\\
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu&lt;em&gt;{y_nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
+\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y&lt;em&gt;n))\&lt;br /&gt;
+&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y_n)p(\mathbf{x}_n|y&lt;em&gt;n))\&lt;br /&gt;
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\&lt;br /&gt;
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\&lt;br /&gt;
+&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu_{y&lt;em&gt;nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
 \end{split}
 \]&lt;/p&gt;
 
@@ -2885,9 +3065,9 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 &lt;p&gt;\[
 \begin{split}
-\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits&lt;em&gt;y \log p(\mathbf{x}, y)\\
-&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\\
-&amp;amp; = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;em&gt;{yk}^2) - \frac{(x_k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
+\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\&lt;br /&gt;
+&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\&lt;br /&gt;
+&amp;amp; = \mathop{\arg\,\max}\limits&lt;em&gt;y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x&lt;em&gt;k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
 \end{split}
 \]&lt;/p&gt;
 
@@ -2913,7 +3093,7 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;br&gt;
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
         X &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; array2d(X)
         joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
         &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;classes_)):
@@ -2923,13 +3103,13 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
                                  (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
             joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; n_ij)
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
+
 
 &lt;p&gt;&lt;br&gt;&lt;/p&gt;
 
 &lt;p&gt;数式の展開が間違えているのだろうか&amp;hellip;。それとも2は必要ないのだろうか&amp;hellip;。&lt;/p&gt;
 
-&lt;h2 id=&#34;参考:354c44db974ee48c03ece6648b7b14ff&#34;&gt;参考&lt;/h2&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/&#34;&gt;Naive Bayesの復習（導出編）&lt;/a&gt;&lt;/li&gt;
@@ -2951,9 +3131,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。&lt;/p&gt;
 
-&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。&lt;/li&gt;
@@ -2968,9 +3148,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-1:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-1&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する&lt;/li&gt;
@@ -2980,9 +3160,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-2:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-2&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する&lt;/li&gt;
@@ -2993,17 +3173,17 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-3:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-3&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;@Pnnc205jさんの論文&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-4:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-4&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;文書要約において中心性とは元の文書の核となる部分を含むべきだということ&lt;/li&gt;
@@ -3020,9 +3200,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-5:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-5&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;クエリ指向型複数文書要約のための文圧縮を使った手法を提案する&lt;/li&gt;
@@ -3032,9 +3212,9 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 &lt;li&gt;DUC 2006, DUC 2007のstate-of-the-artよりも有意によくなることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-6:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-6&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう&lt;/li&gt;
@@ -3060,7 +3240,7 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。
 個人的には参加者数が多すぎず少なすぎなかったのが良かった。&lt;/p&gt;
 
-&lt;h2 id=&#34;読んだ論文:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;読んだ論文&lt;/h2&gt;
+&lt;h2 id=&#34;読んだ論文&#34;&gt;読んだ論文&lt;/h2&gt;
 
 &lt;p&gt;Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013&lt;/p&gt;
 
@@ -3079,13 +3259,13 @@ joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [
 
 &lt;p&gt;関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。&lt;/p&gt;
 
-&lt;h2 id=&#34;発表資料:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;発表資料&lt;/h2&gt;
+&lt;h2 id=&#34;発表資料&#34;&gt;発表資料&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;//www.scribd.com/embeds/166900012/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-2nk8dys4z67mwblosm6o&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_26933&#34; width=&#34;610&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&#34;議論:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;議論&lt;/h2&gt;
+&lt;h2 id=&#34;議論&#34;&gt;議論&lt;/h2&gt;
 
 &lt;p&gt;大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。
 自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。&lt;/p&gt;
@@ -3127,7 +3307,7 @@ journal (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pd
 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。&lt;/p&gt;
 
-&lt;h2 id=&#34;概要:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
@@ -3135,7 +3315,7 @@ journalのpublish dateはMarch 2010となっているけどreferenceにはそれ
 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
 に比べて早く、しかも精度もよく学習できることを示している。&lt;/p&gt;
 
-&lt;h2 id=&#34;発表資料:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;発表資料&lt;/h2&gt;
+&lt;h2 id=&#34;発表資料&#34;&gt;発表資料&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/157827725/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-1si7srgey3zm82empzuw&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_66221&#34; width=&#34;700&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -3143,7 +3323,7 @@ journalのpublish dateはMarch 2010となっているけどreferenceにはそれ
 
 &lt;p&gt;以下メモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;convex-hull-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Convex hull algorithm&lt;/h2&gt;
+&lt;h2 id=&#34;convex-hull-algorithm&#34;&gt;Convex hull algorithm&lt;/h2&gt;
 
 &lt;p&gt;&lt;div align=&#34;center&#34;&gt;
     &lt;img src=&#34;http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg&#34; width=&#34;500&#34; height=&#34;375&#34;&gt;
@@ -3155,7 +3335,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。&lt;/p&gt;
 
-&lt;h2 id=&#34;rejection-sampling-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
+&lt;h2 id=&#34;rejection-sampling-algorithm&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
 
 &lt;p&gt;black boxの学習をおこなう前に呼び出されるアルゴリズム。
 気持ちを理解するには&lt;a href=&#34;http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html&#34;&gt;Machined Learnings: Cost-Sensitive Binary Classification and Active Learning&lt;/a&gt;が詳しい。
@@ -3171,7 +3351,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;p&gt;この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
 見えない場合には現実的な方法である。&lt;/p&gt;
 
-&lt;h2 id=&#34;合わせて読みたい:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;合わせて読みたい&lt;/h2&gt;
+&lt;h2 id=&#34;合わせて読みたい&#34;&gt;合わせて読みたい&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/&#34;&gt;コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -3227,7 +3407,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;以下、スライドを見ながら取ったメモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;取り組む課題:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;取り組む課題&lt;/h2&gt;
+&lt;h2 id=&#34;取り組む課題&#34;&gt;取り組む課題&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ユーザはどのようにコミュニティの一員になるのか&lt;/li&gt;
@@ -3235,11 +3415,11 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;ユーザがコミュニティを退会することを予測できるのか&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アイディア:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アイディア&lt;/h2&gt;
+&lt;h2 id=&#34;アイディア&#34;&gt;アイディア&lt;/h2&gt;
 
 &lt;p&gt;コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。&lt;/p&gt;
 
-&lt;h2 id=&#34;アプローチ-取り組む課題と対応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ-取り組む課題と対応&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;言葉の変化を捉えるための統計的なフレームワークを提案する&lt;/li&gt;
@@ -3247,62 +3427,62 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;ユーザがコミュニティを退会することを予測するために有効な素性を提案する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;長期的なデータ:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;長期的なデータ&lt;/h2&gt;
+&lt;h2 id=&#34;長期的なデータ&#34;&gt;長期的なデータ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;BeerAdvocate&lt;/li&gt;
 &lt;li&gt;RateBeer&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;言葉の変化の例-puzzle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
+&lt;h2 id=&#34;言葉の変化の例-puzzle&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
 
 &lt;p&gt;香りの議論の導入で使われる二つの慣例 (Aroma &amp;amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。&lt;/p&gt;
 
-&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
+&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
 
 &lt;p&gt;コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
 ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。&lt;/p&gt;
 
-&lt;h2 id=&#34;二つの変化の関係:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;二つの変化の関係&lt;/h2&gt;
+&lt;h2 id=&#34;二つの変化の関係&#34;&gt;二つの変化の関係&lt;/h2&gt;
 
 &lt;p&gt;ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。&lt;/p&gt;
 
-&lt;h3 id=&#34;stage1:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage1:&lt;/h3&gt;
+&lt;h3 id=&#34;stage1&#34;&gt;Stage1:&lt;/h3&gt;
 
 &lt;p&gt;ユーザはコミュニティの言葉に順応する&lt;/p&gt;
 
-&lt;h3 id=&#34;stage2:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage2:&lt;/h3&gt;
+&lt;h3 id=&#34;stage2&#34;&gt;Stage2:&lt;/h3&gt;
 
 &lt;p&gt;ユーザの言葉はコミュニティの言語モデルと遠ざかる&lt;/p&gt;
 
-&lt;h3 id=&#34;仮説:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;仮説&lt;/h3&gt;
+&lt;h3 id=&#34;仮説&#34;&gt;仮説&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;ユーザは新しい言葉を使うようになって距離が遠くなる&lt;/li&gt;
 &lt;li&gt;ユーザは適応することをやめ、変化するコミュニティに合わせなくなる&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;検証:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;検証&lt;/h3&gt;
+&lt;h3 id=&#34;検証&#34;&gt;検証&lt;/h3&gt;
 
 &lt;p&gt;ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。&lt;/p&gt;
 
-&lt;h2 id=&#34;lexical-innovationへの適応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
+&lt;h2 id=&#34;lexical-innovationへの適応&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある&lt;/li&gt;
 &lt;li&gt;新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;puzzle-answer:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;puzzle answer&lt;/h3&gt;
+&lt;h3 id=&#34;puzzle-answer&#34;&gt;puzzle answer&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。&lt;/li&gt;
 &lt;li&gt;ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;user-lifecycle-summary:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
+&lt;h2 id=&#34;user-lifecycle-summary&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
 
-&lt;h3 id=&#34;オンラインでの言語的なlifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
+&lt;h3 id=&#34;オンラインでの言語的なlifecycle&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;0%: ユーザはコミュニティに参加&lt;/li&gt;
@@ -3312,7 +3492,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;100%: 退会&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
+&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;誕生: リアルなコミュニティに属する&lt;/li&gt;
@@ -3323,7 +3503,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。&lt;/p&gt;
 
-&lt;h2 id=&#34;elastic-lifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Elastic lifecycle&lt;/h2&gt;
+&lt;h2 id=&#34;elastic-lifecycle&#34;&gt;Elastic lifecycle&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。&lt;/li&gt;
@@ -3333,13 +3513,13 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;これらの特徴を利用してユーザの最終的なlifespanを予測する。&lt;/p&gt;
 
-&lt;h2 id=&#34;predicting-user-lifespan:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Predicting user lifespan&lt;/h2&gt;
+&lt;h2 id=&#34;predicting-user-lifespan&#34;&gt;Predicting user lifespan&lt;/h2&gt;
 
-&lt;h3 id=&#34;task:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Task&lt;/h3&gt;
+&lt;h3 id=&#34;task&#34;&gt;Task&lt;/h3&gt;
 
 &lt;p&gt;最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。&lt;/p&gt;
 
-&lt;h3 id=&#34;linguistic-change-features:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Linguistic change features:&lt;/h3&gt;
+&lt;h3 id=&#34;linguistic-change-features&#34;&gt;Linguistic change features:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;コミュニティの言語モデルとの距離&lt;/li&gt;
@@ -3347,7 +3527,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;lexical inovationへの適応&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;baselines:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Baselines:&lt;/h3&gt;
+&lt;h3 id=&#34;baselines&#34;&gt;Baselines:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;投稿の頻度&lt;/li&gt;
@@ -3356,11 +3536,11 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。&lt;/p&gt;
 
-&lt;h3 id=&#34;結果:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結果&lt;/h3&gt;
+&lt;h3 id=&#34;結果&#34;&gt;結果&lt;/h3&gt;
 
 &lt;p&gt;最大でBaselineよりも12ポイント高い&lt;/p&gt;
 
-&lt;h2 id=&#34;結論:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結論&lt;/h2&gt;
+&lt;h2 id=&#34;結論&#34;&gt;結論&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;言語の変化を捉えるフレームワークの提案した&lt;/li&gt;
@@ -3435,33 +3615,33 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
 
-&lt;h2 id=&#34;食べログapi利用登録:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;食べログAPI利用登録&lt;/h2&gt;
+&lt;h2 id=&#34;食べログapi利用登録&#34;&gt;食べログAPI利用登録&lt;/h2&gt;
 
 &lt;p&gt;まず&lt;a href=&#34;http://tabelog.com/help/api/&#34;&gt;食べログAPI サービス案内&lt;/a&gt;から利用登録をして
 access key (40桁の文字列)を入手する。&lt;/p&gt;
 
-&lt;h2 id=&#34;インストール:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;インストール&lt;/h2&gt;
+&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git clone https://github.com/tma15/python-tabelog.git
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git clone https://github.com/tma15/python-tabelog.git
 &lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;python-tabelog
 python setup.py install
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h2 id=&#34;使い方:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;使い方&lt;/h2&gt;
 
-&lt;h3 id=&#34;最初に:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;最初に&lt;/h3&gt;
+&lt;h2 id=&#34;使い方&#34;&gt;使い方&lt;/h2&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
+&lt;h3 id=&#34;最初に&#34;&gt;最初に&lt;/h3&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
 
 key &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;Your access key here.&amp;#39;&lt;/span&gt;
 tabelog &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Tabelog(key)
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h3 id=&#34;レストラン検索:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;レストラン検索&lt;/h3&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;prefecture &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
+&lt;h3 id=&#34;レストラン検索&#34;&gt;レストラン検索&lt;/h3&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;prefecture &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
 station &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;渋谷&amp;#39;&lt;/span&gt;
 restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_restaurant(prefecture&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;prefecture, station&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;station)
 
@@ -3480,9 +3660,9 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;station:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;station
     &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;situation:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;situation
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
 
-&lt;h4 id=&#34;search-restaurant-が受け取れるその他の主な変数:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;search_restaurant()が受け取れるその他の主な変数&lt;/h4&gt;
+
+&lt;h4 id=&#34;search-restaurant-が受け取れるその他の主な変数&#34;&gt;search_restaurant()が受け取れるその他の主な変数&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;latitude: 経度 （例）35.684&lt;/li&gt;
@@ -3491,7 +3671,7 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
 &lt;li&gt;sort_order: highprice (夜の価格が高い順), lowprice (夜の価格が低い順), reviewcount (口コミ数が多い順)&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;レビュー収集:e24211b1f8f0ddbb60b595b58a9927da&#34;&gt;レビュー収集&lt;/h3&gt;
+&lt;h3 id=&#34;レビュー収集&#34;&gt;レビュー収集&lt;/h3&gt;
 
 &lt;p&gt;お店のレビューが欲しい時はそのお店のレコード番号を指定する。
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;reviews &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_review(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;13004626&lt;/span&gt;) &lt;span style=&#34;color: #808080&#34;&gt;# restaurant.rcd&lt;/span&gt;
@@ -3552,7 +3732,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Named entity disambiguationをする&lt;/li&gt;
@@ -3564,7 +3744,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
@@ -3630,7 +3810,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:836e9543b7834fc340ebe71534bcd743&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;tweet (英語のtweetに限定) の集合が与えられたときに&lt;/p&gt;
 
@@ -3644,7 +3824,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:836e9543b7834fc340ebe71534bcd743&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
@@ -3711,7 +3891,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;感想-疑問点:836e9543b7834fc340ebe71534bcd743&#34;&gt;感想・疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;感想-疑問点&#34;&gt;感想・疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．&lt;/li&gt;
@@ -3733,7 +3913,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:381a36f16f92869b9003e45a4b32267c&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。&lt;/p&gt;
 
@@ -3746,7 +3926,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;提案手法のモチベーション:381a36f16f92869b9003e45a4b32267c&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
+&lt;h2 id=&#34;提案手法のモチベーション&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。&lt;/li&gt;
@@ -3760,7 +3940,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;曖昧性解消のアプローチ:381a36f16f92869b9003e45a4b32267c&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;曖昧性解消のアプローチ&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;（良くない）シンプルな正例の作り方の例&lt;/strong&gt;&lt;/p&gt;
 
@@ -3821,7 +4001,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;疑問点:381a36f16f92869b9003e45a4b32267c&#34;&gt;疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;疑問点&#34;&gt;疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)&lt;/li&gt;
@@ -3841,17 +4021,17 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
           <guid>http://tma15.github.io/blog/2013/1/start-of-2013/</guid>
           <description>
 
-&lt;h2 id=&#34;飲み過ぎない:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;飲み過ぎない&lt;/h2&gt;
+&lt;h2 id=&#34;飲み過ぎない&#34;&gt;飲み過ぎない&lt;/h2&gt;
 
 &lt;p&gt;歳を重ねてもお酒を美味しく飲みたいから。
 若いからといって毎日飲みまくるのはやめる。
 健康第一。&lt;/p&gt;
 
-&lt;h2 id=&#34;反転してシュート:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;反転してシュート&lt;/h2&gt;
+&lt;h2 id=&#34;反転してシュート&#34;&gt;反転してシュート&lt;/h2&gt;
 
 &lt;p&gt;言わずもがな。&lt;/p&gt;
 
-&lt;h2 id=&#34;論文を読む:f9d9740617cb12ddce3bb367bd729dfa&#34;&gt;論文を読む&lt;/h2&gt;
+&lt;h2 id=&#34;論文を読む&#34;&gt;論文を読む&lt;/h2&gt;
 
 &lt;p&gt;2012年末頃はほとんど読めていなかった。
 本当は一日一本くらいのペースで読めたらかっこいいけど、
@@ -3892,43 +4072,43 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。&lt;/p&gt;
 
-&lt;h2 id=&#34;1-classification:923b80eb0d6937beb6baa576d82ab042&#34;&gt;1) Classification&lt;/h2&gt;
+&lt;h2 id=&#34;1-classification&#34;&gt;1) Classification&lt;/h2&gt;
 
 &lt;p&gt;機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは&lt;a href=&#34;http://code.google.com/p/sofia-ml/&#34;&gt;ソースコード&lt;/a&gt;が入手可能である。&lt;/p&gt;
 
-&lt;h3 id=&#34;abe-always-be-ensemble-ing:923b80eb0d6937beb6baa576d82ab042&#34;&gt;ABE: Always Be Ensemble-ing&lt;/h3&gt;
+&lt;h3 id=&#34;abe-always-be-ensemble-ing&#34;&gt;ABE: Always Be Ensemble-ing&lt;/h3&gt;
 
 &lt;p&gt;Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。&lt;/p&gt;
 
-&lt;h3 id=&#34;only-auto-block-or-auto-allow-on-high-confidence-predictions:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Only auto-block or auto-allow on high-confidence predictions&lt;/h3&gt;
+&lt;h3 id=&#34;only-auto-block-or-auto-allow-on-high-confidence-predictions&#34;&gt;Only auto-block or auto-allow on high-confidence predictions&lt;/h3&gt;
 
 &lt;p&gt;訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。&lt;/p&gt;
 
-&lt;h3 id=&#34;throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Throw a ton of features at the model and let L1 sparsity figure it out&lt;/h3&gt;
+&lt;h3 id=&#34;throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out&#34;&gt;Throw a ton of features at the model and let L1 sparsity figure it out&lt;/h3&gt;
 
 &lt;p&gt;素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。&lt;/p&gt;
 
-&lt;h3 id=&#34;map-features-with-the-hashing-trick:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Map features with the &amp;ldquo;hashing trick&amp;rdquo;&lt;/h3&gt;
+&lt;h3 id=&#34;map-features-with-the-hashing-trick&#34;&gt;Map features with the &amp;ldquo;hashing trick&amp;rdquo;&lt;/h3&gt;
 
 &lt;p&gt;これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは&lt;a href=&#34;http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick&#34;&gt;MetaOptimize discussion board&lt;/a&gt;でうまく説明されている。&lt;/p&gt;
 
-&lt;h3 id=&#34;handle-the-class-imbalance-problem-with-ranking:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Handle the class imbalance problem with ranking&lt;/h3&gt;
+&lt;h3 id=&#34;handle-the-class-imbalance-problem-with-ranking&#34;&gt;Handle the class imbalance problem with ranking&lt;/h3&gt;
 
 &lt;p&gt;ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。&lt;/p&gt;
 
-&lt;h3 id=&#34;use-a-cascade-of-classifiers:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Use a cascade of classifiers&lt;/h3&gt;
+&lt;h3 id=&#34;use-a-cascade-of-classifiers&#34;&gt;Use a cascade of classifiers&lt;/h3&gt;
 
 &lt;p&gt;ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。&lt;/p&gt;
 
-&lt;h2 id=&#34;2-scalability-engineering-and-operations:923b80eb0d6937beb6baa576d82ab042&#34;&gt;2) Scalability, engineering and operations&lt;/h2&gt;
+&lt;h2 id=&#34;2-scalability-engineering-and-operations&#34;&gt;2) Scalability, engineering and operations&lt;/h2&gt;
 
 &lt;p&gt;研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。&lt;/p&gt;
 
-&lt;h3 id=&#34;mapreduce-pre-processing-map-algorithm-training-reduce:923b80eb0d6937beb6baa576d82ab042&#34;&gt;MapReduce: pre-processing (map), algorithm training (reduce)&lt;/h3&gt;
+&lt;h3 id=&#34;mapreduce-pre-processing-map-algorithm-training-reduce&#34;&gt;MapReduce: pre-processing (map), algorithm training (reduce)&lt;/h3&gt;
 
 &lt;p&gt;いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。&lt;/p&gt;
 
-&lt;h3 id=&#34;monitor-all-the-things:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Monitor all the things&lt;/h3&gt;
+&lt;h3 id=&#34;monitor-all-the-things&#34;&gt;Monitor all the things&lt;/h3&gt;
 
 &lt;p&gt;入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:&lt;/p&gt;
 
@@ -3940,23 +4120,23 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;人間が評価したシステムの質&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;rich-model-objects:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Rich model objects&lt;/h3&gt;
+&lt;h3 id=&#34;rich-model-objects&#34;&gt;Rich model objects&lt;/h3&gt;
 
 &lt;p&gt;機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために&amp;rdquo;model object&amp;rdquo;を拡張することが重要であると述べている。&lt;/p&gt;
 
-&lt;h2 id=&#34;3-human-in-the-loop:923b80eb0d6937beb6baa576d82ab042&#34;&gt;3) Human-in-the-loop&lt;/h2&gt;
+&lt;h2 id=&#34;3-human-in-the-loop&#34;&gt;3) Human-in-the-loop&lt;/h2&gt;
 
 &lt;p&gt;ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。&lt;/p&gt;
 
-&lt;h3 id=&#34;make-efficient-use-of-expert-effort:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Make efficient use of expert effort&lt;/h3&gt;
+&lt;h3 id=&#34;make-efficient-use-of-expert-effort&#34;&gt;Make efficient use of expert effort&lt;/h3&gt;
 
 &lt;p&gt;彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。&lt;/p&gt;
 
-&lt;h3 id=&#34;allow-humans-to-hard-code-rules:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Allow humans to hard-code rules&lt;/h3&gt;
+&lt;h3 id=&#34;allow-humans-to-hard-code-rules&#34;&gt;Allow humans to hard-code rules&lt;/h3&gt;
 
 &lt;p&gt;&amp;ldquo;人間が最適な答えを知っている&amp;rdquo;こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。&lt;/p&gt;
 
-&lt;h3 id=&#34;human-evaluation:923b80eb0d6937beb6baa576d82ab042&#34;&gt;Human evaluation&lt;/h3&gt;
+&lt;h3 id=&#34;human-evaluation&#34;&gt;Human evaluation&lt;/h3&gt;
 
 &lt;p&gt;専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。&lt;/p&gt;
 

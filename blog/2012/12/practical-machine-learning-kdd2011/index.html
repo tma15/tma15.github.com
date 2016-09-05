@@ -81,43 +81,43 @@
 
 <p>この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。</p>
 
-<h2 id="1-classification:923b80eb0d6937beb6baa576d82ab042">1) Classification</h2>
+<h2 id="1-classification">1) Classification</h2>
 
 <p>機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは<a href="http://code.google.com/p/sofia-ml/">ソースコード</a>が入手可能である。</p>
 
-<h3 id="abe-always-be-ensemble-ing:923b80eb0d6937beb6baa576d82ab042">ABE: Always Be Ensemble-ing</h3>
+<h3 id="abe-always-be-ensemble-ing">ABE: Always Be Ensemble-ing</h3>
 
 <p>Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。</p>
 
-<h3 id="only-auto-block-or-auto-allow-on-high-confidence-predictions:923b80eb0d6937beb6baa576d82ab042">Only auto-block or auto-allow on high-confidence predictions</h3>
+<h3 id="only-auto-block-or-auto-allow-on-high-confidence-predictions">Only auto-block or auto-allow on high-confidence predictions</h3>
 
 <p>訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&rdquo;I don&rsquo;t know&rdquo;とシステムに判断させることも価値がある。</p>
 
-<h3 id="throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out:923b80eb0d6937beb6baa576d82ab042">Throw a ton of features at the model and let L1 sparsity figure it out</h3>
+<h3 id="throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out">Throw a ton of features at the model and let L1 sparsity figure it out</h3>
 
 <p>素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。</p>
 
-<h3 id="map-features-with-the-hashing-trick:923b80eb0d6937beb6baa576d82ab042">Map features with the &ldquo;hashing trick&rdquo;</h3>
+<h3 id="map-features-with-the-hashing-trick">Map features with the &ldquo;hashing trick&rdquo;</h3>
 
 <p>これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは<a href="http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick">MetaOptimize discussion board</a>でうまく説明されている。</p>
 
-<h3 id="handle-the-class-imbalance-problem-with-ranking:923b80eb0d6937beb6baa576d82ab042">Handle the class imbalance problem with ranking</h3>
+<h3 id="handle-the-class-imbalance-problem-with-ranking">Handle the class imbalance problem with ranking</h3>
 
 <p>ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。</p>
 
-<h3 id="use-a-cascade-of-classifiers:923b80eb0d6937beb6baa576d82ab042">Use a cascade of classifiers</h3>
+<h3 id="use-a-cascade-of-classifiers">Use a cascade of classifiers</h3>
 
 <p>ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。</p>
 
-<h2 id="2-scalability-engineering-and-operations:923b80eb0d6937beb6baa576d82ab042">2) Scalability, engineering and operations</h2>
+<h2 id="2-scalability-engineering-and-operations">2) Scalability, engineering and operations</h2>
 
 <p>研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。</p>
 
-<h3 id="mapreduce-pre-processing-map-algorithm-training-reduce:923b80eb0d6937beb6baa576d82ab042">MapReduce: pre-processing (map), algorithm training (reduce)</h3>
+<h3 id="mapreduce-pre-processing-map-algorithm-training-reduce">MapReduce: pre-processing (map), algorithm training (reduce)</h3>
 
 <p>いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。</p>
 
-<h3 id="monitor-all-the-things:923b80eb0d6937beb6baa576d82ab042">Monitor all the things</h3>
+<h3 id="monitor-all-the-things">Monitor all the things</h3>
 
 <p>入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:</p>
 
@@ -129,23 +129,23 @@
 <li>人間が評価したシステムの質</li>
 </ul>
 
-<h3 id="rich-model-objects:923b80eb0d6937beb6baa576d82ab042">Rich model objects</h3>
+<h3 id="rich-model-objects">Rich model objects</h3>
 
 <p>機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために&rdquo;model object&rdquo;を拡張することが重要であると述べている。</p>
 
-<h2 id="3-human-in-the-loop:923b80eb0d6937beb6baa576d82ab042">3) Human-in-the-loop</h2>
+<h2 id="3-human-in-the-loop">3) Human-in-the-loop</h2>
 
 <p>ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。</p>
 
-<h3 id="make-efficient-use-of-expert-effort:923b80eb0d6937beb6baa576d82ab042">Make efficient use of expert effort</h3>
+<h3 id="make-efficient-use-of-expert-effort">Make efficient use of expert effort</h3>
 
 <p>彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。</p>
 
-<h3 id="allow-humans-to-hard-code-rules:923b80eb0d6937beb6baa576d82ab042">Allow humans to hard-code rules</h3>
+<h3 id="allow-humans-to-hard-code-rules">Allow humans to hard-code rules</h3>
 
 <p>&ldquo;人間が最適な答えを知っている&rdquo;こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。</p>
 
-<h3 id="human-evaluation:923b80eb0d6937beb6baa576d82ab042">Human evaluation</h3>
+<h3 id="human-evaluation">Human evaluation</h3>
 
 <p>専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。</p>
 

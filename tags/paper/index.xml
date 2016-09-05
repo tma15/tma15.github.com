@@ -22,7 +22,7 @@
 
 &lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;
 
-&lt;h2 id=&#34;導入:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;導入&lt;/h2&gt;
+&lt;h2 id=&#34;導入&#34;&gt;導入&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する
@@ -44,7 +44,7 @@
 &lt;li&gt;この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;この論文の貢献:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;この論文の貢献&lt;/h2&gt;
+&lt;h2 id=&#34;この論文の貢献&#34;&gt;この論文の貢献&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる&lt;/li&gt;
@@ -55,7 +55,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;問題設定:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;問題設定&lt;/h2&gt;
+&lt;h2 id=&#34;問題設定&#34;&gt;問題設定&lt;/h2&gt;
 
 &lt;p&gt;教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。&lt;/p&gt;
 
@@ -63,33 +63,33 @@
 
 &lt;p&gt;文を構文木で表現する先行研究もあるが、導入部分での理由から、この論文では浅い意味解析により文を表現する。&lt;/p&gt;
 
-&lt;h2 id=&#34;lexical-semantic-models:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;lexical semantic models&lt;/h2&gt;
+&lt;h2 id=&#34;lexical-semantic-models&#34;&gt;lexical semantic models&lt;/h2&gt;
 
 &lt;p&gt;表層系のみのマッチングでは微妙なので言語資源を作成する。&lt;/p&gt;
 
-&lt;h3 id=&#34;類義語と反義語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;類義語と反義語&lt;/h3&gt;
+&lt;h3 id=&#34;類義語と反義語&#34;&gt;類義語と反義語&lt;/h3&gt;
 
 &lt;p&gt;Polarity-Inducing latent semantic analysis (PILSA) modelを使う。シソーラス(文書と単語のtfidf行列?)を入力として、SVDでd行n列の行列を構築する。dは類義語や反義語のクラスタの数を表す。nは語彙の数。二つの単語を表す列のコサインが正であれば、その単語は類義語、負であれば反義語とみなす。&lt;/p&gt;
 
-&lt;h3 id=&#34;上位語下位語:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;上位語下位語&lt;/h3&gt;
+&lt;h3 id=&#34;上位語下位語&#34;&gt;上位語下位語&lt;/h3&gt;
 
 &lt;p&gt;WordNetはカバレッジが低いので、&lt;a href=&#34;http://research.microsoft.com/en-us/projects/probase/&#34;&gt;Probase&lt;/a&gt;を使う。ある単語が別の単語の下位語である確率を保持している。&lt;/p&gt;
 
-&lt;h3 id=&#34;意味的な単語の類似度:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
+&lt;h3 id=&#34;意味的な単語の類似度&#34;&gt;意味的な単語の類似度&lt;/h3&gt;
 
 &lt;p&gt;商用のサーチエンジンのクリックデータを使ってSiamese newural networkモデルを学習。入力はクエリとクリックしたページのタイトルの対の集合。ある文字列（クエリ）がどの文字列(クリックされたページのタイトル)と対応するかを表す行列を学習する。ページのタイトルを表す行ベクトルは密になるように圧縮されている。&lt;/p&gt;
 
-&lt;h2 id=&#34;分類器の学習:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;分類器の学習&lt;/h2&gt;
+&lt;h2 id=&#34;分類器の学習&#34;&gt;分類器の学習&lt;/h2&gt;
 
-&lt;h3 id=&#34;bag-of-wordsモデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
+&lt;h3 id=&#34;bag-of-wordsモデル&#34;&gt;Bag-of-Wordsモデル&lt;/h3&gt;
 
 &lt;p&gt;logistic regressionとboosted decision treeを用いる。&lt;/p&gt;
 
-&lt;h3 id=&#34;隠れ構造モデル:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;隠れ構造モデル&lt;/h3&gt;
+&lt;h3 id=&#34;隠れ構造モデル&#34;&gt;隠れ構造モデル&lt;/h3&gt;
 
 &lt;p&gt;構造的なモデルではLatent-SVMの一種であるLCLRを用いる。目的関数 (単語間の意味的類似度) を最大化する隠れ構造hを選択して、損失項を最小化するように重みを更新するのを繰り返す。隠れ構造hがどの単語とどの単語の対応を見るかを制御している。隠れ構造は、「文のある単語は少なくとも質問文中の1つ以上の単語と対応していなければならない」、「質問文中の単語は文中のいずれかの単語と対応していなければならない」、というような制約を付与して整数計画法により選択する。&lt;/p&gt;
 
-&lt;h3 id=&#34;素性:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;素性&lt;/h3&gt;
+&lt;h3 id=&#34;素性&#34;&gt;素性&lt;/h3&gt;
 
 &lt;p&gt;すべての素性は単語のIDFで重み付け&lt;/p&gt;
 
@@ -101,11 +101,11 @@
 &lt;li&gt;answer type checking: 質問文がWHを接頭辞とする単語から始まる場合のルール。Whoで始まれば、PersonなNEと対応するみたいなもの。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;結果:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;結果&lt;/h2&gt;
+&lt;h2 id=&#34;結果&#34;&gt;結果&lt;/h2&gt;
 
 &lt;p&gt;リッチな言語資源を使うほど、どの分類器でもMRR、MAPが向上。&lt;/p&gt;
 
-&lt;h2 id=&#34;所感:0c900bf3c3048202b19eec2aaa898aac&#34;&gt;所感&lt;/h2&gt;
+&lt;h2 id=&#34;所感&#34;&gt;所感&lt;/h2&gt;
 
 &lt;p&gt;複雑なアルゴリズムでやるよりも言語資源をリッチにして計算コストを減らすのは良さそうと思ったので、LCLRとlogistic regressionでどれくらい差が出るのか気になった。文間の単語の対応くらいだと問題はそれほど大きくないかもしれないけど、整数計画法のソルバーは早いものが有償だったりするので、そういったことを考えると分類器で複雑なことをするよりも言語資源を前処理でガッと作っておくほうが現実的な気がした。&lt;/p&gt;
 </description>
@@ -125,7 +125,7 @@
 
 &lt;p&gt;主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。&lt;/p&gt;
 
-&lt;h2 id=&#34;introduction:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである&lt;/li&gt;
@@ -139,7 +139,7 @@
 &lt;li&gt;このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;how-to-measure-progress:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How To Measure Progress&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-measure-progress&#34;&gt;How To Measure Progress&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った
@@ -168,7 +168,7 @@
 &lt;li&gt;興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;desiderata-and-some-recent-work:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
+&lt;h2 id=&#34;desiderata-and-some-recent-work&#34;&gt;Desiderata and some Recent Work&lt;/h2&gt;
 
 &lt;p&gt;machine comprehensionに必要なものは、興味深い未解決な問題と通じている&lt;/p&gt;
 
@@ -196,7 +196,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;最近の研究では:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;最近の研究では&lt;/h3&gt;
+&lt;h3 id=&#34;最近の研究では&#34;&gt;最近の研究では&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い
@@ -225,9 +225,9 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;seven-signposts:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Seven Signposts&lt;/h2&gt;
+&lt;h2 id=&#34;seven-signposts&#34;&gt;Seven Signposts&lt;/h2&gt;
 
-&lt;h3 id=&#34;how-to-incorporate-structure-in-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;how-to-incorporate-structure-in-learning&#34;&gt;How to Incorporate Structure in Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;初期のAIはルールベース
@@ -258,7 +258,7 @@
 &lt;li&gt;私達は、一つの極端 (人手で設計したルールに基づくAI) から、もう一つの極端 (明示的なルールがない機械学習) にきている&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
+&lt;h3 id=&#34;do-large-data-and-deep-learning-hold-the-key&#34;&gt;Do Large Data and Deep Learning Hold the Key?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ここ10年で、大量のデータを使うことで、昔から難しいタスクであった、質問応答、オントロジーの構築などですばらしい進歩が得られた
@@ -281,7 +281,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;why-is-nlp-so-hard:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
+&lt;h3 id=&#34;why-is-nlp-so-hard&#34;&gt;Why is NLP so Hard?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;自然言語処理はテキストの構造を直接モデル化する代替手段と見ることができるが、まだ初期段階である
@@ -301,7 +301,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
+&lt;h3 id=&#34;can-we-limit-scope-for-manageability-yet-still-achive-scalability&#34;&gt;Can we Limit Scope for Manageability, yet Still Achive Scalability?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;意味をモデル化する試みでは、簡単のために、よく問題を限定する&lt;/li&gt;
@@ -309,7 +309,7 @@
 &lt;li&gt;問題を限定することには、科学的には意味があるが、私達は一般化が簡単な問題の限定、大規模データがある問題を探さなければならない&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;are-brains-using-machine-learning:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
+&lt;h3 id=&#34;are-brains-using-machine-learning&#34;&gt;Are Brains Using Machine Learning?&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;あなたが友達が何か誤解をしていて苦労しているのに気づいたとしましょう&lt;/li&gt;
@@ -347,7 +347,7 @@
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;discussion:3e496fa1f2ebcbfa8b6521cc8fe94927&#34;&gt;Discussion&lt;/h2&gt;
+&lt;h2 id=&#34;discussion&#34;&gt;Discussion&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;AIの初期からあるルールベースからあって、研究者はそれに依存し過ぎることに慎重であることは明白であった&lt;/li&gt;
@@ -380,14 +380,14 @@
 &lt;p&gt;&lt;a href=&#34;http://labs.yahoo.com/publication/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content/&#34;&gt;proceeding&lt;/a&gt;
 slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweaters-or-serendipitous-entity-search-on-usergenerated-content&#34;&gt;slideshare&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;まとめ:9b9474284a26779b41c6a09181dec8da&#34;&gt;まとめ&lt;/h2&gt;
+&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
 
 &lt;p&gt;CIKM 2013でBest paperを取った、著者が全員女性(&lt;a href=&#34;http://labs.yahoo.com/news/ilaria-bordino-yelena-mejova-mounia-lalmas-awarded-best-paper-at-cikm-2013/&#34;&gt;参考&lt;/a&gt;)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。
 何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。&lt;/p&gt;
 
 &lt;p&gt;以下、メモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters:9b9474284a26779b41c6a09181dec8da&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
+&lt;h2 id=&#34;why-when-do-penguins-wear-sweaters&#34;&gt;Why/when do penguins wear sweaters?&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)
@@ -398,43 +398,43 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;serendipity:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h3&gt;
+&lt;h3 id=&#34;serendipity&#34;&gt;Serendipity&lt;/h3&gt;
 
 &lt;p&gt;役に立つんだけど、特に探していたわけではないもの。&lt;/p&gt;
 
-&lt;h3 id=&#34;entity-search:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity Search&lt;/h3&gt;
+&lt;h3 id=&#34;entity-search&#34;&gt;Entity Search&lt;/h3&gt;
 
 &lt;p&gt;この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。&lt;/p&gt;
 
-&lt;h2 id=&#34;この論文の焦点:9b9474284a26779b41c6a09181dec8da&#34;&gt;この論文の焦点&lt;/h2&gt;
+&lt;h2 id=&#34;この論文の焦点&#34;&gt;この論文の焦点&lt;/h2&gt;
 
-&lt;h3 id=&#34;what:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHAT&lt;/h3&gt;
+&lt;h3 id=&#34;what&#34;&gt;WHAT&lt;/h3&gt;
 
 &lt;p&gt;ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？&lt;/p&gt;
 
-&lt;h3 id=&#34;why:9b9474284a26779b41c6a09181dec8da&#34;&gt;WHY&lt;/h3&gt;
+&lt;h3 id=&#34;why&#34;&gt;WHY&lt;/h3&gt;
 
 &lt;p&gt;そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？&lt;/p&gt;
 
-&lt;h2 id=&#34;データ:9b9474284a26779b41c6a09181dec8da&#34;&gt;データ&lt;/h2&gt;
+&lt;h2 id=&#34;データ&#34;&gt;データ&lt;/h2&gt;
 
-&lt;h3 id=&#34;yahoo-answers:9b9474284a26779b41c6a09181dec8da&#34;&gt;Yahoo! Answers&lt;/h3&gt;
+&lt;h3 id=&#34;yahoo-answers&#34;&gt;Yahoo! Answers&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ごくわずかにまとめられた意見、ゴシップ、個人情報&lt;/li&gt;
 &lt;li&gt;観点が多様&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;wikipedia:9b9474284a26779b41c6a09181dec8da&#34;&gt;Wikipedia&lt;/h3&gt;
+&lt;h3 id=&#34;wikipedia&#34;&gt;Wikipedia&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;高品質の情報が整理されている&lt;/li&gt;
 &lt;li&gt;ニッチなトピックが豊富&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;entity-relation-extraction:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
+&lt;h2 id=&#34;entity-relation-extraction&#34;&gt;Entity &amp;amp; Relation Extraction&lt;/h2&gt;
 
-&lt;h3 id=&#34;entity-wikipediaに記述されている概念:9b9474284a26779b41c6a09181dec8da&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
+&lt;h3 id=&#34;entity-wikipediaに記述されている概念&#34;&gt;Entity: Wikipediaに記述されている概念&lt;/h3&gt;
 
 &lt;p&gt;1 テキストから表層形を識別し、
 2 Wikipediaのentityと紐付けして、&lt;/p&gt;
@@ -450,13 +450,13 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 
 &lt;p&gt;3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)&lt;/p&gt;
 
-&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度:9b9474284a26779b41c6a09181dec8da&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
+&lt;h3 id=&#34;reationship-tf-idfベクトルのコサイン類似度&#34;&gt;Reationship: tf/idfベクトルのコサイン類似度&lt;/h3&gt;
 
 &lt;p&gt;entityが現れるドキュメントを結合したものがベクトルで表される&lt;/p&gt;
 
-&lt;h2 id=&#34;dataset-features-metadata:9b9474284a26779b41c6a09181dec8da&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
+&lt;h2 id=&#34;dataset-features-metadata&#34;&gt;Dataset Features (Metadata)&lt;/h2&gt;
 
-&lt;h3 id=&#34;sentiment:9b9474284a26779b41c6a09181dec8da&#34;&gt;Sentiment&lt;/h3&gt;
+&lt;h3 id=&#34;sentiment&#34;&gt;Sentiment&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;SentiStrengthを用いてpositive &amp;amp; negativeのスコアを計算する
@@ -480,7 +480,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;entityが現れるウィンドウのattitude, sentimentalityの平均値がentity単位の素性とする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;Quality&lt;/h3&gt;
+&lt;h3 id=&#34;quality&#34;&gt;Quality&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;可読性&lt;/li&gt;
@@ -493,7 +493,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;Fig1は二つのデータセットにおけるエンティティの可読性の分布&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;topical-category:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topical Category&lt;/h3&gt;
+&lt;h3 id=&#34;topical-category&#34;&gt;Topical Category&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Yahoo Content Taxonomy
@@ -511,9 +511,9 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;li&gt;entityレベルの素性にするため、そのentityが現れた文書に割り当てられたカテゴリのうち、頻度が高い上位3つのカテゴリを素性にする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;retrieval:9b9474284a26779b41c6a09181dec8da&#34;&gt;Retrieval&lt;/h2&gt;
+&lt;h2 id=&#34;retrieval&#34;&gt;Retrieval&lt;/h2&gt;
 
-&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart:9b9474284a26779b41c6a09181dec8da&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
+&lt;h3 id=&#34;algorithm-lazy-randomwalk-with-restart&#34;&gt;Algorithm: Lazy Randomwalk with restart&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;self-loop probability: beta
@@ -536,19 +536,19 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h4 id=&#34;scoring-method:9b9474284a26779b41c6a09181dec8da&#34;&gt;scoring method&lt;/h4&gt;
+&lt;h4 id=&#34;scoring-method&#34;&gt;scoring method&lt;/h4&gt;
 
 &lt;ul&gt;
 &lt;li&gt;popularなentityはどこにでも上位にランクされるのでこれらをフィルタリング&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;testbed:9b9474284a26779b41c6a09181dec8da&#34;&gt;Testbed&lt;/h3&gt;
+&lt;h3 id=&#34;testbed&#34;&gt;Testbed&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;2010~2011にGoogle Zeitgeistで最も検索されたクエリの中から、Wikipedia、Yahoo! Answersの文書中に共に現れる上位50件のクエリ&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;precision-5-map:9b9474284a26779b41c6a09181dec8da&#34;&gt;Precision @5, MAP&lt;/h3&gt;
+&lt;h3 id=&#34;precision-5-map&#34;&gt;Precision @5, MAP&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Precision: 66.8% on WP, 72.4% on YA&lt;/li&gt;
@@ -560,7 +560,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;annotator-agreement:9b9474284a26779b41c6a09181dec8da&#34;&gt;Annotator agreement&lt;/h3&gt;
+&lt;h3 id=&#34;annotator-agreement&#34;&gt;Annotator agreement&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;1つのクエリにつき、annotatorは3人
@@ -575,7 +575,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;average-overlap-in-top-5:9b9474284a26779b41c6a09181dec8da&#34;&gt;Average overlap in top 5&lt;/h3&gt;
+&lt;h3 id=&#34;average-overlap-in-top-5&#34;&gt;Average overlap in top 5&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;results: 12%
@@ -585,7 +585,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;error-analysis:9b9474284a26779b41c6a09181dec8da&#34;&gt;Error analysis&lt;/h3&gt;
+&lt;h3 id=&#34;error-analysis&#34;&gt;Error analysis&lt;/h3&gt;
 
 &lt;p&gt;提案手法の有効性はクエリのentityのすぐとなりのentityをあまり上に挙げないことによる&lt;/p&gt;
 
@@ -622,7 +622,7 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;制約:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約&lt;/h2&gt;
+&lt;h2 id=&#34;制約&#34;&gt;制約&lt;/h2&gt;
 
 &lt;p&gt;二つのデータセットが、serendipitous searchに何をもたらしてくれるのか調べる&lt;/p&gt;
 
@@ -638,28 +638,28 @@ slide: &lt;a href=&#34;http://www.slideshare.net/mounialalmas/penguins-in-sweate
 
 &lt;p&gt;制約をかけたネットワークと、制約をかけていないネットワークでの結果を比べる&lt;/p&gt;
 
-&lt;h3 id=&#34;topic:9b9474284a26779b41c6a09181dec8da&#34;&gt;Topic&lt;/h3&gt;
+&lt;h3 id=&#34;topic&#34;&gt;Topic&lt;/h3&gt;
 
 &lt;p&gt;Question: クエリに対してトピック的にコヒーレントなentityは良い結果をもたらすのか？
 Constraint 1: entityは少なくとも1つ以上のクエリと同じトピックカテゴリに属さなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;high-low-sentimentalyty:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
+&lt;h3 id=&#34;high-low-sentimentalyty&#34;&gt;High/Low Sentimentalyty&lt;/h3&gt;
 
 &lt;p&gt;Question: より感情的な(感情的でない)entityは良い結果をもたらすのか？
 Constraint 2(3): entityは中央値(0.6 for YP, 0 for WP)よりも高いsentimentalityでなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;high-low-readability:9b9474284a26779b41c6a09181dec8da&#34;&gt;High/Low Readability&lt;/h3&gt;
+&lt;h3 id=&#34;high-low-readability&#34;&gt;High/Low Readability&lt;/h3&gt;
 
 &lt;p&gt;Question: より読みやすい(読みにくい)entityは良い結果をもたらすのか？
 Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)でなければならない&lt;/p&gt;
 
-&lt;h3 id=&#34;制約の結果:9b9474284a26779b41c6a09181dec8da&#34;&gt;制約の結果&lt;/h3&gt;
+&lt;h3 id=&#34;制約の結果&#34;&gt;制約の結果&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;low-sentimentalityとlow-readabilityが負の影響を持っている&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;serendipity-1:9b9474284a26779b41c6a09181dec8da&#34;&gt;Serendipity&lt;/h2&gt;
+&lt;h2 id=&#34;serendipity-1&#34;&gt;Serendipity&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;accuracy以外にも推薦エンジンの性能を測ることが重要である&lt;/li&gt;
@@ -696,7 +696,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;user-perceived-quality:9b9474284a26779b41c6a09181dec8da&#34;&gt;User-Perceived Quality&lt;/h2&gt;
+&lt;h2 id=&#34;user-perceived-quality&#34;&gt;User-Perceived Quality&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;主観的な評価になるので、結果に値を入れるのでは無く、色々な条件での実験結果を比較する&lt;/li&gt;
@@ -725,7 +725,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;labeling:9b9474284a26779b41c6a09181dec8da&#34;&gt;Labeling&lt;/h3&gt;
+&lt;h3 id=&#34;labeling&#34;&gt;Labeling&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;どちらの結果がよりクエリと関連しているか？&lt;/li&gt;
@@ -734,7 +734,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;そのクエリについてなにか新しいことを学んだか？&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b:9b9474284a26779b41c6a09181dec8da&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
+&lt;h3 id=&#34;table-6-ランキングの集合とreference-ranking間のkendall-s-tau-b&#34;&gt;Table 6: ランキングの集合とreference ranking間のKendall&amp;rsquo;s tau-b&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;personal interest (Q3)とrelevance (Q1)の好みの割合の差を計算する時に、おもしろいけど必ずしもクエリと関連している必要のないentityを見つけた
@@ -770,9 +770,9 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;p&gt;&lt;a href=&#34;http://aclweb.org/anthology//P/P13/&#34;&gt;acl anthology&lt;/a&gt;よりロングペーパーとして
 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。&lt;/p&gt;
 
-&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;fast-and-robust-compressive-summarization-with-dual-decomposition-and-multi-task-learning-p13-1020-pdf&#34;&gt;Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。&lt;/li&gt;
@@ -787,9 +787,9 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;using-supervised-bigram-based-ilp-for-extractive-summarization-p13-1099-pdf&#34;&gt;Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-1:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-1&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する&lt;/li&gt;
@@ -799,9 +799,9 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;summarization-through-submodularity-and-dispersion-p13-1100-pdf&#34;&gt;Summarization Through Submodularity and Dispersion (P13-1100.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-2:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-2&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する&lt;/li&gt;
@@ -812,17 +812,17 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;subtree-extractive-summarization-via-submodular-maximization-p13-1101-pdf&#34;&gt;Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-3:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-3&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;@Pnnc205jさんの論文&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;towards-robust-abstractive-multi-document-summarization-a-caseframe-analysis-of-centrality-and-domain-p13-1121-pdf&#34;&gt;Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-4:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-4&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;文書要約において中心性とは元の文書の核となる部分を含むべきだということ&lt;/li&gt;
@@ -839,9 +839,9 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;実験結果は、本質的な改善は中心性を最適化するための式を作ることよりも、ドメイン知識が必要であることを示唆している&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;a-sentence-compression-based-framework-to-query-focused-multi-document-summarization-p13-1136-pdf&#34;&gt;A Sentence Compression Based Framework to Query-Focused Multi-Document Summarization (P13-1136.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-5:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-5&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;クエリ指向型複数文書要約のための文圧縮を使った手法を提案する&lt;/li&gt;
@@ -851,9 +851,9 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 &lt;li&gt;DUC 2006, DUC 2007のstate-of-the-artよりも有意によくなることを示す&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
+&lt;h1 id=&#34;domain-independent-abstract-generation-for-focused-meeting-summarization-p13-1137-pdf&#34;&gt;Domain-Independent Abstract Generation for Focused Meeting Summarization (P13-1137.pdf)&lt;/h1&gt;
 
-&lt;h2 id=&#34;概要-6:a019dfde063cef6d962b3b0ba6cbd4e3&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要-6&#34;&gt;概要&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ドメイン知識を使わずに会議の対話ログの抽象型要約をおこなう&lt;/li&gt;
@@ -879,7 +879,7 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。
 個人的には参加者数が多すぎず少なすぎなかったのが良かった。&lt;/p&gt;
 
-&lt;h2 id=&#34;読んだ論文:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;読んだ論文&lt;/h2&gt;
+&lt;h2 id=&#34;読んだ論文&#34;&gt;読んだ論文&lt;/h2&gt;
 
 &lt;p&gt;Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013&lt;/p&gt;
 
@@ -898,13 +898,13 @@ Constraint 4(5): entityのreadabilityスコアは中央値(46 for YA, 41 for WP)
 
 &lt;p&gt;関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。&lt;/p&gt;
 
-&lt;h2 id=&#34;発表資料:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;発表資料&lt;/h2&gt;
+&lt;h2 id=&#34;発表資料&#34;&gt;発表資料&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;//www.scribd.com/embeds/166900012/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-2nk8dys4z67mwblosm6o&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_26933&#34; width=&#34;610&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 
-&lt;h2 id=&#34;議論:0cda5405fdc6fd7b1ecdec9b96ed4fb7&#34;&gt;議論&lt;/h2&gt;
+&lt;h2 id=&#34;議論&#34;&gt;議論&lt;/h2&gt;
 
 &lt;p&gt;大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。
 自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。&lt;/p&gt;
@@ -946,7 +946,7 @@ journal (&lt;a href=&#34;http://ilpubs.stanford.edu:8090/1056/1/acmsmall-main.pd
 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、
 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。&lt;/p&gt;
 
-&lt;h2 id=&#34;概要:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;概要&lt;/h2&gt;
+&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
 
 &lt;p&gt;entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような
 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。
@@ -954,7 +954,7 @@ journalのpublish dateはMarch 2010となっているけどreferenceにはそれ
 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究
 に比べて早く、しかも精度もよく学習できることを示している。&lt;/p&gt;
 
-&lt;h2 id=&#34;発表資料:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;発表資料&lt;/h2&gt;
+&lt;h2 id=&#34;発表資料&#34;&gt;発表資料&lt;/h2&gt;
 
 &lt;div align=&#34;center&#34;&gt;
 &lt;iframe class=&#34;scribd_iframe_embed&#34; src=&#34;http://www.scribd.com/embeds/157827725/content?start_page=1&amp;view_mode=slideshow&amp;access_key=key-1si7srgey3zm82empzuw&amp;show_recommendations=false&#34; data-auto-height=&#34;false&#34; data-aspect-ratio=&#34;1.29971181556196&#34; scrolling=&#34;no&#34; id=&#34;doc_66221&#34; width=&#34;700&#34; height=&#34;500&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
@@ -962,7 +962,7 @@ journalのpublish dateはMarch 2010となっているけどreferenceにはそれ
 
 &lt;p&gt;以下メモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;convex-hull-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Convex hull algorithm&lt;/h2&gt;
+&lt;h2 id=&#34;convex-hull-algorithm&#34;&gt;Convex hull algorithm&lt;/h2&gt;
 
 &lt;p&gt;&lt;div align=&#34;center&#34;&gt;
     &lt;img src=&#34;http://farm6.staticflickr.com/5547/9425716409_040e6eba48.jpg&#34; width=&#34;500&#34; height=&#34;375&#34;&gt;
@@ -974,7 +974,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。
 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。&lt;/p&gt;
 
-&lt;h2 id=&#34;rejection-sampling-algorithm:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
+&lt;h2 id=&#34;rejection-sampling-algorithm&#34;&gt;Rejection sampling algorithm&lt;/h2&gt;
 
 &lt;p&gt;black boxの学習をおこなう前に呼び出されるアルゴリズム。
 気持ちを理解するには&lt;a href=&#34;http://www.machinedlearnings.com/2012/01/cost-sensitive-binary-classification.html&#34;&gt;Machined Learnings: Cost-Sensitive Binary Classification and Active Learning&lt;/a&gt;が詳しい。
@@ -990,7 +990,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;p&gt;この方法はラベルがわかっている場合には馬鹿馬鹿しい方法に見えるけど、ラベルが一部しか
 見えない場合には現実的な方法である。&lt;/p&gt;
 
-&lt;h2 id=&#34;合わせて読みたい:62f7551d8d43fdf2058f29ed0c80d70c&#34;&gt;合わせて読みたい&lt;/h2&gt;
+&lt;h2 id=&#34;合わせて読みたい&#34;&gt;合わせて読みたい&lt;/h2&gt;
 
 &lt;p&gt;&lt;a href=&#34;http://conditional.github.io/blog/2013/08/03/joint-modeling-of-a-matrix-with-associated-text-via-latent-binary-features/&#34;&gt;コンピュータが政治をする時代(あるいは，行列とテキストの結合モデル)について - a lonely miner&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -1046,7 +1046,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;以下、スライドを見ながら取ったメモ。&lt;/p&gt;
 
-&lt;h2 id=&#34;取り組む課題:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;取り組む課題&lt;/h2&gt;
+&lt;h2 id=&#34;取り組む課題&#34;&gt;取り組む課題&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ユーザはどのようにコミュニティの一員になるのか&lt;/li&gt;
@@ -1054,11 +1054,11 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;ユーザがコミュニティを退会することを予測できるのか&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アイディア:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アイディア&lt;/h2&gt;
+&lt;h2 id=&#34;アイディア&#34;&gt;アイディア&lt;/h2&gt;
 
 &lt;p&gt;コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。&lt;/p&gt;
 
-&lt;h2 id=&#34;アプローチ-取り組む課題と対応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ-取り組む課題と対応&#34;&gt;アプローチ (取り組む課題と対応)&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;言葉の変化を捉えるための統計的なフレームワークを提案する&lt;/li&gt;
@@ -1066,62 +1066,62 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;ユーザがコミュニティを退会することを予測するために有効な素性を提案する&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;長期的なデータ:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;長期的なデータ&lt;/h2&gt;
+&lt;h2 id=&#34;長期的なデータ&#34;&gt;長期的なデータ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;BeerAdvocate&lt;/li&gt;
 &lt;li&gt;RateBeer&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;言葉の変化の例-puzzle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
+&lt;h2 id=&#34;言葉の変化の例-puzzle&#34;&gt;言葉の変化の例: puzzle&lt;/h2&gt;
 
 &lt;p&gt;香りの議論の導入で使われる二つの慣例 (Aroma &amp;amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。&lt;/p&gt;
 
-&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
+&lt;h2 id=&#34;コミュニティレベルでの変化-ユーザレベルでの変化&#34;&gt;コミュニティレベルでの変化、ユーザレベルでの変化&lt;/h2&gt;
 
 &lt;p&gt;コミュニティレベルでの変化の例: TwitterにおけるRTの慣例、ヒップホップのフォーラムにおける俗語
 ユーザレベルでの変化の例: ユーザはレビューの数をこなすほど一人称表現の使用が少なくなる。&lt;/p&gt;
 
-&lt;h2 id=&#34;二つの変化の関係:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;二つの変化の関係&lt;/h2&gt;
+&lt;h2 id=&#34;二つの変化の関係&#34;&gt;二つの変化の関係&lt;/h2&gt;
 
 &lt;p&gt;ユーザのコミュニティからの距離を、同じ時期におけるユーザの投稿とコミュニティの言語モデルのとして測る。具体的にはあまりコミュニティで使われていないバイグラムが多いほど距離が遠くなる。&lt;/p&gt;
 
-&lt;h3 id=&#34;stage1:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage1:&lt;/h3&gt;
+&lt;h3 id=&#34;stage1&#34;&gt;Stage1:&lt;/h3&gt;
 
 &lt;p&gt;ユーザはコミュニティの言葉に順応する&lt;/p&gt;
 
-&lt;h3 id=&#34;stage2:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Stage2:&lt;/h3&gt;
+&lt;h3 id=&#34;stage2&#34;&gt;Stage2:&lt;/h3&gt;
 
 &lt;p&gt;ユーザの言葉はコミュニティの言語モデルと遠ざかる&lt;/p&gt;
 
-&lt;h3 id=&#34;仮説:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;仮説&lt;/h3&gt;
+&lt;h3 id=&#34;仮説&#34;&gt;仮説&lt;/h3&gt;
 
 &lt;ol&gt;
 &lt;li&gt;ユーザは新しい言葉を使うようになって距離が遠くなる&lt;/li&gt;
 &lt;li&gt;ユーザは適応することをやめ、変化するコミュニティに合わせなくなる&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;h3 id=&#34;検証:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;検証&lt;/h3&gt;
+&lt;h3 id=&#34;検証&#34;&gt;検証&lt;/h3&gt;
 
 &lt;p&gt;ユーザの言葉を、そのユーザの過去の言葉と比べてみると、ユーザの活動期間が長くなったときはほとんど距離が変動しなくなる（古参ユーザが使う言葉はあまり変化しない）。つまり、ユーザは適応することをやめている。&lt;/p&gt;
 
-&lt;h2 id=&#34;lexical-innovationへの適応:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
+&lt;h2 id=&#34;lexical-innovationへの適応&#34;&gt;lexical innovationへの適応&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;コミュニティでは毎月だいたい100のlexical innovation (新しくコミュニティで使われ始めた単語) がある&lt;/li&gt;
 &lt;li&gt;新たな語彙の登場後、3ヶ月以内にその語彙を使っていたらユーザはlexical inovationに適応しているとする&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;puzzle-answer:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;puzzle answer&lt;/h3&gt;
+&lt;h3 id=&#34;puzzle-answer&#34;&gt;puzzle answer&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ユーザは若いほど適応する確率が高い。新規ユーザがAromaよりSを使うことと一致。&lt;/li&gt;
 &lt;li&gt;ユーザは古参なほど適応する確率が低い。古参ユーザがSよりAromaを使うことと一致。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;user-lifecycle-summary:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
+&lt;h2 id=&#34;user-lifecycle-summary&#34;&gt;User lifecycle (summary)&lt;/h2&gt;
 
-&lt;h3 id=&#34;オンラインでの言語的なlifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
+&lt;h3 id=&#34;オンラインでの言語的なlifecycle&#34;&gt;オンラインでの言語的なlifecycle&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;0%: ユーザはコミュニティに参加&lt;/li&gt;
@@ -1131,7 +1131,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;100%: 退会&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
+&lt;h3 id=&#34;オフラインでの言語的なlifecyclce-labov-1966&#34;&gt;オフラインでの言語的なlifecyclce [Labov, 1966]&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;誕生: リアルなコミュニティに属する&lt;/li&gt;
@@ -1142,7 +1142,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;17歳というのは絶対的な時間であるのだけど、それは生理学的な影響によるものらしい。一方、30%というのは相対的な時間で、これはコミュニティにおける影響であると考えられる。&lt;/p&gt;
 
-&lt;h2 id=&#34;elastic-lifecycle:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Elastic lifecycle&lt;/h2&gt;
+&lt;h2 id=&#34;elastic-lifecycle&#34;&gt;Elastic lifecycle&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;ilfecycleはユーザの最終的なlifespanに依存して伸縮する。すぐ退会するユーザでも長く活動するユーザでもlifecycleは同じような山の形をする。&lt;/li&gt;
@@ -1152,13 +1152,13 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;これらの特徴を利用してユーザの最終的なlifespanを予測する。&lt;/p&gt;
 
-&lt;h2 id=&#34;predicting-user-lifespan:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Predicting user lifespan&lt;/h2&gt;
+&lt;h2 id=&#34;predicting-user-lifespan&#34;&gt;Predicting user lifespan&lt;/h2&gt;
 
-&lt;h3 id=&#34;task:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Task&lt;/h3&gt;
+&lt;h3 id=&#34;task&#34;&gt;Task&lt;/h3&gt;
 
 &lt;p&gt;最初の20の投稿が与えられた時に、ユーザがすぐに退会するかどうかを予測する。&lt;/p&gt;
 
-&lt;h3 id=&#34;linguistic-change-features:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Linguistic change features:&lt;/h3&gt;
+&lt;h3 id=&#34;linguistic-change-features&#34;&gt;Linguistic change features:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;コミュニティの言語モデルとの距離&lt;/li&gt;
@@ -1166,7 +1166,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 &lt;li&gt;lexical inovationへの適応&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h3 id=&#34;baselines:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;Baselines:&lt;/h3&gt;
+&lt;h3 id=&#34;baselines&#34;&gt;Baselines:&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;投稿の頻度&lt;/li&gt;
@@ -1175,11 +1175,11 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 
 &lt;p&gt;Logistic regressionを使う。一つのコミュニティで訓練して、他のコミュニティでテストする。&lt;/p&gt;
 
-&lt;h3 id=&#34;結果:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結果&lt;/h3&gt;
+&lt;h3 id=&#34;結果&#34;&gt;結果&lt;/h3&gt;
 
 &lt;p&gt;最大でBaselineよりも12ポイント高い&lt;/p&gt;
 
-&lt;h2 id=&#34;結論:1c522d3ab9a8d08b4ce76ed65f10decc&#34;&gt;結論&lt;/h2&gt;
+&lt;h2 id=&#34;結論&#34;&gt;結論&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;言語の変化を捉えるフレームワークの提案した&lt;/li&gt;
@@ -1205,7 +1205,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/D/D11/D11-1072.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Named entity disambiguationをする&lt;/li&gt;
@@ -1217,7 +1217,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:84ce501e5b2832e209f08eff2fc6fa3e&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる
@@ -1271,7 +1271,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:836e9543b7834fc340ebe71534bcd743&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;tweet (英語のtweetに限定) の集合が与えられたときに&lt;/p&gt;
 
@@ -1285,7 +1285,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;アプローチ:836e9543b7834fc340ebe71534bcd743&#34;&gt;アプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;アプローチ&#34;&gt;アプローチ&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
@@ -1352,7 +1352,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;感想-疑問点:836e9543b7834fc340ebe71534bcd743&#34;&gt;感想・疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;感想-疑問点&#34;&gt;感想・疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．&lt;/li&gt;
@@ -1374,7 +1374,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 
 &lt;p&gt;proceeding: &lt;a href=&#34;http://www.aclweb.org/anthology-new/P/P12/P12-1086.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
 
-&lt;h2 id=&#34;解いている問題:381a36f16f92869b9003e45a4b32267c&#34;&gt;解いている問題&lt;/h2&gt;
+&lt;h2 id=&#34;解いている問題&#34;&gt;解いている問題&lt;/h2&gt;
 
 &lt;p&gt;名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。&lt;/p&gt;
 
@@ -1387,7 +1387,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;提案手法のモチベーション:381a36f16f92869b9003e45a4b32267c&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
+&lt;h2 id=&#34;提案手法のモチベーション&#34;&gt;提案手法のモチベーション&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。&lt;/li&gt;
@@ -1401,7 +1401,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;曖昧性解消のアプローチ:381a36f16f92869b9003e45a4b32267c&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
+&lt;h2 id=&#34;曖昧性解消のアプローチ&#34;&gt;曖昧性解消のアプローチ&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;（良くない）シンプルな正例の作り方の例&lt;/strong&gt;&lt;/p&gt;
 
@@ -1462,7 +1462,7 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
 &lt;li&gt;SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h2 id=&#34;疑問点:381a36f16f92869b9003e45a4b32267c&#34;&gt;疑問点&lt;/h2&gt;
+&lt;h2 id=&#34;疑問点&#34;&gt;疑問点&lt;/h2&gt;
 
 &lt;ul&gt;
 &lt;li&gt;最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか)&lt;/li&gt;

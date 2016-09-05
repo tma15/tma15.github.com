@@ -60,7 +60,7 @@
 			<br>
 			<p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">type</span> byInode []os.FileInfo
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">type</span> byInode []os.FileInfo
 
 <span style="color: #008000; font-weight: bold">func</span> (this byInode) Len() <span style="color: #007020">int</span> { <span style="color: #008000; font-weight: bold">return</span> <span style="color: #007020">len</span>(this) }
 <span style="color: #008000; font-weight: bold">func</span> (this byInode) Less(i, j <span style="color: #007020">int</span>) bool {
@@ -97,7 +97,7 @@
 <span style="color: #008000; font-weight: bold">return</span> list, nil
 }
 </pre></div>
-</p>
+
 
 <p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。</p>

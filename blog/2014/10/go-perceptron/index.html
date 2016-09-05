@@ -65,31 +65,31 @@
 また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
 多値分類もできます。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sports soccer:1 baseball:1
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sports soccer:1 baseball:1
 food beef:1 pork:1
 </pre></div>
-</p>
+
 
 <p>今回は<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/">LIBSVM Data: Classification, Regression, and Multi-label</a>で公開されている二値分類用データを使って動かしてみました。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$go</span> build
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$go</span> build
 <span style="color: #906030">$.</span>/perceptron -f<span style="color: #303030">=</span>../data/a1a -m<span style="color: #303030">=</span>learn -w<span style="color: #303030">=</span>model -l<span style="color: #303030">=</span>10
 <span style="color: #906030">$.</span>/perceptron -f<span style="color: #303030">=</span>../data/a1a.t -m<span style="color: #303030">=</span><span style="color: #007020">test</span> -w<span style="color: #303030">=</span>model
 Acc: 0.8257203773097299
 </pre></div>
-</p>
+
 
 <p>-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
 テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。</p>
 
 <p>このデータは、</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$grep</span> <span style="background-color: #fff0f0">&quot;^+1&quot;</span> ../data/a1a.t|wc -l
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$grep</span> <span style="background-color: #fff0f0">&quot;^+1&quot;</span> ../data/a1a.t|wc -l
 7446
 <span style="color: #906030">$grep</span> <span style="background-color: #fff0f0">&quot;^-1&quot;</span> ../data/a1a.t|wc -l
 23510
 </pre></div>
-</p>
+
 
 <p>とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。</p>
 

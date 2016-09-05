@@ -65,7 +65,7 @@
 
 <p>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。</p>
 
-<h2 id="気になったところ:354c44db974ee48c03ece6648b7b14ff">気になったところ</h2>
+<h2 id="気になったところ">気になったところ</h2>
 
 <p>データに正規分布を仮定したときのナイーブベイズ分類器について。
 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は</p>
@@ -77,7 +77,7 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 <p>これのlogをとると、
 \[
 \begin{split}
-\log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\\
+\log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\<br />
 &amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
 \end{split}
 \]</p>
@@ -86,11 +86,11 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 <p>\[
 \begin{split}
-\log L(X, Y; \mu, \sigma) &amp;= \log(\prod<em>{n=1}^N p(\mathbf{x}_n, y_n))\\
-&amp; = \log(\prod</em>{n=1}^N p(y<em>n)p(\mathbf{x}_n|y_n))\\
-&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \log p(\mathbf{x}_n|y<em>n)\\
-&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \sum<em>{k=1}^K\log p(x</em>{nk}|y<em>n)\\
-&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \sum<em>{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma</em>{y<em>nk}^2) - \frac{(x</em>{nk}-\mu<em>{y_nk})^2}{2\sigma</em>{y_nk}^2}\}
+\log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y<em>n))\<br />
+&amp; = \log(\prod</em>{n=1}^N p(y_n)p(\mathbf{x}_n|y<em>n))\<br />
+&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \log p(\mathbf{x}_n|y<em>n)\<br />
+&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \sum<em>{k=1}^K\log p(x</em>{nk}|y<em>n)\<br />
+&amp; = \sum</em>{n=1}^N \log p(y<em>n) + \sum</em>{n=1}^N \sum<em>{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma</em>{y<em>nk}^2) - \frac{(x</em>{nk}-\mu_{y<em>nk})^2}{2\sigma</em>{y_nk}^2}\}
 \end{split}
 \]</p>
 
@@ -98,9 +98,9 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 <p>\[
 \begin{split}
-\hat{y} &amp;= \mathop{\arg\,\max}\limits<em>y \log p(\mathbf{x}, y)\\
-&amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\\
-&amp; = \mathop{\arg\,\max}\limits_y \{\log p(y) + \sum</em>{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma<em>{yk}^2) - \frac{(x_k-\mu</em>{yk})^2}{2\sigma_{yk}^2}\}\}
+\hat{y} &amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\<br />
+&amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\<br />
+&amp; = \mathop{\arg\,\max}\limits<em>y \{\log p(y) + \sum</em>{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x<em>k-\mu</em>{yk})^2}{2\sigma_{yk}^2}\}\}
 \end{split}
 \]</p>
 
@@ -126,7 +126,7 @@ joint_log_likelihood <span style="color: #303030">=</span> []
 <br>
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">_joint_log_likelihood</span>(<span style="color: #007020">self</span>, X):
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">_joint_log_likelihood</span>(<span style="color: #007020">self</span>, X):
         X <span style="color: #303030">=</span> array2d(X)
         joint_log_likelihood <span style="color: #303030">=</span> []
         <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(np<span style="color: #303030">.</span>size(<span style="color: #007020">self</span><span style="color: #303030">.</span>classes_)):
@@ -136,13 +136,13 @@ joint_log_likelihood <span style="color: #303030">=</span> []
                                  (<span style="color: #007020">self</span><span style="color: #303030">.</span>sigma_[i, :]), <span style="color: #0000D0; font-weight: bold">1</span>)
             joint_log_likelihood<span style="color: #303030">.</span>append(jointi <span style="color: #303030">+</span> n_ij)
 </pre></div>
-</p>
+
 
 <p><br></p>
 
 <p>数式の展開が間違えているのだろうか&hellip;。それとも2は必要ないのだろうか&hellip;。</p>
 
-<h2 id="参考:354c44db974ee48c03ece6648b7b14ff">参考</h2>
+<h2 id="参考">参考</h2>
 
 <ul>
 <li><a href="http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/">Naive Bayesの復習（導出編）</a></li>

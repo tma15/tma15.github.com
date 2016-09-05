@@ -60,7 +60,7 @@
 			<br>
 			
 
-<h2 id="概要:7a3ae7300e2315ccfba2a2a08e8ab28a">概要</h2>
+<h2 id="概要">概要</h2>
 
 <p><a href="https://github.com/pfi/maf">maf</a>というツールが便利そうだったのでメモ。
 評価のために必要なめんどくさい処理が簡略化されそうな気がする。
@@ -69,20 +69,20 @@
 
 <p>今回は色々とパラメータを変えて学習した分類器を評価する例で進める。</p>
 
-<h2 id="使ってみた:7a3ae7300e2315ccfba2a2a08e8ab28a">使ってみた</h2>
+<h2 id="使ってみた">使ってみた</h2>
 
 <p>まず、wafとmafとダウンロードする。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cd</span> /path/to/project/
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cd</span> /path/to/project/
 <span style="color: #906030">$wget</span> https://github.com/pfi/maf/raw/master/waf
 <span style="color: #906030">$wget</span> https://github.com/pfi/maf/raw/master/maf.py
 <span style="color: #906030">$chmod</span> +x waf
 </pre></div>
-</p>
+
 
 <p>以下の様な <a href="https://gist.github.com/tma15/1d7bd594d5be774ca6e9">wscript</a> を作成。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #808080">#!/usr/bin/python</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #808080">#!/usr/bin/python</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">json</span>
 <span style="color: #008000; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">numpy</span> <span style="color: #008000; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">np</span>
@@ -180,7 +180,7 @@
             aggregate_by <span style="color: #303030">=</span> [<span style="background-color: #fff0f0">&quot;fold&quot;</span>],
             rule<span style="color: #303030">=</span>maflib<span style="color: #303030">.</span>rules<span style="color: #303030">.</span>max(<span style="background-color: #fff0f0">&quot;accuracy&quot;</span>))
 </pre></div>
-</p>
+
 
 <p>次のように実行。</p>
 
@@ -203,11 +203,11 @@ Waf: Entering directory <span style="background-color: #fff0f0">`</span>/Users/m
 </pre></div>
 </p>
 
-<h2 id="他に:7a3ae7300e2315ccfba2a2a08e8ab28a">他に</h2>
+<h2 id="他に">他に</h2>
 
 <p>出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> ./build/.maf_id_table.tsv
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> ./build/.maf_id_table.tsv
 0       <span style="color: #303030">{</span><span style="background-color: #fff0f0">&#39;fold&#39;</span>: 0<span style="color: #303030">}</span>
 1       <span style="color: #303030">{</span><span style="background-color: #fff0f0">&#39;fold&#39;</span>: 1<span style="color: #303030">}</span>
 2       <span style="color: #303030">{</span><span style="background-color: #fff0f0">&#39;fold&#39;</span>: 2<span style="color: #303030">}</span>
@@ -215,12 +215,12 @@ Waf: Entering directory <span style="background-color: #fff0f0">`</span>/Users/m
 4       <span style="color: #303030">{</span><span style="background-color: #fff0f0">&#39;a&#39;</span>: <span style="background-color: #fff0f0">&#39;perceptron&#39;</span>, <span style="background-color: #fff0f0">&#39;fold&#39;</span>: 1, <span style="background-color: #fff0f0">&#39;c&#39;</span>: 9.9999999999999994e-12<span style="color: #303030">}</span>
 ...
 </pre></div>
-</p>
+
 
 <p>また、結果を集約するときなどは、<a href="http://pfi.github.io/maf/usage.html#json">JSON形式でデータを扱う必要がある</a> ので、分類器の出力をJSON形式に加工する関数を作らなければならない。
 GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サンプルコード</a> が参考になる。</p>
 
-<h2 id="参考:7a3ae7300e2315ccfba2a2a08e8ab28a">参考</h2>
+<h2 id="参考">参考</h2>
 
 <ul>
 <li><a href="//d.hatena.ne.jp/tanakh/20100212">waf チュートリアル</a></li>
