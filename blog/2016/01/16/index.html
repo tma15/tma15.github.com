@@ -60,41 +60,41 @@
 			<br>
 			<p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">type</span> byInode []os.FileInfo
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">type</span> byInode []os.FileInfo
 
-<span style="color: #008000; font-weight: bold">func</span> (this byInode) Len() <span style="color: #007020">int</span> { <span style="color: #008000; font-weight: bold">return</span> <span style="color: #007020">len</span>(this) }
-<span style="color: #008000; font-weight: bold">func</span> (this byInode) Less(i, j <span style="color: #007020">int</span>) bool {
-    fstat_i := this[i].Sys().(*syscall.Stat_t)
-    fstat_j := this[j].Sys().(*syscall.Stat_t)
-    <span style="color: #008000; font-weight: bold">return</span> fstat_i.Ino &lt; fstat_j.Ino
+<span style="color: #008800; font-weight: bold">func</span> (this byInode) Len() <span style="color: #333399; font-weight: bold">int</span> { <span style="color: #008800; font-weight: bold">return</span> <span style="color: #007020">len</span>(this) }
+<span style="color: #008800; font-weight: bold">func</span> (this byInode) Less(i, j <span style="color: #333399; font-weight: bold">int</span>) <span style="color: #333399; font-weight: bold">bool</span> {
+    fstat_i <span style="color: #333333">:=</span> this[i].Sys().(<span style="color: #333333">*</span>syscall.Stat_t)
+    fstat_j <span style="color: #333333">:=</span> this[j].Sys().(<span style="color: #333333">*</span>syscall.Stat_t)
+    <span style="color: #008800; font-weight: bold">return</span> fstat_i.Ino &lt; fstat_j.Ino
 }
-<span style="color: #008000; font-weight: bold">func</span> (this byInode) Swap(i, j <span style="color: #007020">int</span>) { this[i], this[j] = this[j], this[i] }
+<span style="color: #008800; font-weight: bold">func</span> (this byInode) Swap(i, j <span style="color: #333399; font-weight: bold">int</span>) { this[i], this[j] = this[j], this[i] }
 
-<span style="color: #008000; font-weight: bold">func</span> MyReadDir(dirname <span style="color: #007020">string</span>) ([]os.FileInfo, error) {
-    f, err := os.Open(dirname)
-    <span style="color: #008000; font-weight: bold">if</span> err != nil {
-        <span style="color: #008000; font-weight: bold">return</span> nil, err
+<span style="color: #008800; font-weight: bold">func</span> MyReadDir(dirname <span style="color: #333399; font-weight: bold">string</span>) ([]os.FileInfo, <span style="color: #333399; font-weight: bold">error</span>) {
+    f, err <span style="color: #333333">:=</span> os.Open(dirname)
+    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">nil</span>, err
     }
-    list, err := f.Readdir(-<span style="color: #0000D0; font-weight: bold">1</span>)
+    list, err <span style="color: #333333">:=</span> f.Readdir(<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>)
     f.Close()
-    <span style="color: #008000; font-weight: bold">if</span> err != nil {
-        <span style="color: #008000; font-weight: bold">return</span> nil, err
+    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">nil</span>, err
     }
-    <span style="color: #008000; font-weight: bold">return</span> list, nil
+    <span style="color: #008800; font-weight: bold">return</span> list, <span style="color: #008800; font-weight: bold">nil</span>
 }
 
-<span style="color: #008000; font-weight: bold">func</span> MyReadDirSortByInode(dirname <span style="color: #007020">string</span>) ([]os.FileInfo, error) {
-    f, err := os.Open(dirname)
-    <span style="color: #008000; font-weight: bold">if</span> err != nil {
-        <span style="color: #008000; font-weight: bold">return</span> nil, err
+<span style="color: #008800; font-weight: bold">func</span> MyReadDirSortByInode(dirname <span style="color: #333399; font-weight: bold">string</span>) ([]os.FileInfo, <span style="color: #333399; font-weight: bold">error</span>) {
+    f, err <span style="color: #333333">:=</span> os.Open(dirname)
+    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">nil</span>, err
     }
-    list, err := f.Readdir(-<span style="color: #0000D0; font-weight: bold">1</span>)
+    list, err <span style="color: #333333">:=</span> f.Readdir(<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>)
     f.Close()
-    <span style="color: #008000; font-weight: bold">if</span> err != nil {
-        <span style="color: #008000; font-weight: bold">return</span> nil, err
+    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">nil</span>, err
     }
     sort.Sort(byInode(list))
-<span style="color: #008000; font-weight: bold">return</span> list, nil
+<span style="color: #008800; font-weight: bold">return</span> list, <span style="color: #008800; font-weight: bold">nil</span>
 }
 </pre></div>
 
@@ -102,13 +102,13 @@
 <p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sudo sysctl -w vm.drop_caches<span style="color: #303030">=</span>3
-<span style="color: #007020">time </span>go run dirdump.go dir 1
-go run dirdump.go large 1  4.07s user 4.54s system 19% cpu 43.450 total
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span>3
+<span style="color: #007020">time</span> go run dirdump.go dir 1
+go run dirdump.go large <span style="color: #6600EE; font-weight: bold">1</span>  4.07s user 4.54s system 19% cpu 43.450 total
 
-sudo sysctl -w vm.drop_caches<span style="color: #303030">=</span>3
-<span style="color: #007020">time </span>go run dirdump.go dir 2
-go run dirdump.go large 2  5.85s user 8.98s system 4% cpu 4:58.27 total
+sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span>3
+<span style="color: #007020">time</span> go run dirdump.go dir 2
+go run dirdump.go large <span style="color: #6600EE; font-weight: bold">2</span>  5.85s user 8.98s system 4% cpu 4:58.27 total
 </pre></div>
 </p>
 

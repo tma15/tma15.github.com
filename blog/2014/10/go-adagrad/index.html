@@ -69,43 +69,43 @@
 
 <p>データを次のように作成。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$perl</span> -MList::Util<span style="color: #303030">=</span>shuffle -e <span style="background-color: #fff0f0">&#39;print shuffle(&lt;&gt;)&#39;</span> &lt; ../data/news20.binary &gt; news
-<span style="color: #906030">$head</span> -15000 news &gt; news.train
-<span style="color: #906030">$tail</span> -4996  news &gt; news.test
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$perl</span> -MList::Util<span style="color: #333333">=</span>shuffle -e <span style="background-color: #fff0f0">&#39;print shuffle(&lt;&gt;)&#39;</span> &lt; ../data/news20.binary &gt; news
+<span style="color: #996633">$head</span> -15000 news &gt; news.train
+<span style="color: #996633">$tail</span> -4996  news &gt; news.test
 </pre></div>
 
 
 <p>例えば<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary">このデータ</a>は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
 正則化項の重み&copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.01
-<span style="color: #906030">$.</span>/adagrad -f news.test -m <span style="color: #007020">test</span> -w model -l 1 -c 0.01
-Recall<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.011142 <span style="color: #303030">(</span>28/2513<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.848485 <span style="color: #303030">(</span>28/33<span style="color: #303030">)</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./adagrad -f news.train -m learn -w model -l <span style="color: #6600EE; font-weight: bold">1</span> -c 0.01
+$./adagrad -f news.test -m <span style="color: #007020">test</span> -w model -l <span style="color: #6600EE; font-weight: bold">1</span> -c 0.01
+Recall<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.011142 <span style="color: #333333">(</span>28/2513<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.848485 <span style="color: #333333">(</span>28/33<span style="color: #333333">)</span>
 --
-Recall<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.997986 <span style="color: #303030">(</span>2478/2483<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.499295 <span style="color: #303030">(</span>2478/4963<span style="color: #303030">)</span>
+Recall<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.997986 <span style="color: #333333">(</span>2478/2483<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.499295 <span style="color: #333333">(</span>2478/4963<span style="color: #333333">)</span>
 --
 Acc: 0.5016012810248198
 </pre></div>
 
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.0001
-<span style="color: #906030">$.</span>/adagrad -f news.test -m <span style="color: #007020">test</span> -w model
-Recall<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.836891 <span style="color: #303030">(</span>2078/2483<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.833200 <span style="color: #303030">(</span>2078/2494<span style="color: #303030">)</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./adagrad -f news.train -m learn -w model -l <span style="color: #6600EE; font-weight: bold">1</span> -c 0.0001
+$./adagrad -f news.test -m <span style="color: #007020">test</span> -w model
+Recall<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.836891 <span style="color: #333333">(</span>2078/2483<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.833200 <span style="color: #333333">(</span>2078/2494<span style="color: #333333">)</span>
 --
-Recall<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.834461 <span style="color: #303030">(</span>2097/2513<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.838129 <span style="color: #303030">(</span>2097/2502<span style="color: #303030">)</span>
+Recall<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.834461 <span style="color: #333333">(</span>2097/2513<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.838129 <span style="color: #333333">(</span>2097/2502<span style="color: #333333">)</span>
 --
 Acc: 0.8356685348278623
-<span style="color: #906030">$.</span>/adagrad -f news.train -m learn -w model -l 1 -c 0.00001
-<span style="color: #906030">$.</span>/adagrad -f news.test -m <span style="color: #007020">test</span> -w model
-Recall<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.950463 <span style="color: #303030">(</span>2360/2483<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>+1<span style="color: #303030">]</span>: 0.946651 <span style="color: #303030">(</span>2360/2493<span style="color: #303030">)</span>
+$./adagrad -f news.train -m learn -w model -l <span style="color: #6600EE; font-weight: bold">1</span> -c 0.00001
+$./adagrad -f news.test -m <span style="color: #007020">test</span> -w model
+Recall<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.950463 <span style="color: #333333">(</span>2360/2483<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>+1<span style="color: #333333">]</span>: 0.946651 <span style="color: #333333">(</span>2360/2493<span style="color: #333333">)</span>
 --
-Recall<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.947075 <span style="color: #303030">(</span>2380/2513<span style="color: #303030">)</span>
-Prec<span style="color: #303030">[</span>-1<span style="color: #303030">]</span>: 0.950859 <span style="color: #303030">(</span>2380/2503<span style="color: #303030">)</span>
+Recall<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.947075 <span style="color: #333333">(</span>2380/2513<span style="color: #333333">)</span>
+Prec<span style="color: #333333">[</span>-1<span style="color: #333333">]</span>: 0.950859 <span style="color: #333333">(</span>2380/2503<span style="color: #333333">)</span>
 --
 Acc: 0.9487590072057646
 </pre></div>

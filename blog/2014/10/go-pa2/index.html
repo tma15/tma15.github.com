@@ -65,22 +65,22 @@
 <p>ソースコードは<a href="https://github.com/tma15/gopa">こちら</a>。
 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> (p *PassiveAggressive) Update(X <span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>, y <span style="color: #007020">string</span>, sign <span style="color: #007020">float64</span>) Weight {
-        loss := math.Max(<span style="color: #0000D0; font-weight: bold">0</span>, <span style="color: #0000D0; font-weight: bold">1</span>-sign*Dot(X, p.weight[y]))
-        <span style="color: #808080">//         tau := loss / Norm(X) // PA</span>
-        tau := loss / (Norm(X) + <span style="color: #0000D0; font-weight: bold">1</span> / (<span style="color: #0000D0; font-weight: bold">2</span> * p.C)) <span style="color: #808080">// PA-II</span>
-        <span style="color: #008000; font-weight: bold">if</span> _, ok := p.weight[y]; ok == false {
-            p.weight[y] = <span style="color: #008000; font-weight: bold">map</span>[<span style="color: #007020">string</span>]<span style="color: #007020">float64</span>{}
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">func</span> (p <span style="color: #333333">*</span>PassiveAggressive) Update(X <span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]<span style="color: #333399; font-weight: bold">float64</span>, y <span style="color: #333399; font-weight: bold">string</span>, sign <span style="color: #333399; font-weight: bold">float64</span>) Weight {
+        loss <span style="color: #333333">:=</span> math.Max(<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">1</span><span style="color: #333333">-</span>sign<span style="color: #333333">*</span>Dot(X, p.weight[y]))
+        <span style="color: #888888">//         tau := loss / Norm(X) // PA</span>
+        tau <span style="color: #333333">:=</span> loss <span style="color: #333333">/</span> (Norm(X) <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">/</span> (<span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #333333">*</span> p.C)) <span style="color: #888888">// PA-II</span>
+        <span style="color: #008800; font-weight: bold">if</span> _, ok <span style="color: #333333">:=</span> p.weight[y]; ok <span style="color: #333333">==</span> <span style="color: #008800; font-weight: bold">false</span> {
+            p.weight[y] = <span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]<span style="color: #333399; font-weight: bold">float64</span>{}
         }
 
-        <span style="color: #008000; font-weight: bold">for</span> f, _ := <span style="color: #008000; font-weight: bold">range</span> X {
-                <span style="color: #008000; font-weight: bold">if</span> _, ok := p.weight[y][f]; ok {
-                    p.weight[y][f] += tau * sign
-                } <span style="color: #008000; font-weight: bold">else</span> {
-                    p.weight[y][f] = tau * sign
+        <span style="color: #008800; font-weight: bold">for</span> f, _ <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> X {
+                <span style="color: #008800; font-weight: bold">if</span> _, ok <span style="color: #333333">:=</span> p.weight[y][f]; ok {
+                    p.weight[y][f] <span style="color: #333333">+=</span> tau <span style="color: #333333">*</span> sign
+                } <span style="color: #008800; font-weight: bold">else</span> {
+                    p.weight[y][f] = tau <span style="color: #333333">*</span> sign
                 }
         }
-        <span style="color: #008000; font-weight: bold">return</span> p.weight
+        <span style="color: #008800; font-weight: bold">return</span> p.weight
 }
 </pre></div>
 

@@ -60,68 +60,68 @@
 			<br>
 			<p>go言語で書いた (<a href="https://gist.github.com/tma15/1277c7826a67a1c76212">gist</a>)。集合の要素は前もってソートしておいて、比較回数を減らしている。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">package</span> main
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">package</span> main
 
-<span style="color: #008000; font-weight: bold">import</span> (
+<span style="color: #008800; font-weight: bold">import</span> (
     <span style="background-color: #fff0f0">&quot;fmt&quot;</span>
     <span style="background-color: #fff0f0">&quot;sort&quot;</span>
     <span style="background-color: #fff0f0">&quot;strconv&quot;</span>
 )
 
-<span style="color: #008000; font-weight: bold">func</span> CountDuplicateElem(x, y []<span style="color: #007020">string</span>) <span style="color: #007020">int</span> {
-    i := <span style="color: #0000D0; font-weight: bold">0</span>
-    j := <span style="color: #0000D0; font-weight: bold">0</span>
-    num_match := <span style="color: #0000D0; font-weight: bold">0</span>
-    num_cmp := <span style="color: #0000D0; font-weight: bold">0</span>
-    <span style="color: #008000; font-weight: bold">for</span> {
-        <span style="color: #008000; font-weight: bold">if</span> i &gt;= <span style="color: #007020">len</span>(x){
-            <span style="color: #008000; font-weight: bold">break</span>
+<span style="color: #008800; font-weight: bold">func</span> CountDuplicateElem(x, y []<span style="color: #333399; font-weight: bold">string</span>) <span style="color: #333399; font-weight: bold">int</span> {
+    i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+    j <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+    num_match <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+    num_cmp <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+    <span style="color: #008800; font-weight: bold">for</span> {
+        <span style="color: #008800; font-weight: bold">if</span> i <span style="color: #333333">&gt;=</span> <span style="color: #007020">len</span>(x){
+            <span style="color: #008800; font-weight: bold">break</span>
         }
-        <span style="color: #008000; font-weight: bold">for</span> {
-            num_cmp += <span style="color: #0000D0; font-weight: bold">1</span>
-            <span style="color: #008000; font-weight: bold">if</span> j &gt;= <span style="color: #007020">len</span>(y) { <span style="color: #808080">// 位置jがyの長さを超えたら終了</span>
-                <span style="color: #008000; font-weight: bold">break</span>
+        <span style="color: #008800; font-weight: bold">for</span> {
+            num_cmp <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
+            <span style="color: #008800; font-weight: bold">if</span> j <span style="color: #333333">&gt;=</span> <span style="color: #007020">len</span>(y) { <span style="color: #888888">// 位置jがyの長さを超えたら終了</span>
+                <span style="color: #008800; font-weight: bold">break</span>
             }
-            <span style="color: #008000; font-weight: bold">if</span> x[i] &lt; y[j] { <span style="color: #808080">// 辞書順でx[i]がy[j]よりも小さければ終了</span>
-                <span style="color: #008000; font-weight: bold">break</span> <span style="color: #808080">// ソートされていればjより大きな位置の文字で一致することは無い</span>
+            <span style="color: #008800; font-weight: bold">if</span> x[i] &lt; y[j] { <span style="color: #888888">// 辞書順でx[i]がy[j]よりも小さければ終了</span>
+                <span style="color: #008800; font-weight: bold">break</span> <span style="color: #888888">// ソートされていればjより大きな位置の文字で一致することは無い</span>
             }
-            <span style="color: #008000; font-weight: bold">if</span> x[i] == y[j] {
-                num_match += <span style="color: #0000D0; font-weight: bold">1</span>
-                j += <span style="color: #0000D0; font-weight: bold">1</span>
-                <span style="color: #008000; font-weight: bold">break</span>
+            <span style="color: #008800; font-weight: bold">if</span> x[i] <span style="color: #333333">==</span> y[j] {
+                num_match <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
+                j <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
+                <span style="color: #008800; font-weight: bold">break</span>
             }
-            j += <span style="color: #0000D0; font-weight: bold">1</span>
+            j <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
         }
-        i += <span style="color: #0000D0; font-weight: bold">1</span>
+        i <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
     }
-    <span style="color: #008000; font-weight: bold">return</span> num_match
+    <span style="color: #008800; font-weight: bold">return</span> num_match
 }
 </pre></div>
 
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> NaiveCount(x, y []<span style="color: #007020">string</span>) <span style="color: #007020">int</span> {
-    num_match := <span style="color: #0000D0; font-weight: bold">0</span>
-    <span style="color: #008000; font-weight: bold">for</span> i := <span style="color: #0000D0; font-weight: bold">0</span>; i&lt;<span style="color: #007020">len</span>(x);i++{
-            <span style="color: #008000; font-weight: bold">for</span> j := <span style="color: #0000D0; font-weight: bold">0</span>; j&lt;<span style="color: #007020">len</span>(y);j++{
-                    <span style="color: #008000; font-weight: bold">if</span> x[i] == y[j] {
-                            num_match += <span style="color: #0000D0; font-weight: bold">1</span>
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">func</span> NaiveCount(x, y []<span style="color: #333399; font-weight: bold">string</span>) <span style="color: #333399; font-weight: bold">int</span> {
+    num_match <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+    <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i&lt;<span style="color: #007020">len</span>(x);i<span style="color: #333333">++</span>{
+            <span style="color: #008800; font-weight: bold">for</span> j <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; j&lt;<span style="color: #007020">len</span>(y);j<span style="color: #333333">++</span>{
+                    <span style="color: #008800; font-weight: bold">if</span> x[i] <span style="color: #333333">==</span> y[j] {
+                            num_match <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
                     }
             }
     }
-    <span style="color: #008000; font-weight: bold">return</span> num_match
+    <span style="color: #008800; font-weight: bold">return</span> num_match
 }
 </pre></div>
 </p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">func</span> main() {
-    k := []<span style="color: #007020">string</span>{}
-    l := []<span style="color: #007020">string</span>{}
-    <span style="color: #008000; font-weight: bold">for</span> i:=<span style="color: #0000D0; font-weight: bold">0</span>; i&lt;<span style="color: #0000D0; font-weight: bold">100000</span>; i++{
-            k = append(k, strconv.Itoa(i))
-            l = append(l, strconv.Itoa(i - <span style="color: #0000D0; font-weight: bold">1</span>))
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">func</span> main() {
+    k <span style="color: #333333">:=</span> []<span style="color: #333399; font-weight: bold">string</span>{}
+    l <span style="color: #333333">:=</span> []<span style="color: #333399; font-weight: bold">string</span>{}
+    <span style="color: #008800; font-weight: bold">for</span> i<span style="color: #333333">:=</span><span style="color: #0000DD; font-weight: bold">0</span>; i&lt;<span style="color: #0000DD; font-weight: bold">100000</span>; i<span style="color: #333333">++</span>{
+            k = <span style="color: #007020">append</span>(k, strconv.Itoa(i))
+            l = <span style="color: #007020">append</span>(l, strconv.Itoa(i <span style="color: #333333">-</span> <span style="color: #0000DD; font-weight: bold">1</span>))
     }
-    cnt_match := CountDuplicateElem(k, l)
-    cnt_match := NaiveCount(k, l)
+    cnt_match <span style="color: #333333">:=</span> CountDuplicateElem(k, l)
+    cnt_match <span style="color: #333333">:=</span> NaiveCount(k, l)
     fmt.Println(cnt_match)
 }
 </pre></div>
@@ -130,7 +130,7 @@
 <p>数を多めにしてナイーブな方法と比較してみる。
 それぞれの要素をfor文で回すとてもナイーブな方法:</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">time </span>go run countelem.go
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #007020">time</span> go run countelem.go
 99999
 go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
 </pre></div>
@@ -138,7 +138,7 @@ go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
 
 <p>今回書いた方法:</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">time </span>go run countelem.go
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #007020">time</span> go run countelem.go
 99999
 go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 </pre></div>

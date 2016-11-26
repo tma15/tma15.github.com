@@ -21,7 +21,7 @@
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./bin/elasticsearch -v
 Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -35,13 +35,13 @@ Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins&#34;&gt;Manual install of Elasticsearch plugins&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;デフォルトのanalyzerをkuromojiにしておく。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
 index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
@@ -53,7 +53,7 @@ index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 &lt;p&gt;では、まずはPythonラッパーをインストール。
 使い方は&lt;a href=&#34;http://elasticsearch-py.readthedocs.org/en/master/&#34;&gt;Python Elasticsearch Client&lt;/a&gt;が参考になりそう。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;pip install elasticsearch
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -63,54 +63,54 @@ index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 
 &lt;p&gt;mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; mapping.yaml
 mappings:
   restaurant:
     properties:
       description:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       name:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       name_kana:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       adress:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;indexを生成して文書を順に追加していくスクリプトを書く。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
-es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
-i &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
+index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
+doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
+i &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
 
-setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting)
+setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting)
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; lid, line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sys&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;stdin):
-    line &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;strip()
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; lid &lt;span style=&#34;color: #303030&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;:
-        attrs &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;)
-        num_attrs &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(attrs)
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;continue&lt;/span&gt;
-    data &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {}
-    sp &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, num_attrs &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j, value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sp):
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; attrs[j] &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; properties:
-            data[attrs[j]] &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; value
-    es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;data)
-    i &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; lid, line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sys&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;stdin):
+    line &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;strip()
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; lid &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;:
+        attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;)
+        num_attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(attrs)
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;continue&lt;/span&gt;
+    data &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {}
+    sp &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, num_attrs &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j, value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sp):
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; attrs[j] &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; properties:
+            data[attrs[j]] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; value
+    es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;data)
+    i &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;実行して登録する。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -121,12 +121,12 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
 &lt;p&gt;Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は&lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform&#34;&gt;例&lt;/a&gt;にある定義を採用。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;settings:
   index:
     analysis:
       analyzer:
         my_analyzer:
-          &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: custom
+          type: custom
           tokenizer:
             kuromoji_tokenizer
           filter:
@@ -137,27 +137,27 @@ mappings:
       analyzer: my_analyzer
     properties:
       description:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
         analyzer: my_analyzer
       name:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
       name_kana:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       address:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
         analyzer: my_analyzer
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
-&lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
-&lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
+&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
+&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -165,13 +165,13 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
 
 &lt;p&gt;検索するスクリプトを書く。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
-es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
+es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
+index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
+doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
 
-query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
+query &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {
         &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: {
             &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;simple_query_string&amp;quot;&lt;/span&gt;: {
                 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都&amp;quot;&lt;/span&gt;,
@@ -180,16 +180,16 @@ query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
             }
         }
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;query)[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;]:
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; i[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;_source&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;items():
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;query)[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;]:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; i[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;_source&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;items():
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;実行する。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$python&lt;/span&gt; search.py
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;新宿区西新宿1-1-3新宿ミロード 8F&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&amp;quot;&lt;/span&gt;
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;はなてまり&amp;quot;&lt;/span&gt;
@@ -223,9 +223,9 @@ name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ぎ�
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;港区赤坂6-19-53&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分かりにくい処ですが、頑張って説明します。   赤坂通りを青山方面に進みます。&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;きょうとぎおんおいしんぼあかさかべってい&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都ぎをん おいしんぼ 赤坂別邸&lt;span style=&#34;color: #F00000; background-color: #F0A0A0&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都ぎをん おいしんぼ 赤坂別邸&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
 
-...
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

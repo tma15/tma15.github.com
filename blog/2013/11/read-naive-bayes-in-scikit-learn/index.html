@@ -106,35 +106,35 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 <p>対数尤度関数をnumpyに落とすと</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #D04020">&quot;&quot;&quot;</span>
-<span style="color: #D04020">sigma.shape = (n_classes, n_features)</span>
-<span style="color: #D04020">mu.shape = (n_classes, n_features)</span>
-<span style="color: #D04020">&quot;&quot;&quot;</span>
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #DD4422">&quot;&quot;&quot;</span>
+<span style="color: #DD4422">sigma.shape = (n_classes, n_features)</span>
+<span style="color: #DD4422">mu.shape = (n_classes, n_features)</span>
+<span style="color: #DD4422">&quot;&quot;&quot;</span>
 
-joint_log_likelihood <span style="color: #303030">=</span> []
-<span style="color: #008000; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(np<span style="color: #303030">.</span>size(classes)):
-    <span style="color: #808080"># 事前分布の対数</span>
-    log_prior <span style="color: #303030">=</span> np<span style="color: #303030">.</span>log(class_piror[i])
-    <span style="color: #808080"># log p(x|y)の対数の初項</span>
-    log_gauss1 <span style="color: #303030">=</span> <span style="color: #303030">-</span><span style="color: #6000E0; font-weight: bold">0.5</span> <span style="color: #303030">*</span> np<span style="color: #303030">.</span>sum(np<span style="color: #303030">.</span>log(<span style="color: #0000D0; font-weight: bold">2</span> <span style="color: #303030">*</span> np<span style="color: #303030">.</span>pi <span style="color: #303030">*</span> sigma[i, :]))
-    <span style="color: #808080"># log p(x|y)の対数の第二項</span>
-    log_gauss2 <span style="color: #303030">=</span> <span style="color: #303030">-</span><span style="color: #6000E0; font-weight: bold">0.5</span> <span style="color: #303030">*</span> np<span style="color: #303030">.</span>sum((X <span style="color: #303030">-</span> mu[i, :]) <span style="color: #303030">**</span> <span style="color: #0000D0; font-weight: bold">2</span> <span style="color: #303030">/</span> sigma[i, :])
-    <span style="color: #808080"># クラスiの尤度のlogを取った値</span>
-    joint_log_likelihood<span style="color: #303030">.</span>append(log_prior <span style="color: #303030">+</span> log_gauss1 <span style="color: #303030">+</span> log_gauss2)
+joint_log_likelihood <span style="color: #333333">=</span> []
+<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(np<span style="color: #333333">.</span>size(classes)):
+    <span style="color: #888888"># 事前分布の対数</span>
+    log_prior <span style="color: #333333">=</span> np<span style="color: #333333">.</span>log(class_piror[i])
+    <span style="color: #888888"># log p(x|y)の対数の初項</span>
+    log_gauss1 <span style="color: #333333">=</span> <span style="color: #333333">-</span><span style="color: #6600EE; font-weight: bold">0.5</span> <span style="color: #333333">*</span> np<span style="color: #333333">.</span>sum(np<span style="color: #333333">.</span>log(<span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #333333">*</span> np<span style="color: #333333">.</span>pi <span style="color: #333333">*</span> sigma[i, :]))
+    <span style="color: #888888"># log p(x|y)の対数の第二項</span>
+    log_gauss2 <span style="color: #333333">=</span> <span style="color: #333333">-</span><span style="color: #6600EE; font-weight: bold">0.5</span> <span style="color: #333333">*</span> np<span style="color: #333333">.</span>sum((X <span style="color: #333333">-</span> mu[i, :]) <span style="color: #333333">**</span> <span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #333333">/</span> sigma[i, :])
+    <span style="color: #888888"># クラスiの尤度のlogを取った値</span>
+    joint_log_likelihood<span style="color: #333333">.</span>append(log_prior <span style="color: #333333">+</span> log_gauss1 <span style="color: #333333">+</span> log_gauss2)
 </pre></div>
 
 <br>
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">    <span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">_joint_log_likelihood</span>(<span style="color: #007020">self</span>, X):
-        X <span style="color: #303030">=</span> array2d(X)
-        joint_log_likelihood <span style="color: #303030">=</span> []
-        <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(np<span style="color: #303030">.</span>size(<span style="color: #007020">self</span><span style="color: #303030">.</span>classes_)):
-            jointi <span style="color: #303030">=</span> np<span style="color: #303030">.</span>log(<span style="color: #007020">self</span><span style="color: #303030">.</span>class_prior_[i])
-            n_ij <span style="color: #303030">=</span> <span style="color: #303030">-</span> <span style="color: #6000E0; font-weight: bold">0.5</span> <span style="color: #303030">*</span> np<span style="color: #303030">.</span>sum(np<span style="color: #303030">.</span>log(np<span style="color: #303030">.</span>pi <span style="color: #303030">*</span> <span style="color: #007020">self</span><span style="color: #303030">.</span>sigma_[i, :])) <span style="color: #808080"># np.piの前に2がない</span>
-            n_ij <span style="color: #303030">-=</span> <span style="color: #6000E0; font-weight: bold">0.5</span> <span style="color: #303030">*</span> np<span style="color: #303030">.</span>sum(((X <span style="color: #303030">-</span> <span style="color: #007020">self</span><span style="color: #303030">.</span>theta_[i, :]) <span style="color: #303030">**</span> <span style="color: #0000D0; font-weight: bold">2</span>) <span style="color: #303030">/</span>
-                                 (<span style="color: #007020">self</span><span style="color: #303030">.</span>sigma_[i, :]), <span style="color: #0000D0; font-weight: bold">1</span>)
-            joint_log_likelihood<span style="color: #303030">.</span>append(jointi <span style="color: #303030">+</span> n_ij)
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>    <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">_joint_log_likelihood</span>(<span style="color: #007020">self</span>, X):
+        X <span style="color: #333333">=</span> array2d(X)
+        joint_log_likelihood <span style="color: #333333">=</span> []
+        <span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(np<span style="color: #333333">.</span>size(<span style="color: #007020">self</span><span style="color: #333333">.</span>classes_)):
+            jointi <span style="color: #333333">=</span> np<span style="color: #333333">.</span>log(<span style="color: #007020">self</span><span style="color: #333333">.</span>class_prior_[i])
+            n_ij <span style="color: #333333">=</span> <span style="color: #333333">-</span> <span style="color: #6600EE; font-weight: bold">0.5</span> <span style="color: #333333">*</span> np<span style="color: #333333">.</span>sum(np<span style="color: #333333">.</span>log(np<span style="color: #333333">.</span>pi <span style="color: #333333">*</span> <span style="color: #007020">self</span><span style="color: #333333">.</span>sigma_[i, :])) <span style="color: #888888"># np.piの前に2がない</span>
+            n_ij <span style="color: #333333">-=</span> <span style="color: #6600EE; font-weight: bold">0.5</span> <span style="color: #333333">*</span> np<span style="color: #333333">.</span>sum(((X <span style="color: #333333">-</span> <span style="color: #007020">self</span><span style="color: #333333">.</span>theta_[i, :]) <span style="color: #333333">**</span> <span style="color: #0000DD; font-weight: bold">2</span>) <span style="color: #333333">/</span>
+                                 (<span style="color: #007020">self</span><span style="color: #333333">.</span>sigma_[i, :]), <span style="color: #0000DD; font-weight: bold">1</span>)
+            joint_log_likelihood<span style="color: #333333">.</span>append(jointi <span style="color: #333333">+</span> n_ij)
 </pre></div>
 
 

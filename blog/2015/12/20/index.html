@@ -66,15 +66,15 @@
 <h3 id="1-プログラムを作成-コミットする">1. プログラムを作成、コミットする。</h3>
 
 <p>プログラム<code>calc.py</code>を作成。
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">calc</span>(a, b):
-    retunr a <span style="color: #303030">+</span> b
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">calc</span>(a, b):
+    retunr a <span style="color: #333333">+</span> b
 
-<span style="color: #008000; font-weight: bold">print</span> calc(<span style="color: #0000D0; font-weight: bold">1</span>, <span style="color: #0000D0; font-weight: bold">2</span>)
+<span style="color: #008800; font-weight: bold">print</span> calc(<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>)
 </pre></div>
 </p>
 
 <p>作ったプログラムをコミットする。
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git add -A
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git add -A
 git commit -m <span style="background-color: #fff0f0">&quot;最初のコミット&quot;</span>
 </pre></div>
 </p>
@@ -82,14 +82,14 @@ git commit -m <span style="background-color: #fff0f0">&quot;最初のコミッ�
 <h3 id="2-プログラムを修正-コミットする">2. プログラムを修正、コミットする。</h3>
 
 <p>プログラム<code>calc.py</code>を修正。
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">def</span> <span style="color: #0060B0; font-weight: bold">calc</span>(a, b):
-    retunr a <span style="color: #303030">+</span> <span style="color: #0000D0; font-weight: bold">2</span> <span style="color: #303030">*</span> b
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">calc</span>(a, b):
+    retunr a <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #333333">*</span> b
 
-<span style="color: #008000; font-weight: bold">print</span> calc(<span style="color: #0000D0; font-weight: bold">1</span>, <span style="color: #0000D0; font-weight: bold">2</span>)
+<span style="color: #008800; font-weight: bold">print</span> calc(<span style="color: #0000DD; font-weight: bold">1</span>, <span style="color: #0000DD; font-weight: bold">2</span>)
 </pre></div>
 </p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git add -A
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git add -A
 git commit -m <span style="background-color: #fff0f0">&quot;計算方法を修正&quot;</span>
 git log
 </pre></div>
@@ -97,7 +97,7 @@ git log
 
 <p>git logの出力は以下の様な感じ。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
 ...
 
     計算方法の修正
@@ -112,43 +112,43 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 <h3 id="3-プログラムを指定したコミットidの状態に戻す">3. プログラムを指定したコミットIDの状態に戻す。</h3>
 
 <p>以下のようにプログラムの中身を確認して、
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git show 5e63:calc.py <span style="color: #808080">### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git show 5e63:calc.py <span style="color: #888888">### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定</span>
 </pre></div>
 </p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #808080">#!/usr/bin/python</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #888888">#!/usr/bin/python</span>
 
-def calc<span style="color: #303030">(</span>a, b<span style="color: #303030">)</span>:
-    <span style="color: #008000; font-weight: bold">return </span>a + b
+def calc<span style="color: #333333">(</span>a, b<span style="color: #333333">)</span>:
+    <span style="color: #008800; font-weight: bold">return</span> a + b
 
-    print calc<span style="color: #303030">(</span>1, 2<span style="color: #303030">)</span>
+    print calc<span style="color: #333333">(</span>1, 2<span style="color: #333333">)</span>
 </pre></div>
 
 
 <p>あるいは、以下のように差分を確認して、</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git diff HEAD:calc.py 5e63:calc.py
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git diff HEAD:calc.py 5e63:calc.py
 </pre></div>
 
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">diff --git a/HEAD:calc.py b/5e63:calc.py
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>diff --git a/HEAD:calc.py b/5e63:calc.py
 index e2c3e48..6ce682f 100644
 --- a/HEAD:calc.py
 +++ b/5e63:calc.py
 @@ -1,6 +1,6 @@
- <span style="color: #808080">#!/usr/bin/python</span>
+ <span style="color: #888888">#!/usr/bin/python</span>
 
-  def calc<span style="color: #303030">(</span>a, b<span style="color: #303030">)</span>:
-  -    <span style="color: #008000; font-weight: bold">return </span>a + 2 * b
-  +    <span style="color: #008000; font-weight: bold">return </span>a + b
+  def calc<span style="color: #333333">(</span>a, b<span style="color: #333333">)</span>:
+  -    <span style="color: #008800; font-weight: bold">return</span> a + <span style="color: #6600EE; font-weight: bold">2</span> * b
+  +    <span style="color: #008800; font-weight: bold">return</span> a + b
 
-   print calc<span style="color: #303030">(</span>1, 2<span style="color: #303030">)</span>
+   print calc<span style="color: #333333">(</span>1, 2<span style="color: #333333">)</span>
 </pre></div>
 
 
 <p>確かに自分が戻したいコミットであれば、以下のようにして戻す:</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #808080">### topicブランチを作成して、コミットIDが5e63...の状態に戻す。</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #888888">### topicブランチを作成して、コミットIDが5e63...の状態に戻す。</span>
 </pre></div>
 
 
@@ -157,11 +157,11 @@ index e2c3e48..6ce682f 100644
 
 <h4 id="ブランチを作成せずに指定したコミットidに戻した後に-加えた変更を反映したい場合">ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合</h4>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #808080">### ブランチを作成せずに、5e63...の状態に戻る</span>
-git branch tmp <span style="color: #808080">### 一時的なブランチtmpを作成して移動</span>
-git checkout master <span style="color: #808080">### masterブランチへ移動</span>
-git merge tmp <span style="color: #808080">### tmpをmasterへマージ</span>
-git branch -d tmp <span style="color: #808080">### tmpを削除</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color: #888888">### ブランチを作成せずに、5e63...の状態に戻る</span>
+git branch tmp <span style="color: #888888">### 一時的なブランチtmpを作成して移動</span>
+git checkout master <span style="color: #888888">### masterブランチへ移動</span>
+git merge tmp <span style="color: #888888">### tmpをmasterへマージ</span>
+git branch -d tmp <span style="color: #888888">### tmpを削除</span>
 </pre></div>
 
 

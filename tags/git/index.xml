@@ -24,15 +24,15 @@
 &lt;h3 id=&#34;1-プログラムを作成-コミットする&#34;&gt;1. プログラムを作成、コミットする。&lt;/h3&gt;
 
 &lt;p&gt;プログラム&lt;code&gt;calc.py&lt;/code&gt;を作成。
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
-    retunr a &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; b
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
+    retunr a &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; b
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; calc(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;)
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; calc(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
 &lt;p&gt;作ったプログラムをコミットする。
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git add -A
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git add -A
 git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;最初のコミット&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
@@ -40,14 +40,14 @@ git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;�
 &lt;h3 id=&#34;2-プログラムを修正-コミットする&#34;&gt;2. プログラムを修正、コミットする。&lt;/h3&gt;
 
 &lt;p&gt;プログラム&lt;code&gt;calc.py&lt;/code&gt;を修正。
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
-    retunr a &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; b
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;calc&lt;/span&gt;(a, b):
+    retunr a &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; b
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; calc(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;)
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; calc(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git add -A
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git add -A
 git commit -m &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;計算方法を修正&amp;quot;&lt;/span&gt;
 git log
 &lt;/pre&gt;&lt;/div&gt;
@@ -55,7 +55,7 @@ git log
 
 &lt;p&gt;git logの出力は以下の様な感じ。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
 ...
 
     計算方法の修正
@@ -70,43 +70,43 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 &lt;h3 id=&#34;3-プログラムを指定したコミットidの状態に戻す&#34;&gt;3. プログラムを指定したコミットIDの状態に戻す。&lt;/h3&gt;
 
 &lt;p&gt;以下のようにプログラムの中身を確認して、
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git show 5e63:calc.py &lt;span style=&#34;color: #808080&#34;&gt;### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git show 5e63:calc.py &lt;span style=&#34;color: #888888&#34;&gt;### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/usr/bin/python&lt;/span&gt;
 
-def calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;:
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return &lt;/span&gt;a + b
+def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-    print calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+    print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;あるいは、以下のように差分を確認して、&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git diff HEAD:calc.py 5e63:calc.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git diff HEAD:calc.py 5e63:calc.py
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
 index e2c3e48..6ce682f 100644
 --- a/HEAD:calc.py
 +++ b/5e63:calc.py
 @@ -1,6 +1,6 @@
- &lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
+ &lt;span style=&#34;color: #888888&#34;&gt;#!/usr/bin/python&lt;/span&gt;
 
-  def calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;:
-  -    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return &lt;/span&gt;a + 2 * b
-  +    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return &lt;/span&gt;a + b
+  def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;:
+  -    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; * b
+  +    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-   print calc&lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+   print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;確かに自分が戻したいコミットであれば、以下のようにして戻す:&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### topicブランチを作成して、コミットIDが5e63...の状態に戻す。&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #888888&#34;&gt;### topicブランチを作成して、コミットIDが5e63...の状態に戻す。&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -115,11 +115,11 @@ index e2c3e48..6ce682f 100644
 
 &lt;h4 id=&#34;ブランチを作成せずに指定したコミットidに戻した後に-加えた変更を反映したい場合&#34;&gt;ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合&lt;/h4&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #808080&#34;&gt;### ブランチを作成せずに、5e63...の状態に戻る&lt;/span&gt;
-git branch tmp &lt;span style=&#34;color: #808080&#34;&gt;### 一時的なブランチtmpを作成して移動&lt;/span&gt;
-git checkout master &lt;span style=&#34;color: #808080&#34;&gt;### masterブランチへ移動&lt;/span&gt;
-git merge tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpをmasterへマージ&lt;/span&gt;
-git branch -d tmp &lt;span style=&#34;color: #808080&#34;&gt;### tmpを削除&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 &lt;span style=&#34;color: #888888&#34;&gt;### ブランチを作成せずに、5e63...の状態に戻る&lt;/span&gt;
+git branch tmp &lt;span style=&#34;color: #888888&#34;&gt;### 一時的なブランチtmpを作成して移動&lt;/span&gt;
+git checkout master &lt;span style=&#34;color: #888888&#34;&gt;### masterブランチへ移動&lt;/span&gt;
+git merge tmp &lt;span style=&#34;color: #888888&#34;&gt;### tmpをmasterへマージ&lt;/span&gt;
+git branch -d tmp &lt;span style=&#34;color: #888888&#34;&gt;### tmpを削除&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

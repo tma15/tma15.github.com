@@ -69,8 +69,8 @@ access key (40桁の文字列)を入手する。</p>
 
 <h2 id="インストール">インストール</h2>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">git clone https://github.com/tma15/python-tabelog.git
-<span style="color: #007020">cd </span>python-tabelog
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>git clone https://github.com/tma15/python-tabelog.git
+<span style="color: #007020">cd</span> python-tabelog
 python setup.py install
 </pre></div>
 
@@ -79,33 +79,33 @@ python setup.py install
 
 <h3 id="最初に">最初に</h3>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008000; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">tabelog</span> <span style="color: #008000; font-weight: bold">import</span> Tabelog
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">tabelog</span> <span style="color: #008800; font-weight: bold">import</span> Tabelog
 
-key <span style="color: #303030">=</span> <span style="background-color: #fff0f0">&#39;Your access key here.&#39;</span>
-tabelog <span style="color: #303030">=</span> Tabelog(key)
+key <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;Your access key here.&#39;</span>
+tabelog <span style="color: #333333">=</span> Tabelog(key)
 </pre></div>
 
 
 <h3 id="レストラン検索">レストラン検索</h3>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">prefecture <span style="color: #303030">=</span> <span style="background-color: #fff0f0">&#39;東京&#39;</span>
-station <span style="color: #303030">=</span> <span style="background-color: #fff0f0">&#39;渋谷&#39;</span>
-restaurants <span style="color: #303030">=</span> tabelog<span style="color: #303030">.</span>search_restaurant(prefecture<span style="color: #303030">=</span>prefecture, station<span style="color: #303030">=</span>station)
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>prefecture <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;東京&#39;</span>
+station <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&#39;渋谷&#39;</span>
+restaurants <span style="color: #333333">=</span> tabelog<span style="color: #333333">.</span>search_restaurant(prefecture<span style="color: #333333">=</span>prefecture, station<span style="color: #333333">=</span>station)
 
-<span style="color: #008000; font-weight: bold">for</span> restaurant <span style="color: #000000; font-weight: bold">in</span> restaurants:
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;rcd:&#39;</span>, restaurant<span style="color: #303030">.</span>rcd
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;name:&#39;</span>, restaurant<span style="color: #303030">.</span>name
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;url:&#39;</span>, restaurant<span style="color: #303030">.</span>tabelogurl
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mobile url:&#39;</span>, restaurant<span style="color: #303030">.</span>tabelogmobileurl
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;dinner price:&#39;</span>, restaurant<span style="color: #303030">.</span>dinnerprice
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;lunch price:&#39;</span>, restaurant<span style="color: #303030">.</span>lunchprice
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;total score:&#39;</span>, restaurant<span style="color: #303030">.</span>totalscore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;taste score:&#39;</span>, restaurant<span style="color: #303030">.</span>tastescore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;service score:&#39;</span>, restaurant<span style="color: #303030">.</span>servicescore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mood score:&#39;</span>, restaurant<span style="color: #303030">.</span>moodscore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;category:&#39;</span>, restaurant<span style="color: #303030">.</span>category
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;station:&#39;</span>, restaurant<span style="color: #303030">.</span>station
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;situation:&#39;</span>, restaurant<span style="color: #303030">.</span>situation
+<span style="color: #008800; font-weight: bold">for</span> restaurant <span style="color: #000000; font-weight: bold">in</span> restaurants:
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;rcd:&#39;</span>, restaurant<span style="color: #333333">.</span>rcd
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;name:&#39;</span>, restaurant<span style="color: #333333">.</span>name
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;url:&#39;</span>, restaurant<span style="color: #333333">.</span>tabelogurl
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mobile url:&#39;</span>, restaurant<span style="color: #333333">.</span>tabelogmobileurl
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;dinner price:&#39;</span>, restaurant<span style="color: #333333">.</span>dinnerprice
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;lunch price:&#39;</span>, restaurant<span style="color: #333333">.</span>lunchprice
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;total score:&#39;</span>, restaurant<span style="color: #333333">.</span>totalscore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;taste score:&#39;</span>, restaurant<span style="color: #333333">.</span>tastescore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;service score:&#39;</span>, restaurant<span style="color: #333333">.</span>servicescore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mood score:&#39;</span>, restaurant<span style="color: #333333">.</span>moodscore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;category:&#39;</span>, restaurant<span style="color: #333333">.</span>category
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;station:&#39;</span>, restaurant<span style="color: #333333">.</span>station
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;situation:&#39;</span>, restaurant<span style="color: #333333">.</span>situation
 </pre></div>
 
 
@@ -121,16 +121,16 @@ restaurants <span style="color: #303030">=</span> tabelog<span style="color: #30
 <h3 id="レビュー収集">レビュー収集</h3>
 
 <p>お店のレビューが欲しい時はそのお店のレコード番号を指定する。
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">reviews <span style="color: #303030">=</span> tabelog<span style="color: #303030">.</span>search_review(<span style="color: #0000D0; font-weight: bold">13004626</span>) <span style="color: #808080"># restaurant.rcd</span>
-<span style="color: #008000; font-weight: bold">for</span> review <span style="color: #000000; font-weight: bold">in</span> reviews:
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;nickname:&#39;</span>, review<span style="color: #303030">.</span>nickname
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;title:&#39;</span>, review<span style="color: #303030">.</span>title
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;dinner price:&#39;</span>, review<span style="color: #303030">.</span>dinnerprice
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;lunch price:&#39;</span>, review<span style="color: #303030">.</span>lunchprice
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;total score:&#39;</span>, review<span style="color: #303030">.</span>totalscore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;service score:&#39;</span>, review<span style="color: #303030">.</span>servicescore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;taste score:&#39;</span>, review<span style="color: #303030">.</span>tastescore
-    <span style="color: #008000; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mood score:&#39;</span>, review<span style="color: #303030">.</span>moodscore
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>reviews <span style="color: #333333">=</span> tabelog<span style="color: #333333">.</span>search_review(<span style="color: #0000DD; font-weight: bold">13004626</span>) <span style="color: #888888"># restaurant.rcd</span>
+<span style="color: #008800; font-weight: bold">for</span> review <span style="color: #000000; font-weight: bold">in</span> reviews:
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;nickname:&#39;</span>, review<span style="color: #333333">.</span>nickname
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;title:&#39;</span>, review<span style="color: #333333">.</span>title
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;dinner price:&#39;</span>, review<span style="color: #333333">.</span>dinnerprice
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;lunch price:&#39;</span>, review<span style="color: #333333">.</span>lunchprice
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;total score:&#39;</span>, review<span style="color: #333333">.</span>totalscore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;service score:&#39;</span>, review<span style="color: #333333">.</span>servicescore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;taste score:&#39;</span>, review<span style="color: #333333">.</span>tastescore
+    <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&#39;mood score:&#39;</span>, review<span style="color: #333333">.</span>moodscore
 </pre></div>
 </p>
 

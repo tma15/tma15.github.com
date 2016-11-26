@@ -21,7 +21,7 @@
 &lt;p&gt;全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/bin/elasticsearch -v
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./bin/elasticsearch -v
 Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -35,13 +35,13 @@ Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
 &lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins&#34;&gt;Manual install of Elasticsearch plugins&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;デフォルトのanalyzerをkuromojiにしておく。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
 index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
@@ -53,7 +53,7 @@ index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 &lt;p&gt;では、まずはPythonラッパーをインストール。
 使い方は&lt;a href=&#34;http://elasticsearch-py.readthedocs.org/en/master/&#34;&gt;Python Elasticsearch Client&lt;/a&gt;が参考になりそう。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pip install elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;pip install elasticsearch
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -63,54 +63,54 @@ index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 
 &lt;p&gt;mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; mapping.yaml
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; mapping.yaml
 mappings:
   restaurant:
     properties:
       description:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       name:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       name_kana:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       adress:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;indexを生成して文書を順に追加していくスクリプトを書く。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
-es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
-i &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
+index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
+doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
+i &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
 
-setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting)
+setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting)
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; lid, line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sys&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;stdin):
-    line &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;strip()
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; lid &lt;span style=&#34;color: #303030&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;:
-        attrs &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;)
-        num_attrs &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(attrs)
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;continue&lt;/span&gt;
-    data &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {}
-    sp &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, num_attrs &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j, value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sp):
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; attrs[j] &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; properties:
-            data[attrs[j]] &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; value
-    es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;data)
-    i &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; lid, line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sys&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;stdin):
+    line &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;strip()
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; lid &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;:
+        attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;)
+        num_attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(attrs)
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;continue&lt;/span&gt;
+    data &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {}
+    sp &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, num_attrs &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j, value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sp):
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; attrs[j] &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; properties:
+            data[attrs[j]] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; value
+    es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;data)
+    i &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;実行して登録する。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -121,12 +121,12 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
 &lt;p&gt;Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は&lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform&#34;&gt;例&lt;/a&gt;にある定義を採用。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;settings:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;settings:
   index:
     analysis:
       analyzer:
         my_analyzer:
-          &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: custom
+          type: custom
           tokenizer:
             kuromoji_tokenizer
           filter:
@@ -137,27 +137,27 @@ mappings:
       analyzer: my_analyzer
     properties:
       description:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
         analyzer: my_analyzer
       name:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
       name_kana:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
       address:
-        &lt;span style=&#34;color: #007020&#34;&gt;type&lt;/span&gt;: string
+        type: string
         index: analyzed
         analyzer: my_analyzer
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;setting &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
-&lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
-&lt;span style=&#34;color: #808080&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
+properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
+&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
+&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -165,13 +165,13 @@ properties &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; setting[&lt
 
 &lt;p&gt;検索するスクリプトを書く。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
 
-es &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
+es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
+index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
+doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
 
-query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
+query &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {
         &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: {
             &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;simple_query_string&amp;quot;&lt;/span&gt;: {
                 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都&amp;quot;&lt;/span&gt;,
@@ -180,16 +180,16 @@ query &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; {
             }
         }
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; es&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search(index&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;query)[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;]:
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; i[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;_source&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;items():
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;query)[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;]:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; i[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;_source&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;items():
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;実行する。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$python&lt;/span&gt; search.py
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$python&lt;/span&gt; search.py
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;新宿区西新宿1-1-3新宿ミロード 8F&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&amp;quot;&lt;/span&gt;
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;はなてまり&amp;quot;&lt;/span&gt;
@@ -223,9 +223,9 @@ name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ぎ�
 address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;港区赤坂6-19-53&amp;quot;&lt;/span&gt;
 description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分かりにくい処ですが、頑張って説明します。   赤坂通りを青山方面に進みます。&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;きょうとぎおんおいしんぼあかさかべってい&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都ぎをん おいしんぼ 赤坂別邸&lt;span style=&#34;color: #F00000; background-color: #F0A0A0&#34;&gt;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都ぎをん おいしんぼ 赤坂別邸&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
 
-...
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -256,122 +256,122 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 
 &lt;p&gt;まず、wafとmafとダウンロードする。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cd&lt;/span&gt; /path/to/project/
-&lt;span style=&#34;color: #906030&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/waf
-&lt;span style=&#34;color: #906030&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/maf.py
-&lt;span style=&#34;color: #906030&#34;&gt;$chmod&lt;/span&gt; +x waf
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cd&lt;/span&gt; /path/to/project/
+&lt;span style=&#34;color: #996633&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/waf
+&lt;span style=&#34;color: #996633&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/maf.py
+&lt;span style=&#34;color: #996633&#34;&gt;$chmod&lt;/span&gt; +x waf
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;以下の様な &lt;a href=&#34;https://gist.github.com/tma15/1d7bd594d5be774ca6e9&#34;&gt;wscript&lt;/a&gt; を作成。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #808080&#34;&gt;#!/usr/bin/python&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;json&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;np&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maf&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maflib.util&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;json&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;np&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maf&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maflib.util&lt;/span&gt;
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;configure&lt;/span&gt;(conf):
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;pass&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;configure&lt;/span&gt;(conf):
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;pass&lt;/span&gt;
 
-&lt;span style=&#34;color: #505050; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;jsonize&lt;/span&gt;(task):
-    &lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Calculate accuracy from a format as below:&lt;/span&gt;
+&lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;jsonize&lt;/span&gt;(task):
+    &lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Calculate accuracy from a format as below:&lt;/span&gt;
 
-&lt;span style=&#34;color: #D04020&#34;&gt;        Recall[-1]: 0.932965 (21934/23510)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;        Prec[-1]: 0.849562 (21934/25818)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;        --&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;        Recall[+1]: 0.478378 (3562/7446)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;        Prec[+1]: 0.693266 (3562/5138)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    out &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; task&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;parameter
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;inputs[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        num &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-        num_trues &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; f:
-            &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;startswith(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Prec&amp;quot;&lt;/span&gt;):
-                sp &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;split()
-                nums &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; re&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;(\d+)/(\d+)&amp;quot;&lt;/span&gt;, sp[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;groups()
-                num_trues &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;])
-                num &lt;span style=&#34;color: #303030&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;])
-        out[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; num_trues &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float&lt;/span&gt;(num)
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        json&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dump(out, f)
+&lt;span style=&#34;color: #DD4422&#34;&gt;        Recall[-1]: 0.932965 (21934/23510)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;        Prec[-1]: 0.849562 (21934/25818)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;        --&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;        Recall[+1]: 0.478378 (3562/7446)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;        Prec[+1]: 0.693266 (3562/5138)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;parameter
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;inputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
+        num &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
+        num_trues &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; f:
+            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;startswith(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Prec&amp;quot;&lt;/span&gt;):
+                sp &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split()
+                nums &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; re&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;(\d+)/(\d+)&amp;quot;&lt;/span&gt;, sp[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;groups()
+                num_trues &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;])
+                num &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;])
+        out[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; num_trues &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float&lt;/span&gt;(num)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
+        json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dump(out, f)
 
-&lt;span style=&#34;color: #505050; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;aggregate_by_alg&lt;/span&gt;(task):
-    out &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; task&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;inputs:
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(i&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-            out&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(json&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;load(f))
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        json&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dump(out, f)
+&lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;aggregate_by_alg&lt;/span&gt;(task):
+    out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;inputs:
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(i&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
+            out&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(f))
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
+        json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dump(out, f)
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;aggregate_by_param&lt;/span&gt;():
-    &lt;span style=&#34;color: #505050; font-weight: bold&#34;&gt;@maflib.util.aggregator&lt;/span&gt;
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;body&lt;/span&gt;(values, outpath, parameter):
-        out &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; values:
-            out&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(value)
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; json&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dumps(out)
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;aggregate_by_param&lt;/span&gt;():
+    &lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.aggregator&lt;/span&gt;
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;body&lt;/span&gt;(values, outpath, parameter):
+        out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; values:
+            out&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(value)
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dumps(out)
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;build&lt;/span&gt;(exp):
-    traindata&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a1a&amp;#39;&lt;/span&gt;
-    train &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&amp;#39;&lt;/span&gt;
-    test &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;build&lt;/span&gt;(exp):
+    traindata&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a1a&amp;#39;&lt;/span&gt;
+    train &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&amp;#39;&lt;/span&gt;
+    test &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&amp;#39;&lt;/span&gt;
 
-    NUM_FOLD &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;3&lt;/span&gt;
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;traindata,
-        target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train dev&amp;quot;&lt;/span&gt;,
-        parameters&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;[{&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;: i} &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;xrange&lt;/span&gt;(NUM_FOLD)],
-        rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;segment_by_line(NUM_FOLD, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;))
+    NUM_FOLD &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;3&lt;/span&gt;
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;traindata,
+        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train dev&amp;quot;&lt;/span&gt;,
+        parameters&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[{&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;: i} &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;xrange&lt;/span&gt;(NUM_FOLD)],
+        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;segment_by_line(NUM_FOLD, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;))
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model&amp;quot;&lt;/span&gt;,
-        parameters&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;util&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;product({
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train&amp;quot;&lt;/span&gt;,
+        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model&amp;quot;&lt;/span&gt;,
+        parameters&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;util&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;product({
             &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;: [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;perceptron&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;pa2&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;adagrad&amp;quot;&lt;/span&gt;],
-            &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;: np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;power(&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;10.&lt;/span&gt;, np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;5&lt;/span&gt;, dtype&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;float64)),
+            &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;: np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;power(&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10.&lt;/span&gt;, np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;5&lt;/span&gt;, dtype&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;float64)),
             }),
-        rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #e0e0e0&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -a ${a} -m ${TGT[0].abspath()} ${SRC[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;%&lt;/span&gt; train)
+        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #eeeeee&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -a ${a} -m ${TGT[0].abspath()} ${SRC[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt; train)
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model dev&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
-        rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #e0e0e0&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -m ${SRC[0].abspath()} ${SRC[1].abspath()} &amp;gt; ${TGT[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;%&lt;/span&gt; test)
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model dev&amp;quot;&lt;/span&gt;,
+        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
+        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #eeeeee&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -m ${SRC[0].abspath()} ${SRC[1].abspath()} &amp;gt; ${TGT[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt; test)
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
-            rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;jsonize) &lt;span style=&#34;color: #808080&#34;&gt;### パラメータごとのaccuracyをjson形式で出力&lt;/span&gt;
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
+            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
+            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;jsonize) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータごとのaccuracyをjson形式で出力&lt;/span&gt;
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
-        for_each&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;],
-        rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;aggregate_by_param()) &lt;span style=&#34;color: #808080&#34;&gt;### パラメータ毎にaccuracyを集約する&lt;/span&gt;
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
+        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
+        for_each&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;],
+        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;aggregate_by_param()) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータ毎にaccuracyを集約する&lt;/span&gt;
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
-        aggregate_by&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
-        rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;average) &lt;span style=&#34;color: #808080&#34;&gt;### パラメータ毎の平均を計算&lt;/span&gt;
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
+        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
+        aggregate_by&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
+        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;average) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータ毎の平均を計算&lt;/span&gt;
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;, 
-            for_each&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;],
-            rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;aggregate_by_alg) &lt;span style=&#34;color: #808080&#34;&gt;## アルゴリズム毎に集約&lt;/span&gt;
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
+            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;, 
+            for_each&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;],
+            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;aggregate_by_alg) &lt;span style=&#34;color: #888888&#34;&gt;## アルゴリズム毎に集約&lt;/span&gt;
 
-    exp(source&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;max_acc&amp;quot;&lt;/span&gt;,
-            aggregate_by &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
-            rule&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;max(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;))
+    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;,
+            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;max_acc&amp;quot;&lt;/span&gt;,
+            aggregate_by &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
+            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;max(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;))
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;次のように実行。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$ &lt;/span&gt;./waf configure
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ ./waf configure
 Setting top to                           : /Users/makino/code/mafexp
 Setting out to                           : /Users/makino/code/mafexp/build
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;configure&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;0.004s&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
-&lt;span style=&#34;color: #906030&#34;&gt;$.&lt;/span&gt;/waf
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;configure&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0.004s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+$./waf
 Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/Users/makino/code/mafexp/build&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  2/240] 0-train,0-dev: a1a -&amp;gt; build/train/0-train build/dev/0-dev&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  3/240] 1-train,1-dev: a1a -&amp;gt; build/train/1-train build/dev/1-dev&lt;/span&gt;
@@ -382,7 +382,7 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&amp;gt; build/max_acc/87-max_acc&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;Waf: Leaving directory `/Users/makino/code/mafexp/build&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #303030&#34;&gt;(&lt;/span&gt;3.450s&lt;span style=&#34;color: #303030&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;3.450s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
@@ -390,12 +390,12 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 
 &lt;p&gt;出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
-0       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 0&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
-1       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
-2       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 2&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
-3       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999998e-13&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
-4       &lt;span style=&#34;color: #303030&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999994e-12&lt;span style=&#34;color: #303030&#34;&gt;}&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 0&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 2&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999998e-13&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999994e-12&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
 ...
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -502,35 +502,35 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 &lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
-joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(classes)):
-    &lt;span style=&#34;color: #808080&#34;&gt;# 事前分布の対数&lt;/span&gt;
-    log_prior &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(class_piror[i])
-    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
-    log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; sigma[i, :]))
-    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
-    log_gauss2 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt; sigma[i, :])
-    &lt;span style=&#34;color: #808080&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
-    joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss2)
+joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(classes)):
+    &lt;span style=&#34;color: #888888&#34;&gt;# 事前分布の対数&lt;/span&gt;
+    log_prior &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(class_piror[i])
+    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
+    log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sigma[i, :]))
+    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
+    log_gauss2 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; sigma[i, :])
+    &lt;span style=&#34;color: #888888&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
+    joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss2)
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;br&gt;
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
-        X &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; array2d(X)
-        joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;classes_)):
-            jointi &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;class_prior_[i])
-            n_ij &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #808080&#34;&gt;# np.piの前に2がない&lt;/span&gt;
-            n_ij &lt;span style=&#34;color: #303030&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt;
-                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-            joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; n_ij)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
+        X &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; array2d(X)
+        joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;classes_)):
+            jointi &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;class_prior_[i])
+            n_ij &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #888888&#34;&gt;# np.piの前に2がない&lt;/span&gt;
+            n_ij &lt;span style=&#34;color: #333333&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;
+                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+            joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; n_ij)
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -566,8 +566,8 @@ access key (40桁の文字列)を入手する。&lt;/p&gt;
 
 &lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;git clone https://github.com/tma15/python-tabelog.git
-&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;python-tabelog
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/tma15/python-tabelog.git
+&lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; python-tabelog
 python setup.py install
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -576,33 +576,33 @@ python setup.py install
 
 &lt;h3 id=&#34;最初に&#34;&gt;最初に&lt;/h3&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
 
-key &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;Your access key here.&amp;#39;&lt;/span&gt;
-tabelog &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; Tabelog(key)
+key &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;Your access key here.&amp;#39;&lt;/span&gt;
+tabelog &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Tabelog(key)
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h3 id=&#34;レストラン検索&#34;&gt;レストラン検索&lt;/h3&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;prefecture &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
-station &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;渋谷&amp;#39;&lt;/span&gt;
-restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_restaurant(prefecture&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;prefecture, station&lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt;station)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;prefecture &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
+station &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;渋谷&amp;#39;&lt;/span&gt;
+restaurants &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search_restaurant(prefecture&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;prefecture, station&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;station)
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; restaurant &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; restaurants:
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;rcd:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;rcd
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;name:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;name
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tabelogurl
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mobile url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tabelogmobileurl
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dinnerprice
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;lunchprice
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;totalscore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tastescore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;servicescore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;moodscore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;category:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;category
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;station:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;station
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;situation:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;situation
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; restaurant &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; restaurants:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;rcd:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rcd
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;name:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;name
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tabelogurl
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mobile url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tabelogmobileurl
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dinnerprice
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;lunchprice
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;totalscore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tastescore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;servicescore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;moodscore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;category:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;category
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;station:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;station
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;situation:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;situation
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -618,16 +618,16 @@ restaurants &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt
 &lt;h3 id=&#34;レビュー収集&#34;&gt;レビュー収集&lt;/h3&gt;
 
 &lt;p&gt;お店のレビューが欲しい時はそのお店のレコード番号を指定する。
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;reviews &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;search_review(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;13004626&lt;/span&gt;) &lt;span style=&#34;color: #808080&#34;&gt;# restaurant.rcd&lt;/span&gt;
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; review &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; reviews:
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;nickname:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;nickname
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;title:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;title
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;dinnerprice
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;lunchprice
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;totalscore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;servicescore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;tastescore
-    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;moodscore
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;reviews &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search_review(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;13004626&lt;/span&gt;) &lt;span style=&#34;color: #888888&#34;&gt;# restaurant.rcd&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; review &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; reviews:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;nickname:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;nickname
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;title:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;title
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dinnerprice
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;lunchprice
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;totalscore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;servicescore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tastescore
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;moodscore
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 </description>

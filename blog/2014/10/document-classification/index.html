@@ -86,7 +86,7 @@
 <li><a href="http://ascii.jp/elem/000/000/935/935886/">古いプログラミング言語がなくならない理由</a></li>
 </ul>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> data.csv
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$cat</span> data.csv
 スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
 Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...
@@ -104,8 +104,8 @@ Go言語,編集者とこの本を5000部売れたらなという話をしたの�
 
 <h2 id="動かしてみる">動かしてみる</h2>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/text data.csv &gt; data
-<span style="color: #906030">$cat</span> data
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./text data.csv &gt; data
+<span style="color: #996633">$cat</span> data
 スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
 Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
@@ -115,13 +115,13 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 <p>&hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
 次に分類器を学習する。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/adagrad -f data -m learn -w model
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./adagrad -f data -m learn -w model
 </pre></div>
 
 
 <p>できあがったモデルの中身を見てみる。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head
 スポーツ        カルロス・テベス        0.600000
 スポーツ        モチベーション  0.600000
 スポーツ        アルゼンチン    0.600000
@@ -132,7 +132,7 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 スポーツ        ブラジル        0.600000
 スポーツ        セリエＡ        0.600000
 スポーツ        アウェー        0.600000
-<span style="color: #906030">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^政治&quot;</span>|sort -k3 -nr|head
+<span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^政治&quot;</span>|sort -k3 -nr|head
 政治    不透明  0.800000
 政治    上回っ  0.800000
 政治    関連    0.800000
@@ -143,7 +143,7 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 政治    産業    0.800000
 政治    生じ    0.800000
 政治    焦点    0.800000
-<span style="color: #906030">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^Go言語&quot;</span>|sort -k3 -nr|head
+<span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^Go言語&quot;</span>|sort -k3 -nr|head
 Go言語  インタビュー    0.700000
 Go言語  カーニハン      0.700000
 Go言語  グーグル        0.700000

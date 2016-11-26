@@ -68,10 +68,10 @@
 <p>勉強のためにGrahamさんが公開されている<a href="http://www.phontron.com/teaching.php">資料</a>を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
 また、実験用のデータ、評価スクリプトも使用させて頂いている。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #906030">$.</span>/hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
-<span style="color: #906030">$.</span>/hmm <span style="color: #007020">test</span> -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos
-<span style="color: #906030">$.</span>/nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: 75.83% <span style="color: #303030">(</span>3460/4563<span style="color: #303030">)</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
+$./hmm <span style="color: #007020">test</span> -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos
+$./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
+Accuracy: 75.83% <span style="color: #333333">(</span>3460/4563<span style="color: #333333">)</span>
 
 Most common mistakes:
 NNS --&gt; NN      49

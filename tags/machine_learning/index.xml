@@ -435,16 +435,16 @@ $$&lt;/p&gt;
 &lt;p&gt;シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale
-   15935 news20.scale
-&lt;span style=&#34;color: #906030&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #906030&#34;&gt;$for&lt;/span&gt; i in 1 2 3 4 5; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;do &lt;/span&gt;cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;done&lt;/span&gt;
-&lt;span style=&#34;color: #906030&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
-   79675 news20.scale.big
-&lt;span style=&#34;color: #906030&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
-&lt;span style=&#34;color: #906030&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 1 -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
+   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
+&lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
+&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; 5; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
+   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
+&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -452,153 +452,153 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 
 &lt;p&gt;ipm.go&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners *[]LearnerInterface, x *[]&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, y *[]&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;) {
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*learners)
-	num_data := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*x)
-	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
-	sizechunk := num_data/num_learner + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
-		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				start := j * sizechunk
-				end := (j + &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;) * sizechunk
-				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; end &amp;gt;= num_data {
-					end = num_data - &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface, x &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) {
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
+	num_data &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)
+	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
+	sizechunk &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; num_data&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;num_learner &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				start &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
+				end &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (j &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
+				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; end &lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;=&lt;/span&gt; num_data {
+					end = num_data &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
 				}
-				x_j := (*x)[start:end]
-				y_j := (*y)[start:end]
-				(*learners)[j].Fit(&amp;amp;x_j, &amp;amp;y_j)
+				x_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)[start:end]
+				y_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;y)[start:end]
+				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].Fit(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;x_j, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;y_j)
 			}
 		}(buffer)
 	}
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
-		buffer &amp;lt;- i
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
 	}
 	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
 	wg.Wait()
 }
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; average_two(learner1, learner2 *LearnerInterface) *LearnerInterface {
-	params := (*learner1).GetParams()
-	num_params := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*params)
-	avg_params := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][][]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, num_params, num_params)
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_params; i++ {
-		avg_params[i] = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;10&lt;/span&gt;)
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; average_two(learner1, learner2 &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
+	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).GetParams()
+	num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
+	avg_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, num_params, num_params)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_params; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		avg_params[i] = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt;)
 	}
 
-	avg_ftdic := NewDict()
-	avg_labeldic := NewDict()
-	learners := []LearnerInterface{*learner1, *learner2}
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; _, learner := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; learners {
-		params := learner.GetParams()
-		num_params := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*params)
-		ftdict, labeldict := learner.GetDics()
+	avg_ftdic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
+	avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
+	learners &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; []LearnerInterface{&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner2}
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; _, learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; learners {
+		params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetParams()
+		num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
+		ftdict, labeldict &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetDics()
 
-		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; p := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; p &amp;lt; num_params; p++ {
-			param := (*params)[p]
-			avg_param := &amp;amp;avg_params[p]
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; yid := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; yid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(labeldict.Id2elem); yid++ {
-				y := labeldict.Id2elem[yid]
-				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_labeldic.HasElem(y) {
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; p &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; p &amp;lt; num_params; p&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+			param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)[p]
+			avg_param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p]
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; yid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; yid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(labeldict.Id2elem); yid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+				y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; labeldict.Id2elem[yid]
+				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_labeldic.HasElem(y) {
 					avg_labeldic.AddElem(y)
 				}
-				yid_avg := avg_labeldic.Elem2id[y]
-				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*avg_param); i &amp;lt;= yid_avg; i++ {
-					*avg_param = append(*avg_param, &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1000&lt;/span&gt;))
+				yid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_labeldic.Elem2id[y]
+				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; yid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+					&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param, &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1000&lt;/span&gt;))
 				}
-				avg_param_y := &amp;amp;avg_params[p][yid_avg]
-				param_y := param[yid]
+				avg_param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p][yid_avg]
+				param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; param[yid]
 
-				&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; ftid := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; ftid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(param[yid]); ftid++ {
-					ft := ftdict.Id2elem[ftid]
-					&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_ftdic.HasElem(ft) {
+				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; ftid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; ftid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(param[yid]); ftid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+					ft &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; ftdict.Id2elem[ftid]
+					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_ftdic.HasElem(ft) {
 						avg_ftdic.AddElem(ft)
 					}
-					ftid_avg := avg_ftdic.Elem2id[ft]
-					&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*avg_param_y); i &amp;lt;= ftid_avg; i++ {
-						*avg_param_y = append(*avg_param_y, &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.&lt;/span&gt;)
+					ftid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_ftdic.Elem2id[ft]
+					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; ftid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+						&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.&lt;/span&gt;)
 					}
-					(*avg_param_y)[ftid_avg] += param_y[ftid] / &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners))
+					(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y)[ftid_avg] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; param_y[ftid] &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners))
 
 				}
 			}
 		}
 	}
-	(*learner1).SetParams(&amp;amp;avg_params)
-	(*learner1).SetDics(&amp;amp;avg_ftdic, &amp;amp;avg_labeldic)
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; learner1
+	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetParams(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params)
+	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetDics(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_ftdic, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_labeldic)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; learner1
 }
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; AverageModels(learners []LearnerInterface) *LearnerInterface {
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)%&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; != &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt; { &lt;span style=&#34;color: #808080&#34;&gt;/* add learner to make length of learners is even number */&lt;/span&gt;
-		learners = append(learners, learners[&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;])
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; AverageModels(learners []LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt; { &lt;span style=&#34;color: #888888&#34;&gt;/* add learner to make length of learners is even number */&lt;/span&gt;
+		learners = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners, learners[&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;])
 	}
-	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)
-	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
-	results := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; *LearnerInterface, num_learner)
+	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)
+	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
+	results &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, num_learner)
 
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
-		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				l1 := learners[j]
-				l2 := learners[j+num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;]
-				l_avg := average_two(&amp;amp;l1, &amp;amp;l2)
-				results &amp;lt;- l_avg
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				l1 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j]
+				l2 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j&lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt;num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;]
+				l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; average_two(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l1, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l2)
+				results &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; l_avg
 			}
 		}(buffer)
 	}
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;; i++ {
-		buffer &amp;lt;- i
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
 	}
 	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
 	wg.Wait()
 	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(results)
-	learners_avg := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]LearnerInterface, &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;, num_learner/&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;)
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; l_avg := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; results {
-		learners_avg = append(learners_avg, *l_avg)
+	learners_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]LearnerInterface, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; results {
+		learners_avg = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners_avg, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;l_avg)
 	}
 
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners_avg) == &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt; {
-		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; &amp;amp;learners_avg[&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;]
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners_avg) &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; {
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners_avg[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]
 	}
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;return&lt;/span&gt; AverageModels(learners_avg)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; AverageModels(learners_avg)
 }
 
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt; BroadCastModel(avg_learner *LearnerInterface, learners *[]LearnerInterface) {
-	params := (*avg_learner).GetParams()
-	avg_ftdic, avg_labeldic := (*avg_learner).GetDics()
-	num_learner := &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(*learners)
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	buffer := &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;, num_learner)
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
-		wg.Add(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; j := &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				(*learners)[j].SetParams(params)
-				(*learners)[j].SetDics(avg_ftdic, avg_labeldic)
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; BroadCastModel(avg_learner &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface) {
+	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetParams()
+	avg_ftdic, avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetDics()
+	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
+	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
+				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetParams(params)
+				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetDics(avg_ftdic, avg_labeldic)
 			}
 		}(buffer)
 	}
-	&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i := &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i++ {
-		buffer &amp;lt;- i
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
+		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
 	}
 	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
 	wg.Wait()
 }
 &lt;/pre&gt;&lt;/div&gt;
-
+&lt;/p&gt;
 
 &lt;p&gt;main.go
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;gonline.FitLearners(&amp;amp;learners, x_train, y_train)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;gonline.FitLearners(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners, x_train, y_train)
 learner_avg = gonline.AverageModels(learners)
-gonline.BroadCastModel(learner_avg, &amp;amp;learners)
+gonline.BroadCastModel(learner_avg, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners)
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 </description>
@@ -719,35 +719,35 @@ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\s
 
 &lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #D04020&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
+&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 
-joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-&lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(classes)):
-    &lt;span style=&#34;color: #808080&#34;&gt;# 事前分布の対数&lt;/span&gt;
-    log_prior &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(class_piror[i])
-    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
-    log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; sigma[i, :]))
-    &lt;span style=&#34;color: #808080&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
-    log_gauss2 &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt; sigma[i, :])
-    &lt;span style=&#34;color: #808080&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
-    joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; log_gauss2)
+joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(classes)):
+    &lt;span style=&#34;color: #888888&#34;&gt;# 事前分布の対数&lt;/span&gt;
+    log_prior &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(class_piror[i])
+    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
+    log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sigma[i, :]))
+    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
+    log_gauss2 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; sigma[i, :])
+    &lt;span style=&#34;color: #888888&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
+    joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss2)
 &lt;/pre&gt;&lt;/div&gt;
 
 &lt;br&gt;
 となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;    &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0060B0; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
-        X &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; array2d(X)
-        joint_log_likelihood &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008000; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;classes_)):
-            jointi &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;class_prior_[i])
-            n_ij &lt;span style=&#34;color: #303030&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #808080&#34;&gt;# np.piの前に2がない&lt;/span&gt;
-            n_ij &lt;span style=&#34;color: #303030&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6000E0; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #303030&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #303030&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #303030&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #303030&#34;&gt;/&lt;/span&gt;
-                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000D0; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-            joint_log_likelihood&lt;span style=&#34;color: #303030&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #303030&#34;&gt;+&lt;/span&gt; n_ij)
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
+        X &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; array2d(X)
+        joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;classes_)):
+            jointi &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;class_prior_[i])
+            n_ij &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #888888&#34;&gt;# np.piの前に2がない&lt;/span&gt;
+            n_ij &lt;span style=&#34;color: #333333&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;
+                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
+            joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; n_ij)
 &lt;/pre&gt;&lt;/div&gt;
 
 
