@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/git/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2015-12-20 07:57:41 &#43;0900 JST</updated>
 
     
@@ -79,7 +79,7 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;:
     &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-    print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -90,7 +90,7 @@ def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span st
 
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
-index e2c3e48..6ce682f 100644
+index e2c3e48..6ce682f &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100644&lt;/span&gt;
 --- a/HEAD:calc.py
 +++ b/5e63:calc.py
 @@ -1,6 +1,6 @@
@@ -100,7 +100,7 @@ index e2c3e48..6ce682f 100644
   -    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; * b
   +    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-   print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+   print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

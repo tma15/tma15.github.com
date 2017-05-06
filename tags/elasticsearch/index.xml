@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/elasticsearch/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2014-11-08 00:00:00 &#43;0000 UTC</updated>
 
     
@@ -22,7 +22,7 @@
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./bin/elasticsearch -v
-Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
+Version: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -216,7 +216,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京�
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;name MYKONOS&lt;/span&gt;
 
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;address &amp;quot;&lt;/span&gt;新宿区神楽坂3-6-53&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;神楽坂通りを一本左。JR飯田橋駅徒歩4分    05/01/25 営業時間等更...
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;神楽坂通りを一本左。JR飯田橋駅徒歩4分    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;05&lt;/span&gt;/01/25 営業時間等更...
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;きょうとぎをんくろーばーてい&amp;quot;&lt;/span&gt;
 name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ぎをん 久露葉亭&amp;quot;&lt;/span&gt;
 

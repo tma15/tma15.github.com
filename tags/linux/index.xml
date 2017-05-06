@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/linux/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2016-01-16 10:55:26 &#43;0900 JST</updated>
 
     
@@ -60,13 +60,13 @@
 &lt;p&gt;ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;3
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir 1
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;  4.07s user 4.54s system 19% cpu 43.450 total
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
+go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.07s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.54s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;19&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;43&lt;/span&gt;.450 total
 
-sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;3
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir 2
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;  5.85s user 8.98s system 4% cpu 4:58.27 total
+sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
+go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.85s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.98s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;:58.27 total
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 

@@ -5,9 +5,59 @@
     <link>http://tma15.github.io/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
-    <updated>2016-09-05 19:28:46 &#43;0900 JST</updated>
+    <rights>(C) 2017</rights>
+    <updated>2017-05-06 13:09:55 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>ゴールデンウィークの空き時間を使ってダブル配列を実装した</title>
+          <link>http://tma15.github.io/blog/2017/05/06/</link>
+          <pubDate>Sat, 06 May 2017 13:09:55 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2017/05/06/</guid>
+          <description>&lt;p&gt;このゴールデンウィークはまとまった休日を取ることができた。
+そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、
+今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。
+ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器の&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;などで用いられている。
+入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。
+そのため、高速にキーを検索することができる。&lt;/p&gt;
+
+&lt;p&gt;開発成果は&lt;a href=&#34;https://github.com/tma15/darr&#34;&gt;ここ&lt;/a&gt;にアップロードした。
+基本的には&lt;a href=&#34;https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&amp;amp;active_action=repository_view_main_item_detail&amp;amp;item_id=49490&amp;amp;item_no=1&amp;amp;page_id=13&amp;amp;block_id=8&#34;&gt;ダブル配列法によるトライ検索の実現法&lt;/a&gt;を素直に実装している。&lt;/p&gt;
+
+&lt;p&gt;休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ダブル配列の動的な構築&lt;/li&gt;
+&lt;li&gt;キーの存在の確認&lt;/li&gt;
+&lt;li&gt;キーに対する値の取得&lt;/li&gt;
+&lt;li&gt;キーの削除&lt;/li&gt;
+&lt;li&gt;ダブル配列の保存・読み込み&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。
+またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。&lt;/p&gt;
+
+&lt;p&gt;実装をするにあたり、他に参照した情報源を以下に挙げる:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934/ref=sr_1_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1494044643&amp;amp;sr=1-1&amp;amp;keywords=%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.slideshare.net/higashiyama/ss-8738479&#34;&gt;ダブル配列の実装方法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/n_shuyo/20111018/doublearray&#34;&gt;Double Array 実装してみた - Mi manca qualche giovedi?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20061225/1167038986&#34;&gt;最近のDoubleArrayの性能 - 射撃しつつ前転&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。
+この休日では間に合わず、今後試してみたいと思っているのは以下の通り:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;マルチバイト文字の対応&lt;/li&gt;
+&lt;li&gt;分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>
@@ -747,13 +797,13 @@ LU分解を使って計算している。恥ずかしながら、LU分解は名�
 &lt;p&gt;ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;3
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir 1
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;  4.07s user 4.54s system 19% cpu 43.450 total
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
+go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.07s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.54s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;19&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;43&lt;/span&gt;.450 total
 
-sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;3
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir 2
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;  5.85s user 8.98s system 4% cpu 4:58.27 total
+sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
+go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.85s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.98s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;:58.27 total
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
@@ -875,7 +925,7 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;:
     &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-    print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -886,7 +936,7 @@ def calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;a, b&lt;span st
 
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;diff --git a/HEAD:calc.py b/5e63:calc.py
-index e2c3e48..6ce682f 100644
+index e2c3e48..6ce682f &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100644&lt;/span&gt;
 --- a/HEAD:calc.py
 +++ b/5e63:calc.py
 @@ -1,6 +1,6 @@
@@ -896,7 +946,7 @@ index e2c3e48..6ce682f 100644
   -    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; * b
   +    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; a + b
 
-   print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1, 2&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+   print calc&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -943,13 +993,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
 &lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; 5; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;272&lt;/span&gt;.55s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.83s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;181&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:34.95 total
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;169&lt;/span&gt;.83s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.84s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;97&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;:00.66 total
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1244,23 +1294,23 @@ I eat pizza with Maria
      |      |    N |      |    N
      |      |      |    P |   PP
      |      |      |      |    N
-	--l &amp;lt;N&amp;gt; -- I 0
+	--l &amp;lt;N&amp;gt; -- I &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;
 	--r &amp;lt;V&amp;gt; 
-		--l &amp;lt;V&amp;gt; -- eat 1
+		--l &amp;lt;V&amp;gt; -- eat &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
 		--r &amp;lt;N&amp;gt; 
-			--l &amp;lt;N&amp;gt; -- pizza 2
+			--l &amp;lt;N&amp;gt; -- pizza &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
 			--r &amp;lt;PP&amp;gt; 
-				--l &amp;lt;P&amp;gt; -- with 3
-				--r &amp;lt;N&amp;gt; -- Maria 4
+				--l &amp;lt;P&amp;gt; -- with &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+				--r &amp;lt;N&amp;gt; -- Maria &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;
 --
 	--l &amp;lt;S&amp;gt; 
-		--l &amp;lt;N&amp;gt; -- I 0
+		--l &amp;lt;N&amp;gt; -- I &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;
 		--r &amp;lt;V&amp;gt; 
-			--l &amp;lt;V&amp;gt; -- eat 1
-			--r &amp;lt;N&amp;gt; -- pizza 2
+			--l &amp;lt;V&amp;gt; -- eat &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
+			--r &amp;lt;N&amp;gt; -- pizza &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
 	--r &amp;lt;PP&amp;gt; 
-		--l &amp;lt;P&amp;gt; -- with 3
-		--r &amp;lt;N&amp;gt; -- Maria 4
+		--l &amp;lt;P&amp;gt; -- with &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+		--r &amp;lt;N&amp;gt; -- Maria &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;
 --
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1390,7 +1440,7 @@ I eat pizza with Maria
 Elasticsearchはインストール済みとして進める。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./bin/elasticsearch -v
-Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25
+Version: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.8.0_25
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1584,7 +1634,7 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京�
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;name MYKONOS&lt;/span&gt;
 
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;address &amp;quot;&lt;/span&gt;新宿区神楽坂3-6-53&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;神楽坂通りを一本左。JR飯田橋駅徒歩4分    05/01/25 営業時間等更...
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;神楽坂通りを一本左。JR飯田橋駅徒歩4分    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;05&lt;/span&gt;/01/25 営業時間等更...
 name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;きょうとぎをんくろーばーてい&amp;quot;&lt;/span&gt;
 name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ぎをん 久露葉亭&amp;quot;&lt;/span&gt;
 
@@ -1682,16 +1732,16 @@ description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分�
 それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-99999
-go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
+go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;119&lt;/span&gt;.16s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.88s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:00.95 total
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
 &lt;p&gt;今回書いた方法:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-99999
-go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
+go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.20s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.08s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;57&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.494 total
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1848,7 +1898,7 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ ./waf configure
 Setting top to                           : /Users/makino/code/mafexp
 Setting out to                           : /Users/makino/code/mafexp/build
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;configure&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0.004s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;configure&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.004s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 $./waf
 Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/Users/makino/code/mafexp/build&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  2/240] 0-train,0-dev: a1a -&amp;gt; build/train/0-train build/dev/0-dev&lt;/span&gt;
@@ -1860,7 +1910,7 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&amp;gt; build/max_acc/87-max_acc&lt;/span&gt;
 &lt;span style=&#34;background-color: #fff0f0&#34;&gt;Waf: Leaving directory `/Users/makino/code/mafexp/build&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;3.450s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;.450s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
@@ -1869,11 +1919,11 @@ Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&
 &lt;p&gt;出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 0&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 2&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999998e-13&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: 1, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: 9.9999999999999994e-12&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.9999999999999998e-13&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.9999999999999994e-12&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
 ...
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -1909,19 +1959,19 @@ GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
 $./hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
 $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: 75.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Accuracy: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;75&lt;/span&gt;.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3460&lt;/span&gt;/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 
 Most common mistakes:
-NNS --&amp;gt; NN      49
-RB --&amp;gt; NN       35
-JJ --&amp;gt; DT       30
-RB --&amp;gt; IN       29
-NN --&amp;gt; JJ       28
-NN --&amp;gt; IN       25
-JJ --&amp;gt; NN       24
-NN --&amp;gt; DT       24
-NNP --&amp;gt; NN      22
-VBN --&amp;gt; NN      22
+NNS --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;49&lt;/span&gt;
+RB --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;35&lt;/span&gt;
+JJ --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;30&lt;/span&gt;
+RB --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;29&lt;/span&gt;
+NN --&amp;gt; JJ       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;
+NN --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
+JJ --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NN --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NNP --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
+VBN --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1983,9 +2033,9 @@ Go言語,編集者とこの本を5000部売れたらなという話をしたの�
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./text data.csv &amp;gt; data
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; data
-スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+スポーツ &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;２&lt;/span&gt;:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5000&lt;/span&gt;:1.000000...
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -1999,38 +2049,38 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 &lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-スポーツ        カルロス・テベス        0.600000
-スポーツ        モチベーション  0.600000
-スポーツ        アルゼンチン    0.600000
-スポーツ        ＡＣミラン      0.600000
-スポーツ        ユベントス      0.600000
-スポーツ        抜け出し        0.600000
-スポーツ        ベローナ        0.600000
-スポーツ        ブラジル        0.600000
-スポーツ        セリエＡ        0.600000
-スポーツ        アウェー        0.600000
+スポーツ        カルロス・テベス        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        モチベーション  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アルゼンチン    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ＡＣミラン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ユベントス      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        抜け出し        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ベローナ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ブラジル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        セリエＡ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アウェー        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^政治&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-政治    不透明  0.800000
-政治    上回っ  0.800000
-政治    関連    0.800000
-政治    資金    0.800000
-政治    説明    0.800000
-政治    観劇    0.800000
-政治    経済    0.800000
-政治    産業    0.800000
-政治    生じ    0.800000
-政治    焦点    0.800000
+政治    不透明  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    上回っ  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    関連    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    資金    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    説明    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    観劇    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    経済    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    産業    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    生じ    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    焦点    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^Go言語&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-Go言語  インタビュー    0.700000
-Go言語  カーニハン      0.700000
-Go言語  グーグル        0.700000
-Go言語  代わる  0.700000
-Go言語  それら  0.700000
-Go言語  いくら  0.700000
-Go言語  言語    0.700000
-Go言語  解決    0.700000
-Go言語  覚え    0.700000
-Go言語  考え    0.700000
+Go言語  インタビュー    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  カーニハン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  グーグル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  代わる  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  それら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  いくら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  言語    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  解決    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  覚え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  考え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2073,36 +2123,36 @@ Go言語  考え    0.700000
 &lt;p&gt;例えば&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary&#34;&gt;このデータ&lt;/a&gt;は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.01
-$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.01
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.011142 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;28/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.848485 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;28/33&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
+$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.011142 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.848485 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/33&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.997986 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2478/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.499295 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2478/4963&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.997986 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.499295 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/4963&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.5016012810248198
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.5016012810248198
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.0001
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.0001
 $./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.836891 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2078/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.833200 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2078/2494&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.836891 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.833200 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2494&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.834461 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2097/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.838129 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2097/2502&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.834461 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.838129 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2502&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.8356685348278623
-$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.00001
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8356685348278623
+$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.00001
 $./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.950463 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2360/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.946651 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2360/2493&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950463 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.946651 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2493&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.947075 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2380/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.950859 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2380/2503&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.947075 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950859 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2503&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.9487590072057646
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.9487590072057646
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2178,9 +2228,9 @@ food beef:1 pork:1
 &lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$go&lt;/span&gt; build
-$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;10
+$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;
 $./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model
-Acc: 0.8257203773097299
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8257203773097299
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2190,9 +2240,9 @@ Acc: 0.8257203773097299
 &lt;p&gt;このデータは、&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-7446
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;7446&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-23510
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;23510&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -4155,41 +4205,6 @@ Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum&lt;/p&gt;
           <author></author>
           <guid>http://tma15.github.io/blog/2012/11/autumncolor/</guid>
           <description>&lt;p&gt;&lt;a href=&#34;http://www.flickr.com/photos/85431668@N05/8228695707/&#34; title=&#34;IMG_1900 by tma15, on Flickr&#34;&gt;&lt;img src=&#34;http://farm9.staticflickr.com/8205/8228695707_f13d952651_c.jpg&#34; width=&#34;800&#34; height=&#34;800&#34; alt=&#34;IMG_1900&#34;&gt;&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
-    
-      
-        <item>
-          <title>without sns</title>
-          <link>http://tma15.github.io/blog/2012/11/withoutsns/</link>
-          <pubDate>Thu, 29 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/withoutsns/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://www.lifehacker.jp/2012/09/12092730withoutsns.html&#34;&gt;「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;この記事を初めて読んだとき、自分には無理だなあと思っていた。&lt;/p&gt;
-
-&lt;p&gt;でも、やってみたら、できた。そして記事で書かれていることを体験して、強く同意した。&lt;/p&gt;
-
-&lt;p&gt;最初の2、3日に起きる禁断症状を乗り越えてしまえばそんなに辛くないし、ぼーっとストリーム
-を眺めている時間は無くなった。&lt;/p&gt;
-
-&lt;p&gt;（TwipicのCTOには遠くおよばないけど）プログラミングの時間は増えたと
-思っているし、友人たちとより密度の濃い時間を過ごすことができている。
-（友人といる時にちょっと関心の薄い話題になって退屈になるとiPhoneで
-SNS覗いたり、なんてことをしてたんだけど、今は意識的にそういう事はやめてる。）&lt;/p&gt;
-
-&lt;p&gt;本を書いたりなんて当然してないんだけど、技術書を読む時間や論文を読む時間が増えた。&lt;/p&gt;
-
-&lt;p&gt;SNSなんかやめても他のことに無駄に時間を使うことだけだ、と思っていたことも
-あるし、実際に無駄な時間の使い方をしていると感じることもあるけど、SNS
-に入り浸っていた時よりは確実に良い時間の使い方をできている。&lt;/p&gt;
-
-&lt;p&gt;記事をなぞったようなことしかやっていないのだけど、この「情報ダイエット」は自分にとって
-価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。&lt;/p&gt;
-
-&lt;p&gt;なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。&lt;/p&gt;
 </description>
         </item>
       

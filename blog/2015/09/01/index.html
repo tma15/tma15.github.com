@@ -71,13 +71,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$wc</span> -l news20.scale
    <span style="color: #6600EE; font-weight: bold">15935</span> news20.scale
 <span style="color: #996633">$touch</span> news20.scale.big
-<span style="color: #996633">$for</span> i in <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #6600EE; font-weight: bold">4</span> 5; <span style="color: #008800; font-weight: bold">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color: #008800; font-weight: bold">done</span>
+<span style="color: #996633">$for</span> i in <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #6600EE; font-weight: bold">4</span> <span style="color: #6600EE; font-weight: bold">5</span>; <span style="color: #008800; font-weight: bold">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color: #008800; font-weight: bold">done</span>
 <span style="color: #996633">$wc</span> -l news20.scale.big
    <span style="color: #6600EE; font-weight: bold">79675</span> news20.scale.big
 <span style="color: #996633">$time</span> ./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color: #6600EE; font-weight: bold">4</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color: #6600EE; font-weight: bold">272</span>.55s user <span style="color: #6600EE; font-weight: bold">8</span>.83s system <span style="color: #6600EE; font-weight: bold">181</span>% cpu <span style="color: #6600EE; font-weight: bold">2</span>:34.95 total
 <span style="color: #996633">$time</span> ./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color: #6600EE; font-weight: bold">1</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color: #6600EE; font-weight: bold">169</span>.83s user <span style="color: #6600EE; font-weight: bold">5</span>.84s system <span style="color: #6600EE; font-weight: bold">97</span>% cpu <span style="color: #6600EE; font-weight: bold">3</span>:00.66 total
 </pre></div>
 
 

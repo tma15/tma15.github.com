@@ -5,9 +5,59 @@
     <link>http://tma15.github.io/tags/c&#43;&#43;/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
-    <updated>2016-09-05 19:28:46 &#43;0900 JST</updated>
+    <rights>(C) 2017</rights>
+    <updated>2017-05-06 13:09:55 &#43;0900 JST</updated>
 
+    
+      
+        <item>
+          <title>ゴールデンウィークの空き時間を使ってダブル配列を実装した</title>
+          <link>http://tma15.github.io/blog/2017/05/06/</link>
+          <pubDate>Sat, 06 May 2017 13:09:55 JST</pubDate>
+          <author></author>
+          <guid>http://tma15.github.io/blog/2017/05/06/</guid>
+          <description>&lt;p&gt;このゴールデンウィークはまとまった休日を取ることができた。
+そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、
+今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。
+ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器の&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;などで用いられている。
+入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。
+そのため、高速にキーを検索することができる。&lt;/p&gt;
+
+&lt;p&gt;開発成果は&lt;a href=&#34;https://github.com/tma15/darr&#34;&gt;ここ&lt;/a&gt;にアップロードした。
+基本的には&lt;a href=&#34;https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&amp;amp;active_action=repository_view_main_item_detail&amp;amp;item_id=49490&amp;amp;item_no=1&amp;amp;page_id=13&amp;amp;block_id=8&#34;&gt;ダブル配列法によるトライ検索の実現法&lt;/a&gt;を素直に実装している。&lt;/p&gt;
+
+&lt;p&gt;休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;ダブル配列の動的な構築&lt;/li&gt;
+&lt;li&gt;キーの存在の確認&lt;/li&gt;
+&lt;li&gt;キーに対する値の取得&lt;/li&gt;
+&lt;li&gt;キーの削除&lt;/li&gt;
+&lt;li&gt;ダブル配列の保存・読み込み&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。
+またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。&lt;/p&gt;
+
+&lt;p&gt;実装をするにあたり、他に参照した情報源を以下に挙げる:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934/ref=sr_1_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1494044643&amp;amp;sr=1-1&amp;amp;keywords=%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.slideshare.net/higashiyama/ss-8738479&#34;&gt;ダブル配列の実装方法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/n_shuyo/20111018/doublearray&#34;&gt;Double Array 実装してみた - Mi manca qualche giovedi?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20061225/1167038986&#34;&gt;最近のDoubleArrayの性能 - 射撃しつつ前転&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。
+この休日では間に合わず、今後試してみたいと思っているのは以下の通り:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;マルチバイト文字の対応&lt;/li&gt;
+&lt;li&gt;分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        </item>
+      
     
       
         <item>

@@ -73,9 +73,9 @@ food beef:1 pork:1
 <p>今回は<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/">LIBSVM Data: Classification, Regression, and Multi-label</a>で公開されている二値分類用データを使って動かしてみました。</p>
 
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$go</span> build
-$./perceptron -f<span style="color: #333333">=</span>../data/a1a -m<span style="color: #333333">=</span>learn -w<span style="color: #333333">=</span>model -l<span style="color: #333333">=</span>10
+$./perceptron -f<span style="color: #333333">=</span>../data/a1a -m<span style="color: #333333">=</span>learn -w<span style="color: #333333">=</span>model -l<span style="color: #333333">=</span><span style="color: #6600EE; font-weight: bold">10</span>
 $./perceptron -f<span style="color: #333333">=</span>../data/a1a.t -m<span style="color: #333333">=</span><span style="color: #007020">test</span> -w<span style="color: #333333">=</span>model
-Acc: 0.8257203773097299
+Acc: <span style="color: #6600EE; font-weight: bold">0</span>.8257203773097299
 </pre></div>
 
 
@@ -85,9 +85,9 @@ Acc: 0.8257203773097299
 <p>このデータは、</p>
 
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$grep</span> <span style="background-color: #fff0f0">&quot;^+1&quot;</span> ../data/a1a.t|wc -l
-7446
+<span style="color: #6600EE; font-weight: bold">7446</span>
 <span style="color: #996633">$grep</span> <span style="background-color: #fff0f0">&quot;^-1&quot;</span> ../data/a1a.t|wc -l
-23510
+<span style="color: #6600EE; font-weight: bold">23510</span>
 </pre></div>
 
 

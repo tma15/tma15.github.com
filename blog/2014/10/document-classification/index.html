@@ -106,9 +106,9 @@ Go言語,編集者とこの本を5000部売れたらなという話をしたの�
 
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./text data.csv &gt; data
 <span style="color: #996633">$cat</span> data
-スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+スポーツ <span style="color: #6600EE; font-weight: bold">２</span>:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 <span style="color: #6600EE; font-weight: bold">5000</span>:1.000000...
 </pre></div>
 
 
@@ -122,38 +122,38 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 <p>できあがったモデルの中身を見てみる。</p>
 
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^スポーツ&quot;</span>|sort -k3 -nr|head
-スポーツ        カルロス・テベス        0.600000
-スポーツ        モチベーション  0.600000
-スポーツ        アルゼンチン    0.600000
-スポーツ        ＡＣミラン      0.600000
-スポーツ        ユベントス      0.600000
-スポーツ        抜け出し        0.600000
-スポーツ        ベローナ        0.600000
-スポーツ        ブラジル        0.600000
-スポーツ        セリエＡ        0.600000
-スポーツ        アウェー        0.600000
+スポーツ        カルロス・テベス        <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        モチベーション  <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        アルゼンチン    <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        ＡＣミラン      <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        ユベントス      <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        抜け出し        <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        ベローナ        <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        ブラジル        <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        セリエＡ        <span style="color: #6600EE; font-weight: bold">0</span>.600000
+スポーツ        アウェー        <span style="color: #6600EE; font-weight: bold">0</span>.600000
 <span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^政治&quot;</span>|sort -k3 -nr|head
-政治    不透明  0.800000
-政治    上回っ  0.800000
-政治    関連    0.800000
-政治    資金    0.800000
-政治    説明    0.800000
-政治    観劇    0.800000
-政治    経済    0.800000
-政治    産業    0.800000
-政治    生じ    0.800000
-政治    焦点    0.800000
+政治    不透明  <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    上回っ  <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    関連    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    資金    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    説明    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    観劇    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    経済    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    産業    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    生じ    <span style="color: #6600EE; font-weight: bold">0</span>.800000
+政治    焦点    <span style="color: #6600EE; font-weight: bold">0</span>.800000
 <span style="color: #996633">$cat</span> model|grep <span style="background-color: #fff0f0">&quot;^Go言語&quot;</span>|sort -k3 -nr|head
-Go言語  インタビュー    0.700000
-Go言語  カーニハン      0.700000
-Go言語  グーグル        0.700000
-Go言語  代わる  0.700000
-Go言語  それら  0.700000
-Go言語  いくら  0.700000
-Go言語  言語    0.700000
-Go言語  解決    0.700000
-Go言語  覚え    0.700000
-Go言語  考え    0.700000
+Go言語  インタビュー    <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  カーニハン      <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  グーグル        <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  代わる  <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  それら  <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  いくら  <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  言語    <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  解決    <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  覚え    <span style="color: #6600EE; font-weight: bold">0</span>.700000
+Go言語  考え    <span style="color: #6600EE; font-weight: bold">0</span>.700000
 </pre></div>
 
 

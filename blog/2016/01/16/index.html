@@ -102,13 +102,13 @@
 <p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span>3
-<span style="color: #007020">time</span> go run dirdump.go dir 1
-go run dirdump.go large <span style="color: #6600EE; font-weight: bold">1</span>  4.07s user 4.54s system 19% cpu 43.450 total
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span><span style="color: #6600EE; font-weight: bold">3</span>
+<span style="color: #007020">time</span> go run dirdump.go dir <span style="color: #6600EE; font-weight: bold">1</span>
+go run dirdump.go large <span style="color: #6600EE; font-weight: bold">1</span>  <span style="color: #6600EE; font-weight: bold">4</span>.07s user <span style="color: #6600EE; font-weight: bold">4</span>.54s system <span style="color: #6600EE; font-weight: bold">19</span>% cpu <span style="color: #6600EE; font-weight: bold">43</span>.450 total
 
-sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span>3
-<span style="color: #007020">time</span> go run dirdump.go dir 2
-go run dirdump.go large <span style="color: #6600EE; font-weight: bold">2</span>  5.85s user 8.98s system 4% cpu 4:58.27 total
+sudo sysctl -w vm.drop_caches<span style="color: #333333">=</span><span style="color: #6600EE; font-weight: bold">3</span>
+<span style="color: #007020">time</span> go run dirdump.go dir <span style="color: #6600EE; font-weight: bold">2</span>
+go run dirdump.go large <span style="color: #6600EE; font-weight: bold">2</span>  <span style="color: #6600EE; font-weight: bold">5</span>.85s user <span style="color: #6600EE; font-weight: bold">8</span>.98s system <span style="color: #6600EE; font-weight: bold">4</span>% cpu <span style="color: #6600EE; font-weight: bold">4</span>:58.27 total
 </pre></div>
 </p>
 

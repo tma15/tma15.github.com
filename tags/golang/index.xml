@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/golang/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2016-01-31 19:17:31 &#43;0900 JST</updated>
 
     
@@ -89,13 +89,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
 &lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; 5; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;272&lt;/span&gt;.55s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.83s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;181&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:34.95 total
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;169&lt;/span&gt;.83s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.84s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;97&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;:00.66 total
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -361,16 +361,16 @@ SCWはいつか実装する。&lt;/p&gt;
 それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
 
 &lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-99999
-go run countelem.go  119.16s user 0.88s system 99% cpu 2:00.95 total
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
+go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;119&lt;/span&gt;.16s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.88s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:00.95 total
 &lt;/pre&gt;&lt;/div&gt;
 &lt;/p&gt;
 
 &lt;p&gt;今回書いた方法:&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-99999
-go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
+go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.20s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.08s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;57&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.494 total
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -396,19 +396,19 @@ go run countelem.go  0.20s user 0.08s system 57% cpu 0.494 total
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
 $./hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
 $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: 75.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Accuracy: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;75&lt;/span&gt;.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3460&lt;/span&gt;/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 
 Most common mistakes:
-NNS --&amp;gt; NN      49
-RB --&amp;gt; NN       35
-JJ --&amp;gt; DT       30
-RB --&amp;gt; IN       29
-NN --&amp;gt; JJ       28
-NN --&amp;gt; IN       25
-JJ --&amp;gt; NN       24
-NN --&amp;gt; DT       24
-NNP --&amp;gt; NN      22
-VBN --&amp;gt; NN      22
+NNS --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;49&lt;/span&gt;
+RB --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;35&lt;/span&gt;
+JJ --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;30&lt;/span&gt;
+RB --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;29&lt;/span&gt;
+NN --&amp;gt; JJ       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;
+NN --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
+JJ --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NN --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NNP --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
+VBN --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -470,9 +470,9 @@ Go言語,編集者とこの本を5000部売れたらなという話をしたの�
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./text data.csv &amp;gt; data
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; data
-スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+スポーツ &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;２&lt;/span&gt;:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5000&lt;/span&gt;:1.000000...
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -486,38 +486,38 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 &lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-スポーツ        カルロス・テベス        0.600000
-スポーツ        モチベーション  0.600000
-スポーツ        アルゼンチン    0.600000
-スポーツ        ＡＣミラン      0.600000
-スポーツ        ユベントス      0.600000
-スポーツ        抜け出し        0.600000
-スポーツ        ベローナ        0.600000
-スポーツ        ブラジル        0.600000
-スポーツ        セリエＡ        0.600000
-スポーツ        アウェー        0.600000
+スポーツ        カルロス・テベス        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        モチベーション  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アルゼンチン    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ＡＣミラン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ユベントス      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        抜け出し        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ベローナ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ブラジル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        セリエＡ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アウェー        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^政治&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-政治    不透明  0.800000
-政治    上回っ  0.800000
-政治    関連    0.800000
-政治    資金    0.800000
-政治    説明    0.800000
-政治    観劇    0.800000
-政治    経済    0.800000
-政治    産業    0.800000
-政治    生じ    0.800000
-政治    焦点    0.800000
+政治    不透明  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    上回っ  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    関連    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    資金    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    説明    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    観劇    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    経済    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    産業    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    生じ    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    焦点    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^Go言語&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-Go言語  インタビュー    0.700000
-Go言語  カーニハン      0.700000
-Go言語  グーグル        0.700000
-Go言語  代わる  0.700000
-Go言語  それら  0.700000
-Go言語  いくら  0.700000
-Go言語  言語    0.700000
-Go言語  解決    0.700000
-Go言語  覚え    0.700000
-Go言語  考え    0.700000
+Go言語  インタビュー    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  カーニハン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  グーグル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  代わる  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  それら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  いくら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  言語    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  解決    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  覚え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  考え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -560,36 +560,36 @@ Go言語  考え    0.700000
 &lt;p&gt;例えば&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary&#34;&gt;このデータ&lt;/a&gt;は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.01
-$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.01
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.011142 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;28/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.848485 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;28/33&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
+$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.011142 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.848485 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/33&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.997986 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2478/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.499295 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2478/4963&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.997986 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.499295 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/4963&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.5016012810248198
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.5016012810248198
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.0001
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.0001
 $./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.836891 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2078/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.833200 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2078/2494&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.836891 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.833200 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2494&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.834461 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2097/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.838129 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2097/2502&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.834461 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.838129 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2502&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.8356685348278623
-$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c 0.00001
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8356685348278623
+$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.00001
 $./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.950463 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2360/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.946651 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2360/2493&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950463 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.946651 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2493&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.947075 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2380/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: 0.950859 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;2380/2503&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.947075 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950859 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2503&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 --
-Acc: 0.9487590072057646
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.9487590072057646
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -665,9 +665,9 @@ food beef:1 pork:1
 &lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$go&lt;/span&gt; build
-$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;10
+$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;
 $./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model
-Acc: 0.8257203773097299
+Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8257203773097299
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -677,9 +677,9 @@ Acc: 0.8257203773097299
 &lt;p&gt;このデータは、&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-7446
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;7446&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-23510
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;23510&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

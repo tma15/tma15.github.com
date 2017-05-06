@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/machine_learning/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2016-09-04 11:00:13 &#43;0900 JST</updated>
 
     
@@ -438,13 +438,13 @@ CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度�
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
 &lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; 5; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;272&lt;/span&gt;.55s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.83s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;181&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:34.95 total
 &lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total
+./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;169&lt;/span&gt;.83s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.84s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;97&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;:00.66 total
 &lt;/pre&gt;&lt;/div&gt;
 
 

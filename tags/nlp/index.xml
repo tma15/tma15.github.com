@@ -5,7 +5,7 @@
     <link>http://tma15.github.io/tags/nlp/</link>
     <language>en-us</language>
     <author></author>
-    <rights>(C) 2016</rights>
+    <rights>(C) 2017</rights>
     <updated>2016-01-31 19:17:31 &#43;0900 JST</updated>
 
     
@@ -119,23 +119,23 @@ I eat pizza with Maria
      |      |    N |      |    N
      |      |      |    P |   PP
      |      |      |      |    N
-	--l &amp;lt;N&amp;gt; -- I 0
+	--l &amp;lt;N&amp;gt; -- I &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;
 	--r &amp;lt;V&amp;gt; 
-		--l &amp;lt;V&amp;gt; -- eat 1
+		--l &amp;lt;V&amp;gt; -- eat &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
 		--r &amp;lt;N&amp;gt; 
-			--l &amp;lt;N&amp;gt; -- pizza 2
+			--l &amp;lt;N&amp;gt; -- pizza &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
 			--r &amp;lt;PP&amp;gt; 
-				--l &amp;lt;P&amp;gt; -- with 3
-				--r &amp;lt;N&amp;gt; -- Maria 4
+				--l &amp;lt;P&amp;gt; -- with &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+				--r &amp;lt;N&amp;gt; -- Maria &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;
 --
 	--l &amp;lt;S&amp;gt; 
-		--l &amp;lt;N&amp;gt; -- I 0
+		--l &amp;lt;N&amp;gt; -- I &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;
 		--r &amp;lt;V&amp;gt; 
-			--l &amp;lt;V&amp;gt; -- eat 1
-			--r &amp;lt;N&amp;gt; -- pizza 2
+			--l &amp;lt;V&amp;gt; -- eat &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
+			--r &amp;lt;N&amp;gt; -- pizza &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
 	--r &amp;lt;PP&amp;gt; 
-		--l &amp;lt;P&amp;gt; -- with 3
-		--r &amp;lt;N&amp;gt; -- Maria 4
+		--l &amp;lt;P&amp;gt; -- with &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
+		--r &amp;lt;N&amp;gt; -- Maria &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;
 --
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -269,19 +269,19 @@ I eat pizza with Maria
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
 $./hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
 $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: 75.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;3460/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+Accuracy: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;75&lt;/span&gt;.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3460&lt;/span&gt;/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 
 Most common mistakes:
-NNS --&amp;gt; NN      49
-RB --&amp;gt; NN       35
-JJ --&amp;gt; DT       30
-RB --&amp;gt; IN       29
-NN --&amp;gt; JJ       28
-NN --&amp;gt; IN       25
-JJ --&amp;gt; NN       24
-NN --&amp;gt; DT       24
-NNP --&amp;gt; NN      22
-VBN --&amp;gt; NN      22
+NNS --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;49&lt;/span&gt;
+RB --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;35&lt;/span&gt;
+JJ --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;30&lt;/span&gt;
+RB --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;29&lt;/span&gt;
+NN --&amp;gt; JJ       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;
+NN --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
+JJ --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NN --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
+NNP --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
+VBN --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -343,9 +343,9 @@ Go言語,編集者とこの本を5000部売れたらなという話をしたの�
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./text data.csv &amp;gt; data
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; data
-スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+スポーツ &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;２&lt;/span&gt;:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5000&lt;/span&gt;:1.000000...
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -359,38 +359,38 @@ Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.0000
 &lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-スポーツ        カルロス・テベス        0.600000
-スポーツ        モチベーション  0.600000
-スポーツ        アルゼンチン    0.600000
-スポーツ        ＡＣミラン      0.600000
-スポーツ        ユベントス      0.600000
-スポーツ        抜け出し        0.600000
-スポーツ        ベローナ        0.600000
-スポーツ        ブラジル        0.600000
-スポーツ        セリエＡ        0.600000
-スポーツ        アウェー        0.600000
+スポーツ        カルロス・テベス        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        モチベーション  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アルゼンチン    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ＡＣミラン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ユベントス      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        抜け出し        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ベローナ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        ブラジル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        セリエＡ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
+スポーツ        アウェー        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^政治&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-政治    不透明  0.800000
-政治    上回っ  0.800000
-政治    関連    0.800000
-政治    資金    0.800000
-政治    説明    0.800000
-政治    観劇    0.800000
-政治    経済    0.800000
-政治    産業    0.800000
-政治    生じ    0.800000
-政治    焦点    0.800000
+政治    不透明  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    上回っ  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    関連    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    資金    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    説明    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    観劇    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    経済    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    産業    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    生じ    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
+政治    焦点    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
 &lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^Go言語&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-Go言語  インタビュー    0.700000
-Go言語  カーニハン      0.700000
-Go言語  グーグル        0.700000
-Go言語  代わる  0.700000
-Go言語  それら  0.700000
-Go言語  いくら  0.700000
-Go言語  言語    0.700000
-Go言語  解決    0.700000
-Go言語  覚え    0.700000
-Go言語  考え    0.700000
+Go言語  インタビュー    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  カーニハン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  グーグル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  代わる  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  それら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  いくら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  言語    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  解決    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  覚え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
+Go言語  考え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
 &lt;/pre&gt;&lt;/div&gt;
 
 
