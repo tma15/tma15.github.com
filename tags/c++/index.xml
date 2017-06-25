@@ -183,6 +183,8 @@ setup(
     author      = &amp;quot;Takuya Makino&amp;quot;,
     description = &amp;quot;&amp;quot;&amp;quot;online machine learning algorithms&amp;quot;&amp;quot;&amp;quot;,
     ext_modules = [module],
+    py_modules = [&#39;onlineml&#39;],
+    )
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;h2 id=&#34;makefile-amを作成する&#34;&gt;Makefile.amを作成する&lt;/h2&gt;
@@ -214,10 +216,9 @@ python:
         swig -c++ -I../ -python onlineml.swigcxx &amp;amp;&amp;amp; \
         python setup.py build_ext --inplace --include-dirs=@prefix@/include \
         --library-dirs=@prefix@/lib &amp;amp;&amp;amp; \
+        python setup.install &amp;amp;&amp;amp; \
         cd -
 &lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;ここでは、&lt;code&gt;python setup.py build_ext&lt;/code&gt;によって&lt;code&gt;*.so&lt;/code&gt;ファイルを生成している。&lt;/p&gt;
 
 &lt;p&gt;また&lt;code&gt;make dist&lt;/code&gt;で生成されるパッケージにswigも含まれるように、&lt;code&gt;onlineml/swig/Makefile.am&lt;/code&gt;中で以下のように&lt;code&gt;EXTRA_DIST&lt;/code&gt;に配布したいスクリプトを含める:&lt;/p&gt;
 
