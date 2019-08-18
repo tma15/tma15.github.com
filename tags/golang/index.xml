@@ -1,696 +1,127 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Now is better than never. </title>
+    <title>golang on Now is better than never.</title>
     <link>http://tma15.github.io/tags/golang/</link>
+    <description>Recent content in golang on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2016-01-31 19:17:31 &#43;0900 JST</updated>
-
+    <lastBuildDate>Sun, 31 Jan 2016 19:17:31 +0900</lastBuildDate>
     
-      
-        <item>
-          <title>N-best解の探索</title>
-          <link>http://tma15.github.io/blog/2016/01/31/</link>
-          <pubDate>Sun, 31 Jan 2016 19:17:31 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/31/</guid>
-          <description>
-
-&lt;p&gt;系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-&lt;a href=&#34;http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)&lt;/a&gt;
-の説明が分かりやすい。理解するために実装してみた。&lt;/p&gt;
-
-&lt;script src=&#34;https://gist.github.com/tma15/4c6f133c0d40dbd4a606.js&#34;&gt;&lt;/script&gt;
-
-&lt;p&gt;ラティスの構造は以下のとおり。パスの重みは上記コードを参照。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#0       n1 --- n3
-        /   \ /   \
-       bos   x     eos
-        \   / \   /
-#1       n2 --- n4
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、
-ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。
-2-best以降もラティスの情報から、あっていることを確認。&lt;/p&gt;
-
-&lt;p&gt;下記の###以降はこのエントリ用に付け足した文字列。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$go test
-Backtrack ### ビタビアルゴリズムで求めたパス
-1 ### n2を通って、
-0 ### n3を通る
-1-best: 1 ### n2を通って、
-1-best: 0 ### n3を通る
-
-2-best: 1 ### n2を通って、
-2-best: 1 ### n4を通る
-
-3-best: 0 ### n1を通って、
-3-best: 0 ### n3を通る
-
-4-best: 0 ### n1を通って、
-4-best: 1 ### n4を通る
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;goで優先度付きキューを実装するには、&lt;a href=&#34;https://golang.org/pkg/container/heap/&#34;&gt;heap - The Go Programming Language&lt;/a&gt;のExample (PriorityQueue) が参考になる。&lt;/p&gt;
-
-&lt;p&gt;少し話はそれるが、機械翻訳において、n-best解は似通ったものが選ばれてしまう問題があるので、多様性を考慮するモデルを提案している話があって、これも気になるのでメモ。&lt;/p&gt;
-
-&lt;p&gt;Kevin Gimpel, Dhruv Batra, Chris Dyer, and Gregory Shakhnarovich. &amp;ldquo;A Systematic Exploration of Diversity in Machine Translation&amp;rdquo;, EMNLP, 2013. &lt;a href=&#34;http://ttic.uchicago.edu/~gregory/papers/emnlp2013diversity.pdf&#34;&gt;pdf&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/jetbead/20160119/1453139047&#34;&gt;ラティスのNbestを求める - Negative/Positive Thinking&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://tma15.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>並列での学習アルゴリズムの追加</title>
-          <link>http://tma15.github.io/blog/2015/09/01/</link>
-          <pubDate>Mon, 31 Aug 2015 20:03:45 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/09/01/</guid>
-          <description>&lt;p&gt;拙作の&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;に並列での学習もサポートするようにした。
-分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。
-並列での学習にはIterative Parameter Mixture (&lt;a href=&#34;http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf&#34;&gt;pdf&lt;/a&gt;)を提供している。&lt;/p&gt;
-
-&lt;p&gt;シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
-CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
-   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
-&lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
-   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;272&lt;/span&gt;.55s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.83s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;181&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:34.95 total
-&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;169&lt;/span&gt;.83s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.84s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;97&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;:00.66 total
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Iterative Parameter Mixtureに関するコードは以下。&lt;/p&gt;
-
-&lt;p&gt;ipm.go&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface, x &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) {
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
-	num_data &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	sizechunk &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; num_data&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;num_learner &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				start &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
-				end &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (j &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; end &lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;=&lt;/span&gt; num_data {
-					end = num_data &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-				}
-				x_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)[start:end]
-				y_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;y)[start:end]
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].Fit(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;x_j, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;y_j)
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; average_two(learner1, learner2 &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
-	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).GetParams()
-	num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
-	avg_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, num_params, num_params)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_params; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		avg_params[i] = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt;)
-	}
-
-	avg_ftdic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
-	avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
-	learners &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; []LearnerInterface{&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner2}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; _, learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; learners {
-		params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetParams()
-		num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
-		ftdict, labeldict &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetDics()
-
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; p &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; p &amp;lt; num_params; p&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-			param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)[p]
-			avg_param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p]
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; yid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; yid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(labeldict.Id2elem); yid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-				y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; labeldict.Id2elem[yid]
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_labeldic.HasElem(y) {
-					avg_labeldic.AddElem(y)
-				}
-				yid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_labeldic.Elem2id[y]
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; yid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-					&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param, &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1000&lt;/span&gt;))
-				}
-				avg_param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p][yid_avg]
-				param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; param[yid]
-
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; ftid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; ftid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(param[yid]); ftid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-					ft &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; ftdict.Id2elem[ftid]
-					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_ftdic.HasElem(ft) {
-						avg_ftdic.AddElem(ft)
-					}
-					ftid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_ftdic.Elem2id[ft]
-					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; ftid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-						&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.&lt;/span&gt;)
-					}
-					(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y)[ftid_avg] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; param_y[ftid] &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners))
-
-				}
-			}
-		}
-	}
-	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetParams(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params)
-	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetDics(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_ftdic, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_labeldic)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; learner1
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; AverageModels(learners []LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt; { &lt;span style=&#34;color: #888888&#34;&gt;/* add learner to make length of learners is even number */&lt;/span&gt;
-		learners = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners, learners[&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;])
-	}
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	results &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, num_learner)
-
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				l1 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j]
-				l2 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j&lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt;num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;]
-				l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; average_two(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l1, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l2)
-				results &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; l_avg
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(results)
-	learners_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]LearnerInterface, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; results {
-		learners_avg = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners_avg, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;l_avg)
-	}
-
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners_avg) &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; {
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners_avg[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; AverageModels(learners_avg)
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; BroadCastModel(avg_learner &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface) {
-	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetParams()
-	avg_ftdic, avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetDics()
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetParams(params)
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetDics(avg_ftdic, avg_labeldic)
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;main.go
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;gonline.FitLearners(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners, x_train, y_train)
-learner_avg = gonline.AverageModels(learners)
-gonline.BroadCastModel(learner_avg, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners)
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-</description>
-        </item>
-      
     
+    <item>
+      <title>N-best解の探索</title>
+      <link>http://tma15.github.io/blog/2016/01/31/</link>
+      <pubDate>Sun, 31 Jan 2016 19:17:31 +0900</pubDate>
       
-        <item>
-          <title>オンライン学習の実装いろいろ</title>
-          <link>http://tma15.github.io/blog/2015/07/17/</link>
-          <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
-          <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
-その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
-実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。
-&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#news20&#34;&gt;news20&lt;/a&gt; を使って評価はしたのだけど
-&lt;a href=&#34;http://yans.anlp.jp/symposium/2010/paper/Yans2010_No23.pdf&#34;&gt;こちらの論文&lt;/a&gt; と比べると精度が低めになっているので、もしかしたら
-実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。
-SCWはいつか実装する。&lt;/p&gt;
-
-&lt;p&gt;golangらしく？&lt;a href=&#34;https://github.com/tma15/gonline/releases&#34;&gt;github release&lt;/a&gt;でバイナリの配布もしている (今回初めてやってみた)。
-これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2016/01/31/</guid>
+      <description>系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。 上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) の説明が分かりやすい。理解するために実装してみた。
+ ラティスの構造は以下のとおり。パスの重みは上記コードを参照。
+#0 n1 --- n3 / \ / \ bos x eos \ / \ / #1 n2 --- n4  ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、 ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。 2-best以降もラティスの情報から、あっていることを確認。
+下記の###以降はこのエントリ用に付け足した文字列。
+$go test Backtrack ### ビタビアルゴリズムで求めたパス 1 ### n2を通って、 0 ### n3を通る 1-best: 1 ### n2を通って、 1-best: 0 ### n3を通る 2-best: 1 ### n2を通って、 2-best: 1 ### n4を通る 3-best: 0 ### n1を通って、 3-best: 0 ### n3を通る 4-best: 0 ### n1を通って、 4-best: 1 ### n4を通る  goで優先度付きキューを実装するには、heap - The Go Programming LanguageのExample (PriorityQueue) が参考になる。</description>
+    </item>
     
+    <item>
+      <title>並列での学習アルゴリズムの追加</title>
+      <link>http://tma15.github.io/blog/2015/09/01/</link>
+      <pubDate>Mon, 31 Aug 2015 20:03:45 +0900</pubDate>
       
-        <item>
-          <title>二つの集合に重複して現れる要素の数を数える</title>
-          <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
-          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
-          <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; (
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fmt&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sort&amp;quot;&lt;/span&gt;
-    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strconv&amp;quot;&lt;/span&gt;
-)
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; CountDuplicateElem(x, y []&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt; {
-    i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_match &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    num_cmp &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x){
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;break&lt;/span&gt;
-        }
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; {
-            num_cmp &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y) { &lt;span style=&#34;color: #888888&#34;&gt;// 位置jがyの長さを超えたら終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &amp;lt; y[j] { &lt;span style=&#34;color: #888888&#34;&gt;// 辞書順でx[i]がy[j]よりも小さければ終了&lt;/span&gt;
-                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;break&lt;/span&gt; &lt;span style=&#34;color: #888888&#34;&gt;// ソートされていればjより大きな位置の文字で一致することは無い&lt;/span&gt;
-            }
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; y[j] {
-                num_match &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                j &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;break&lt;/span&gt;
-            }
-            j &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-        }
-        i &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-    }
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; NaiveCount(x, y []&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt; {
-    num_match &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(x);i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt;{
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; j&amp;lt;&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(y);j&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt;{
-                    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; x[i] &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; y[j] {
-                            num_match &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-                    }
-            }
-    }
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; num_match
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
-    k &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;{}
-    l &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; []&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;{}
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i&lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i&amp;lt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;100000&lt;/span&gt;; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt;{
-            k = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(k, strconv.Itoa(i))
-            l = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(l, strconv.Itoa(i &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;))
-    }
-    cnt_match &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; CountDuplicateElem(k, l)
-    cnt_match &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NaiveCount(k, l)
-    fmt.Println(cnt_match)
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;数を多めにしてナイーブな方法と比較してみる。
-それぞれの要素をfor文で回すとてもナイーブな方法:&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
-go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;119&lt;/span&gt;.16s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.88s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:00.95 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;今回書いた方法:&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run countelem.go
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99999&lt;/span&gt;
-go run countelem.go  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.20s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.08s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;57&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.494 total
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;各要素をfor文で回すとてもナイーブな手法よりは速い（当たり前か）。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2015/09/01/</guid>
+      <description>拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
+シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。
+$wc -l news20.scale 15935 news20.scale $touch news20.scale.big $for i in 1 2 3 4 5; do cat news20.scale &amp;gt;&amp;gt; news20.scale.big; done $wc -l news20.scale.big 79675 news20.scale.big $time ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 272.</description>
+    </item>
     
+    <item>
+      <title>オンライン学習の実装いろいろ</title>
+      <link>http://tma15.github.io/blog/2015/07/17/</link>
+      <pubDate>Fri, 17 Jul 2015 23:09:00 +0900</pubDate>
       
-        <item>
-          <title>HMMを実装した</title>
-          <link>http://tma15.github.io/blog/2014/10/hmm/</link>
-          <pubDate>Sat, 25 Oct 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
-          <description>
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;p&gt;勉強のためにGrahamさんが公開されている&lt;a href=&#34;http://www.phontron.com/teaching.php&#34;&gt;資料&lt;/a&gt;を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
-また、実験用のデータ、評価スクリプトも使用させて頂いている。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
-$./hmm &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos
-$./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;75&lt;/span&gt;.83% &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3460&lt;/span&gt;/4563&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-
-Most common mistakes:
-NNS --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;49&lt;/span&gt;
-RB --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;35&lt;/span&gt;
-JJ --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;30&lt;/span&gt;
-RB --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;29&lt;/span&gt;
-NN --&amp;gt; JJ       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;
-NN --&amp;gt; IN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
-JJ --&amp;gt; NN       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
-NN --&amp;gt; DT       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;24&lt;/span&gt;
-NNP --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
-VBN --&amp;gt; NN      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;特に工夫はしていないのでこんなものかという感じ。
-コードは&lt;a href=&#34;https://github.com/tma15/hmm&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+      <description>最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
+gonline
+パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
+golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。</description>
+    </item>
     
+    <item>
+      <title>二つの集合に重複して現れる要素の数を数える</title>
+      <link>http://tma15.github.io/blog/2014/11/count-elem-go/</link>
+      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-          <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
-          <pubDate>Mon, 20 Oct 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
-          <description>
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;p&gt;日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。
-分類器は何でも良いのだけど、先日書いた&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;AdaGrad+RDA&lt;/a&gt;を使う。&lt;/p&gt;
-
-&lt;p&gt;ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;文書を文に分割する。今回は「。」で区切る。&lt;/li&gt;
-&lt;li&gt;文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。&lt;/li&gt;
-&lt;li&gt;訓練データを使って分類器を学習して、できたモデルの中身を見てみる。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;データ&#34;&gt;データ&lt;/h2&gt;
-
-&lt;p&gt;下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://mainichi.jp/sponichi/news/20141020spn00m050016000c.html&#34;&gt;本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html&#34;&gt;観劇収支ズレどう説明、公私混同疑いも…小渕氏&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://ascii.jp/elem/000/000/935/935886/&#34;&gt;古いプログラミング言語がなくならない理由&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; data.csv
-スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
-政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
-Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&amp;hellip;以降は省略している。&lt;/p&gt;
-
-&lt;h2 id=&#34;ソースコード&#34;&gt;ソースコード&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-mecab-go&#34;&gt;mecab.go&lt;/a&gt; (gist)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go&#34;&gt;text.go&lt;/a&gt; (gist)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;動かしてみる&#34;&gt;動かしてみる&lt;/h2&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./text data.csv &amp;gt; data
-&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; data
-スポーツ &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;２&lt;/span&gt;:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
-政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5000&lt;/span&gt;:1.000000...
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
-次に分類器を学習する。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f data -m learn -w model
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;できあがったモデルの中身を見てみる。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^スポーツ&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-スポーツ        カルロス・テベス        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        モチベーション  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        アルゼンチン    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        ＡＣミラン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        ユベントス      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        抜け出し        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        ベローナ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        ブラジル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        セリエＡ        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-スポーツ        アウェー        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.600000
-&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^政治&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-政治    不透明  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    上回っ  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    関連    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    資金    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    説明    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    観劇    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    経済    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    産業    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    生じ    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-政治    焦点    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.800000
-&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; model|grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^Go言語&amp;quot;&lt;/span&gt;|sort -k3 -nr|head
-Go言語  インタビュー    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  カーニハン      &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  グーグル        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  代わる  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  それら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  いくら  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  言語    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  解決    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  覚え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-Go言語  考え    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.700000
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
-たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
-このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。&lt;/p&gt;
-
-&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
-
-&lt;p&gt;自然言語処理でよく使う単純な前処理をGoで書いた。
-あとは、文字の半角、全角の統一とか色々とよくありそうな前処理あたりをもっと調べたい。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/11/count-elem-go/</guid>
+      <description>go言語で書いた (gist)。集合の要素は前もってソートしておいて、比較回数を減らしている。
+package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sort&amp;#34; &amp;#34;strconv&amp;#34; ) func CountDuplicateElem(x, y []string) int { i := 0 j := 0 num_match := 0 num_cmp := 0 for { if i &amp;gt;= len(x){ break } for { num_cmp += 1 if j &amp;gt;= len(y) { // 位置jがyの長さを超えたら終了  break } if x[i] &amp;lt; y[j] { // 辞書順でx[i]がy[j]よりも小さければ終了  break // ソートされていればjより大きな位置の文字で一致することは無い  } if x[i] == y[j] { num_match += 1 j += 1 break } j += 1 } i += 1 } return num_match } func NaiveCount(x, y []string) int { num_match := 0 for i := 0; i&amp;lt;len(x);i++{ for j := 0; j&amp;lt;len(y);j++{ if x[i] == y[j] { num_match += 1 } } } return num_match } func main() { k := []string{} l := []string{} for i:=0; i&amp;lt;100000; i++{ k = append(k, strconv.</description>
+    </item>
     
+    <item>
+      <title>HMMを実装した</title>
+      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+      <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>AdaGrad&#43;RDAをGoで書いた</title>
-          <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
-          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
-          <description>
-
-&lt;p&gt;論文はこちら。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.magicbroom.info/Papers/DuchiHaSi10.pdf&#34;&gt;Adaptive Subgradient Methods for Online Learning and Stochastic Optimization&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/goAdaGrad&#34;&gt;こちら&lt;/a&gt;。
-多値分類問題にも対応できるようにした。二値分類問題と比べて&lt;a href=&#34;http://en.wikipedia.org/wiki/Hinge_loss&#34;&gt;ヒンジ損失&lt;/a&gt;が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。&lt;/p&gt;
-
-&lt;p&gt;データを次のように作成。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$perl&lt;/span&gt; -MList::Util&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;shuffle -e &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39;&lt;/span&gt; &amp;lt; ../data/news20.binary &amp;gt; news
-&lt;span style=&#34;color: #996633&#34;&gt;$head&lt;/span&gt; -15000 news &amp;gt; news.train
-&lt;span style=&#34;color: #996633&#34;&gt;$tail&lt;/span&gt; -4996  news &amp;gt; news.test
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;例えば&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/binary.html#news20.binary&#34;&gt;このデータ&lt;/a&gt;は素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。
-正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
-$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.01
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.011142 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.848485 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt;/33&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.997986 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.499295 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2478&lt;/span&gt;/4963&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.5016012810248198
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.0001
-$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.836891 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.833200 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2078&lt;/span&gt;/2494&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.834461 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.838129 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2097&lt;/span&gt;/2502&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8356685348278623
-$./adagrad -f news.train -m learn -w model -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.00001
-$./adagrad -f news.test -m &lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w model
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950463 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2483&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;+1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.946651 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2360&lt;/span&gt;/2493&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Recall&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.947075 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2513&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-Prec&lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;-1&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.950859 &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2380&lt;/span&gt;/2503&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
---
-Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.9487590072057646
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/echizen_tm/20140914/1410697535&#34;&gt;実装が簡単で高性能な線形識別器、AdaGrad+RDAの解説&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/Christopher-727/20140830&#34;&gt;AdaGrad + RDAを実装してみた&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://code.google.com/p/oll/wiki/OllMainJa&#34;&gt;OllMainJa - oll - oll: Online-Learning Library - Google Project Hosting&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/sleepy_yoshi/20110916/p1&#34;&gt;行をランダムシャッフルするワンライナー&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Perceptron#Multiclass_perceptron&#34;&gt;Multiclass perceptron&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+      <description>概要 勉強のためにGrahamさんが公開されている資料を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。 また、実験用のデータ、評価スクリプトも使用させて頂いている。
+$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos Accuracy: 75.83% (3460/4563) Most common mistakes: NNS --&amp;gt; NN 49 RB --&amp;gt; NN 35 JJ --&amp;gt; DT 30 RB --&amp;gt; IN 29 NN --&amp;gt; JJ 28 NN --&amp;gt; IN 25 JJ --&amp;gt; NN 24 NN --&amp;gt; DT 24 NNP --&amp;gt; NN 22 VBN --&amp;gt; NN 22 特に工夫はしていないのでこんなものかという感じ。 コードはこちら。</description>
+    </item>
     
+    <item>
+      <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
+      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+      <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>PA-IIをGoで書いた</title>
-          <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
-          <pubDate>Sat, 18 Oct 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
-          <description>&lt;p&gt;論文はこちら。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf&#34;&gt;Online Passive-Aggressive Algorithms&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/gopa&#34;&gt;こちら&lt;/a&gt;。
-下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; (p &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;PassiveAggressive) Update(X &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;, sign &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;) Weight {
-        loss &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; math.Max(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;sign&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;Dot(X, p.weight[y]))
-        &lt;span style=&#34;color: #888888&#34;&gt;//         tau := loss / Norm(X) // PA&lt;/span&gt;
-        tau &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; loss &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; (Norm(X) &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; (&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; p.C)) &lt;span style=&#34;color: #888888&#34;&gt;// PA-II&lt;/span&gt;
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; p.weight[y]; ok &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt; {
-            p.weight[y] = &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;{}
-        }
-
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; f, _ &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; X {
-                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; _, ok &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; p.weight[y][f]; ok {
-                    p.weight[y][f] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; tau &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sign
-                } &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt; {
-                    p.weight[y][f] = tau &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sign
-                }
-        }
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; p.weight
-}
-&lt;/pre&gt;&lt;/div&gt;
-
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+      <description>概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
+ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &amp;hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &amp;gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+$./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
+$cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.</description>
+    </item>
     
+    <item>
+      <title>AdaGrad&#43;RDAをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-adagrad/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>パーセプトロンをGoで書いた</title>
-          <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
-          <pubDate>Sat, 11 Oct 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
-          <description>&lt;p&gt;流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。
-ソースコードは&lt;a href=&#34;https://github.com/tma15/goperceptron&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;素性ベクトルのフォーマットは&amp;lt;数値&amp;gt;:&amp;lt;数値&amp;gt; である必要はなくて、&amp;lt;文字列&amp;gt;:&amp;lt;数値&amp;gt; でも読み込めるようにしました。
-また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。
-多値分類もできます。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sports soccer:1 baseball:1
-food beef:1 pork:1
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;今回は&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/&#34;&gt;LIBSVM Data: Classification, Regression, and Multi-label&lt;/a&gt;で公開されている二値分類用データを使って動かしてみました。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$go&lt;/span&gt; build
-$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;learn -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model -l&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;
-$./perceptron -f&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;../data/a1a.t -m&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;test&lt;/span&gt; -w&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;model
-Acc: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.8257203773097299
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;-fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。
-テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。&lt;/p&gt;
-
-&lt;p&gt;このデータは、&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^+1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;7446&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$grep&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;^-1&amp;quot;&lt;/span&gt; ../data/a1a.t|wc -l
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;23510&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。&lt;/p&gt;
-
-&lt;p&gt;&lt;del&gt;confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。&lt;/del&gt;
-&lt;ins&gt;出力するようにしました。 (2014/09/17追記)&lt;/ins&gt;&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/10/go-adagrad/</guid>
+      <description>論文はこちら。
+Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
+ソースコードはこちら。 多値分類問題にも対応できるようにした。二値分類問題と比べてヒンジ損失が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。
+データを次のように作成。
+$perl -MList::Util=shuffle -e &amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39; &amp;lt; ../data/news20.binary &amp;gt; news $head -15000 news &amp;gt; news.train $tail -4996 news &amp;gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
+$./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[+1]: 0.997986 (2478/2483) Prec[+1]: 0.499295 (2478/4963) -- Acc: 0.</description>
+    </item>
     
-
+    <item>
+      <title>PA-IIをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-pa2/</link>
+      <pubDate>Sat, 18 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/go-pa2/</guid>
+      <description>論文はこちら。
+Online Passive-Aggressive Algorithms
+ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) + 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.</description>
+    </item>
+    
+    <item>
+      <title>パーセプトロンをGoで書いた</title>
+      <link>http://tma15.github.io/blog/2014/10/go-perceptron/</link>
+      <pubDate>Sat, 11 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2014/10/go-perceptron/</guid>
+      <description>流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。 ソースコードはこちら。
+素性ベクトルのフォーマットは&amp;lt;数値&amp;gt;:&amp;lt;数値&amp;gt; である必要はなくて、&amp;lt;文字列&amp;gt;:&amp;lt;数値&amp;gt; でも読み込めるようにしました。 また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。 多値分類もできます。
+sports soccer:1 baseball:1 food beef:1 pork:1 今回はLIBSVM Data: Classification, Regression, and Multi-labelで公開されている二値分類用データを使って動かしてみました。
+$go build $./perceptron -f=../data/a1a -m=learn -w=model -l=10 $./perceptron -f=../data/a1a.t -m=test -w=model Acc: 0.8257203773097299 -fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。 テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。
+このデータは、
+$grep &amp;#34;^+1&amp;#34; ../data/a1a.t|wc -l 7446 $grep &amp;#34;^-1&amp;#34; ../data/a1a.t|wc -l 23510 とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。
+confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。 出力するようにしました。 (2014/09/17追記)</description>
+    </item>
+    
   </channel>
 </rss>

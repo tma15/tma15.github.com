@@ -17,6 +17,13 @@
     <link href="/css/style.css" rel="stylesheet">
 
     <link rel="alternate" type="application/atom+xml"  href="/blog/index.xml" >
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
 </head>
 <body lang="en">
 	<div class="container">
@@ -68,172 +75,166 @@
 <p>シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$wc</span> -l news20.scale
-   <span style="color: #6600EE; font-weight: bold">15935</span> news20.scale
-<span style="color: #996633">$touch</span> news20.scale.big
-<span style="color: #996633">$for</span> i in <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #6600EE; font-weight: bold">4</span> <span style="color: #6600EE; font-weight: bold">5</span>; <span style="color: #008800; font-weight: bold">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color: #008800; font-weight: bold">done</span>
-<span style="color: #996633">$wc</span> -l news20.scale.big
-   <span style="color: #6600EE; font-weight: bold">79675</span> news20.scale.big
-<span style="color: #996633">$time</span> ./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color: #6600EE; font-weight: bold">4</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color: #6600EE; font-weight: bold">272</span>.55s user <span style="color: #6600EE; font-weight: bold">8</span>.83s system <span style="color: #6600EE; font-weight: bold">181</span>% cpu <span style="color: #6600EE; font-weight: bold">2</span>:34.95 total
-<span style="color: #996633">$time</span> ./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color: #6600EE; font-weight: bold">1</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color: #6600EE; font-weight: bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color: #6600EE; font-weight: bold">169</span>.83s user <span style="color: #6600EE; font-weight: bold">5</span>.84s system <span style="color: #6600EE; font-weight: bold">97</span>% cpu <span style="color: #6600EE; font-weight: bold">3</span>:00.66 total
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#963">$wc</span> -l news20.scale
+   <span style="color:#60e;font-weight:bold">15935</span> news20.scale
+<span style="color:#963">$touch</span> news20.scale.big
+<span style="color:#963">$for</span> i in <span style="color:#60e;font-weight:bold">1</span> <span style="color:#60e;font-weight:bold">2</span> <span style="color:#60e;font-weight:bold">3</span> <span style="color:#60e;font-weight:bold">4</span> <span style="color:#60e;font-weight:bold">5</span>; <span style="color:#080;font-weight:bold">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color:#080;font-weight:bold">done</span>
+<span style="color:#963">$wc</span> -l news20.scale.big
+   <span style="color:#60e;font-weight:bold">79675</span> news20.scale.big
+<span style="color:#963">$time</span> ./gonline train -a arow -m model -i <span style="color:#60e;font-weight:bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#60e;font-weight:bold">4</span> -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i <span style="color:#60e;font-weight:bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color:#60e;font-weight:bold">272</span>.55s user <span style="color:#60e;font-weight:bold">8</span>.83s system <span style="color:#60e;font-weight:bold">181</span>% cpu <span style="color:#60e;font-weight:bold">2</span>:34.95 total
+<span style="color:#963">$time</span> ./gonline train -a arow -m model -i <span style="color:#60e;font-weight:bold">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#60e;font-weight:bold">1</span> -s ipm ./news20.scale.big
+./gonline train -a arow -m model -i <span style="color:#60e;font-weight:bold">10</span> -t ./news20.t.scale -withoutshuffle -p  <span style="color:#60e;font-weight:bold">169</span>.83s user <span style="color:#60e;font-weight:bold">5</span>.84s system <span style="color:#60e;font-weight:bold">97</span>% cpu <span style="color:#60e;font-weight:bold">3</span>:00.66 total</code></pre></div>
 
 <p>Iterative Parameter Mixtureに関するコードは以下。</p>
 
 <p>ipm.go</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">func</span> FitLearners(learners <span style="color: #333333">*</span>[]LearnerInterface, x <span style="color: #333333">*</span>[]<span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]<span style="color: #333399; font-weight: bold">float64</span>, y <span style="color: #333333">*</span>[]<span style="color: #333399; font-weight: bold">string</span>) {
-	<span style="color: #008800; font-weight: bold">var</span> wg sync.WaitGroup
-	num_learner <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>learners)
-	num_data <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>x)
-	buffer <span style="color: #333333">:=</span> <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>, num_learner)
-	sizechunk <span style="color: #333333">:=</span> num_data<span style="color: #333333">/</span>num_learner <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">1</span>
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner; i<span style="color: #333333">++</span> {
-		wg.Add(<span style="color: #0000DD; font-weight: bold">1</span>)
-		<span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>(ch <span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>) {
-			<span style="color: #008800; font-weight: bold">defer</span> wg.Done()
-			<span style="color: #008800; font-weight: bold">for</span> j <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> ch {
-				start <span style="color: #333333">:=</span> j <span style="color: #333333">*</span> sizechunk
-				end <span style="color: #333333">:=</span> (j <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">1</span>) <span style="color: #333333">*</span> sizechunk
-				<span style="color: #008800; font-weight: bold">if</span> end <span style="color: #333333">&gt;=</span> num_data {
-					end = num_data <span style="color: #333333">-</span> <span style="color: #0000DD; font-weight: bold">1</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#080;font-weight:bold">func</span> <span style="color:#06b;font-weight:bold">FitLearners</span>(learners <span style="color:#333">*</span>[]LearnerInterface, x <span style="color:#333">*</span>[]<span style="color:#080;font-weight:bold">map</span>[<span style="color:#339;font-weight:bold">string</span>]<span style="color:#339;font-weight:bold">float64</span>, y <span style="color:#333">*</span>[]<span style="color:#339;font-weight:bold">string</span>) {
+	<span style="color:#080;font-weight:bold">var</span> wg sync.WaitGroup
+	num_learner <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>learners)
+	num_data <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>x)
+	buffer <span style="color:#333">:=</span> <span style="color:#007020">make</span>(<span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>, num_learner)
+	sizechunk <span style="color:#333">:=</span> num_data<span style="color:#333">/</span>num_learner <span style="color:#333">+</span> <span style="color:#00d;font-weight:bold">1</span>
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner; i<span style="color:#333">++</span> {
+		wg.<span style="color:#06b;font-weight:bold">Add</span>(<span style="color:#00d;font-weight:bold">1</span>)
+		<span style="color:#080;font-weight:bold">go</span> <span style="color:#080;font-weight:bold">func</span>(ch <span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>) {
+			<span style="color:#080;font-weight:bold">defer</span> wg.<span style="color:#06b;font-weight:bold">Done</span>()
+			<span style="color:#080;font-weight:bold">for</span> j <span style="color:#333">:=</span> <span style="color:#080;font-weight:bold">range</span> ch {
+				start <span style="color:#333">:=</span> j <span style="color:#333">*</span> sizechunk
+				end <span style="color:#333">:=</span> (j <span style="color:#333">+</span> <span style="color:#00d;font-weight:bold">1</span>) <span style="color:#333">*</span> sizechunk
+				<span style="color:#080;font-weight:bold">if</span> end <span style="color:#333">&gt;=</span> num_data {
+					end = num_data <span style="color:#333">-</span> <span style="color:#00d;font-weight:bold">1</span>
 				}
-				x_j <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>x)[start:end]
-				y_j <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>y)[start:end]
-				(<span style="color: #333333">*</span>learners)[j].Fit(<span style="color: #333333">&amp;</span>x_j, <span style="color: #333333">&amp;</span>y_j)
+				x_j <span style="color:#333">:=</span> (<span style="color:#333">*</span>x)[start:end]
+				y_j <span style="color:#333">:=</span> (<span style="color:#333">*</span>y)[start:end]
+				(<span style="color:#333">*</span>learners)[j].<span style="color:#06b;font-weight:bold">Fit</span>(<span style="color:#333">&amp;</span>x_j, <span style="color:#333">&amp;</span>y_j)
 			}
 		}(buffer)
 	}
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner; i<span style="color: #333333">++</span> {
-		buffer <span style="color: #333333">&lt;-</span> i
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner; i<span style="color:#333">++</span> {
+		buffer <span style="color:#333">&lt;-</span> i
 	}
-	<span style="color: #007020">close</span>(buffer)
-	wg.Wait()
+	<span style="color:#007020">close</span>(buffer)
+	wg.<span style="color:#06b;font-weight:bold">Wait</span>()
 }
 
-<span style="color: #008800; font-weight: bold">func</span> average_two(learner1, learner2 <span style="color: #333333">*</span>LearnerInterface) <span style="color: #333333">*</span>LearnerInterface {
-	params <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>learner1).GetParams()
-	num_params <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>params)
-	avg_params <span style="color: #333333">:=</span> <span style="color: #007020">make</span>([][][]<span style="color: #333399; font-weight: bold">float64</span>, num_params, num_params)
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_params; i<span style="color: #333333">++</span> {
-		avg_params[i] = <span style="color: #007020">make</span>([][]<span style="color: #333399; font-weight: bold">float64</span>, <span style="color: #0000DD; font-weight: bold">10</span>)
+<span style="color:#080;font-weight:bold">func</span> <span style="color:#06b;font-weight:bold">average_two</span>(learner1, learner2 <span style="color:#333">*</span>LearnerInterface) <span style="color:#333">*</span>LearnerInterface {
+	params <span style="color:#333">:=</span> (<span style="color:#333">*</span>learner1).<span style="color:#06b;font-weight:bold">GetParams</span>()
+	num_params <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>params)
+	avg_params <span style="color:#333">:=</span> <span style="color:#007020">make</span>([][][]<span style="color:#339;font-weight:bold">float64</span>, num_params, num_params)
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_params; i<span style="color:#333">++</span> {
+		avg_params[i] = <span style="color:#007020">make</span>([][]<span style="color:#339;font-weight:bold">float64</span>, <span style="color:#00d;font-weight:bold">10</span>)
 	}
 
-	avg_ftdic <span style="color: #333333">:=</span> NewDict()
-	avg_labeldic <span style="color: #333333">:=</span> NewDict()
-	learners <span style="color: #333333">:=</span> []LearnerInterface{<span style="color: #333333">*</span>learner1, <span style="color: #333333">*</span>learner2}
-	<span style="color: #008800; font-weight: bold">for</span> _, learner <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> learners {
-		params <span style="color: #333333">:=</span> learner.GetParams()
-		num_params <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>params)
-		ftdict, labeldict <span style="color: #333333">:=</span> learner.GetDics()
+	avg_ftdic <span style="color:#333">:=</span> <span style="color:#06b;font-weight:bold">NewDict</span>()
+	avg_labeldic <span style="color:#333">:=</span> <span style="color:#06b;font-weight:bold">NewDict</span>()
+	learners <span style="color:#333">:=</span> []LearnerInterface{<span style="color:#333">*</span>learner1, <span style="color:#333">*</span>learner2}
+	<span style="color:#080;font-weight:bold">for</span> _, learner <span style="color:#333">:=</span> <span style="color:#080;font-weight:bold">range</span> learners {
+		params <span style="color:#333">:=</span> learner.<span style="color:#06b;font-weight:bold">GetParams</span>()
+		num_params <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>params)
+		ftdict, labeldict <span style="color:#333">:=</span> learner.<span style="color:#06b;font-weight:bold">GetDics</span>()
 
-		<span style="color: #008800; font-weight: bold">for</span> p <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; p &lt; num_params; p<span style="color: #333333">++</span> {
-			param <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>params)[p]
-			avg_param <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>avg_params[p]
-			<span style="color: #008800; font-weight: bold">for</span> yid <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; yid &lt; <span style="color: #007020">len</span>(labeldict.Id2elem); yid<span style="color: #333333">++</span> {
-				y <span style="color: #333333">:=</span> labeldict.Id2elem[yid]
-				<span style="color: #008800; font-weight: bold">if</span> !avg_labeldic.HasElem(y) {
-					avg_labeldic.AddElem(y)
+		<span style="color:#080;font-weight:bold">for</span> p <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; p &lt; num_params; p<span style="color:#333">++</span> {
+			param <span style="color:#333">:=</span> (<span style="color:#333">*</span>params)[p]
+			avg_param <span style="color:#333">:=</span> <span style="color:#333">&amp;</span>avg_params[p]
+			<span style="color:#080;font-weight:bold">for</span> yid <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; yid &lt; <span style="color:#007020">len</span>(labeldict.Id2elem); yid<span style="color:#333">++</span> {
+				y <span style="color:#333">:=</span> labeldict.Id2elem[yid]
+				<span style="color:#080;font-weight:bold">if</span> !avg_labeldic.<span style="color:#06b;font-weight:bold">HasElem</span>(y) {
+					avg_labeldic.<span style="color:#06b;font-weight:bold">AddElem</span>(y)
 				}
-				yid_avg <span style="color: #333333">:=</span> avg_labeldic.Elem2id[y]
-				<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>avg_param); i <span style="color: #333333">&lt;=</span> yid_avg; i<span style="color: #333333">++</span> {
-					<span style="color: #333333">*</span>avg_param = <span style="color: #007020">append</span>(<span style="color: #333333">*</span>avg_param, <span style="color: #007020">make</span>([]<span style="color: #333399; font-weight: bold">float64</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">1000</span>))
+				yid_avg <span style="color:#333">:=</span> avg_labeldic.Elem2id[y]
+				<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>avg_param); i <span style="color:#333">&lt;=</span> yid_avg; i<span style="color:#333">++</span> {
+					<span style="color:#333">*</span>avg_param = <span style="color:#007020">append</span>(<span style="color:#333">*</span>avg_param, <span style="color:#007020">make</span>([]<span style="color:#339;font-weight:bold">float64</span>, <span style="color:#00d;font-weight:bold">0</span>, <span style="color:#00d;font-weight:bold">1000</span>))
 				}
-				avg_param_y <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>avg_params[p][yid_avg]
-				param_y <span style="color: #333333">:=</span> param[yid]
+				avg_param_y <span style="color:#333">:=</span> <span style="color:#333">&amp;</span>avg_params[p][yid_avg]
+				param_y <span style="color:#333">:=</span> param[yid]
 
-				<span style="color: #008800; font-weight: bold">for</span> ftid <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; ftid &lt; <span style="color: #007020">len</span>(param[yid]); ftid<span style="color: #333333">++</span> {
-					ft <span style="color: #333333">:=</span> ftdict.Id2elem[ftid]
-					<span style="color: #008800; font-weight: bold">if</span> !avg_ftdic.HasElem(ft) {
-						avg_ftdic.AddElem(ft)
+				<span style="color:#080;font-weight:bold">for</span> ftid <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; ftid &lt; <span style="color:#007020">len</span>(param[yid]); ftid<span style="color:#333">++</span> {
+					ft <span style="color:#333">:=</span> ftdict.Id2elem[ftid]
+					<span style="color:#080;font-weight:bold">if</span> !avg_ftdic.<span style="color:#06b;font-weight:bold">HasElem</span>(ft) {
+						avg_ftdic.<span style="color:#06b;font-weight:bold">AddElem</span>(ft)
 					}
-					ftid_avg <span style="color: #333333">:=</span> avg_ftdic.Elem2id[ft]
-					<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>avg_param_y); i <span style="color: #333333">&lt;=</span> ftid_avg; i<span style="color: #333333">++</span> {
-						<span style="color: #333333">*</span>avg_param_y = <span style="color: #007020">append</span>(<span style="color: #333333">*</span>avg_param_y, <span style="color: #6600EE; font-weight: bold">0.</span>)
+					ftid_avg <span style="color:#333">:=</span> avg_ftdic.Elem2id[ft]
+					<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>avg_param_y); i <span style="color:#333">&lt;=</span> ftid_avg; i<span style="color:#333">++</span> {
+						<span style="color:#333">*</span>avg_param_y = <span style="color:#007020">append</span>(<span style="color:#333">*</span>avg_param_y, <span style="color:#60e;font-weight:bold">0.</span>)
 					}
-					(<span style="color: #333333">*</span>avg_param_y)[ftid_avg] <span style="color: #333333">+=</span> param_y[ftid] <span style="color: #333333">/</span> <span style="color: #007020">float64</span>(<span style="color: #007020">len</span>(learners))
+					(<span style="color:#333">*</span>avg_param_y)[ftid_avg] <span style="color:#333">+=</span> param_y[ftid] <span style="color:#333">/</span> <span style="color:#007020">float64</span>(<span style="color:#007020">len</span>(learners))
 
 				}
 			}
 		}
 	}
-	(<span style="color: #333333">*</span>learner1).SetParams(<span style="color: #333333">&amp;</span>avg_params)
-	(<span style="color: #333333">*</span>learner1).SetDics(<span style="color: #333333">&amp;</span>avg_ftdic, <span style="color: #333333">&amp;</span>avg_labeldic)
-	<span style="color: #008800; font-weight: bold">return</span> learner1
+	(<span style="color:#333">*</span>learner1).<span style="color:#06b;font-weight:bold">SetParams</span>(<span style="color:#333">&amp;</span>avg_params)
+	(<span style="color:#333">*</span>learner1).<span style="color:#06b;font-weight:bold">SetDics</span>(<span style="color:#333">&amp;</span>avg_ftdic, <span style="color:#333">&amp;</span>avg_labeldic)
+	<span style="color:#080;font-weight:bold">return</span> learner1
 }
 
-<span style="color: #008800; font-weight: bold">func</span> AverageModels(learners []LearnerInterface) <span style="color: #333333">*</span>LearnerInterface {
-	<span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(learners)<span style="color: #333333">%</span><span style="color: #0000DD; font-weight: bold">2</span> <span style="color: #333333">!=</span> <span style="color: #0000DD; font-weight: bold">0</span> { <span style="color: #888888">/* add learner to make length of learners is even number */</span>
-		learners = <span style="color: #007020">append</span>(learners, learners[<span style="color: #007020">len</span>(learners)<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>])
+<span style="color:#080;font-weight:bold">func</span> <span style="color:#06b;font-weight:bold">AverageModels</span>(learners []LearnerInterface) <span style="color:#333">*</span>LearnerInterface {
+	<span style="color:#080;font-weight:bold">if</span> <span style="color:#007020">len</span>(learners)<span style="color:#333">%</span><span style="color:#00d;font-weight:bold">2</span> <span style="color:#333">!=</span> <span style="color:#00d;font-weight:bold">0</span> { <span style="color:#888">/* add learner to make length of learners is even number */</span>
+		learners = <span style="color:#007020">append</span>(learners, learners[<span style="color:#007020">len</span>(learners)<span style="color:#333">/</span><span style="color:#00d;font-weight:bold">2</span>])
 	}
-	num_learner <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(learners)
-	buffer <span style="color: #333333">:=</span> <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>, num_learner)
-	results <span style="color: #333333">:=</span> <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333333">*</span>LearnerInterface, num_learner)
+	num_learner <span style="color:#333">:=</span> <span style="color:#007020">len</span>(learners)
+	buffer <span style="color:#333">:=</span> <span style="color:#007020">make</span>(<span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>, num_learner)
+	results <span style="color:#333">:=</span> <span style="color:#007020">make</span>(<span style="color:#080;font-weight:bold">chan</span> <span style="color:#333">*</span>LearnerInterface, num_learner)
 
-	<span style="color: #008800; font-weight: bold">var</span> wg sync.WaitGroup
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner; i<span style="color: #333333">++</span> {
-		wg.Add(<span style="color: #0000DD; font-weight: bold">1</span>)
-		<span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>(ch <span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>) {
-			<span style="color: #008800; font-weight: bold">defer</span> wg.Done()
-			<span style="color: #008800; font-weight: bold">for</span> j <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> ch {
-				l1 <span style="color: #333333">:=</span> learners[j]
-				l2 <span style="color: #333333">:=</span> learners[j<span style="color: #333333">+</span>num_learner<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>]
-				l_avg <span style="color: #333333">:=</span> average_two(<span style="color: #333333">&amp;</span>l1, <span style="color: #333333">&amp;</span>l2)
-				results <span style="color: #333333">&lt;-</span> l_avg
+	<span style="color:#080;font-weight:bold">var</span> wg sync.WaitGroup
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner; i<span style="color:#333">++</span> {
+		wg.<span style="color:#06b;font-weight:bold">Add</span>(<span style="color:#00d;font-weight:bold">1</span>)
+		<span style="color:#080;font-weight:bold">go</span> <span style="color:#080;font-weight:bold">func</span>(ch <span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>) {
+			<span style="color:#080;font-weight:bold">defer</span> wg.<span style="color:#06b;font-weight:bold">Done</span>()
+			<span style="color:#080;font-weight:bold">for</span> j <span style="color:#333">:=</span> <span style="color:#080;font-weight:bold">range</span> ch {
+				l1 <span style="color:#333">:=</span> learners[j]
+				l2 <span style="color:#333">:=</span> learners[j<span style="color:#333">+</span>num_learner<span style="color:#333">/</span><span style="color:#00d;font-weight:bold">2</span>]
+				l_avg <span style="color:#333">:=</span> <span style="color:#06b;font-weight:bold">average_two</span>(<span style="color:#333">&amp;</span>l1, <span style="color:#333">&amp;</span>l2)
+				results <span style="color:#333">&lt;-</span> l_avg
 			}
 		}(buffer)
 	}
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>; i<span style="color: #333333">++</span> {
-		buffer <span style="color: #333333">&lt;-</span> i
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner<span style="color:#333">/</span><span style="color:#00d;font-weight:bold">2</span>; i<span style="color:#333">++</span> {
+		buffer <span style="color:#333">&lt;-</span> i
 	}
-	<span style="color: #007020">close</span>(buffer)
-	wg.Wait()
-	<span style="color: #007020">close</span>(results)
-	learners_avg <span style="color: #333333">:=</span> <span style="color: #007020">make</span>([]LearnerInterface, <span style="color: #0000DD; font-weight: bold">0</span>, num_learner<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>)
-	<span style="color: #008800; font-weight: bold">for</span> l_avg <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> results {
-		learners_avg = <span style="color: #007020">append</span>(learners_avg, <span style="color: #333333">*</span>l_avg)
+	<span style="color:#007020">close</span>(buffer)
+	wg.<span style="color:#06b;font-weight:bold">Wait</span>()
+	<span style="color:#007020">close</span>(results)
+	learners_avg <span style="color:#333">:=</span> <span style="color:#007020">make</span>([]LearnerInterface, <span style="color:#00d;font-weight:bold">0</span>, num_learner<span style="color:#333">/</span><span style="color:#00d;font-weight:bold">2</span>)
+	<span style="color:#080;font-weight:bold">for</span> l_avg <span style="color:#333">:=</span> <span style="color:#080;font-weight:bold">range</span> results {
+		learners_avg = <span style="color:#007020">append</span>(learners_avg, <span style="color:#333">*</span>l_avg)
 	}
 
-	<span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(learners_avg) <span style="color: #333333">==</span> <span style="color: #0000DD; font-weight: bold">1</span> {
-		<span style="color: #008800; font-weight: bold">return</span> <span style="color: #333333">&amp;</span>learners_avg[<span style="color: #0000DD; font-weight: bold">0</span>]
+	<span style="color:#080;font-weight:bold">if</span> <span style="color:#007020">len</span>(learners_avg) <span style="color:#333">==</span> <span style="color:#00d;font-weight:bold">1</span> {
+		<span style="color:#080;font-weight:bold">return</span> <span style="color:#333">&amp;</span>learners_avg[<span style="color:#00d;font-weight:bold">0</span>]
 	}
-	<span style="color: #008800; font-weight: bold">return</span> AverageModels(learners_avg)
+	<span style="color:#080;font-weight:bold">return</span> <span style="color:#06b;font-weight:bold">AverageModels</span>(learners_avg)
 }
 
-<span style="color: #008800; font-weight: bold">func</span> BroadCastModel(avg_learner <span style="color: #333333">*</span>LearnerInterface, learners <span style="color: #333333">*</span>[]LearnerInterface) {
-	params <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>avg_learner).GetParams()
-	avg_ftdic, avg_labeldic <span style="color: #333333">:=</span> (<span style="color: #333333">*</span>avg_learner).GetDics()
-	num_learner <span style="color: #333333">:=</span> <span style="color: #007020">len</span>(<span style="color: #333333">*</span>learners)
-	<span style="color: #008800; font-weight: bold">var</span> wg sync.WaitGroup
-	buffer <span style="color: #333333">:=</span> <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>, num_learner)
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner; i<span style="color: #333333">++</span> {
-		wg.Add(<span style="color: #0000DD; font-weight: bold">1</span>)
-		<span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>(ch <span style="color: #008800; font-weight: bold">chan</span> <span style="color: #333399; font-weight: bold">int</span>) {
-			<span style="color: #008800; font-weight: bold">defer</span> wg.Done()
-			<span style="color: #008800; font-weight: bold">for</span> j <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> ch {
-				(<span style="color: #333333">*</span>learners)[j].SetParams(params)
-				(<span style="color: #333333">*</span>learners)[j].SetDics(avg_ftdic, avg_labeldic)
+<span style="color:#080;font-weight:bold">func</span> <span style="color:#06b;font-weight:bold">BroadCastModel</span>(avg_learner <span style="color:#333">*</span>LearnerInterface, learners <span style="color:#333">*</span>[]LearnerInterface) {
+	params <span style="color:#333">:=</span> (<span style="color:#333">*</span>avg_learner).<span style="color:#06b;font-weight:bold">GetParams</span>()
+	avg_ftdic, avg_labeldic <span style="color:#333">:=</span> (<span style="color:#333">*</span>avg_learner).<span style="color:#06b;font-weight:bold">GetDics</span>()
+	num_learner <span style="color:#333">:=</span> <span style="color:#007020">len</span>(<span style="color:#333">*</span>learners)
+	<span style="color:#080;font-weight:bold">var</span> wg sync.WaitGroup
+	buffer <span style="color:#333">:=</span> <span style="color:#007020">make</span>(<span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>, num_learner)
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner; i<span style="color:#333">++</span> {
+		wg.<span style="color:#06b;font-weight:bold">Add</span>(<span style="color:#00d;font-weight:bold">1</span>)
+		<span style="color:#080;font-weight:bold">go</span> <span style="color:#080;font-weight:bold">func</span>(ch <span style="color:#080;font-weight:bold">chan</span> <span style="color:#339;font-weight:bold">int</span>) {
+			<span style="color:#080;font-weight:bold">defer</span> wg.<span style="color:#06b;font-weight:bold">Done</span>()
+			<span style="color:#080;font-weight:bold">for</span> j <span style="color:#333">:=</span> <span style="color:#080;font-weight:bold">range</span> ch {
+				(<span style="color:#333">*</span>learners)[j].<span style="color:#06b;font-weight:bold">SetParams</span>(params)
+				(<span style="color:#333">*</span>learners)[j].<span style="color:#06b;font-weight:bold">SetDics</span>(avg_ftdic, avg_labeldic)
 			}
 		}(buffer)
 	}
-	<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #333333">:=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i &lt; num_learner; i<span style="color: #333333">++</span> {
-		buffer <span style="color: #333333">&lt;-</span> i
+	<span style="color:#080;font-weight:bold">for</span> i <span style="color:#333">:=</span> <span style="color:#00d;font-weight:bold">0</span>; i &lt; num_learner; i<span style="color:#333">++</span> {
+		buffer <span style="color:#333">&lt;-</span> i
 	}
-	<span style="color: #007020">close</span>(buffer)
-	wg.Wait()
-}
-</pre></div>
-</p>
+	<span style="color:#007020">close</span>(buffer)
+	wg.<span style="color:#06b;font-weight:bold">Wait</span>()
+}</code></pre></div>
 
 <p>main.go
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>gonline.FitLearners(<span style="color: #333333">&amp;</span>learners, x_train, y_train)
-learner_avg = gonline.AverageModels(learners)
-gonline.BroadCastModel(learner_avg, <span style="color: #333333">&amp;</span>learners)
-</pre></div>
-</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">gonline.<span style="color:#06b;font-weight:bold">FitLearners</span>(<span style="color:#333">&amp;</span>learners, x_train, y_train)
+learner_avg = gonline.<span style="color:#06b;font-weight:bold">AverageModels</span>(learners)
+gonline.<span style="color:#06b;font-weight:bold">BroadCastModel</span>(learner_avg, <span style="color:#333">&amp;</span>learners)</code></pre></div></p>
 
 		</div>
 	</div>

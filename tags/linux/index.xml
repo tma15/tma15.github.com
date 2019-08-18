@@ -1,123 +1,40 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Now is better than never. </title>
+    <title>linux on Now is better than never.</title>
     <link>http://tma15.github.io/tags/linux/</link>
+    <description>Recent content in linux on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2016-01-16 10:55:26 &#43;0900 JST</updated>
-
+    <lastBuildDate>Sat, 16 Jan 2016 10:55:26 +0900</lastBuildDate>
     
-      
-        <item>
-          <title>大量のファイルをGoで高速に読み込む</title>
-          <link>http://tma15.github.io/blog/2016/01/16/</link>
-          <pubDate>Sat, 16 Jan 2016 10:55:26 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/01/16/</guid>
-          <description>&lt;p&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20090727/1248652900&#34;&gt;ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転&lt;/a&gt;を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある&lt;a href=&#34;https://golang.org/pkg/io/ioutil/#ReadDir&#34;&gt;ReadDir&lt;/a&gt;はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;type&lt;/span&gt; byInode []os.FileInfo
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Len() &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt; { &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(this) }
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Less(i, j &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt; {
-    fstat_i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; this[i].Sys().(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;syscall.Stat_t)
-    fstat_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; this[j].Sys().(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;syscall.Stat_t)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; fstat_i.Ino &amp;lt; fstat_j.Ino
-}
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; (this byInode) Swap(i, j &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) { this[i], this[j] = this[j], this[i] }
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; MyReadDir(dirname &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) ([]os.FileInfo, &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;error&lt;/span&gt;) {
-    f, err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; os.Open(dirname)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;, err
-    }
-    list, err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; f.Readdir(&lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-    f.Close()
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;, err
-    }
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; list, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; MyReadDirSortByInode(dirname &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) ([]os.FileInfo, &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;error&lt;/span&gt;) {
-    f, err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; os.Open(dirname)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;, err
-    }
-    list, err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; f.Readdir(&lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-    f.Close()
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;, err
-    }
-    sort.Sort(byInode(list))
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; list, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt;
-}
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
-ファイルシステムはext4を使用している。&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.07s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;.54s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;19&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;43&lt;/span&gt;.450 total
-
-sudo sysctl -w vm.drop_caches&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;
-&lt;span style=&#34;color: #007020&#34;&gt;time&lt;/span&gt; go run dirdump.go dir &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;
-go run dirdump.go large &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.85s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.98s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;:58.27 total
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;ソースコードは&lt;a href=&#34;https://gist.github.com/tma15/78146f0762e8c12571e0&#34;&gt;gist&lt;/a&gt;にアップロードした。
-上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定するとソートをしない。&lt;/p&gt;
-
-&lt;p&gt;ext4でも、ソートしないよりも、inode順にソートするほうが高速にファイルを読み込めそうである。&lt;/p&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://tma15.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>grepでデータの重複を調べられる</title>
-          <link>http://tma15.github.io/blog/2015/12/29/</link>
-          <pubDate>Tue, 29 Dec 2015 15:20:02 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/12/29/</guid>
-          <description>&lt;p&gt;実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、&lt;code&gt;grep&lt;/code&gt;を使えば簡単にデータに重複があるかどうかを確認することができる。&lt;/p&gt;
-
-&lt;p&gt;今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。&lt;/p&gt;
-
-&lt;p&gt;例えば学習データの中身が以下で、&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$cat train.csv
-1,aaa
--1,bbb
-1,abc
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;テストデータの中身が以下の様な場合、&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$cat test.csv
-1,aaa
--1,bbc
-1,aab
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;次のようにして重複するデータを出力できる:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$grep -x -f train.csv test.csv
-1,aaa
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;何も出力されなければ、2つのファイルに重複はない。&lt;/p&gt;
-
-&lt;p&gt;参考: &lt;a href=&#34;http://d.hatena.ne.jp/rx7/20130829/p1&#34;&gt;Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々&lt;/a&gt;&lt;/p&gt;
-</description>
-        </item>
-      
     
-
+    <item>
+      <title>大量のファイルをGoで高速に読み込む</title>
+      <link>http://tma15.github.io/blog/2016/01/16/</link>
+      <pubDate>Sat, 16 Jan 2016 10:55:26 +0900</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2016/01/16/</guid>
+      <description>ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
+type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &amp;lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.</description>
+    </item>
+    
+    <item>
+      <title>grepでデータの重複を調べられる</title>
+      <link>http://tma15.github.io/blog/2015/12/29/</link>
+      <pubDate>Tue, 29 Dec 2015 15:20:02 +0900</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2015/12/29/</guid>
+      <description>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
+今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
+例えば学習データの中身が以下で、
+$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
+$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
+$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
+参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々</description>
+    </item>
+    
   </channel>
 </rss>

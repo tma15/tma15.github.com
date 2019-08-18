@@ -17,6 +17,13 @@
     <link href="/css/style.css" rel="stylesheet">
 
     <link rel="alternate" type="application/atom+xml"  href="/blog/index.xml" >
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
 </head>
 <body lang="en">
 	<div class="container">
@@ -66,10 +73,8 @@
 <p>全文検索したくなったときのためのメモ。
 Elasticsearchはインストール済みとして進める。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>$./bin/elasticsearch -v
-Version: <span style="color: #6600EE; font-weight: bold">1</span>.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: <span style="color: #6600EE; font-weight: bold">1</span>.8.0_25
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$./bin/elasticsearch -v
+Version: <span style="color:#60e;font-weight:bold">1</span>.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: <span style="color:#60e;font-weight:bold">1</span>.8.0_25</code></pre></div>
 
 <h2 id="準備">準備</h2>
 
@@ -80,27 +85,21 @@ Version: <span style="color: #6600EE; font-weight: bold">1</span>.4.0, Build: bc
 <li><a href="http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins">Manual install of Elasticsearch plugins</a></li>
 </ul>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#963">$bin</span>/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1</code></pre></div>
 
 <p>デフォルトのanalyzerをkuromojiにしておく。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$tail</span> config/elasticsearch.yml
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#963">$tail</span> config/elasticsearch.yml
 ...
 index.analysis.analyzer.default.type: custom
-index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
-</pre></div>
-
+index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer</code></pre></div>
 
 <h2 id="インストール">インストール</h2>
 
 <p>では、まずはPythonラッパーをインストール。
 使い方は<a href="http://elasticsearch-py.readthedocs.org/en/master/">Python Elasticsearch Client</a>が参考になりそう。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>pip install elasticsearch
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install elasticsearch</code></pre></div>
 
 <p>ここ以降は<a href="http://code46.hatenablog.com/entry/2014/01/21/115620">Elasticsearchチュートリアル</a>を参考にさせていただいた。データもそれに合わせて<a href="https://github.com/livedoor/datasets">livedoor/datasets</a>を使用させていただいている。</p>
 
@@ -108,7 +107,7 @@ index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
 
 <p>mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$cat</span> mapping.yaml
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#963">$cat</span> mapping.yaml
 mappings:
   restaurant:
     properties:
@@ -119,45 +118,39 @@ mappings:
       name_kana:
         type: string
       adress:
-        type: string
-</pre></div>
-
+        type: string</code></pre></div>
 
 <p>indexを生成して文書を順に追加していくスクリプトを書く。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
-<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">elasticsearch</span> <span style="color: #008800; font-weight: bold">import</span> Elasticsearch
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-weight:bold">import</span> <span style="color:#0e84b5;font-weight:bold">sys</span>
+<span style="color:#080;font-weight:bold">from</span> <span style="color:#0e84b5;font-weight:bold">elasticsearch</span> <span style="color:#080;font-weight:bold">import</span> Elasticsearch
 
-es <span style="color: #333333">=</span> Elasticsearch()
-index <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;ldgroumet&quot;</span>
-doc_type <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;restaurant&quot;</span>
-i <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>
+es <span style="color:#333">=</span> Elasticsearch()
+index <span style="color:#333">=</span> <span style="background-color:#fff0f0">&#34;ldgroumet&#34;</span>
+doc_type <span style="color:#333">=</span> <span style="background-color:#fff0f0">&#34;restaurant&#34;</span>
+i <span style="color:#333">=</span> <span style="color:#00d;font-weight:bold">1</span>
 
-setting <span style="color: #333333">=</span> yaml<span style="color: #333333">.</span>load(<span style="color: #007020">open</span>(<span style="background-color: #fff0f0">&#39;./mapping.yaml&#39;</span>))
-properties <span style="color: #333333">=</span> setting[<span style="background-color: #fff0f0">&quot;mappings&quot;</span>][<span style="background-color: #fff0f0">&quot;restaurant&quot;</span>][<span style="background-color: #fff0f0">&quot;properties&quot;</span>]<span style="color: #333333">.</span>keys()
-<span style="color: #008800; font-weight: bold">print</span> es<span style="color: #333333">.</span>create(index<span style="color: #333333">=</span>index, doc_type<span style="color: #333333">=</span>doc_type, body<span style="color: #333333">=</span>setting)
+setting <span style="color:#333">=</span> yaml<span style="color:#333">.</span>load(<span style="color:#007020">open</span>(<span style="background-color:#fff0f0">&#39;./mapping.yaml&#39;</span>))
+properties <span style="color:#333">=</span> setting[<span style="background-color:#fff0f0">&#34;mappings&#34;</span>][<span style="background-color:#fff0f0">&#34;restaurant&#34;</span>][<span style="background-color:#fff0f0">&#34;properties&#34;</span>]<span style="color:#333">.</span>keys()
+<span style="color:#080;font-weight:bold">print</span> es<span style="color:#333">.</span>create(index<span style="color:#333">=</span>index, doc_type<span style="color:#333">=</span>doc_type, body<span style="color:#333">=</span>setting)
 
-<span style="color: #008800; font-weight: bold">for</span> lid, line <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(sys<span style="color: #333333">.</span>stdin):
-    line <span style="color: #333333">=</span> line<span style="color: #333333">.</span>strip()
-    <span style="color: #008800; font-weight: bold">if</span> lid <span style="color: #333333">==</span> <span style="color: #0000DD; font-weight: bold">0</span>:
-        attrs <span style="color: #333333">=</span> line<span style="color: #333333">.</span>split(<span style="background-color: #fff0f0">&#39;,&#39;</span>)
-        num_attrs <span style="color: #333333">=</span> <span style="color: #007020">len</span>(attrs)
-        <span style="color: #008800; font-weight: bold">continue</span>
-    data <span style="color: #333333">=</span> {}
-    sp <span style="color: #333333">=</span> line<span style="color: #333333">.</span>split(<span style="background-color: #fff0f0">&#39;,&#39;</span>, num_attrs <span style="color: #333333">-</span> <span style="color: #0000DD; font-weight: bold">1</span>)
-    <span style="color: #008800; font-weight: bold">for</span> j, value <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">enumerate</span>(sp):
-        <span style="color: #008800; font-weight: bold">if</span> attrs[j] <span style="color: #000000; font-weight: bold">in</span> properties:
-            data[attrs[j]] <span style="color: #333333">=</span> value
-    es<span style="color: #333333">.</span>index(index<span style="color: #333333">=</span>index, doc_type<span style="color: #333333">=</span>doc_type, <span style="color: #007020">id</span><span style="color: #333333">=</span>i, body<span style="color: #333333">=</span>data)
-    i <span style="color: #333333">+=</span> <span style="color: #0000DD; font-weight: bold">1</span>
-</pre></div>
-
+<span style="color:#080;font-weight:bold">for</span> lid, line <span style="color:#000;font-weight:bold">in</span> <span style="color:#007020">enumerate</span>(sys<span style="color:#333">.</span>stdin):
+    line <span style="color:#333">=</span> line<span style="color:#333">.</span>strip()
+    <span style="color:#080;font-weight:bold">if</span> lid <span style="color:#333">==</span> <span style="color:#00d;font-weight:bold">0</span>:
+        attrs <span style="color:#333">=</span> line<span style="color:#333">.</span>split(<span style="background-color:#fff0f0">&#39;,&#39;</span>)
+        num_attrs <span style="color:#333">=</span> <span style="color:#007020">len</span>(attrs)
+        <span style="color:#080;font-weight:bold">continue</span>
+    data <span style="color:#333">=</span> {}
+    sp <span style="color:#333">=</span> line<span style="color:#333">.</span>split(<span style="background-color:#fff0f0">&#39;,&#39;</span>, num_attrs <span style="color:#333">-</span> <span style="color:#00d;font-weight:bold">1</span>)
+    <span style="color:#080;font-weight:bold">for</span> j, value <span style="color:#000;font-weight:bold">in</span> <span style="color:#007020">enumerate</span>(sp):
+        <span style="color:#080;font-weight:bold">if</span> attrs[j] <span style="color:#000;font-weight:bold">in</span> properties:
+            data[attrs[j]] <span style="color:#333">=</span> value
+    es<span style="color:#333">.</span>index(index<span style="color:#333">=</span>index, doc_type<span style="color:#333">=</span>doc_type, <span style="color:#007020">id</span><span style="color:#333">=</span>i, body<span style="color:#333">=</span>data)
+    i <span style="color:#333">+=</span> <span style="color:#00d;font-weight:bold">1</span></code></pre></div>
 
 <p>実行して登録する。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$cat</span> restaurants.csv|python post.py
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#963">$cat</span> restaurants.csv|python post.py</code></pre></div>
 
 <h2 id="indexの作成時にanalyzerを設定する-2014-11-22追記">indexの作成時にanalyzerを設定する (2014.11.22追記)</h2>
 
@@ -166,7 +159,7 @@ properties <span style="color: #333333">=</span> setting[<span style="background
 <p>Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
 ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は<a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform">例</a>にある定義を採用。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>settings:
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">settings:
   index:
     analysis:
       analyzer:
@@ -193,86 +186,78 @@ mappings:
       address:
         type: string
         index: analyzed
-        analyzer: my_analyzer
-</pre></div>
+        analyzer: my_analyzer</code></pre></div>
 
-
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>setting <span style="color: #333333">=</span> yaml<span style="color: #333333">.</span>load(<span style="color: #007020">open</span>(<span style="background-color: #fff0f0">&#39;./mapping.yaml&#39;</span>))
-properties <span style="color: #333333">=</span> setting[<span style="background-color: #fff0f0">&quot;mappings&quot;</span>][<span style="background-color: #fff0f0">&quot;restaurant&quot;</span>][<span style="background-color: #fff0f0">&quot;properties&quot;</span>]<span style="color: #333333">.</span>keys()
-<span style="color: #008800; font-weight: bold">print</span> es<span style="color: #333333">.</span>indices<span style="color: #333333">.</span>create(index<span style="color: #333333">=</span>index, body<span style="color: #333333">=</span>setting[<span style="background-color: #fff0f0">&quot;settings&quot;</span>])
-<span style="color: #008800; font-weight: bold">print</span> es<span style="color: #333333">.</span>indices<span style="color: #333333">.</span>put_mapping(index<span style="color: #333333">=</span>index, doc_type<span style="color: #333333">=</span>doc_type, body<span style="color: #333333">=</span>setting[<span style="background-color: #fff0f0">&#39;mappings&#39;</span>])
-<span style="color: #888888">#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)</span>
-<span style="color: #888888">#print json.dumps(es.indices.get_settings(index=index), indent=4)</span>
-</pre></div>
-
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">setting <span style="color:#333">=</span> yaml<span style="color:#333">.</span>load(<span style="color:#007020">open</span>(<span style="background-color:#fff0f0">&#39;./mapping.yaml&#39;</span>))
+properties <span style="color:#333">=</span> setting[<span style="background-color:#fff0f0">&#34;mappings&#34;</span>][<span style="background-color:#fff0f0">&#34;restaurant&#34;</span>][<span style="background-color:#fff0f0">&#34;properties&#34;</span>]<span style="color:#333">.</span>keys()
+<span style="color:#080;font-weight:bold">print</span> es<span style="color:#333">.</span>indices<span style="color:#333">.</span>create(index<span style="color:#333">=</span>index, body<span style="color:#333">=</span>setting[<span style="background-color:#fff0f0">&#34;settings&#34;</span>])
+<span style="color:#080;font-weight:bold">print</span> es<span style="color:#333">.</span>indices<span style="color:#333">.</span>put_mapping(index<span style="color:#333">=</span>index, doc_type<span style="color:#333">=</span>doc_type, body<span style="color:#333">=</span>setting[<span style="background-color:#fff0f0">&#39;mappings&#39;</span>])
+<span style="color:#888">#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)</span>
+<span style="color:#888">#print json.dumps(es.indices.get_settings(index=index), indent=4)</span></code></pre></div>
 
 <h2 id="ドキュメントを検索する">ドキュメントを検索する</h2>
 
 <p>検索するスクリプトを書く。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">elasticsearch</span> <span style="color: #008800; font-weight: bold">import</span> Elasticsearch
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-weight:bold">from</span> <span style="color:#0e84b5;font-weight:bold">elasticsearch</span> <span style="color:#080;font-weight:bold">import</span> Elasticsearch
 
-es <span style="color: #333333">=</span> Elasticsearch()
-index <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;ldgroumet&quot;</span>
-doc_type <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;restaurant&quot;</span>
+es <span style="color:#333">=</span> Elasticsearch()
+index <span style="color:#333">=</span> <span style="background-color:#fff0f0">&#34;ldgroumet&#34;</span>
+doc_type <span style="color:#333">=</span> <span style="background-color:#fff0f0">&#34;restaurant&#34;</span>
 
-query <span style="color: #333333">=</span> {
-        <span style="background-color: #fff0f0">&quot;query&quot;</span>: {
-            <span style="background-color: #fff0f0">&quot;simple_query_string&quot;</span>: {
-                <span style="background-color: #fff0f0">&quot;query&quot;</span>: <span style="background-color: #fff0f0">&quot;京都&quot;</span>,
-                <span style="background-color: #fff0f0">&quot;fields&quot;</span>: [<span style="background-color: #fff0f0">&quot;address&quot;</span>, <span style="background-color: #fff0f0">&quot;description&quot;</span>],
+query <span style="color:#333">=</span> {
+        <span style="background-color:#fff0f0">&#34;query&#34;</span>: {
+            <span style="background-color:#fff0f0">&#34;simple_query_string&#34;</span>: {
+                <span style="background-color:#fff0f0">&#34;query&#34;</span>: <span style="background-color:#fff0f0">&#34;京都&#34;</span>,
+                <span style="background-color:#fff0f0">&#34;fields&#34;</span>: [<span style="background-color:#fff0f0">&#34;address&#34;</span>, <span style="background-color:#fff0f0">&#34;description&#34;</span>],
                 }
             }
         }
 
-<span style="color: #008800; font-weight: bold">for</span> i <span style="color: #000000; font-weight: bold">in</span> es<span style="color: #333333">.</span>search(index<span style="color: #333333">=</span>index, doc_type<span style="color: #333333">=</span>doc_type, body<span style="color: #333333">=</span>query)[<span style="background-color: #fff0f0">&quot;hits&quot;</span>][<span style="background-color: #fff0f0">&quot;hits&quot;</span>]:
-    <span style="color: #008800; font-weight: bold">for</span> k, v <span style="color: #000000; font-weight: bold">in</span> i[<span style="background-color: #fff0f0">&quot;_source&quot;</span>]<span style="color: #333333">.</span>items():
-        <span style="color: #008800; font-weight: bold">print</span> k, v<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf8&#39;</span>)
-    <span style="color: #008800; font-weight: bold">print</span>
-</pre></div>
-
+<span style="color:#080;font-weight:bold">for</span> i <span style="color:#000;font-weight:bold">in</span> es<span style="color:#333">.</span>search(index<span style="color:#333">=</span>index, doc_type<span style="color:#333">=</span>doc_type, body<span style="color:#333">=</span>query)[<span style="background-color:#fff0f0">&#34;hits&#34;</span>][<span style="background-color:#fff0f0">&#34;hits&#34;</span>]:
+    <span style="color:#080;font-weight:bold">for</span> k, v <span style="color:#000;font-weight:bold">in</span> i[<span style="background-color:#fff0f0">&#34;_source&#34;</span>]<span style="color:#333">.</span>items():
+        <span style="color:#080;font-weight:bold">print</span> k, v<span style="color:#333">.</span>encode(<span style="background-color:#fff0f0">&#39;utf8&#39;</span>)
+    <span style="color:#080;font-weight:bold">print</span></code></pre></div>
 
 <p>実行する。</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #996633">$python</span> search.py
-address <span style="background-color: #fff0f0">&quot;新宿区西新宿1-1-3新宿ミロード 8F&quot;</span>
-description <span style="background-color: #fff0f0">&quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&quot;</span>
-name_kana <span style="background-color: #fff0f0">&quot;はなてまり&quot;</span>
-name <span style="background-color: #fff0f0">&quot;京都 はなてまり&quot;</span>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#963">$python</span> search.py
+address <span style="background-color:#fff0f0">&#34;新宿区西新宿1-1-3新宿ミロード 8F&#34;</span>
+description <span style="background-color:#fff0f0">&#34;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&#34;</span>
+name_kana <span style="background-color:#fff0f0">&#34;はなてまり&#34;</span>
+name <span style="background-color:#fff0f0">&#34;京都 はなてまり&#34;</span>
 
-address <span style="background-color: #fff0f0">&quot;中央区銀座8-2-8京都新聞銀座ビルB1F&quot;</span>
-description <span style="background-color: #fff0f0">&quot;外堀通り沿い、銀座日航ホテル向かい。    住所を更新しました。...</span>
-<span style="background-color: #fff0f0">name_kana &quot;</span>ししりあ<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">name &quot;</span>シシリア<span style="background-color: #fff0f0">&quot;</span>
+address <span style="background-color:#fff0f0">&#34;中央区銀座8-2-8京都新聞銀座ビルB1F&#34;</span>
+description <span style="background-color:#fff0f0">&#34;外堀通り沿い、銀座日航ホテル向かい。    住所を更新しました。...
+</span><span style="background-color:#fff0f0">name_kana &#34;</span>ししりあ<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">name &#34;</span>シシリア<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">
+</span><span style="background-color:#fff0f0">address &#34;</span>中央区日本橋1-6-7ぬまたビル1F<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">description &#34;</span>日本橋駅C4出口より凧の博物館方面。徒歩3分<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">name_kana &#34;</span>きょうとぎんかくじますたにらーめん<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">name &#34;</span>京都銀閣寺ますたにラーメン<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">
+</span><span style="background-color:#fff0f0">address &#34;</span>横浜市鶴見区菅沢町5-18<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">description &#34;</span>京浜急行・鶴見市場駅から国道15号に出て鶴見方面へ。国道15号の登り車線、...
+name_kana <span style="background-color:#fff0f0">&#34;きょうとらーめんおやかた&#34;</span>
+name <span style="background-color:#fff0f0">&#34;京都ラーメン 親方&#34;</span>
 
-<span style="background-color: #fff0f0">address &quot;</span>中央区日本橋1-6-7ぬまたビル1F<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">description &quot;</span>日本橋駅C4出口より凧の博物館方面。徒歩3分<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">name_kana &quot;</span>きょうとぎんかくじますたにらーめん<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">name &quot;</span>京都銀閣寺ますたにラーメン<span style="background-color: #fff0f0">&quot;</span>
+address <span style="background-color:#fff0f0">&#34;渋谷区桜丘町2-3&#34;</span>
+description <span style="background-color:#fff0f0">&#34;京都の家庭料理の味と焼酎が美味い。関西人の僕にはたまらない店で...
+</span><span style="background-color:#fff0f0">name_kana &#34;</span>みこのす<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">name MYKONOS
+</span><span style="background-color:#fff0f0">
+</span><span style="background-color:#fff0f0">address &#34;</span>新宿区神楽坂3-6-53<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">description &#34;</span>神楽坂通りを一本左。JR飯田橋駅徒歩4分    <span style="color:#60e;font-weight:bold">05</span>/01/25 営業時間等更...
+name_kana <span style="background-color:#fff0f0">&#34;きょうとぎをんくろーばーてい&#34;</span>
+name <span style="background-color:#fff0f0">&#34;京都ぎをん 久露葉亭&#34;</span>
 
-<span style="background-color: #fff0f0">address &quot;</span>横浜市鶴見区菅沢町5-18<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">description &quot;</span>京浜急行・鶴見市場駅から国道15号に出て鶴見方面へ。国道15号の登り車線、...
-name_kana <span style="background-color: #fff0f0">&quot;きょうとらーめんおやかた&quot;</span>
-name <span style="background-color: #fff0f0">&quot;京都ラーメン 親方&quot;</span>
-
-address <span style="background-color: #fff0f0">&quot;渋谷区桜丘町2-3&quot;</span>
-description <span style="background-color: #fff0f0">&quot;京都の家庭料理の味と焼酎が美味い。関西人の僕にはたまらない店で...</span>
-<span style="background-color: #fff0f0">name_kana &quot;</span>みこのす<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">name MYKONOS</span>
-
-<span style="background-color: #fff0f0">address &quot;</span>新宿区神楽坂3-6-53<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">description &quot;</span>神楽坂通りを一本左。JR飯田橋駅徒歩4分    <span style="color: #6600EE; font-weight: bold">05</span>/01/25 営業時間等更...
-name_kana <span style="background-color: #fff0f0">&quot;きょうとぎをんくろーばーてい&quot;</span>
-name <span style="background-color: #fff0f0">&quot;京都ぎをん 久露葉亭&quot;</span>
-
-address <span style="background-color: #fff0f0">&quot;港区赤坂6-19-53&quot;</span>
-description <span style="background-color: #fff0f0">&quot;分かりにくい処ですが、頑張って説明します。   赤坂通りを青山方面に進みます。</span>
-<span style="background-color: #fff0f0">name_kana &quot;</span>きょうとぎおんおいしんぼあかさかべってい<span style="background-color: #fff0f0">&quot;</span>
-<span style="background-color: #fff0f0">name &quot;</span>京都ぎをん おいしんぼ 赤坂別邸<span style="background-color: #fff0f0">&quot;</span>
-
-<span style="background-color: #fff0f0">...</span>
-</pre></div>
-
+address <span style="background-color:#fff0f0">&#34;港区赤坂6-19-53&#34;</span>
+description <span style="background-color:#fff0f0">&#34;分かりにくい処ですが、頑張って説明します。   赤坂通りを青山方面に進みます。
+</span><span style="background-color:#fff0f0">name_kana &#34;</span>きょうとぎおんおいしんぼあかさかべってい<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">name &#34;</span>京都ぎをん おいしんぼ 赤坂別邸<span style="background-color:#fff0f0">&#34;
+</span><span style="background-color:#fff0f0">
+</span><span style="background-color:#fff0f0">...</span></code></pre></div>
 
 <p>「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。</p>
 

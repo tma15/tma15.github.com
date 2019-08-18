@@ -8,7 +8,7 @@
     <meta name="keyword" content="">
     <link rel="shortcut icon" href="/img/favicon.ico">
 
-    <title>HMMを実装した</title>
+    <title>Categories</title>
 
  	
     <link href="/css/journal.css" rel="stylesheet">
@@ -48,75 +48,24 @@
 		</div>
 	</div>
 
-
 <div class="container">	
 	<div class="row">
-		<div class="col-md-offset-1 col-md-10">
-			<h3>HMMを実装した</h3>
-				<span class="label label-primary">Sat Oct 25, 2014</span> in 
-				 using tags 			 
-				
-					
-					<a href="/tags/golang">golang</a>
-				
-					 , 
-					<a href="/tags/nlp">nlp</a>
-				
-			</small>
-		</div>
-	</div>
+		<div class="col-md-12 text-center">
+			<h3>Posts</h3>
+	    </div>
+    </div>
 	<div class="row">
-		<div class="col-md-offset-1 col-md-10">
-			<br>
-			
-
-<h2 id="概要">概要</h2>
-
-<p>勉強のためにGrahamさんが公開されている<a href="http://www.phontron.com/teaching.php">資料</a>を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。
-また、実験用のデータ、評価スクリプトも使用させて頂いている。</p>
-
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos
-$./hmm <span style="color:#007020">test</span> -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos
-$./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos
-Accuracy: <span style="color:#60e;font-weight:bold">75</span>.83% <span style="color:#333">(</span><span style="color:#60e;font-weight:bold">3460</span>/4563<span style="color:#333">)</span>
-
-Most common mistakes:
-NNS --&gt; NN      <span style="color:#60e;font-weight:bold">49</span>
-RB --&gt; NN       <span style="color:#60e;font-weight:bold">35</span>
-JJ --&gt; DT       <span style="color:#60e;font-weight:bold">30</span>
-RB --&gt; IN       <span style="color:#60e;font-weight:bold">29</span>
-NN --&gt; JJ       <span style="color:#60e;font-weight:bold">28</span>
-NN --&gt; IN       <span style="color:#60e;font-weight:bold">25</span>
-JJ --&gt; NN       <span style="color:#60e;font-weight:bold">24</span>
-NN --&gt; DT       <span style="color:#60e;font-weight:bold">24</span>
-NNP --&gt; NN      <span style="color:#60e;font-weight:bold">22</span>
-VBN --&gt; NN      <span style="color:#60e;font-weight:bold">22</span></code></pre></div>
-
-<p>特に工夫はしていないのでこんなものかという感じ。
-コードは<a href="https://github.com/tma15/hmm">こちら</a>。</p>
-
-		</div>
-	</div>
+		<div class="col-md-12">
+			<ul>
+			    
+		    </ul>
+	    </div>
+    </div>
 	<div class="row">
 		<div class="col-md-12">
 			<hr>
 		</div>
 	</div>	
-        <div id="disqus_thread"></div>
-<script type="text/javascript">
-     
-    var disqus_shortname = 'nowisbetterthannever'; 
-
-     
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
 </div>
 
   <div class="container">

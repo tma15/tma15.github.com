@@ -1,246 +1,48 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Now is better than never. </title>
+    <title>C&#43;&#43; on Now is better than never.</title>
     <link>http://tma15.github.io/tags/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2017-05-06 13:09:55 &#43;0900 JST</updated>
-
+    <lastBuildDate>Sat, 06 May 2017 13:09:55 +0900</lastBuildDate>
     
-      
-        <item>
-          <title>ゴールデンウィークの空き時間を使ってダブル配列を実装した</title>
-          <link>http://tma15.github.io/blog/2017/05/06/</link>
-          <pubDate>Sat, 06 May 2017 13:09:55 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2017/05/06/</guid>
-          <description>&lt;p&gt;このゴールデンウィークはまとまった休日を取ることができた。
-そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、
-今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。
-ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器の&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;などで用いられている。
-入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。
-そのため、高速にキーを検索することができる。&lt;/p&gt;
-
-&lt;p&gt;開発成果は&lt;a href=&#34;https://github.com/tma15/darr&#34;&gt;ここ&lt;/a&gt;にアップロードした。
-基本的には&lt;a href=&#34;https://ipsj.ixsq.nii.ac.jp/ej/?action=pages_view_main&amp;amp;active_action=repository_view_main_item_detail&amp;amp;item_id=49490&amp;amp;item_no=1&amp;amp;page_id=13&amp;amp;block_id=8&#34;&gt;ダブル配列法によるトライ検索の実現法&lt;/a&gt;を素直に実装している。&lt;/p&gt;
-
-&lt;p&gt;休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;ダブル配列の動的な構築&lt;/li&gt;
-&lt;li&gt;キーの存在の確認&lt;/li&gt;
-&lt;li&gt;キーに対する値の取得&lt;/li&gt;
-&lt;li&gt;キーの削除&lt;/li&gt;
-&lt;li&gt;ダブル配列の保存・読み込み&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。
-&lt;del&gt;またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。&lt;/del&gt; (まだ時間があったのでマルチバイトにも対応した。このあたりの文字の対応には&lt;a href=&#34;http://www.chokkan.org/software/dastrie/&#34;&gt;Static Double Array Trie (DASTrie)&lt;/a&gt;を眺めて勉強させていただいた。 2017/05/07 17:43追記)&lt;/p&gt;
-
-&lt;p&gt;実装をするにあたり、他に参照した情報源を以下に挙げる:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934/ref=sr_1_1?s=books&amp;amp;ie=UTF8&amp;amp;qid=1494044643&amp;amp;sr=1-1&amp;amp;keywords=%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.slideshare.net/higashiyama/ss-8738479&#34;&gt;ダブル配列の実装方法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/n_shuyo/20111018/doublearray&#34;&gt;Double Array 実装してみた - Mi manca qualche giovedi?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/tkng/20061225/1167038986&#34;&gt;最近のDoubleArrayの性能 - 射撃しつつ前転&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。
-この休日では間に合わず、今後試してみたいと思っているのは以下の通り:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;del&gt;マルチバイト文字の対応&lt;/del&gt; (対応した 2017/05/07 17:43追記)&lt;/li&gt;
-&lt;li&gt;(構築、検索のベンチマーク 2017/05/07 17:43追記)&lt;/li&gt;
-&lt;li&gt;分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://tma15.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>SWIGを使ってPythonラッパーを生成する</title>
-          <link>http://tma15.github.io/blog/2016/09/05/</link>
-          <pubDate>Mon, 05 Sep 2016 19:28:46 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/09/05/</guid>
-          <description>
-
-&lt;h1 id=&#34;swigを使ってpythonラッパーを生成する&#34;&gt;SWIGを使ってPythonラッパーを生成する&lt;/h1&gt;
-
-&lt;p&gt;このエントリでは&lt;a href=&#34;http://www.swig.org/&#34;&gt;SWIG&lt;/a&gt;を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。&lt;/p&gt;
-
-&lt;p&gt;例えば自然言語処理でよく使われている&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;や&lt;a href=&#34;http://www.chokkan.org/software/crfsuite/&#34;&gt;CRFsuite&lt;/a&gt;などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。&lt;/p&gt;
-
-&lt;p&gt;またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。&lt;/p&gt;
-
-&lt;p&gt;(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)&lt;/p&gt;
-
-&lt;h2 id=&#34;利用するツールおよび環境&#34;&gt;利用するツールおよび環境&lt;/h2&gt;
-
-&lt;p&gt;このエントリでは以下のツールを利用する:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;SWIG (3.0.8)&lt;/li&gt;
-&lt;li&gt;gcc-c++ (4.4.7)&lt;/li&gt;
-&lt;li&gt;autoconf (2.63)&lt;/li&gt;
-&lt;li&gt;automake (1.11.1)&lt;/li&gt;
-&lt;li&gt;libtool (2.2.6b)&lt;/li&gt;
-&lt;li&gt;Python (3.5.0)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;またOSはCentOS release 6.8 (さくらのVPS) を利用する。&lt;/p&gt;
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;C++の実装を作成する&lt;/li&gt;
-&lt;li&gt;SWIGのインターフェースファイルを作成する&lt;/li&gt;
-&lt;li&gt;setup.pyを用意する&lt;/li&gt;
-&lt;li&gt;Makefile.amを作成する&lt;/li&gt;
-&lt;li&gt;インストールする&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;c-の実装を作成する&#34;&gt;C++の実装を作成する&lt;/h2&gt;
-
-&lt;p&gt;このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは
-平均化パーセプトロンの&lt;a href=&#34;https://github.com/tma15/onlineml&#34;&gt;実装&lt;/a&gt;を用いる。&lt;/p&gt;
-
-&lt;h2 id=&#34;swigのインターフェースファイルを作成する&#34;&gt;SWIGのインターフェースファイルを作成する&lt;/h2&gt;
-
-&lt;p&gt;インターフェースファイルはSWIGへの入力になる。&lt;/p&gt;
-
-&lt;p&gt;インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;%module onlineml
-
-%include &amp;quot;std_pair.i&amp;quot;
-%include &amp;quot;std_string.i&amp;quot;
-%include &amp;quot;std_map.i&amp;quot;
-%include &amp;quot;std_vector.i&amp;quot;
-
-%{
-#define SWIG_FILE_WITH_INIT
-#include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
-#include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
-#include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
-#include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
-%}
-
-
-%template() std::pair&amp;lt;std::string, float&amp;gt;;
-%template(PairVector) std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt;;
-%template(PairVectors) std::vector&amp;lt; std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt; &amp;gt;;
-%template(StringVectors) std::vector&amp;lt;std::string&amp;gt;;
-
-%include &amp;lt;onlineml/learner/learner.hpp&amp;gt;
-%include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt;
-%include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt;
-%include &amp;lt;onlineml/common/classifier.hpp&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT&lt;/code&gt;は出力されるラッパーファイルがPython用の拡張としてビルドされることを指定するマクロ (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn4&#34;&gt;Running SWIG&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%template&lt;/code&gt;はC++で定義されている型をPythonでどう記述するかを指定する (&lt;a href=&#34;http://www.swig.org/Doc3.0/Python.html#Python_nn26&#34;&gt;C++ templates&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%include&lt;/code&gt;は指定したファイルに記述された関数をインターフェースファイルに挿入する (&lt;a href=&#34;http://www.swig.org/Doc1.1/HTML/Library.html#n1&#34;&gt;The %include directive&lt;/a&gt;)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;%{...%}&lt;/code&gt;は生成されるラッパーにそのままコピーされる (&lt;a href=&#34;http://www.swig.org/Doc3.0/SWIG.html#SWIG_nn3&#34;&gt;Input format&lt;/a&gt;)。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;生成されるラッパーファイル (例: onlineml_wrap.cxx) の中には以下の様な記述ができる:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#define SWIG_FILE_WITH_INIT
-#include &amp;lt;onlineml/learner/learner.h&amp;gt;
-#include &amp;lt;onlineml/learner/perceptron.h&amp;gt;
-#include &amp;lt;onlineml/learner/averaged_perceptron.h&amp;gt;
-#include &amp;lt;onlineml/common/classifier.h&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;setup-pyを用意する&#34;&gt;setup.pyを用意する&lt;/h2&gt;
-
-&lt;p&gt;setup.pyは以下の様な目的で使うスクリプト (&lt;a href=&#34;http://docs.python.jp/3/distutils/setupscript.html&#34;&gt;2. setup スクリプトを書く Python 3.5.2 ドキュメント&lt;/a&gt;)。&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;setup スクリプトは、Distutils を使ってモジュールをビルドし、配布し、インストールする際の全ての動作の中心になります。 setup スクリプトの主な目的は、モジュール配布物について Distutils に伝え、モジュール配布を操作するための様々なコマンドを正しく動作させることにあります。&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;次のようにする:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;#!/usr/bin/env python
-from distutils.core import setup, Extension
-
-module = Extension(&#39;_onlineml&#39;,
-    sources=[&#39;onlineml_wrap.cxx&#39;],
-    extra_compile_args=[&amp;quot;-O3&amp;quot;],
-    language=&amp;quot;c++&amp;quot;,
-)
-
-setup(
-    name = &#39;onlineml&#39;,
-    version = &amp;quot;0.1&amp;quot;,
-    author      = &amp;quot;Takuya Makino&amp;quot;,
-    description = &amp;quot;&amp;quot;&amp;quot;online machine learning algorithms&amp;quot;&amp;quot;&amp;quot;,
-    ext_modules = [module],
-    py_modules = [&#39;onlineml&#39;],
-    )
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;makefile-amを作成する&#34;&gt;Makefile.amを作成する&lt;/h2&gt;
-
-&lt;p&gt;プロジェクトを以下のディレクトリ構成とする:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;onlineml
-├── Makefile.am
-├── configure.ac
-├── onlineml
-│   ├── common
-│   │   ├── classifier.hpp
-│   │   ...
-│   ├── learner
-│   │   ├── learner.hpp
-│   │   ...
-└── swig
-    ├── Makefile.am
-    ├── onlineml.swigcxx
-    ├── sample.py
-    └── setup.py
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;confiugre&lt;/code&gt;時に、&lt;code&gt;--prefix&lt;/code&gt;でインストール場所を指定した場合を想定する。&lt;code&gt;onlineml/Makefile.am&lt;/code&gt;のswigに関わる部分は以下のようにする:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;SUBDIRS = swig
-python:
-        cd swig &amp;amp;&amp;amp; \
-        swig -c++ -I../ -python onlineml.swigcxx &amp;amp;&amp;amp; \
-        python setup.py build_ext --inplace --include-dirs=@prefix@/include \
-        --library-dirs=@prefix@/lib &amp;amp;&amp;amp; \
-        python setup.install &amp;amp;&amp;amp; \
-        cd -
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;また&lt;code&gt;make dist&lt;/code&gt;で生成されるパッケージにswigも含まれるように、&lt;code&gt;onlineml/swig/Makefile.am&lt;/code&gt;中で以下のように&lt;code&gt;EXTRA_DIST&lt;/code&gt;に配布したいスクリプトを含める:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;EXTRA_DIST = \
-             onlineml.swigcxx \
-             sample.py \
-             setup.py
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h3 id=&#34;インストールする&#34;&gt;インストールする&lt;/h3&gt;
-
-&lt;p&gt;以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;./configure
-make
-make install
-make python
-&lt;/code&gt;&lt;/pre&gt;
-</description>
-        </item>
-      
     
-
+    <item>
+      <title>ゴールデンウィークの空き時間を使ってダブル配列を実装した</title>
+      <link>http://tma15.github.io/blog/2017/05/06/</link>
+      <pubDate>Sat, 06 May 2017 13:09:55 +0900</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2017/05/06/</guid>
+      <description>このゴールデンウィークはまとまった休日を取ることができた。 そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、 今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。 ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器のMeCabなどで用いられている。 入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。 そのため、高速にキーを検索することができる。
+開発成果はここにアップロードした。 基本的にはダブル配列法によるトライ検索の実現法を素直に実装している。
+休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):
+ ダブル配列の動的な構築 キーの存在の確認 キーに対する値の取得 キーの削除 ダブル配列の保存・読み込み  動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。 またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。 (まだ時間があったのでマルチバイトにも対応した。このあたりの文字の対応にはStatic Double Array Trie (DASTrie)を眺めて勉強させていただいた。 2017/05/07 17:43追記)
+実装をするにあたり、他に参照した情報源を以下に挙げる:
+ 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon ダブル配列の実装方法 Double Array 実装してみた - Mi manca qualche giovedi? 最近のDoubleArrayの性能 - 射撃しつつ前転  いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。 この休日では間に合わず、今後試してみたいと思っているのは以下の通り:
+ マルチバイト文字の対応 (対応した 2017/05/07 17:43追記) (構築、検索のベンチマーク 2017/05/07 17:43追記) 分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる  </description>
+    </item>
+    
+    <item>
+      <title>SWIGを使ってPythonラッパーを生成する</title>
+      <link>http://tma15.github.io/blog/2016/09/05/</link>
+      <pubDate>Mon, 05 Sep 2016 19:28:46 +0900</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2016/09/05/</guid>
+      <description>SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
+またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
+(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
+利用するツールおよび環境 このエントリでは以下のツールを利用する:
+ SWIG (3.0.8) gcc-c++ (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
+概要  C++の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C++の実装を作成する このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
+SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
+インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
+%module onlineml %include &amp;quot;std_pair.i&amp;quot; %include &amp;quot;std_string.i&amp;quot; %include &amp;quot;std_map.i&amp;quot; %include &amp;quot;std_vector.i&amp;quot; %{ #define SWIG_FILE_WITH_INIT #include &amp;lt;onlineml/learner/learner.hpp&amp;gt; #include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt; #include &amp;lt;onlineml/common/classifier.hpp&amp;gt; #include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt; %} %template() std::pair&amp;lt;std::string, float&amp;gt;; %template(PairVector) std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt;; %template(PairVectors) std::vector&amp;lt; std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt; &amp;gt;; %template(StringVectors) std::vector&amp;lt;std::string&amp;gt;; %include &amp;lt;onlineml/learner/learner.</description>
+    </item>
+    
   </channel>
 </rss>

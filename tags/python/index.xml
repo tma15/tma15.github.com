@@ -1,652 +1,95 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Now is better than never. </title>
+    <title>python on Now is better than never.</title>
     <link>http://tma15.github.io/tags/python/</link>
+    <description>Recent content in python on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2014-11-08 00:00:00 &#43;0000 UTC</updated>
-
+    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
     
-      
-        <item>
-          <title>PythonでElasticsearchを使うときのメモ</title>
-          <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
-          <pubDate>Sat, 08 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
-          <description>
-
-&lt;p&gt;全文検索したくなったときのためのメモ。
-Elasticsearchはインストール済みとして進める。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$./bin/elasticsearch -v
-Version: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;.8.0_25
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
-
-&lt;p&gt;日本語を扱いたいことが想定されるので、 &lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji&#34;&gt;elasticsearch-analysis-kuromoji&lt;/a&gt; をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://blog.johtani.info/blog/2014/08/01/plugin-using-under-proxy-env/&#34;&gt;プロキシ環境でのpluginコマンドの実行&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://stackoverflow.com/questions/19587974/manual-install-of-elasticsearch-plugins&#34;&gt;Manual install of Elasticsearch plugins&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$bin&lt;/span&gt;/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;デフォルトのanalyzerをkuromojiにしておく。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$tail&lt;/span&gt; config/elasticsearch.yml
-...
-index.analysis.analyzer.default.type: custom
-index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
-
-&lt;p&gt;では、まずはPythonラッパーをインストール。
-使い方は&lt;a href=&#34;http://elasticsearch-py.readthedocs.org/en/master/&#34;&gt;Python Elasticsearch Client&lt;/a&gt;が参考になりそう。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;pip install elasticsearch
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;ここ以降は&lt;a href=&#34;http://code46.hatenablog.com/entry/2014/01/21/115620&#34;&gt;Elasticsearchチュートリアル&lt;/a&gt;を参考にさせていただいた。データもそれに合わせて&lt;a href=&#34;https://github.com/livedoor/datasets&#34;&gt;livedoor/datasets&lt;/a&gt;を使用させていただいている。&lt;/p&gt;
-
-&lt;h2 id=&#34;ドキュメントを登録していく&#34;&gt;ドキュメントを登録していく&lt;/h2&gt;
-
-&lt;p&gt;mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; mapping.yaml
-mappings:
-  restaurant:
-    properties:
-      description:
-        type: string
-      name:
-        type: string
-      name_kana:
-        type: string
-      adress:
-        type: string
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;indexを生成して文書を順に追加していくスクリプトを書く。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;sys&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
-
-es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
-i &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-
-setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting)
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; lid, line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sys&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;stdin):
-    line &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;strip()
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; lid &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;:
-        attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;)
-        num_attrs &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(attrs)
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;continue&lt;/span&gt;
-    data &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {}
-    sp &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, num_attrs &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j, value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;enumerate&lt;/span&gt;(sp):
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; attrs[j] &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; properties:
-            data[attrs[j]] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; value
-    es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;index(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, &lt;span style=&#34;color: #007020&#34;&gt;id&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;i, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;data)
-    i &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;実行して登録する。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; restaurants.csv|python post.py
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;indexの作成時にanalyzerを設定する-2014-11-22追記&#34;&gt;indexの作成時にanalyzerを設定する (2014.11.22追記)&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://www.elasticsearch.org/guide/en/elasticsearch/guide/current/_controlling_analysis.html#_configuring_analyzers_in_practice&#34;&gt;configuring analyzers in practice&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;Elasticsearchの設定ファイルにデフォルトのanalyzerを設定しすると後々使いづらくなるので、インデックスの設定時にanalyzerを指定したほうが使いやすい。
-ので、そういった方法でインデックスを作成する方法もメモ。customのanalyzerをmy_analyzerとして定義しておく。今回は&lt;a href=&#34;https://github.com/elasticsearch/elasticsearch-analysis-kuromoji#tokenfilter--kuromoji_baseform&#34;&gt;例&lt;/a&gt;にある定義を採用。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;settings:
-  index:
-    analysis:
-      analyzer:
-        my_analyzer:
-          type: custom
-          tokenizer:
-            kuromoji_tokenizer
-          filter:
-            - kuromoji_baseform
-mappings:
-  restaurant:
-    _all:
-      analyzer: my_analyzer
-    properties:
-      description:
-        type: string
-        index: analyzed
-        analyzer: my_analyzer
-      name:
-        type: string
-        index: analyzed
-      name_kana:
-        type: string
-      address:
-        type: string
-        index: analyzed
-        analyzer: my_analyzer
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;setting &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; yaml&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(&lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;./mapping.yaml&amp;#39;&lt;/span&gt;))
-properties &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mappings&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;properties&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys()
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;create(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;settings&amp;quot;&lt;/span&gt;])
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;indices&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;put_mapping(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;setting[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mappings&amp;#39;&lt;/span&gt;])
-&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_mapping(index=index, doc_type=doc_type), indent=4)&lt;/span&gt;
-&lt;span style=&#34;color: #888888&#34;&gt;#print json.dumps(es.indices.get_settings(index=index), indent=4)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;ドキュメントを検索する&#34;&gt;ドキュメントを検索する&lt;/h2&gt;
-
-&lt;p&gt;検索するスクリプトを書く。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;elasticsearch&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Elasticsearch
-
-es &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Elasticsearch()
-index &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ldgroumet&amp;quot;&lt;/span&gt;
-doc_type &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;restaurant&amp;quot;&lt;/span&gt;
-
-query &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; {
-        &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: {
-            &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;simple_query_string&amp;quot;&lt;/span&gt;: {
-                &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;query&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都&amp;quot;&lt;/span&gt;,
-                &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fields&amp;quot;&lt;/span&gt;: [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;address&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;description&amp;quot;&lt;/span&gt;],
-                }
-            }
-        }
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; es&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search(index&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;index, doc_type&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;doc_type, body&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;query)[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;][&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hits&amp;quot;&lt;/span&gt;]:
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; k, v &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; i[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;_source&amp;quot;&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;items():
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; k, v&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;encode(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;utf8&amp;#39;&lt;/span&gt;)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;実行する。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$python&lt;/span&gt; search.py
-address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;新宿区西新宿1-1-3新宿ミロード 8F&amp;quot;&lt;/span&gt;
-description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;店名を【京都 あかさたな】から【京都 はなてまり】に変更されていました。&amp;quot;&lt;/span&gt;
-name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;はなてまり&amp;quot;&lt;/span&gt;
-name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都 はなてまり&amp;quot;&lt;/span&gt;
-
-address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;中央区銀座8-2-8京都新聞銀座ビルB1F&amp;quot;&lt;/span&gt;
-description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;外堀通り沿い、銀座日航ホテル向かい。    住所を更新しました。...&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;ししりあ&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;シシリア&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;address &amp;quot;&lt;/span&gt;中央区日本橋1-6-7ぬまたビル1F&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;日本橋駅C4出口より凧の博物館方面。徒歩3分&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;きょうとぎんかくじますたにらーめん&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都銀閣寺ますたにラーメン&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;address &amp;quot;&lt;/span&gt;横浜市鶴見区菅沢町5-18&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;京浜急行・鶴見市場駅から国道15号に出て鶴見方面へ。国道15号の登り車線、...
-name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;きょうとらーめんおやかた&amp;quot;&lt;/span&gt;
-name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ラーメン 親方&amp;quot;&lt;/span&gt;
-
-address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;渋谷区桜丘町2-3&amp;quot;&lt;/span&gt;
-description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都の家庭料理の味と焼酎が美味い。関西人の僕にはたまらない店で...&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;みこのす&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name MYKONOS&lt;/span&gt;
-
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;address &amp;quot;&lt;/span&gt;新宿区神楽坂3-6-53&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;description &amp;quot;&lt;/span&gt;神楽坂通りを一本左。JR飯田橋駅徒歩4分    &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;05&lt;/span&gt;/01/25 営業時間等更...
-name_kana &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;きょうとぎをんくろーばーてい&amp;quot;&lt;/span&gt;
-name &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;京都ぎをん 久露葉亭&amp;quot;&lt;/span&gt;
-
-address &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;港区赤坂6-19-53&amp;quot;&lt;/span&gt;
-description &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;分かりにくい処ですが、頑張って説明します。   赤坂通りを青山方面に進みます。&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name_kana &amp;quot;&lt;/span&gt;きょうとぎおんおいしんぼあかさかべってい&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;name &amp;quot;&lt;/span&gt;京都ぎをん おいしんぼ 赤坂別邸&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;
-
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;「東京都」を含むドキュメントがあまり出てこないのでkuromojiで形態素解析して索引語が登録されている感じがする。queryとfilterを使ってもっと複雑なことができるらしい。簡単な検索ならすぐにできるようになった。便利。&lt;/p&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>mafが便利そう</title>
-          <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
-          <pubDate>Mon, 03 Nov 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
-          <description>
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/pfi/maf&#34;&gt;maf&lt;/a&gt;というツールが便利そうだったのでメモ。
-評価のために必要なめんどくさい処理が簡略化されそうな気がする。
-実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。
-まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。&lt;/p&gt;
-
-&lt;p&gt;今回は色々とパラメータを変えて学習した分類器を評価する例で進める。&lt;/p&gt;
-
-&lt;h2 id=&#34;使ってみた&#34;&gt;使ってみた&lt;/h2&gt;
-
-&lt;p&gt;まず、wafとmafとダウンロードする。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cd&lt;/span&gt; /path/to/project/
-&lt;span style=&#34;color: #996633&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/waf
-&lt;span style=&#34;color: #996633&#34;&gt;$wget&lt;/span&gt; https://github.com/pfi/maf/raw/master/maf.py
-&lt;span style=&#34;color: #996633&#34;&gt;$chmod&lt;/span&gt; +x waf
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;以下の様な &lt;a href=&#34;https://gist.github.com/tma15/1d7bd594d5be774ca6e9&#34;&gt;wscript&lt;/a&gt; を作成。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/usr/bin/python&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;json&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;np&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maf&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;maflib.util&lt;/span&gt;
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;configure&lt;/span&gt;(conf):
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;pass&lt;/span&gt;
-
-&lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;jsonize&lt;/span&gt;(task):
-    &lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot; Calculate accuracy from a format as below:&lt;/span&gt;
-
-&lt;span style=&#34;color: #DD4422&#34;&gt;        Recall[-1]: 0.932965 (21934/23510)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;        Prec[-1]: 0.849562 (21934/25818)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;        --&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;        Recall[+1]: 0.478378 (3562/7446)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;        Prec[+1]: 0.693266 (3562/5138)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-    out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;parameter
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;inputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        num &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-        num_trues &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; line &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; f:
-            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;startswith(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Prec&amp;quot;&lt;/span&gt;):
-                sp &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split()
-                nums &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; re&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;(\d+)/(\d+)&amp;quot;&lt;/span&gt;, sp[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;])&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;groups()
-                num_trues &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;])
-                num &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;(nums[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;])
-        out[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; num_trues &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float&lt;/span&gt;(num)
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dump(out, f)
-
-&lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.rule&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;aggregate_by_alg&lt;/span&gt;(task):
-    out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;inputs:
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(i&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;r&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-            out&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;load(f))
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;with&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;open&lt;/span&gt;(task&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;abspath(), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;w&amp;#39;&lt;/span&gt;) &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;as&lt;/span&gt; f:
-        json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dump(out, f)
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;aggregate_by_param&lt;/span&gt;():
-    &lt;span style=&#34;color: #555555; font-weight: bold&#34;&gt;@maflib.util.aggregator&lt;/span&gt;
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;body&lt;/span&gt;(values, outpath, parameter):
-        out &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; value &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; values:
-            out&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(value)
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; json&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dumps(out)
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;build&lt;/span&gt;(exp):
-    traindata&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a1a&amp;#39;&lt;/span&gt;
-    train &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&amp;#39;&lt;/span&gt;
-    test &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&amp;#39;&lt;/span&gt;
-
-    NUM_FOLD &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;3&lt;/span&gt;
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;traindata,
-        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train dev&amp;quot;&lt;/span&gt;,
-        parameters&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[{&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;: i} &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;xrange&lt;/span&gt;(NUM_FOLD)],
-        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;segment_by_line(NUM_FOLD, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;))
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;train&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model&amp;quot;&lt;/span&gt;,
-        parameters&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;util&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;product({
-            &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;: [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;perceptron&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;pa2&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;adagrad&amp;quot;&lt;/span&gt;],
-            &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;: np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;power(&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10.&lt;/span&gt;, np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;arange(&lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;12&lt;/span&gt;, &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;5&lt;/span&gt;, dtype&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;float64)),
-            }),
-        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #eeeeee&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -a ${a} -m ${TGT[0].abspath()} ${SRC[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt; train)
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;model dev&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
-        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&lt;/span&gt;&lt;span style=&#34;background-color: #eeeeee&#34;&gt;%s&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt; -m ${SRC[0].abspath()} ${SRC[1].abspath()} &amp;gt; ${TGT[0].abspath()}&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt; test)
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;dev_result&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
-            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;jsonize) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータごとのaccuracyをjson形式で出力&lt;/span&gt;
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
-        for_each&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;c&amp;quot;&lt;/span&gt;],
-        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;aggregate_by_param()) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータ毎にaccuracyを集約する&lt;/span&gt;
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracies_by_param&amp;quot;&lt;/span&gt;,
-        target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
-        aggregate_by&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
-        rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;average) &lt;span style=&#34;color: #888888&#34;&gt;### パラメータ毎の平均を計算&lt;/span&gt;
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;avg_acc&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;, 
-            for_each&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;a&amp;quot;&lt;/span&gt;],
-            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;aggregate_by_alg) &lt;span style=&#34;color: #888888&#34;&gt;## アルゴリズム毎に集約&lt;/span&gt;
-
-    exp(source&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;for_each_alg&amp;quot;&lt;/span&gt;,
-            target&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;max_acc&amp;quot;&lt;/span&gt;,
-            aggregate_by &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;fold&amp;quot;&lt;/span&gt;],
-            rule&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;maflib&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rules&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;max(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;accuracy&amp;quot;&lt;/span&gt;))
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;次のように実行。&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;$ ./waf configure
-Setting top to                           : /Users/makino/code/mafexp
-Setting out to                           : /Users/makino/code/mafexp/build
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;configure&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;.004s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-$./waf
-Waf: Entering directory &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/Users/makino/code/mafexp/build&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  2/240] 0-train,0-dev: a1a -&amp;gt; build/train/0-train build/dev/0-dev&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  3/240] 1-train,1-dev: a1a -&amp;gt; build/train/1-train build/dev/1-dev&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  3/240] 2-train,2-dev: a1a -&amp;gt; build/train/2-train build/dev/2-dev&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  7/240] 19-model: build/train/1-train -&amp;gt; build/model/19-model&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  7/240] 18-model: build/train/1-train -&amp;gt; build/model/18-model&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[  7/240] 22-model: build/train/1-train -&amp;gt; build/model/22-model&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;...&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&amp;gt; build/max_acc/87-max_acc&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;Waf: Leaving directory `/Users/makino/code/mafexp/build&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;build&amp;#39;&lt;/span&gt; finished successfully &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;.450s&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;h2 id=&#34;他に&#34;&gt;他に&lt;/h2&gt;
-
-&lt;p&gt;出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$cat&lt;/span&gt; ./build/.maf_id_table.tsv
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.9999999999999998e-13&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt;       &lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;perceptron&amp;#39;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;fold&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;c&amp;#39;&lt;/span&gt;: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.9999999999999994e-12&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt;
-...
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;また、結果を集約するときなどは、&lt;a href=&#34;http://pfi.github.io/maf/usage.html#json&#34;&gt;JSON形式でデータを扱う必要がある&lt;/a&gt; ので、分類器の出力をJSON形式に加工する関数を作らなければならない。
-GitHubにある &lt;a href=&#34;https://github.com/pfi/maf/tree/master/samples&#34;&gt;サンプルコード&lt;/a&gt; が参考になる。&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;//d.hatena.ne.jp/tanakh/20100212&#34;&gt;waf チュートリアル&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://pfi.github.io/maf/usage.html&#34;&gt;mafの使い方&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://research.preferred.jp/2013/12/maf/&#34;&gt;データ解析作業の救世主！ 超絶☆実験ビルドシステムmafをOSS公開しました&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
     
+    <item>
+      <title>PythonでElasticsearchを使うときのメモ</title>
+      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Induced SortingをPythonで書いた</title>
-          <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
-          <pubDate>Wed, 07 May 2014 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
-          <description>
-
-&lt;p&gt;「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。
-Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。
-詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。&lt;/p&gt;
-
-&lt;div align=&#34;center&#34;&gt;
-&lt;iframe src=&#34;http://rcm-fe.amazon-adsystem.com/e/cm?t=takuya6315-22&amp;o=9&amp;p=8&amp;l=as1&amp;asins=4000069748&amp;ref=qf_sp_asin_til&amp;fc1=000000&amp;IS2=1&amp;lt1=_blank&amp;m=amazon&amp;lc1=0000FF&amp;bc1=000000&amp;bg1=FFFFFF&amp;f=ifr&#34; style=&#34;width:120px;height:240px;&#34; scrolling=&#34;no&#34; marginwidth=&#34;0&#34; marginheight=&#34;0&#34; frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
-&lt;/div&gt;
-
-&lt;p&gt;GitHubにコードを上げた (&lt;a href=&#34;https://github.com/tma15/tma15Str/blob/master/sais.py&#34;&gt;sais.py&lt;/a&gt;)。&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://blog.beam2d.net/2011/08/suffix-array-sa-is.html&#34;&gt;Suffix Array を作る - SA-IS の実装&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/beam2d/sara&#34;&gt;https://github.com/beam2d/sara&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://d.hatena.ne.jp/sile/20101213/1292190698&#34;&gt;SA-IS: SuffixArray線形構築&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;実装時にはやはり元の論文を読まないとよくわからなかった。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://www.google.co.jp/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;cad=rja&amp;amp;uact=8&amp;amp;ved=0CDEQFjAA&amp;amp;url=https%3A%2F%2Fge-nong.googlecode.com%2Ffiles%2FTwo%2520Efficient%2520Algorithms%2520for%2520Linear%2520Time%2520Suffix%2520Array%2520Construction.pdf&amp;amp;ei=zCpqU9WkGor-8QXIoYDQBA&amp;amp;usg=AFQjCNECfjoa7Bg_ep0326micFbio0UCgw&amp;amp;sig2=OpSYI5Z01mLRBR4Gbwwbvg&amp;amp;bvm=bv.66111022,d.dGc&#34;&gt;Two Efficient Algorithms for Linear Time Suffix Array Construction&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+      <description>全文検索したくなったときのためのメモ。 Elasticsearchはインストール済みとして進める。
+$./bin/elasticsearch -v Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25 準備 日本語を扱いたいことが想定されるので、 elasticsearch-analysis-kuromoji をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。
+ プロキシ環境でのpluginコマンドの実行 Manual install of Elasticsearch plugins  $bin/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1 デフォルトのanalyzerをkuromojiにしておく。
+$tail config/elasticsearch.yml ... index.analysis.analyzer.default.type: custom index.analysis.analyzer.default.tokenizer: kuromoji_tokenizer インストール では、まずはPythonラッパーをインストール。 使い方はPython Elasticsearch Clientが参考になりそう。
+pip install elasticsearch ここ以降はElasticsearchチュートリアルを参考にさせていただいた。データもそれに合わせてlivedoor/datasetsを使用させていただいている。
+ドキュメントを登録していく mapping.yamlにスキーマを定義しておく。ここでは簡単のためにpropertiesの数はほんの少しにしている。
+$cat mapping.yaml mappings: restaurant: properties: description: type: string name: type: string name_kana: type: string adress: type: string indexを生成して文書を順に追加していくスクリプトを書く。
+import sys from elasticsearch import Elasticsearch es = Elasticsearch() index = &amp;#34;ldgroumet&amp;#34; doc_type = &amp;#34;restaurant&amp;#34; i = 1 setting = yaml.</description>
+    </item>
     
+    <item>
+      <title>mafが便利そう</title>
+      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
-          <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
-          <description>
-
-&lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
-
-&lt;h2 id=&#34;気になったところ&#34;&gt;気になったところ&lt;/h2&gt;
-
-&lt;p&gt;データに正規分布を仮定したときのナイーブベイズ分類器について。
-平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は&lt;/p&gt;
-
-&lt;p&gt;\[
-p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}
-\]&lt;/p&gt;
-
-&lt;p&gt;これのlogをとると、
-\[
-\begin{split}
-\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\&lt;br /&gt;
-&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、&lt;/p&gt;
-
-&lt;p&gt;\[
-\begin{split}
-\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y&lt;em&gt;n))\&lt;br /&gt;
-&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y_n)p(\mathbf{x}_n|y&lt;em&gt;n))\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu_{y&lt;em&gt;nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は&lt;/p&gt;
-
-&lt;p&gt;\[
-\begin{split}
-\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\&lt;br /&gt;
-&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\&lt;br /&gt;
-&amp;amp; = \mathop{\arg\,\max}\limits&lt;em&gt;y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x&lt;em&gt;k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(classes)):
-    &lt;span style=&#34;color: #888888&#34;&gt;# 事前分布の対数&lt;/span&gt;
-    log_prior &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(class_piror[i])
-    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
-    log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sigma[i, :]))
-    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
-    log_gauss2 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; sigma[i, :])
-    &lt;span style=&#34;color: #888888&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
-    joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss2)
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;br&gt;
-となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
-        X &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; array2d(X)
-        joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;classes_)):
-            jointi &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;class_prior_[i])
-            n_ij &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #888888&#34;&gt;# np.piの前に2がない&lt;/span&gt;
-            n_ij &lt;span style=&#34;color: #333333&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;
-                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-            joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; n_ij)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;p&gt;数式の展開が間違えているのだろうか&amp;hellip;。それとも2は必要ないのだろうか&amp;hellip;。&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/&#34;&gt;Naive Bayesの復習（導出編）&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+      <description>概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
+今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
+使ってみた まず、wafとmafとダウンロードする。
+$cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod +x waf 以下の様な wscript を作成。
+#!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &amp;#34;&amp;#34;&amp;#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[+1]: 0.478378 (3562/7446) Prec[+1]: 0.693266 (3562/5138) &amp;#34;&amp;#34;&amp;#34; out = task.parameter with open(task.inputs[0].abspath(), &amp;#39;r&amp;#39;) as f: num = 0 num_trues = 0 for line in f: if line.</description>
+    </item>
     
+    <item>
+      <title>Induced SortingをPythonで書いた</title>
+      <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+      <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>食べログAPIのPythonラッパーを書いた</title>
-          <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
-          <pubDate>Sun, 12 May 2013 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
-          <description>
-
-&lt;p&gt;ソースコードは&lt;a href=&#34;https://github.com/tma15/python-tabelog&#34;&gt;こちら&lt;/a&gt;。&lt;/p&gt;
-
-&lt;h2 id=&#34;食べログapi利用登録&#34;&gt;食べログAPI利用登録&lt;/h2&gt;
-
-&lt;p&gt;まず&lt;a href=&#34;http://tabelog.com/help/api/&#34;&gt;食べログAPI サービス案内&lt;/a&gt;から利用登録をして
-access key (40桁の文字列)を入手する。&lt;/p&gt;
-
-&lt;h2 id=&#34;インストール&#34;&gt;インストール&lt;/h2&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/tma15/python-tabelog.git
-&lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; python-tabelog
-python setup.py install
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2 id=&#34;使い方&#34;&gt;使い方&lt;/h2&gt;
-
-&lt;h3 id=&#34;最初に&#34;&gt;最初に&lt;/h3&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;tabelog&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Tabelog
-
-key &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;Your access key here.&amp;#39;&lt;/span&gt;
-tabelog &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Tabelog(key)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h3 id=&#34;レストラン検索&#34;&gt;レストラン検索&lt;/h3&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;prefecture &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;東京&amp;#39;&lt;/span&gt;
-station &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;渋谷&amp;#39;&lt;/span&gt;
-restaurants &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search_restaurant(prefecture&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;prefecture, station&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;station)
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; restaurant &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; restaurants:
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;rcd:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;rcd
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;name:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;name
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tabelogurl
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mobile url:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tabelogmobileurl
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dinnerprice
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;lunchprice
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;totalscore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tastescore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;servicescore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;moodscore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;category:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;category
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;station:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;station
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;situation:&amp;#39;&lt;/span&gt;, restaurant&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;situation
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h4 id=&#34;search-restaurant-が受け取れるその他の主な変数&#34;&gt;search_restaurant()が受け取れるその他の主な変数&lt;/h4&gt;
-
-&lt;ul&gt;
-&lt;li&gt;latitude: 経度 （例）35.684&lt;/li&gt;
-&lt;li&gt;longitude: 緯度 （例）139.756&lt;/li&gt;
-&lt;li&gt;search_range: small (約300m以内), medium (約600m以内), large (約1.5km以内)の3つのどれか。デフォルトはmedium。&lt;/li&gt;
-&lt;li&gt;sort_order: highprice (夜の価格が高い順), lowprice (夜の価格が低い順), reviewcount (口コミ数が多い順)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;レビュー収集&#34;&gt;レビュー収集&lt;/h3&gt;
-
-&lt;p&gt;お店のレビューが欲しい時はそのお店のレコード番号を指定する。
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;reviews &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; tabelog&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;search_review(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;13004626&lt;/span&gt;) &lt;span style=&#34;color: #888888&#34;&gt;# restaurant.rcd&lt;/span&gt;
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; review &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; reviews:
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;nickname:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;nickname
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;title:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;title
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;dinner price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;dinnerprice
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;lunch price:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;lunchprice
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;total score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;totalscore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;service score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;servicescore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;taste score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;tastescore
-    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mood score:&amp;#39;&lt;/span&gt;, review&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;moodscore
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+      <description> 「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
+  GitHubにコードを上げた (sais.py)。
+参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
+ Two Efficient Algorithms for Linear Time Suffix Array Construction  </description>
+    </item>
     
+    <item>
+      <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Hello World</title>
-          <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
-          <pubDate>Sat, 10 Nov 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
-          <description>&lt;p&gt;なんとなくつくってみた。
-&lt;a href=&#34;https://github.com/hyde/hyde&#34;&gt;Hyde&lt;/a&gt;を使って動かしている。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <description>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。
+気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
+\[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
+これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
+&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
+&amp;amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]</description>
+    </item>
     
-
+    <item>
+      <title>食べログAPIのPythonラッパーを書いた</title>
+      <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
+      <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
+      <description>ソースコードはこちら。
+食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
+インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &amp;#39;Your access key here.&amp;#39; tabelog = Tabelog(key) レストラン検索 prefecture = &amp;#39;東京&amp;#39; station = &amp;#39;渋谷&amp;#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &amp;#39;rcd:&amp;#39;, restaurant.rcd print &amp;#39;name:&amp;#39;, restaurant.name print &amp;#39;url:&amp;#39;, restaurant.tabelogurl print &amp;#39;mobile url:&amp;#39;, restaurant.tabelogmobileurl print &amp;#39;dinner price:&amp;#39;, restaurant.dinnerprice print &amp;#39;lunch price:&amp;#39;, restaurant.lunchprice print &amp;#39;total score:&amp;#39;, restaurant.</description>
+    </item>
+    
+    <item>
+      <title>Hello World</title>
+      <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+      <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+      <description>なんとなくつくってみた。 Hydeを使って動かしている。</description>
+    </item>
+    
   </channel>
 </rss>

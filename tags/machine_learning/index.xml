@@ -1,963 +1,149 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Now is better than never. </title>
+    <title>machine_learning on Now is better than never.</title>
     <link>http://tma15.github.io/tags/machine_learning/</link>
+    <description>Recent content in machine_learning on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <author></author>
-    <rights>(C) 2017</rights>
-    <updated>2017-07-29 15:30:01 &#43;0900 JST</updated>
-
+    <lastBuildDate>Sat, 29 Jul 2017 15:30:01 +0900</lastBuildDate>
     
-      
-        <item>
-          <title>Kaggle初参加記録</title>
-          <link>http://tma15.github.io/blog/2017/07/29/</link>
-          <pubDate>Sat, 29 Jul 2017 15:30:01 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2017/07/29/</guid>
-          <description>
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;p&gt;この一週間休暇を取っていて、多少の暇な時間があったので前から気になっていた&lt;a href=&#34;https://www.kaggle.com/&#34;&gt;Kaggle&lt;/a&gt;に手を付けてみた。
-今回はチュートリアル的に公開されているtitanic号の生存予測タスクに参加した。
-他の参加者がブログで公開されている&lt;a href=&#34;http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html&#34;&gt;素性&lt;/a&gt;を参考に素性を設計した。
-予測モデルには以前C++で実装した平均化パーセプトロンを用いた。
-Scoreが0.79426 (2017/7/29 16:00時点で1428位/7247位) となった。
-Kaggleを続けると、機械学習に関するエンジニア能力が高まりそうで良い。&lt;/p&gt;
-
-&lt;h2 id=&#34;モデル&#34;&gt;モデル&lt;/h2&gt;
-
-&lt;p&gt;生存予測モデルおよび年齢予測モデルには以前C++で&lt;a href=&#34;https://github.com/tma15/onlineml&#34;&gt;実装&lt;/a&gt;した平均化パーセプトロンを用いた。
-平均化パーセプトロンを採用した積極的な理由があるわけではないのだが、今回はOSSに頼らずに、自分で実装した学習器を使いたかったので、消去法的に採用された。
-実践的には広く知られたOSSのほうが、優秀なアルゴリズムが実装されていると思うし、バグの可能性も少ないと思うので、今回のようなアプローチはあまり得策ではないと思う。
-おそらくランダムフォレストやSVMなどのモデルを利用する参加者が多い中で、パーセプトロンを利用した数少ない人間になるだろう。&lt;/p&gt;
-
-&lt;p&gt;後述するが、本タスクで扱うデータには欠損値が存在する。
-そこで、欠損値を予測するためのモデルを別途作成し、値を補完するためのモデルを作成した (これもやはり、平均化パーセプトロン) 。
-生存予測モデルへの入力 (素性) を予測するモデルを作成しているので、全体構成としてはいわゆるstackingになっている。&lt;/p&gt;
-
-&lt;h2 id=&#34;素性&#34;&gt;素性&lt;/h2&gt;
-
-&lt;p&gt;メタデータ分析的に他の方がブログで公開されている&lt;a href=&#34;http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html&#34;&gt;素性&lt;/a&gt;を参考に設計している。&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;1-of-k表現
-
-&lt;ol&gt;
-&lt;li&gt;性別&lt;/li&gt;
-&lt;li&gt;年齢 (0~9, 10~19, 20~29, 30~39, 40~49, 50~というカテゴリに修正している)&lt;/li&gt;
-&lt;li&gt;チケット番号&lt;/li&gt;
-&lt;li&gt;キャビン&lt;/li&gt;
-&lt;li&gt;乗車地&lt;/li&gt;
-&lt;li&gt;チケットのクラス&lt;/li&gt;
-&lt;li&gt;親の人数&lt;/li&gt;
-&lt;li&gt;兄弟の人数&lt;/li&gt;
-&lt;li&gt;肩書 (名前から抽出した次の情報: Mr., Ms., Miss., Master.)&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;li&gt;運賃 (値の正規化はしていない)&lt;/li&gt;
-&lt;li&gt;組み合わせ素性
-
-&lt;ol&gt;
-&lt;li&gt;1.1および{1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8}&lt;/li&gt;
-&lt;li&gt;1.6および{1.4, 1.5, 1.7, 1.8}&lt;/li&gt;
-&lt;/ol&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;(1.2) このタスクで扱うデータでは、欠損値が存在する。例えば年齢は、生存者の予測に有効に働きそう (幼い子どもは優先的に救助されうる) なのだが、欠損値が少なからず存在する。
-そこで、年齢が不明な事例に関しては、年齢を予測するためのモデルを事前に作成しておき、そのモデルによって年齢を予測し、補完した。
-年齢予測モデルで利用した素性は1.1, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9で、予測ラベルは1.2の5クラスとした。精度はあまり高くなく、学習データ中で年齢が存在する事例を用いた交差検定で36%程度となった。&lt;/p&gt;
-
-&lt;p&gt;(3) 例えば女性でかつランクの高いチケットで乗船していた人は、そうでない人よりも救助されうるのではないかと考えられるため、素性の組み合わせを陽に与えている。予測モデルは線形分類器なので、素性の組み合わせを明示的に考慮する。&lt;/p&gt;
-
-&lt;h2 id=&#34;結果の投稿まで&#34;&gt;結果の投稿まで&lt;/h2&gt;
-
-&lt;p&gt;交差検定により、学習データに対してAccuracyが高くなっていたら、結果を投稿して順位を確かめる、というサイクルを何回か繰り返した。
-2017/7/29 16:00時点で1428位/7247位となった。Scoreが0.8を超えるとそこそこ良い&lt;a href=&#34;http://kefism.hatenablog.com/entry/2017/04/22/203740&#34;&gt;らしい&lt;/a&gt;ので、もう少し色々といじるかもしれない。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://tma15.github.io/img/2017/07/29/kaggle.png&#34; alt=&#34;kaggle&#34; style=&#34;width: 800px;&#34;/&gt;&lt;/p&gt;
-
-&lt;p&gt;実験に用いたプログラムは&lt;a href=&#34;https://github.com/tma15/titanic-on-kaggle&#34;&gt;GitHub&lt;/a&gt;に公開した。&lt;/p&gt;
-
-&lt;h2 id=&#34;モデル-1&#34;&gt;モデル&lt;/h2&gt;
-
-&lt;p&gt;交差検定で学習したあるモデルの中身 (重みが大きい上位20件の素性リスト) は次のようになっている。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://tma15.github.io/img/2017/07/29/weight.png&#34; alt=&#34;kaggle&#34; style=&#34;width: 800px;&#34;/&gt;&lt;/p&gt;
-
-&lt;p&gt;性別が女性でかつチケットのクラスが1 (高級？) とか、肩書がMaster (12歳くらいまでの若い少年 &lt;a href=&#34;https://en.wikipedia.org/wiki/Master_(form_of_address)&#34;&gt;Master (form of address)&lt;/a&gt;) であったりすると、生存の可能性が他の人よりも高いという感じの学習結果になっている。&lt;/p&gt;
-
-&lt;h2 id=&#34;反省点&#34;&gt;反省点&lt;/h2&gt;
-
-&lt;p&gt;ある修正によって、Accuracyがどれくらい変わるかみたいなログを取っていなかったので、方策がよかったのか、悪かったのかが頭のなかに曖昧にしか残らなくなってしまった。本当は修正によってAccuracyがどうなった、という情報をGitなどで管理するほうがよい。&lt;/p&gt;
-
-&lt;h2 id=&#34;感想&#34;&gt;感想&lt;/h2&gt;
-
-&lt;p&gt;とにかく有効そうな素性あるいはモデルをどんどん試す、というサイクルをひたすら回す感じで、実用的なエンジニアリング能力 (素性、モデルの設計能力や問題設定能力、あるいは効率的な実験の方法) が身につきそうだった。また、他の参加者と全く同じ問題を溶いているので、他の人が考えたことを共有してくれると、知見がたまって良いと思った。&lt;/p&gt;
-</description>
-        </item>
-      
+	<atom:link href="http://tma15.github.io/tags/machine_learning/index.xml" rel="self" type="application/rss+xml" />
     
-      
-        <item>
-          <title>Early updateは収束が保証される</title>
-          <link>http://tma15.github.io/blog/2016/09/04/</link>
-          <pubDate>Sun, 04 Sep 2016 11:00:13 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/09/04/</guid>
-          <description>
-
-&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
-
-&lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
-
-&lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;
-
-&lt;h2 id=&#34;violation&#34;&gt;violation&lt;/h2&gt;
-
-&lt;p&gt;violationは構造化パーセプトロンの収束を考えるために必要な定義である。
-violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
-モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い
-組をviolationという。
-言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
-のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。&lt;/p&gt;
-
-&lt;h2 id=&#34;構造化パーセプトロン&#34;&gt;構造化パーセプトロン&lt;/h2&gt;
-
-&lt;p&gt;ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
-さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。&lt;/p&gt;
-
-&lt;h3 id=&#34;概要&#34;&gt;概要&lt;/h3&gt;
-
-&lt;p&gt;構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
-$$
-z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s).
-$$&lt;/p&gt;
-
-&lt;p&gt;$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&amp;rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&amp;rsquo;)\leq \mathbf{w}\phi(x,z)$である。
-更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。&lt;/p&gt;
-
-&lt;h3 id=&#34;収束性&#34;&gt;収束性&lt;/h3&gt;
-
-&lt;p&gt;学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
-$$
-R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|,
-$$&lt;/p&gt;
-
-&lt;p&gt;$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$
-であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される:
-$$
-\delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z),
-$$&lt;/p&gt;
-
-&lt;p&gt;学習データが線形分離可能であれば、パーセプトロンは有限回の更新で収束する:&lt;/p&gt;
-
-&lt;p&gt;$$
-\textrm{err}\leq R^2/\delta^2
-$$&lt;/p&gt;
-
-&lt;h3 id=&#34;証明&#34;&gt;証明&lt;/h3&gt;
-
-&lt;p&gt;証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。&lt;/p&gt;
-
-&lt;p&gt;重みの更新則は$\mathbf{w}^{(k+1)}=\mathbf{w}^(k)+\Delta \mathbf{\phi}(x,y,z)$
-であるため、&lt;/p&gt;
-
-&lt;p&gt;$$
-\begin{eqnarray}
-\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;amp;=&amp;amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \&lt;br /&gt;
-&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \&lt;br /&gt;
-&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \&lt;br /&gt;
-&amp;amp;&amp;hellip;&amp;amp; \&lt;br /&gt;
-&amp;amp;\geq&amp;amp; \mathbf{u} \cdot \mathbf{w}^{(0)}+k\delta.
-\end{eqnarray}
-$$&lt;/p&gt;
-
-&lt;p&gt;$\mathbf{w}^{(0)}=\mathbf{0}$より、&lt;/p&gt;
-
-&lt;p&gt;$$
-\mathbf{u}\cdot \mathbf{w}^{(k+1)} = k\delta.
-$$&lt;/p&gt;
-
-&lt;p&gt;また、コーシー・シュワルツの不等式 (任意の二つのベクトル$\mathbf{a}, \mathbf{b}$について$|\mathbf{a}||\mathbf{b}|\geq \mathbf{a}\cdot\mathbf{b}$) より&lt;/p&gt;
-
-&lt;p&gt;$$
-|\mathbf{u}||\mathbf{w}^{(k+1)}|\geq \mathbf{u} \cdot \mathbf{w}^{(k+1)}\geq k\delta
-$$&lt;/p&gt;
-
-&lt;p&gt;また$|\mathbf{u}|=1$より、&lt;/p&gt;
-
-&lt;p&gt;$$
-|\mathbf{w}^{(k+1)}| \geq k\delta
-$$&lt;/p&gt;
-
-&lt;p&gt;が成り立つ。
-ここで、$|\mathbf{a}+\mathbf{b}|^2=|\mathbf{a}|^2 + |\mathbf{b}|^2 + 2\mathbf{a}\cdot \mathbf{b}$であること、
-および重みを更新する条件が正解のラベル列のスコアが不正解のラベル列のスコアよりも低い場合 ($\mathbf{w}^{(k)}\cdot \Delta \mathbf{\phi}(x,y,z) \leq 0$)
-であることより、&lt;/p&gt;
-
-&lt;p&gt;$$
-\begin{eqnarray}
-|\mathbf{w}^{(k+1)}|^2 &amp;amp;=&amp;amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \&lt;br /&gt;
-&amp;amp;=&amp;amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \&lt;br /&gt;
-&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \&lt;br /&gt;
-&amp;amp;\leq&amp;amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \&lt;br /&gt;
-&amp;amp;&amp;hellip;&amp;amp; \&lt;br /&gt;
-&amp;amp;\leq&amp;amp; kR^2.
-\end{eqnarray}
-$$&lt;/p&gt;
-
-&lt;p&gt;$|\mathbf{w}^{(k+1)}| \geq k\delta$および$|\mathbf{w}^{(k+1)}|^2 \leq kR^2$より、有限回の更新で収束する:&lt;/p&gt;
-
-&lt;p&gt;$$
-k \leq R^2/\delta^2.
-$$&lt;/p&gt;
-
-&lt;p&gt;パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。&lt;/p&gt;
-
-&lt;h3 id=&#34;近似的な探索では収束が保証されない&#34;&gt;近似的な探索では収束が保証されない&lt;/h3&gt;
-
-&lt;p&gt;近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
-探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
-正解のラベル列のスコアが不正解のラベル列のスコアよりも大きい場合がある。この場合、$(x,y,z)$
-はviolationではない。よって、構造化パーセプトロンの収束性は保証されない (&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt; Figure 1の例を参照)。&lt;/p&gt;
-
-&lt;p&gt;自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
-このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。&lt;/p&gt;
-
-&lt;h2 id=&#34;ビームサーチとearly-update&#34;&gt;ビームサーチとearly update&lt;/h2&gt;
-
-&lt;p&gt;early updateを用いた構造化パーセプトロンの学習は以下のようになる:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;for (x, y) in D:
-  (x, y&#39;, z) = FIND_VIOLATION(x, y, w)
-  if y&#39; != z:
-    w += phi(x, y&#39;) - phi(x, z)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;FIND_VIOLATIONではビームサーチをおこない、ビームサーチが保持する仮説のリストから正解が漏れた段階で正解のラベル列と最大のスコアの予測ラベル列を返す:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;# B[][]: 位置iにおいてスコアが高い上位k個の仮説を保持するリスト
-function FIND_VIOLATION(x, y, w)
-  B[0] = []
-  for i in |x|
-    B[i] = BEST(x, B[i-1], k) ### スコアが高い上位k個の仮説を得る
-    if not y[:i] in B[i]: ### i番目までの正解のラベル列がビームサーチの探索範囲から漏れてしまった場合
-      return (x, y[:i], B[i][0]) ### ビームサーチの中で最大のスコアの仮説を返す
-  return (x, y, B[|x|][0])
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;B&lt;/code&gt;はスコアが高い上位の仮説を保持するリストであるから、正解が&lt;code&gt;B&lt;/code&gt;に入っていない場合、正解のスコアは
-&lt;code&gt;B&lt;/code&gt;に入っている仮説よりもスコアが低い。
-early updateでは正解の部分ラベル列y&amp;rsquo;のスコアと、ビームサーチが保持する仮説の中でスコアが最大のラベル列z (&lt;code&gt;B[i][0]&lt;/code&gt;もしくは&lt;code&gt;B[|x|][0]&lt;/code&gt;) のスコアに対して、
-$\mathbf{w}\cdot \phi(x,y&amp;rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\Delta \phi(x,y&amp;rsquo;,z)\leq 0$となる。
-よって、early updateで重みの学習に用いるデータはすべてviolationである。
-そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。&lt;/p&gt;
-
-&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
-
-&lt;p&gt;early updateは収束が保証される。&lt;/p&gt;
-</description>
-        </item>
-      
     
+    <item>
+      <title>Kaggle初参加記録</title>
+      <link>http://tma15.github.io/blog/2017/07/29/</link>
+      <pubDate>Sat, 29 Jul 2017 15:30:01 +0900</pubDate>
       
-        <item>
-          <title>AdaBoostからLarge Margin Distribution Machineの流れ</title>
-          <link>http://tma15.github.io/blog/2016/08/28/</link>
-          <pubDate>Sun, 28 Aug 2016 18:59:58 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/08/28/</guid>
-          <description>
-
-&lt;p&gt;AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。&lt;/p&gt;
-
-&lt;p&gt;具体的には&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/&#34;&gt;Zhi-Hua Zhou&lt;/a&gt;先生のスライド (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;From AdaBoost to LDM&lt;/a&gt;) を眺めて、自分の理解のためにメモとして残したものになっている。&lt;/p&gt;
-
-&lt;h2 id=&#34;adaboost&#34;&gt;AdaBoost&lt;/h2&gt;
-
-&lt;p&gt;学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;Initialize: 分布D_0をセットする
-以下の処理をT回繰り返す:
-1. 分布D_tを用いて弱学習器h_tを学習する
-2. h_tの信頼度a_tを計算する
-3. 次のラウンドの分布D_{t+1}を計算する
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:&lt;/p&gt;
-
-&lt;p&gt;$$
-y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))).
-$$&lt;/p&gt;
-
-&lt;h3 id=&#34;なぜadaboostは良いのか&#34;&gt;なぜAdaBoostは良いのか&lt;/h3&gt;
-
-&lt;ol&gt;
-&lt;li&gt;実装が簡単な割に高い予測性能である事が多い&lt;/li&gt;
-&lt;li&gt;亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる)&lt;/li&gt;
-&lt;li&gt;経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&#34;汎化誤差&#34;&gt;汎化誤差&lt;/h3&gt;
-
-&lt;p&gt;汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp;amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。&lt;/p&gt;
-
-&lt;p&gt;しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。&lt;/p&gt;
-
-&lt;h2 id=&#34;adaboostの主な研究&#34;&gt;AdaBoostの主な研究&lt;/h2&gt;
-
-&lt;p&gt;ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Statistical view&lt;/li&gt;
-&lt;li&gt;Margin theory&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;statistical-view&#34;&gt;Statistical view&lt;/h3&gt;
-
-&lt;p&gt;弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。&lt;/p&gt;
-
-&lt;p&gt;なぜ過学習しにくいのかは説明できない。
-サイズが大きな決定木 (複雑なモデル) ほど過学習しやすい、という話があるが、サイズが大きな決定木を弱学習器としたほうが良い結果になっている。&lt;/p&gt;
-
-&lt;h3 id=&#34;margin-theory&#34;&gt;Margin theory&lt;/h3&gt;
-
-&lt;p&gt;マージンは超平面からの距離であり、大きいほど分類器が自信を持っているとみなせる。&lt;/p&gt;
-
-&lt;p&gt;(Schapire+, 98)はAdaBoostの汎化誤差は（他の変数を固定すると）学習データのマージンが大きいほど小さくなる、ということを証明した。そのためMargin theoryは過学習が起きにくい理由を次のように説明できる:「経験誤差が0になった後も、マージンは大きくなるから」&lt;/p&gt;
-
-&lt;p&gt;最小のマージンが大きいほど、誤り率は小さくなる。よって、最小のマージンを考えることによって、BreimanはSchapireらよりも低い、汎化誤差の上限を証明した。&lt;/p&gt;
-
-&lt;h2 id=&#34;margin-theoryの疑問&#34;&gt;Margin theoryの疑問&lt;/h2&gt;
-
-&lt;p&gt;(Breiman, 99)はarc-gvを提案した。arc-gvは最小のマージンを直接最大化する手法である。つまり、arc-gvはAdaBoostよりも良い性能であることが期待される。しかしながら、AdaBoostとの比較実験から次のことが分かった:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;arc-gvはAdaBoostより一様に大きい最小マージンを作る&lt;/li&gt;
-&lt;li&gt;ほぼすべての場合において汎化誤差はAdaBoostよりも増加する&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;そのためBreimanはこのMargin theoryは疑わしいという結論に至り、このmargin theoryは廃れることになる。&lt;/p&gt;
-
-&lt;h3 id=&#34;それから7年後&#34;&gt;それから7年後&lt;/h3&gt;
-
-&lt;p&gt;(Reyzin &amp;amp; Schapire, 06)はBreimanは実験においてモデルの複雑性をうまくコントロールしていなかったことを見つけた:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Breimanは葉の数を固定して決定木 (モデル) の複雑性をコントロールした&lt;/li&gt;
-&lt;li&gt;Reyzin &amp;amp; Schapireはarc-gvの木がAdaBoostの木よりも深い事が多いことを指摘した&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Reyzin &amp;amp; SchapireはBreimanの実験を、decision stump (一つの素性の有無で分類をおこなう分類器) を使っておこなった。この実験ではarc-gvはより大きな最小マージンを伴うが、より悪いマージンの分布を伴っていた。&lt;/p&gt;
-
-&lt;h3 id=&#34;margin-theoryは生き残るのか&#34;&gt;Margin theoryは生き残るのか？&lt;/h3&gt;
-
-&lt;p&gt;Reyzin &amp;amp; Schapireは最小マージンは重要ではなく、マージンの平均や中央値が重要であると主張した。マージンの分布がより重要であると主張するには、マージンの分布に基づく上限が、最小マージンに基づく上限と同等に低い必要がある。&lt;/p&gt;
-
-&lt;p&gt;Reyzin &amp;amp; Schapire以降はmarginの平均と、マージンの分散によって汎化誤差の上限を保証した研究がなされていった。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;(Wang+, 08)&lt;/li&gt;
-&lt;li&gt;(Gao &amp;amp; Zhou, 13)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;新しい知見&#34;&gt;新しい知見&lt;/h3&gt;
-
-&lt;p&gt;(Gao &amp;amp; Zhou, 13): マージンの平均だけではなく、マージンの分散にも注意を払うべきである。&lt;/p&gt;
-
-&lt;h2 id=&#34;large-margin-distribution-machine&#34;&gt;Large Margin Distribution Machine&lt;/h2&gt;
-
-&lt;h3 id=&#34;large-marginとlarge-margin-distributionの大きな違い&#34;&gt;Large marginとLarge margin distributionの大きな違い&lt;/h3&gt;
-
-&lt;p&gt;Large marginは最小マージンを最大化する。Large margin distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;スライド&lt;/a&gt;p.45の例が分かりやすい。
-利点として、サポートベクターのみに依存せずに超平面を引ける。また外れ値やノイズに対して敏感になりにくいなどが挙げられる。&lt;/p&gt;
-
-&lt;h3 id=&#34;定式化と最適化&#34;&gt;定式化と最適化&lt;/h3&gt;
-
-&lt;p&gt;定式化および最適化については元論文 (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/kdd14ldm.pdf&#34;&gt;Large Margin Distribution Machine&lt;/a&gt;, KDD 2014)を読んだほうが良いので割愛する。ざっくり言うと、以下の様な定式化をおこなう:&lt;/p&gt;
-
-&lt;p&gt;$$
-\begin{eqnarray}
-\min_{\mathbf{w}} &amp;amp;&amp;amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \&lt;br /&gt;
-\textrm{s.t.} &amp;amp;&amp;amp; y_i \mathbf{w} \mathbf{x}_i \geq 1, 1 \leq i \leq m.
-\end{eqnarray}
-$$&lt;/p&gt;
-
-&lt;p&gt;ただし、$\bar{\gamma}$はマージンの平均、$\hat{\gamma}$はマージンの分散を表し、$\lambda_1$および$\lambda_2$はそれらの項をどれくらい重視するかを決める定数を表す。&lt;/p&gt;
-
-&lt;p&gt;つまり、学習データ$\{(\mathbf{x}_i, y_i)\}_{i=1}^m$
-をマージンが1以上で正しく分類するという条件のもと、マージンの平均を大きく、かつマージンの分散が小さくなるような$\mathbf{w}$を見つける、という問題となっている。&lt;/p&gt;
-
-&lt;p&gt;この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margin Distribution Machineと呼んでいる。&lt;/p&gt;
-
-&lt;h3 id=&#34;結果&#34;&gt;結果&lt;/h3&gt;
-
-&lt;p&gt;複数のデータセットで実験をおこない、Kernel Large Distribution Machineは、カーネル化したSVMよりも良い予測性能を出している。さらに学習時間もLIBLINEARより短く、ハイパーパラメータにも過敏ではない、などの結果も得られている。&lt;/p&gt;
-
-&lt;h2 id=&#34;まとめ&#34;&gt;まとめ&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;AdaBoostの汎化能力はマージンを大きくすることによって高くなる&lt;/li&gt;
-&lt;li&gt;arc-gvの失敗を分析して、最小マージンを大きくするのではなく、マージンの分散を小さくする方が良いことが分かった&lt;/li&gt;
-&lt;li&gt;Large Margin Distribution Machineはマージンの平均を大きく、かつマージンの分散を小さくするための手法であり、複数のデータセットにおいて、SVMよりも良い性能を示している&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2017/07/29/</guid>
+      <description>概要 この一週間休暇を取っていて、多少の暇な時間があったので前から気になっていたKaggleに手を付けてみた。 今回はチュートリアル的に公開されているtitanic号の生存予測タスクに参加した。 他の参加者がブログで公開されている素性を参考に素性を設計した。 予測モデルには以前C++で実装した平均化パーセプトロンを用いた。 Scoreが0.79426 (2017/7/29 16:00時点で1428位/7247位) となった。 Kaggleを続けると、機械学習に関するエンジニア能力が高まりそうで良い。
+モデル 生存予測モデルおよび年齢予測モデルには以前C++で実装した平均化パーセプトロンを用いた。 平均化パーセプトロンを採用した積極的な理由があるわけではないのだが、今回はOSSに頼らずに、自分で実装した学習器を使いたかったので、消去法的に採用された。 実践的には広く知られたOSSのほうが、優秀なアルゴリズムが実装されていると思うし、バグの可能性も少ないと思うので、今回のようなアプローチはあまり得策ではないと思う。 おそらくランダムフォレストやSVMなどのモデルを利用する参加者が多い中で、パーセプトロンを利用した数少ない人間になるだろう。
+後述するが、本タスクで扱うデータには欠損値が存在する。 そこで、欠損値を予測するためのモデルを別途作成し、値を補完するためのモデルを作成した (これもやはり、平均化パーセプトロン) 。 生存予測モデルへの入力 (素性) を予測するモデルを作成しているので、全体構成としてはいわゆるstackingになっている。
+素性 メタデータ分析的に他の方がブログで公開されている素性を参考に設計している。
+ 1-of-k表現  性別 年齢 (0~9, 10~19, 20~29, 30~39, 40~49, 50~というカテゴリに修正している) チケット番号 キャビン 乗車地 チケットのクラス 親の人数 兄弟の人数 肩書 (名前から抽出した次の情報: Mr., Ms., Miss., Master.)  運賃 (値の正規化はしていない) 組み合わせ素性  1.1および{1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8} 1.6および{1.4, 1.5, 1.7, 1.8}   (1.2) このタスクで扱うデータでは、欠損値が存在する。例えば年齢は、生存者の予測に有効に働きそう (幼い子どもは優先的に救助されうる) なのだが、欠損値が少なからず存在する。 そこで、年齢が不明な事例に関しては、年齢を予測するためのモデルを事前に作成しておき、そのモデルによって年齢を予測し、補完した。 年齢予測モデルで利用した素性は1.</description>
+    </item>
     
+    <item>
+      <title>Early updateは収束が保証される</title>
+      <link>http://tma15.github.io/blog/2016/09/04/</link>
+      <pubDate>Sun, 04 Sep 2016 11:00:13 +0900</pubDate>
       
-        <item>
-          <title>平均化パーセプトロンの効率的な計算</title>
-          <link>http://tma15.github.io/blog/2016/07/31/</link>
-          <pubDate>Sun, 31 Jul 2016 10:13:38 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2016/07/31/</guid>
-          <description>
-
-&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する&lt;/li&gt;
-&lt;li&gt;平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する&lt;/li&gt;
-&lt;li&gt;平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い&lt;/li&gt;
-&lt;li&gt;素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;準備&#34;&gt;準備&lt;/h2&gt;
-
-&lt;p&gt;パーセプトロンを学習するにあたって利用する表記は以下のとおり。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;N&lt;/code&gt;: 素性の数&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;x&lt;/code&gt;: 学習事例。実数値の&lt;code&gt;N&lt;/code&gt;次元ベクトル&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;y&lt;/code&gt;: 学習事例に対するラベル。 {-1, 1}&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;D&lt;/code&gt;: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &amp;lt;= i &amp;lt;= K)&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;w&lt;/code&gt;: 重みベクトル。実数値の&lt;code&gt;N&lt;/code&gt;次元ベクトル&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;dot(a, b)&lt;/code&gt;: 二つのベクトルの内積を返す&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sign(x)&lt;/code&gt;: 1 if x &amp;gt;= 0 else -1&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;パーセプトロン&#34;&gt;パーセプトロン&lt;/h2&gt;
-
-&lt;p&gt;パーセプトロンの学習の擬似コードは次の通り。
-学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;w = [0, ..., 0] ### N次元
-for (x_i, y_i) in D
-  y = sign(dot(x_i, w))
-  if y != y_i
-    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
-    w += u
-return w
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&#34;平均化パーセプトロン&#34;&gt;平均化パーセプトロン&lt;/h2&gt;
-
-&lt;p&gt;平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
-パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして&lt;code&gt;w_all&lt;/code&gt;、&lt;code&gt;w_avg&lt;/code&gt;が増えていること。この&lt;code&gt;w_avg&lt;/code&gt;が&amp;rdquo;過去の反復で学習した重みベクトルの平均&amp;rdquo;となっている。&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;w = [0, ..., 0] ### N次元
-w_all = [0, ..., 0] ### N次元
-t = 1 ### 更新回数
-for (x_i, y_i) in D
-  y = sign(dot(x_i, w))
-  if y != y_i
-    u = y_i * x_i ### x_iの要素に対してy_iを掛ける
-    w += u
-    w_all += t * u ### uの要素に対してtを掛ける
-    t += 1
-w_avg = w - w_all / t ### w_allの要素に対してTで割る
-return w_avg
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;では、なぜこのようにして&lt;code&gt;w_avg&lt;/code&gt;が計算されるのかを考えてみる。
-ここで、&lt;code&gt;u_t&lt;/code&gt;を&lt;code&gt;t&lt;/code&gt;回目の更新における重みの更新幅とすると、各更新の重みベクトルは次のような関係にある。&lt;/p&gt;
-
-&lt;p&gt;$$
-\begin{eqnarray}
-\mathbf{w}_1 &amp;amp;=&amp;amp; \mathbf{0} \&lt;br /&gt;
-\mathbf{w}_2 &amp;amp;=&amp;amp; \mathbf{w}_1 + \mathbf{u}_1\&lt;br /&gt;
-\mathbf{w}_3 &amp;amp;=&amp;amp; \mathbf{w}_2 + \mathbf{u}_2\&lt;br /&gt;
-\mathbf{w}_4 &amp;amp;=&amp;amp; \mathbf{w}_3 + \mathbf{u}_3\&lt;br /&gt;
-\end{eqnarray}
-$$&lt;/p&gt;
-
-&lt;p&gt;このことから、例えば&lt;code&gt;t=4&lt;/code&gt;のときの&lt;code&gt;w_avg&lt;/code&gt;は次のように計算することができる。&lt;/p&gt;
-
-&lt;p&gt;$$
-\begin{eqnarray}
-\mathbf{ w}_{avg} &amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \&lt;br /&gt;
-&amp;amp;=&amp;amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
-\end{eqnarray}
-$$&lt;/p&gt;
-
-&lt;p&gt;単純に毎回&lt;code&gt;w&lt;/code&gt;を&lt;code&gt;w_all&lt;/code&gt;に足しこんでいって、最後に更新回数で割っても同様の結果になるが、
-更新された要素のみを保持する方が足し込む数が減るので、計算が効率的。&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.ss.cs.tut.ac.jp/nlp2011/nlp2010_tutorial_okanohara.pdf&#34;&gt;超高速テキスト処理のためのアルゴリズムとデータ構造&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2016/09/04/</guid>
+      <description>(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
+violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
+構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
+概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
+$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&amp;rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&amp;rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
+収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
+$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$</description>
+    </item>
     
+    <item>
+      <title>AdaBoostからLarge Margin Distribution Machineの流れ</title>
+      <link>http://tma15.github.io/blog/2016/08/28/</link>
+      <pubDate>Sun, 28 Aug 2016 18:59:58 +0900</pubDate>
       
-        <item>
-          <title>並列での学習アルゴリズムの追加</title>
-          <link>http://tma15.github.io/blog/2015/09/01/</link>
-          <pubDate>Mon, 31 Aug 2015 20:03:45 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/09/01/</guid>
-          <description>&lt;p&gt;拙作の&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;に並列での学習もサポートするようにした。
-分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。
-並列での学習にはIterative Parameter Mixture (&lt;a href=&#34;http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf&#34;&gt;pdf&lt;/a&gt;)を提供している。&lt;/p&gt;
-
-&lt;p&gt;シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
-CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale
-   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;15935&lt;/span&gt; news20.scale
-&lt;span style=&#34;color: #996633&#34;&gt;$touch&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$for&lt;/span&gt; i in &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;do&lt;/span&gt; cat news20.scale &amp;gt;&amp;gt; news20.scale.big; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;done&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$wc&lt;/span&gt; -l news20.scale.big
-   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;79675&lt;/span&gt; news20.scale.big
-&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;272&lt;/span&gt;.55s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;8&lt;/span&gt;.83s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;181&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;:34.95 total
-&lt;span style=&#34;color: #996633&#34;&gt;$time&lt;/span&gt; ./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; -t ./news20.t.scale -withoutshuffle -p  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;169&lt;/span&gt;.83s user &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt;.84s system &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;97&lt;/span&gt;% cpu &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt;:00.66 total
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;Iterative Parameter Mixtureに関するコードは以下。&lt;/p&gt;
-
-&lt;p&gt;ipm.go&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; FitLearners(learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface, x &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, y &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) {
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
-	num_data &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	sizechunk &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; num_data&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;num_learner &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				start &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
-				end &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (j &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sizechunk
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; end &lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;=&lt;/span&gt; num_data {
-					end = num_data &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
-				}
-				x_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;x)[start:end]
-				y_j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;y)[start:end]
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].Fit(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;x_j, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;y_j)
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; average_two(learner1, learner2 &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
-	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).GetParams()
-	num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
-	avg_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, num_params, num_params)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_params; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		avg_params[i] = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([][]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt;)
-	}
-
-	avg_ftdic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
-	avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; NewDict()
-	learners &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; []LearnerInterface{&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner2}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; _, learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; learners {
-		params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetParams()
-		num_params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)
-		ftdict, labeldict &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learner.GetDics()
-
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; p &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; p &amp;lt; num_params; p&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-			param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;params)[p]
-			avg_param &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p]
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; yid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; yid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(labeldict.Id2elem); yid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-				y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; labeldict.Id2elem[yid]
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_labeldic.HasElem(y) {
-					avg_labeldic.AddElem(y)
-				}
-				yid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_labeldic.Elem2id[y]
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; yid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-					&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param, &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;float64&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1000&lt;/span&gt;))
-				}
-				avg_param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params[p][yid_avg]
-				param_y &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; param[yid]
-
-				&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; ftid &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; ftid &amp;lt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(param[yid]); ftid&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-					ft &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; ftdict.Id2elem[ftid]
-					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; !avg_ftdic.HasElem(ft) {
-						avg_ftdic.AddElem(ft)
-					}
-					ftid_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; avg_ftdic.Elem2id[ft]
-					&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y); i &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;=&lt;/span&gt; ftid_avg; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-						&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.&lt;/span&gt;)
-					}
-					(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_param_y)[ftid_avg] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; param_y[ftid] &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;float64&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners))
-
-				}
-			}
-		}
-	}
-	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetParams(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_params)
-	(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learner1).SetDics(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_ftdic, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;avg_labeldic)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; learner1
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; AverageModels(learners []LearnerInterface) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface {
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;%&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt; { &lt;span style=&#34;color: #888888&#34;&gt;/* add learner to make length of learners is even number */&lt;/span&gt;
-		learners = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners, learners[&lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;])
-	}
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners)
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	results &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, num_learner)
-
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				l1 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j]
-				l2 &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; learners[j&lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt;num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;]
-				l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; average_two(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l1, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;l2)
-				results &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; l_avg
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(results)
-	learners_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;([]LearnerInterface, &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;, num_learner&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; l_avg &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; results {
-		learners_avg = &lt;span style=&#34;color: #007020&#34;&gt;append&lt;/span&gt;(learners_avg, &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;l_avg)
-	}
-
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(learners_avg) &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; {
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners_avg[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; AverageModels(learners_avg)
-}
-
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; BroadCastModel(avg_learner &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;LearnerInterface, learners &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;[]LearnerInterface) {
-	params &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetParams()
-	avg_ftdic, avg_labeldic &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; (&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;avg_learner).GetDics()
-	num_learner &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; wg sync.WaitGroup
-	buffer &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;, num_learner)
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		wg.Add(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(ch &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;chan&lt;/span&gt; &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;int&lt;/span&gt;) {
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; wg.Done()
-			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; j &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; ch {
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetParams(params)
-				(&lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;learners)[j].SetDics(avg_ftdic, avg_labeldic)
-			}
-		}(buffer)
-	}
-	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;; i &amp;lt; num_learner; i&lt;span style=&#34;color: #333333&#34;&gt;++&lt;/span&gt; {
-		buffer &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;-&lt;/span&gt; i
-	}
-	&lt;span style=&#34;color: #007020&#34;&gt;close&lt;/span&gt;(buffer)
-	wg.Wait()
-}
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-
-&lt;p&gt;main.go
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;gonline.FitLearners(&lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners, x_train, y_train)
-learner_avg = gonline.AverageModels(learners)
-gonline.BroadCastModel(learner_avg, &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;learners)
-&lt;/pre&gt;&lt;/div&gt;
-&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2016/08/28/</guid>
+      <description>AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
+具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。
+AdaBoost 学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:
+Initialize: 分布D_0をセットする 以下の処理をT回繰り返す: 1. 分布D_tを用いて弱学習器h_tを学習する 2. h_tの信頼度a_tを計算する 3. 次のラウンドの分布D_{t+1}を計算する  予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:
+$$ y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))). $$
+なぜAdaBoostは良いのか  実装が簡単な割に高い予測性能である事が多い 亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる) 経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される  汎化誤差 汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp;amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。
+しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。
+AdaBoostの主な研究 ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:
+ Statistical view Margin theory  Statistical view 弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。</description>
+    </item>
     
+    <item>
+      <title>平均化パーセプトロンの効率的な計算</title>
+      <link>http://tma15.github.io/blog/2016/07/31/</link>
+      <pubDate>Sun, 31 Jul 2016 10:13:38 +0900</pubDate>
       
-        <item>
-          <title>オンライン学習の実装いろいろ</title>
-          <link>http://tma15.github.io/blog/2015/07/17/</link>
-          <pubDate>Fri, 17 Jul 2015 23:09:00 JST</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/07/17/</guid>
-          <description>&lt;p&gt;最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
-その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
-実装が簡単で学習が速いオンライン学習手法を実装した。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;https://github.com/tma15/gonline&#34;&gt;gonline&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。
-&lt;a href=&#34;http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#news20&#34;&gt;news20&lt;/a&gt; を使って評価はしたのだけど
-&lt;a href=&#34;http://yans.anlp.jp/symposium/2010/paper/Yans2010_No23.pdf&#34;&gt;こちらの論文&lt;/a&gt; と比べると精度が低めになっているので、もしかしたら
-実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。
-SCWはいつか実装する。&lt;/p&gt;
-
-&lt;p&gt;golangらしく？&lt;a href=&#34;https://github.com/tma15/gonline/releases&#34;&gt;github release&lt;/a&gt;でバイナリの配布もしている (今回初めてやってみた)。
-これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2016/07/31/</guid>
+      <description>概要  パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する 平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する 平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い 素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い  準備 パーセプトロンを学習するにあたって利用する表記は以下のとおり。
+ N: 素性の数 x: 学習事例。実数値のN次元ベクトル y: 学習事例に対するラベル。 {-1, 1} D: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &amp;lt;= i &amp;lt;= K) w: 重みベクトル。実数値のN次元ベクトル dot(a, b): 二つのベクトルの内積を返す sign(x): 1 if x &amp;gt;= 0 else -1  パーセプトロン パーセプトロンの学習の擬似コードは次の通り。 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。
+w = [0, ..., 0] ### N次元 for (x_i, y_i) in D y = sign(dot(x_i, w)) if y != y_i u = y_i * x_i ### x_iの要素に対してy_iを掛ける w += u return w  平均化パーセプトロン 平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとしてw_all、w_avgが増えていること。このw_avgが&amp;rdquo;過去の反復で学習した重みベクトルの平均&amp;rdquo;となっている。</description>
+    </item>
     
+    <item>
+      <title>並列での学習アルゴリズムの追加</title>
+      <link>http://tma15.github.io/blog/2015/09/01/</link>
+      <pubDate>Mon, 31 Aug 2015 20:03:45 +0900</pubDate>
       
-        <item>
-          <title>Dropoutの実装で気になって調べたこと</title>
-          <link>http://tma15.github.io/blog/2015/02/21/</link>
-          <pubDate>Sat, 21 Feb 2015 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2015/02/21/</guid>
-          <description>
-
-&lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://caffe.berkeleyvision.org/&#34;&gt;Caffe&lt;/a&gt;だと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/BVLC/caffe/blob/master/src/caffe/layers/dropout_layer.cpp#L40&#34;&gt;Caffeのdropout_layer.cpp&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/BVLC/caffe/blob/master/include/caffe/common.hpp#L97&#34;&gt;Caffeの設定を参照できるようなsingletonクラス&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、&lt;a href=&#34;http://torch.ch/&#34;&gt;torch&lt;/a&gt;では層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/Module.lua#L84&#34;&gt;Module.lua&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/doc/module.md#training&#34;&gt;training&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://github.com/torch/nn/blob/master/doc/module.md#evaluate&#34;&gt;evaluate&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。&lt;/p&gt;
-
-&lt;h3 id=&#34;参考&#34;&gt;参考&lt;/h3&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf&#34;&gt;Dropout: A Simple Way to Prevent Neural Networks from Overfitting&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2015/09/01/</guid>
+      <description>拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
+シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。
+$wc -l news20.scale 15935 news20.scale $touch news20.scale.big $for i in 1 2 3 4 5; do cat news20.scale &amp;gt;&amp;gt; news20.scale.big; done $wc -l news20.scale.big 79675 news20.scale.big $time ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 272.</description>
+    </item>
     
+    <item>
+      <title>オンライン学習の実装いろいろ</title>
+      <link>http://tma15.github.io/blog/2015/07/17/</link>
+      <pubDate>Fri, 17 Jul 2015 23:09:00 +0900</pubDate>
       
-        <item>
-          <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-          <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
-          <pubDate>Sun, 10 Nov 2013 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
-          <description>
-
-&lt;p&gt;個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。&lt;/p&gt;
-
-&lt;h2 id=&#34;気になったところ&#34;&gt;気になったところ&lt;/h2&gt;
-
-&lt;p&gt;データに正規分布を仮定したときのナイーブベイズ分類器について。
-平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は&lt;/p&gt;
-
-&lt;p&gt;\[
-p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}
-\]&lt;/p&gt;
-
-&lt;p&gt;これのlogをとると、
-\[
-\begin{split}
-\log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\&lt;br /&gt;
-&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、&lt;/p&gt;
-
-&lt;p&gt;\[
-\begin{split}
-\log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y&lt;em&gt;n))\&lt;br /&gt;
-&amp;amp; = \log(\prod&lt;/em&gt;{n=1}^N p(y_n)p(\mathbf{x}_n|y&lt;em&gt;n))\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \log p(\mathbf{x}_n|y&lt;em&gt;n)\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K\log p(x&lt;/em&gt;{nk}|y&lt;em&gt;n)\&lt;br /&gt;
-&amp;amp; = \sum&lt;/em&gt;{n=1}^N \log p(y&lt;em&gt;n) + \sum&lt;/em&gt;{n=1}^N \sum&lt;em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma&lt;/em&gt;{y&lt;em&gt;nk}^2) - \frac{(x&lt;/em&gt;{nk}-\mu_{y&lt;em&gt;nk})^2}{2\sigma&lt;/em&gt;{y_nk}^2}\}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;サンプル\(\mathbf{x}\)に対して出力される予測ラベル\(\hat{y}\)は&lt;/p&gt;
-
-&lt;p&gt;\[
-\begin{split}
-\hat{y} &amp;amp;= \mathop{\arg\,\max}\limits_y \log p(\mathbf{x}, y)\&lt;br /&gt;
-&amp;amp;= \mathop{\arg\,\max}\limits_y \log p(y)p(\mathbf{x}|y)\&lt;br /&gt;
-&amp;amp; = \mathop{\arg\,\max}\limits&lt;em&gt;y \{\log p(y) + \sum&lt;/em&gt;{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{yk}^2) - \frac{(x&lt;em&gt;k-\mu&lt;/em&gt;{yk})^2}{2\sigma_{yk}^2}\}\}
-\end{split}
-\]&lt;/p&gt;
-
-&lt;p&gt;対数尤度関数をnumpyに落とすと&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;sigma.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;mu.shape = (n_classes, n_features)&lt;/span&gt;
-&lt;span style=&#34;color: #DD4422&#34;&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
-
-joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(classes)):
-    &lt;span style=&#34;color: #888888&#34;&gt;# 事前分布の対数&lt;/span&gt;
-    log_prior &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(class_piror[i])
-    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の初項&lt;/span&gt;
-    log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; sigma[i, :]))
-    &lt;span style=&#34;color: #888888&#34;&gt;# log p(x|y)の対数の第二項&lt;/span&gt;
-    log_gauss2 &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; mu[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; sigma[i, :])
-    &lt;span style=&#34;color: #888888&#34;&gt;# クラスiの尤度のlogを取った値&lt;/span&gt;
-    joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(log_prior &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss1 &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; log_gauss2)
-&lt;/pre&gt;&lt;/div&gt;
-
-&lt;br&gt;
-となる。と思っていた。ところがscikit-learnのGaussianNBの該当箇所を見て見ると、&lt;/p&gt;
-
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;_joint_log_likelihood&lt;/span&gt;(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;, X):
-        X &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; array2d(X)
-        joint_log_likelihood &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; []
-        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;range&lt;/span&gt;(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;classes_)):
-            jointi &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;class_prior_[i])
-            n_ij &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;log(np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;pi &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :])) &lt;span style=&#34;color: #888888&#34;&gt;# np.piの前に2がない&lt;/span&gt;
-            n_ij &lt;span style=&#34;color: #333333&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0.5&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; np&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sum(((X &lt;span style=&#34;color: #333333&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;theta_[i, :]) &lt;span style=&#34;color: #333333&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;2&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;
-                                 (&lt;span style=&#34;color: #007020&#34;&gt;self&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;sigma_[i, :]), &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;)
-            joint_log_likelihood&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;append(jointi &lt;span style=&#34;color: #333333&#34;&gt;+&lt;/span&gt; n_ij)
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-
-&lt;p&gt;数式の展開が間違えているのだろうか&amp;hellip;。それとも2は必要ないのだろうか&amp;hellip;。&lt;/p&gt;
-
-&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;http://r9y9.github.io/blog/2013/07/28/naive-bayes-formulation/&#34;&gt;Naive Bayesの復習（導出編）&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://cs.nyu.edu/~dsontag/courses/ml12/slides/lecture17.pdf&#34;&gt;Naïve Bayes Lecture17&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2015/07/17/</guid>
+      <description>最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
+gonline
+パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
+golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。</description>
+    </item>
     
+    <item>
+      <title>Dropoutの実装で気になって調べたこと</title>
+      <link>http://tma15.github.io/blog/2015/02/21/</link>
+      <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
       
-        <item>
-          <title>Practical Machine Learning Tricks</title>
-          <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
-          <pubDate>Sat, 15 Dec 2012 00:00:00 UTC</pubDate>
-          <author></author>
-          <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
-          <description>
-
-&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。&lt;/p&gt;
-
-&lt;p&gt;結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。&lt;/p&gt;
-
-&lt;p&gt;カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&#34;http://static.googleusercontent.com/external_content/untrusted_dlcp/research.google.com/ja//pubs/archive/37195.pdf&#34;&gt;Detecting Adversarial Advertisements in the Wild&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel,
-  John Hainsworth, Yunkai Zhou&lt;/p&gt;
-
-&lt;p&gt;一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。&lt;/p&gt;
-
-&lt;p&gt;この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。&lt;/p&gt;
-
-&lt;h2 id=&#34;1-classification&#34;&gt;1) Classification&lt;/h2&gt;
-
-&lt;p&gt;機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかは&lt;a href=&#34;http://code.google.com/p/sofia-ml/&#34;&gt;ソースコード&lt;/a&gt;が入手可能である。&lt;/p&gt;
-
-&lt;h3 id=&#34;abe-always-be-ensemble-ing&#34;&gt;ABE: Always Be Ensemble-ing&lt;/h3&gt;
-
-&lt;p&gt;Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。&lt;/p&gt;
-
-&lt;h3 id=&#34;only-auto-block-or-auto-allow-on-high-confidence-predictions&#34;&gt;Only auto-block or auto-allow on high-confidence predictions&lt;/h3&gt;
-
-&lt;p&gt;訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。&lt;/p&gt;
-
-&lt;h3 id=&#34;throw-a-ton-of-features-at-the-model-and-let-l1-sparsity-figure-it-out&#34;&gt;Throw a ton of features at the model and let L1 sparsity figure it out&lt;/h3&gt;
-
-&lt;p&gt;素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。&lt;/p&gt;
-
-&lt;h3 id=&#34;map-features-with-the-hashing-trick&#34;&gt;Map features with the &amp;ldquo;hashing trick&amp;rdquo;&lt;/h3&gt;
-
-&lt;p&gt;これは、素性をハッシュ化してより低次元な空間へ写像することによって高次元の素性空間を扱うための実践的なコツである。この答えは&lt;a href=&#34;http://metaoptimize.com/qa/questions/6943/what-is-the-hashing-trick&#34;&gt;MetaOptimize discussion board&lt;/a&gt;でうまく説明されている。&lt;/p&gt;
-
-&lt;h3 id=&#34;handle-the-class-imbalance-problem-with-ranking&#34;&gt;Handle the class imbalance problem with ranking&lt;/h3&gt;
-
-&lt;p&gt;ラベル付きのデータにとても偏りがある（ほとんどがスパムではない広告で、一部のみがスパム）と、学習が難しい。これに対処するにはいくつか方法があるが、ここでは分類問題をランキング問題として捉えることで性能を上げることに成功している。: すべてのスパムは、スパムではない広告よりも低い順位になるはずである。&lt;/p&gt;
-
-&lt;h3 id=&#34;use-a-cascade-of-classifiers&#34;&gt;Use a cascade of classifiers&lt;/h3&gt;
-
-&lt;p&gt;ラベル付きのデータの偏りに加えて、スパムにはいくつかの種類（マルウェアへ飛ばされたり、フィッシングなど）があり、そのことがタスクをより複雑化している。彼らは二段階の分類をすることによってこれらの問題に同時に取り組んでいる。まず、スパムかそうでないかを分類して、次にスパムがどの種類であるかを分類する。&lt;/p&gt;
-
-&lt;h2 id=&#34;2-scalability-engineering-and-operations&#34;&gt;2) Scalability, engineering and operations&lt;/h2&gt;
-
-&lt;p&gt;研究のために書かれた実験用のソフトウェアと違って、製品となっている機械学習システムはエンジニアリングとビジネスの分野に存在する。なので、製品としてはスケーラビリティ、信頼性、保守性が重要になる。&lt;/p&gt;
-
-&lt;h3 id=&#34;mapreduce-pre-processing-map-algorithm-training-reduce&#34;&gt;MapReduce: pre-processing (map), algorithm training (reduce)&lt;/h3&gt;
-
-&lt;p&gt;いくらか驚くことに、彼らはスケーラビリティのボトルネックがデータのディスからのローディングとデータを素性ベクトルへ変換するところであると発見した。それゆえ、彼らは並列のmapと、SGDによる学習を行うための一つのreduceを用いて運用している。&lt;/p&gt;
-
-&lt;h3 id=&#34;monitor-all-the-things&#34;&gt;Monitor all the things&lt;/h3&gt;
-
-&lt;p&gt;入力のデータが時間とともに変化するにつれ、システムがちゃんと稼働していることを確かめるために彼らは重要な数値の拡張的なモニタリングを行い、もし大きな変化があればさらなる調査を行なっている。:&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;テストデータでのprecision/recall&lt;/li&gt;
-&lt;li&gt;入力の素性の分布&lt;/li&gt;
-&lt;li&gt;出力のスコアの分布&lt;/li&gt;
-&lt;li&gt;出力のラベルの分布&lt;/li&gt;
-&lt;li&gt;人間が評価したシステムの質&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&#34;rich-model-objects&#34;&gt;Rich model objects&lt;/h3&gt;
-
-&lt;p&gt;機械学習の論文において、予測モデルは数式として本質的な部分のみを表すことが多い。 - 学習された重みベクトル以外の何物でもない。しかしながらソフトウェアエンジニアリングの実践において、彼らは素性変換、確率の修正、超平面の学習を含めるために&amp;rdquo;model object&amp;rdquo;を拡張することが重要であると述べている。&lt;/p&gt;
-
-&lt;h2 id=&#34;3-human-in-the-loop&#34;&gt;3) Human-in-the-loop&lt;/h2&gt;
-
-&lt;p&gt;ビジネスで重要なことと、問題に対する一般的なトリックは、人間の専門家を必要とする。&lt;/p&gt;
-
-&lt;h3 id=&#34;make-efficient-use-of-expert-effort&#34;&gt;Make efficient use of expert effort&lt;/h3&gt;
-
-&lt;p&gt;彼らは、最も怪しい事例を識別してそれを人間の専門家にラベル付けしてもらう、という能動学習的な手法を用いている。彼らはまた、専門家の負担を減らすために、新たな危険な兆候を探すための情報検索的なインターフェースを提供している。&lt;/p&gt;
-
-&lt;h3 id=&#34;allow-humans-to-hard-code-rules&#34;&gt;Allow humans to hard-code rules&lt;/h3&gt;
-
-&lt;p&gt;&amp;ldquo;人間が最適な答えを知っている&amp;rdquo;こともある。 - 彼らはすべてのことに完全に自動的な機械学習を用いることに関して独善的でない。代わりに、彼らは必要なときには専門家がルールを記述できるようにしている。&lt;/p&gt;
-
-&lt;h3 id=&#34;human-evaluation&#34;&gt;Human evaluation&lt;/h3&gt;
-
-&lt;p&gt;専門家ですら正解を判断できないこともある。専門家が付けたラベルは人間のミス、ラベルの解釈の変化あるいは単純な意見の相違によって異なっているかもしれない。この不確かさを調整するために、彼らは同一の広告に対して複数の専門家の判断を用いて信頼性を確保した。&lt;/p&gt;
-
-&lt;p&gt;最後に、彼らはまた一般的なユーザから見てもシステムが上手く動いていることを確かめるために専門家でない人の評価も定期的に行なっている。エンドユーザの満足が究極の目標なので、この評価はとてもいいアイディアだと思う。&lt;/p&gt;
-</description>
-        </item>
-      
+      <guid>http://tma15.github.io/blog/2015/02/21/</guid>
+      <description> Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。
+Caffeだと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。
+ Caffeのdropout_layer.cpp Caffeの設定を参照できるようなsingletonクラス  ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、torchでは層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。
+ Module.lua training evaluate  ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。
+参考  Dropout: A Simple Way to Prevent Neural Networks from Overfitting  </description>
+    </item>
     
-
+    <item>
+      <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
+      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <description>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。
+気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
+\[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
+これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
+&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
+&amp;amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
+&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]</description>
+    </item>
+    
+    <item>
+      <title>Practical Machine Learning Tricks</title>
+      <link>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</link>
+      <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>http://tma15.github.io/blog/2012/12/practical-machine-learning-kdd2011/</guid>
+      <description>Practical machine learning tricks from the KDD 2011 best industry paper
+上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。
+機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。
+結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。
+カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。
+Detecting Adversarial Advertisements in the Wild
+D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel, John Hainsworth, Yunkai Zhou
+一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。
+この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。
+1) Classification 機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかはソースコードが入手可能である。
+ABE: Always Be Ensemble-ing Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。
+Only auto-block or auto-allow on high-confidence predictions 訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。
+Throw a ton of features at the model and let L1 sparsity figure it out 素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。</description>
+    </item>
+    
   </channel>
 </rss>
