@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="">
+<meta name="description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
+violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
+構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
+概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
+$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
+収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
+$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+
+
+<meta property="og:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
+violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
+構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
+概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
+$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
+収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
+$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Early updateは収束が保証される">
+<meta name="twitter:title" content="Early updateは収束が保証される">
+<meta property="og:url" content="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
+violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
+構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
+概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
+$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
+収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
+$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+<meta name="twitter:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
+violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
+構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
+概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
+$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
+収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
+$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2016-09-04T11:00:13">
+  
+  
+    <meta property="article:modified_time" content="2016-09-04T11:00:13">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="machine_learning">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>Early updateは収束が保証される</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">An NLP researcher</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Early updateは収束が保証される
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2016-09-04T11:00:13&#43;09:00">
+        
+  September 4, 2016
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<p>(<a href="http://www.aclweb.org/anthology/N12-1015">Structured Perceptron with Inexact Search</a>, NAACL 2012) を読んだ。</p>
+
+<p>構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。</p>
+
+<p>構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。</p>
+
+<h2 id="violation">violation</h2>
+
+<p>violationは構造化パーセプトロンの収束を考えるために必要な定義である。
+violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
+モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い
+組をviolationという。
+言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
+のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。</p>
+
+<h2 id="構造化パーセプトロン">構造化パーセプトロン</h2>
+
+<p>ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
+さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。</p>
+
+<h3 id="概要">概要</h3>
+
+<p>構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
+$$
+z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s).
+$$</p>
+
+<p>$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。
+更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。</p>
+
+<h3 id="収束性">収束性</h3>
+
+<p>学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
+$$
+R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|,
+$$</p>
+
+<p>$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$
+であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される:
+$$
+\delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z),
+$$</p>
+
+<p>学習データが線形分離可能であれば、パーセプトロンは有限回の更新で収束する:</p>
+
+<p>$$
+\textrm{err}\leq R^2/\delta^2
+$$</p>
+
+<h3 id="証明">証明</h3>
+
+<p>証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。</p>
+
+<p>重みの更新則は$\mathbf{w}^{(k+1)}=\mathbf{w}^(k)+\Delta \mathbf{\phi}(x,y,z)$
+であるため、</p>
+
+<p>$$
+\begin{eqnarray}
+\mathbf{u}\cdot \mathbf{w}^{(k+1)}&amp;=&amp;\mathbf{u}\cdot \mathbf{w}^{(k)}+\mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z) \\<br />
+&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k)}+\delta \\<br />
+&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(k-1)}+\delta+\delta \\<br />
+&amp;&hellip;&amp; \\<br />
+&amp;\geq&amp; \mathbf{u} \cdot \mathbf{w}^{(0)}+k\delta.
+\end{eqnarray}
+$$</p>
+
+<p>$\mathbf{w}^{(0)}=\mathbf{0}$より、</p>
+
+<p>$$
+\mathbf{u}\cdot \mathbf{w}^{(k+1)} = k\delta.
+$$</p>
+
+<p>また、コーシー・シュワルツの不等式 (任意の二つのベクトル$\mathbf{a}, \mathbf{b}$について$|\mathbf{a}||\mathbf{b}|\geq \mathbf{a}\cdot\mathbf{b}$) より</p>
+
+<p>$$
+|\mathbf{u}||\mathbf{w}^{(k+1)}|\geq \mathbf{u} \cdot \mathbf{w}^{(k+1)}\geq k\delta
+$$</p>
+
+<p>また$|\mathbf{u}|=1$より、</p>
+
+<p>$$
+|\mathbf{w}^{(k+1)}| \geq k\delta
+$$</p>
+
+<p>が成り立つ。
+ここで、$|\mathbf{a}+\mathbf{b}|^2=|\mathbf{a}|^2 + |\mathbf{b}|^2 + 2\mathbf{a}\cdot \mathbf{b}$であること、
+および重みを更新する条件が正解のラベル列のスコアが不正解のラベル列のスコアよりも低い場合 ($\mathbf{w}^{(k)}\cdot \Delta \mathbf{\phi}(x,y,z) \leq 0$)
+であることより、</p>
+
+<p>$$
+\begin{eqnarray}
+|\mathbf{w}^{(k+1)}|^2 &amp;=&amp; |\mathbf{w}^{(k)}+\Delta \mathbf{\phi}(x,y,z)|^2 \\<br />
+&amp;=&amp; |\mathbf{w}^{(k)}|^2 + |\Delta \mathbf{\phi}(x,y,z)|^2 + 2 \mathbf{w}^{(k)} \cdot \Delta \mathbf{\phi}(x,y,z) \\<br />
+&amp;\leq&amp; |\mathbf{w}^{(k)}|^2 + R^2 + 0 \\<br />
+&amp;\leq&amp; |\mathbf{w}^{(k-1)}|^2 + R^2 + R^2 \\<br />
+&amp;&hellip;&amp; \\<br />
+&amp;\leq&amp; kR^2.
+\end{eqnarray}
+$$</p>
+
+<p>$|\mathbf{w}^{(k+1)}| \geq k\delta$および$|\mathbf{w}^{(k+1)}|^2 \leq kR^2$より、有限回の更新で収束する:</p>
+
+<p>$$
+k \leq R^2/\delta^2.
+$$</p>
+
+<p>パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。</p>
+
+<h3 id="近似的な探索では収束が保証されない">近似的な探索では収束が保証されない</h3>
+
+<p>近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
+探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
+正解のラベル列のスコアが不正解のラベル列のスコアよりも大きい場合がある。この場合、$(x,y,z)$
+はviolationではない。よって、構造化パーセプトロンの収束性は保証されない (<a href="http://www.aclweb.org/anthology/N12-1015">Structured Perceptron with Inexact Search</a> Figure 1の例を参照)。</p>
+
+<p>自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
+このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。</p>
+
+<h2 id="ビームサーチとearly-update">ビームサーチとearly update</h2>
+
+<p>early updateを用いた構造化パーセプトロンの学習は以下のようになる:</p>
+
+<pre><code>for (x, y) in D:
+  (x, y', z) = FIND_VIOLATION(x, y, w)
+  if y' != z:
+    w += phi(x, y') - phi(x, z)
+</code></pre>
+
+<p>FIND_VIOLATIONではビームサーチをおこない、ビームサーチが保持する仮説のリストから正解が漏れた段階で正解のラベル列と最大のスコアの予測ラベル列を返す:</p>
+
+<pre><code># B[][]: 位置iにおいてスコアが高い上位k個の仮説を保持するリスト
+function FIND_VIOLATION(x, y, w)
+  B[0] = []
+  for i in |x|
+    B[i] = BEST(x, B[i-1], k) ### スコアが高い上位k個の仮説を得る
+    if not y[:i] in B[i]: ### i番目までの正解のラベル列がビームサーチの探索範囲から漏れてしまった場合
+      return (x, y[:i], B[i][0]) ### ビームサーチの中で最大のスコアの仮説を返す
+  return (x, y, B[|x|][0])
+</code></pre>
+
+<p><code>B</code>はスコアが高い上位の仮説を保持するリストであるから、正解が<code>B</code>に入っていない場合、正解のスコアは
+<code>B</code>に入っている仮説よりもスコアが低い。
+early updateでは正解の部分ラベル列y&rsquo;のスコアと、ビームサーチが保持する仮説の中でスコアが最大のラベル列z (<code>B[i][0]</code>もしくは<code>B[|x|][0]</code>) のスコアに対して、
+$\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\Delta \phi(x,y&rsquo;,z)\leq 0$となる。
+よって、early updateで重みの学習に用いるデータはすべてviolationである。
+そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。</p>
+
+<h2 id="まとめ">まとめ</h2>
+
+<p>early updateは収束が保証される。</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" data-tooltip="SWIGを使ってPythonラッパーを生成する">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/" data-tooltip="AdaBoostからLarge Margin Distribution Machineの流れ">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" data-tooltip="SWIGを使ってPythonラッパーを生成する">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/" data-tooltip="AdaBoostからLarge Margin Distribution Machineの流れ">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2016%2F09%2F04%2Fearly-update%25E3%2581%25AF%25E5%258F%258E%25E6%259D%259F%25E3%2581%258C%25E4%25BF%259D%25E8%25A8%25BC%25E3%2581%2595%25E3%2582%258C%25E3%2582%258B%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">An NLP researcher</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Research &amp; development of NLP technologies
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

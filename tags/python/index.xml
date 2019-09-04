@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>python on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/python/</link>
+    <link>https://tma15.github.io/tags/python/</link>
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+      <link>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</link>
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+      <guid>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>全文検索したくなったときのためのメモ。 Elasticsearchはインストール済みとして進める。
 $./bin/elasticsearch -v Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25 準備 日本語を扱いたいことが想定されるので、 elasticsearch-analysis-kuromoji をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。
  プロキシ環境でのpluginコマンドの実行 Manual install of Elasticsearch plugins  $bin/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1 デフォルトのanalyzerをkuromojiにしておく。
@@ -29,10 +29,10 @@ import sys from elasticsearch import Elasticsearch es = Elasticsearch() index = 
     
     <item>
       <title>mafが便利そう</title>
-      <link>http://tma15.github.io/blog/2014/11/maf-memo/</link>
+      <link>https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/</link>
       <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/maf-memo/</guid>
+      <guid>https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/</guid>
       <description>概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
 今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
 使ってみた まず、wafとmafとダウンロードする。
@@ -42,10 +42,10 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
     
     <item>
       <title>Induced SortingをPythonで書いた</title>
-      <link>http://tma15.github.io/blog/2014/5/induced_sorting_py/</link>
+      <link>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</link>
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/5/induced_sorting_py/</guid>
+      <guid>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</guid>
       <description> 「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
   GitHubにコードを上げた (sais.py)。
 参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
@@ -54,10 +54,10 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
     
     <item>
       <title>scikit-learnのソースコードリーディング（ナイーブベイズ分類）</title>
-      <link>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</link>
+      <link>https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/</link>
       <pubDate>Sun, 10 Nov 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/11/read-naive-bayes-in-scikit-learn/</guid>
+      <guid>https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/</guid>
       <description>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。
 気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
 \[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
@@ -73,10 +73,10 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
     
     <item>
       <title>食べログAPIのPythonラッパーを書いた</title>
-      <link>http://tma15.github.io/blog/2013/5/python-tabelog/</link>
+      <link>https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/</link>
       <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/5/python-tabelog/</guid>
+      <guid>https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/</guid>
       <description>ソースコードはこちら。
 食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
 インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &amp;#39;Your access key here.&amp;#39; tabelog = Tabelog(key) レストラン検索 prefecture = &amp;#39;東京&amp;#39; station = &amp;#39;渋谷&amp;#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &amp;#39;rcd:&amp;#39;, restaurant.rcd print &amp;#39;name:&amp;#39;, restaurant.name print &amp;#39;url:&amp;#39;, restaurant.tabelogurl print &amp;#39;mobile url:&amp;#39;, restaurant.tabelogmobileurl print &amp;#39;dinner price:&amp;#39;, restaurant.dinnerprice print &amp;#39;lunch price:&amp;#39;, restaurant.lunchprice print &amp;#39;total score:&amp;#39;, restaurant.</description>
@@ -84,10 +84,10 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
     
     <item>
       <title>Hello World</title>
-      <link>http://tma15.github.io/blog/2012/11/helloworld/</link>
+      <link>https://tma15.github.io/blog/2012/11/10/hello-world/</link>
       <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2012/11/helloworld/</guid>
+      <guid>https://tma15.github.io/blog/2012/11/10/hello-world/</guid>
       <description>なんとなくつくってみた。 Hydeを使って動かしている。</description>
     </item>
     

@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="tech">
+<meta name="description" content="自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&rdquo;
+(pdf)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+二値ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。">
+
+
+<meta property="og:description" content="自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&rdquo;
+(pdf)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+二値ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法">
+<meta name="twitter:title" content="ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法">
+<meta property="og:url" content="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&rdquo;
+(pdf)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+二値ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。">
+<meta name="twitter:description" content="自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&rdquo;
+(pdf)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+二値ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-09-04T18:19:54">
+  
+  
+    <meta property="article:modified_time" content="2019-09-04T18:19:54">
+  
+  
+  
+    
+      <meta property="article:section" content="neural-network">
+    
+  
+  
+    
+      <meta property="article:tag" content="neural-network">
+    
+      <meta property="article:tag" content="acl2019">
+    
+      <meta property="article:tag" content="nlp">
+    
+      <meta property="article:tag" content="paper">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">An NLP researcher</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-04T18:19:54&#43;09:00">
+        
+  September 4, 2019
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural-network">neural-network</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&rdquo;
+(<a href="https://www.aclweb.org/anthology/P19-1011">pdf</a>)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+<strong>二値</strong>ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。</p>
+
+<h2 id="そもそも文が実数値密ベクトルだと何が問題なのか">そもそも文が実数値密ベクトルだと何が問題なのか？</h2>
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ベクトル間の類似度計算</th>
+<th>表現力</th>
+<th>メモリ消費量</th>
+<th>類似度計算速度</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>実数値ベクトル</td>
+<td>コサイン類似度</td>
+<td>高い</td>
+<td>多い</td>
+<td>遅い</td>
+</tr>
+
+<tr>
+<td>二値ベクトル</td>
+<td>ハミング距離</td>
+<td>低い</td>
+<td>少ない</td>
+<td>速い</td>
+</tr>
+</tbody>
+</table>
+
+<p>ニューラルネットワークによって文をベクトルへ変換すると、多くの場合、そのベクトルは実数値の密ベクトル
+である。
+文を実数値の密ベクトルで表現すると、たとえば類似する文を検索するタスクにおいて、クエリとなる文や
+検索対象とする文はニューラルネットワークによって$[0.3, 0.1, -1.0, -2.3, 3.1, 1.7, …]$のように表現され、クエリのベクトルと検索対象の文のベクトルの間の類似度 (コサイン類似度) を計算する。
+このように文を表現して類似度を計算する場合、
+1) メモリ消費が少なくない、 2) クエリに対する類似度計算 (コサイン類似度) にかかる処理時間が少なくない
+といった問題がある。計算環境が貧弱なほど、これらの問題は重大となる。</p>
+
+<p>文を二値ベクトル$[1, 0, 1, 0, 0, 1, …]$で表現した場合と対比して考えてみる。
+ベクトルの要素が二値で表現できれば例えば値の型は <code>unsigne char</code> で表現できるが、
+ベクトルの要素が実数値であれば値の型は <code>float</code> で表現する必要がある。
+また二値ベクトルであれば類似度計算にはハミング距離を使って高速に計算できる。
+実数値ベクトルであればコサイン類似度を使って計算する必要がある。</p>
+
+<h2 id="提案手法のどこがいいのか">提案手法のどこがいいのか？</h2>
+
+<ol>
+<li>テキストから密ベクトルへ変換するモデルは何でもいい</li>
+<li>二値ベクトルの次元は自由に設定できる</li>
+</ol>
+
+<p>1について。処理の流れとしては文→密ベクトル→二値ベクトルとなるのだが、この論文は密ベクトル→二値ベクトル
+のところをどうやるか、というところを対象としていて、文から密ベクトル変換する処理がなんであってもよい。
+文→密ベクトル→二値ベクトルをend-to-endで学習するというアプローチも考えられるが、
+先行研究でもこの論文の予備実験でも、精度の低下がみられるという報告がされている。</p>
+
+<p>2について。提案手法は密ベクトルの次元によらず、二値ベクトルの次元を自由に設定できる。
+メモリが限られた状況においては、二値ベクトルの次元をもとの密ベクトルの次元よりも小さくすることでメモリの消費を削減できる。</p>
+
+<h2 id="どれくらい高速化されるのか-精度は落ちないのか">どれくらい高速化されるのか？精度は落ちないのか？</h2>
+
+<p>a) 文を密ベクトルで表現し、コサイン類似度を計算、 b) 文を二値ベクトルで表現し、ハミング距離を計算、という2パターンに対して、$10,000$の文のペアの類似度を計算し、それぞれ計算にかかった時間を計測して、パターンbの二値ベクトルで表現、ハミング距離を計算するほうが、 パターンaよりも12倍高速に処理できたとのこと。
+ただしベクトルの次元はaとbで同じ。実験で用いた多くのタスクで二値ベクトルによる類似度計算の精度は、密ベクトルによる類似度計算の精度の2%程度の低下にとどまっている。</p>
+
+<p>また二値ベクトルの次元を小さくした場合においても (一部の手法では) あまり精度の低下は見られない。</p>
+
+<h2 id="どうやって密ベクトルを二値ベクトルにするのか">どうやって密ベクトルを二値ベクトルにするのか？</h2>
+
+<p><img src="https://tma15.github.io/img/2019/learning-to-compress.PNG" alt="密ベクトルを二値ベクトルへ変換する提案手法の概要図" style="width: 800px;"/></p>
+
+<p>論文では4つの手法が提案されているが、 上記図 (論文より) の(c)について説明する。
+(c)はAutoencoderベースのアーキテクチャに基づいて密ベクトルから二値ベクトルへ変換する手法である。
+Autoencoderは与えられた入力と同じものを出力するようなモデルである。
+ここでは密ベクトルを入力として、 (内部で二値ベクトルへ変換し、) 二値ベクトルに基づいて入力の密ベクトルを出力するように用いる。処理の流れは次の通り。</p>
+
+<ol>
+<li>文に対する密ベクトル$\mathbf{h}$を得る</li>
+<li>出力した密ベクトルを線形変換し、閾値以上の要素を$1$、それ以外を$0$としたベクトル$\mathbf{b}&lsquo;$を得る</li>
+<li>閾値以上の要素を$1$、そうでなければ$0$として変換した二値ベクトル$\mathbf{b}$を得る</li>
+<li>$\mathbf{b}$から密ベクトル$\hat{\mathbf{h}}$を出力する</li>
+</ol>
+
+<p>学習時は$\hat{\mathbf{h}}$が入力$\mathbf{h}$に近づくように二乗誤差に基づいてパラメータを更新する。
+ただし二乗誤差は入力の密ベクトルと出力の密ベクトルの要素の差を小さくするような式となっており、
+これでは二値ベクトルが二文間の類似度をうまく測れるような情報を保持するように密ベクトルを圧縮できているとは限らない。
+そこで密ベクトルのときの類似度の大小関係を、二値ベクトルへ変換した際も保持するような制約を二乗誤差と合わせて学習する。
+たとえば文αの密ベクトルに対して、文βの密ベクトルよりも文γの密ベクトルほうがコサイン類似度が高い場合は、二値ベクトルへ変換したあとでも、同様の関係となるほど良い、ということである。
+この制約をsemantic-preserving regularizerと呼んでいる。
+この学習により、二値ベクトルは元の密ベクトルの情報を保持しつつ、もとの密ベクトルのときの類似度関係を失わないようになりやすくなる。
+学習は (おそらくGPU上で) 1時間ほどで収束したとのこと。</p>
+
+<p>実際に文を二値ベクトルへ変換する際はステップ3までの処理を実施し、二つの文の二値ベクトルの間のハミング距離を計算する。</p>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/neural-network/">neural-network</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/acl2019/">acl2019</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/paper/">paper</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/" data-tooltip="Kaggle初参加記録">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/" data-tooltip="Kaggle初参加記録">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2019%2F09%2F04%2F%25E3%2583%258B%25E3%2583%25A5%25E3%2583%25BC%25E3%2583%25A9%25E3%2583%25AB%25E3%2583%258D%25E3%2583%2583%25E3%2583%2588%25E3%2581%25AE%25E5%2587%25BA%25E5%258A%259B%25E3%2583%2599%25E3%2582%25AF%25E3%2583%2588%25E3%2583%25AB%25E3%2582%2592%25E4%25BA%258C%25E5%2580%25A4%25E5%258C%2596%25E3%2581%2597%25E3%2581%25A6%25E6%25A4%259C%25E7%25B4%25A2%25E3%2582%2592%25E9%25AB%2598%25E9%2580%259F%25E5%258C%2596%25E3%2581%2595%25E3%2581%259B%25E3%2582%258B%25E6%2596%25B9%25E6%25B3%2595%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">An NLP researcher</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Research &amp; development of NLP technologies
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

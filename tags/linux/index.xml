@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>linux on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/linux/</link>
+    <link>https://tma15.github.io/tags/linux/</link>
     <description>Recent content in linux on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 16 Jan 2016 10:55:26 +0900</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>大量のファイルをGoで高速に読み込む</title>
-      <link>http://tma15.github.io/blog/2016/01/16/</link>
+      <link>https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/</link>
       <pubDate>Sat, 16 Jan 2016 10:55:26 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2016/01/16/</guid>
+      <guid>https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/</guid>
       <description>ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
 type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &amp;lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.</description>
     </item>
     
     <item>
       <title>grepでデータの重複を調べられる</title>
-      <link>http://tma15.github.io/blog/2015/12/29/</link>
+      <link>https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/</link>
       <pubDate>Tue, 29 Dec 2015 15:20:02 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/12/29/</guid>
+      <guid>https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/</guid>
       <description>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
 今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
 例えば学習データの中身が以下で、

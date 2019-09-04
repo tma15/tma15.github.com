@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>elasticsearch on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/elasticsearch/</link>
+    <link>https://tma15.github.io/tags/elasticsearch/</link>
     <description>Recent content in elasticsearch on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>PythonでElasticsearchを使うときのメモ</title>
-      <link>http://tma15.github.io/blog/2014/11/use-es-py/</link>
+      <link>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</link>
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/11/use-es-py/</guid>
+      <guid>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>全文検索したくなったときのためのメモ。 Elasticsearchはインストール済みとして進める。
 $./bin/elasticsearch -v Version: 1.4.0, Build: bc94bd8/2014-11-05T14:26:12Z, JVM: 1.8.0_25 準備 日本語を扱いたいことが想定されるので、 elasticsearch-analysis-kuromoji をインストール。プロキシ環境の場合は、プロキシを指定するか、手動でインストールする必要がある。
  プロキシ環境でのpluginコマンドの実行 Manual install of Elasticsearch plugins  $bin/plugin -install elasticsearch/elasticsearch-analysis-kuromoji/2.4.1 デフォルトのanalyzerをkuromojiにしておく。

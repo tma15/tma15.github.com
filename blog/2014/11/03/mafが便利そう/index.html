@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="">
+<meta name="description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
+今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
+使ってみた まず、wafとmafとダウンロードする。
+$cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod &#43;x waf 以下の様な wscript を作成。
+#!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &#34;&#34;&#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[&#43;1]: 0.478378 (3562/7446) Prec[&#43;1]: 0.693266 (3562/5138) &#34;&#34;&#34; out = task.parameter with open(task.inputs[0].abspath(), &#39;r&#39;) as f: num = 0 num_trues = 0 for line in f: if line.">
+
+
+<meta property="og:description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
+今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
+使ってみた まず、wafとmafとダウンロードする。
+$cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod &#43;x waf 以下の様な wscript を作成。
+#!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &#34;&#34;&#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[&#43;1]: 0.478378 (3562/7446) Prec[&#43;1]: 0.693266 (3562/5138) &#34;&#34;&#34; out = task.parameter with open(task.inputs[0].abspath(), &#39;r&#39;) as f: num = 0 num_trues = 0 for line in f: if line.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mafが便利そう">
+<meta name="twitter:title" content="mafが便利そう">
+<meta property="og:url" content="https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
+今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
+使ってみた まず、wafとmafとダウンロードする。
+$cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod &#43;x waf 以下の様な wscript を作成。
+#!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &#34;&#34;&#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[&#43;1]: 0.478378 (3562/7446) Prec[&#43;1]: 0.693266 (3562/5138) &#34;&#34;&#34; out = task.parameter with open(task.inputs[0].abspath(), &#39;r&#39;) as f: num = 0 num_trues = 0 for line in f: if line.">
+<meta name="twitter:description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
+今回は色々とパラメータを変えて学習した分類器を評価する例で進める。
+使ってみた まず、wafとmafとダウンロードする。
+$cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod &#43;x waf 以下の様な wscript を作成。
+#!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &#34;&#34;&#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[&#43;1]: 0.478378 (3562/7446) Prec[&#43;1]: 0.693266 (3562/5138) &#34;&#34;&#34; out = task.parameter with open(task.inputs[0].abspath(), &#39;r&#39;) as f: num = 0 num_trues = 0 for line in f: if line.">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2014-11-03T00:00:00">
+  
+  
+    <meta property="article:modified_time" content="2014-11-03T00:00:00">
+  
+  
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>mafが便利そう</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">An NLP researcher</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      mafが便利そう
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-11-03T00:00:00Z">
+        
+  November 3, 2014
+
+      </time>
+    
+    
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h2 id="概要">概要</h2>
+
+<p><a href="https://github.com/pfi/maf">maf</a>というツールが便利そうだったのでメモ。
+評価のために必要なめんどくさい処理が簡略化されそうな気がする。
+実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。
+まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。</p>
+
+<p>今回は色々とパラメータを変えて学習した分類器を評価する例で進める。</p>
+
+<h2 id="使ってみた">使ってみた</h2>
+
+<p>まず、wafとmafとダウンロードする。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cd /path/to/project/
+$wget https://github.com/pfi/maf/raw/master/waf
+$wget https://github.com/pfi/maf/raw/master/maf.py
+$chmod +x waf</code></pre></div>
+
+<p>以下の様な <a href="https://gist.github.com/tma15/1d7bd594d5be774ca6e9">wscript</a> を作成。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python</span>
+<span style="color:#f92672">import</span> re
+<span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> maf
+<span style="color:#f92672">import</span> maflib.util
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(conf):
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#a6e22e">@maflib.util.rule</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">jsonize</span>(task):
+    <span style="color:#e6db74">&#34;&#34;&#34; Calculate accuracy from a format as below:
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        Recall[-1]: 0.932965 (21934/23510)
+</span><span style="color:#e6db74">        Prec[-1]: 0.849562 (21934/25818)
+</span><span style="color:#e6db74">        --
+</span><span style="color:#e6db74">        Recall[+1]: 0.478378 (3562/7446)
+</span><span style="color:#e6db74">        Prec[+1]: 0.693266 (3562/5138)
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    out <span style="color:#f92672">=</span> task<span style="color:#f92672">.</span>parameter
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        num_trues <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+            <span style="color:#66d9ef">if</span> line<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;Prec&#34;</span>):
+                sp <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split()
+                nums <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;(\d+)/(\d+)&#34;</span>, sp[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">.</span>groups()
+                num_trues <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">0</span>])
+                num <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">1</span>])
+        out[<span style="color:#e6db74">&#34;accuracy&#34;</span>] <span style="color:#f92672">=</span> num_trues <span style="color:#f92672">/</span> float(num)
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        json<span style="color:#f92672">.</span>dump(out, f)
+
+<span style="color:#a6e22e">@maflib.util.rule</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_alg</span>(task):
+    out <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> task<span style="color:#f92672">.</span>inputs:
+        <span style="color:#66d9ef">with</span> open(i<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+            out<span style="color:#f92672">.</span>append(json<span style="color:#f92672">.</span>load(f))
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        json<span style="color:#f92672">.</span>dump(out, f)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_param</span>():
+    <span style="color:#a6e22e">@maflib.util.aggregator</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">body</span>(values, outpath, parameter):
+        out <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> values:
+            out<span style="color:#f92672">.</span>append(value)
+        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(out)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build</span>(exp):
+    traindata<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;a1a&#39;</span>
+    train <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&#39;</span>
+    test <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&#39;</span>
+
+    NUM_FOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+    exp(source<span style="color:#f92672">=</span>traindata,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train dev&#34;</span>,
+        parameters<span style="color:#f92672">=</span>[{<span style="color:#e6db74">&#34;fold&#34;</span>: i} <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(NUM_FOLD)],
+        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>segment_by_line(NUM_FOLD, <span style="color:#e6db74">&#39;fold&#39;</span>))
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model&#34;</span>,
+        parameters<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>util<span style="color:#f92672">.</span>product({
+            <span style="color:#e6db74">&#34;a&#34;</span>: [<span style="color:#e6db74">&#34;perceptron&#34;</span>, <span style="color:#e6db74">&#34;pa2&#34;</span>, <span style="color:#e6db74">&#34;adagrad&#34;</span>],
+            <span style="color:#e6db74">&#34;c&#34;</span>: np<span style="color:#f92672">.</span>power(<span style="color:#ae81ff">10.</span>, np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">12</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64)),
+            }),
+        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -a ${a} -m ${TGT[0].abspath()} ${SRC[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> train)
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model dev&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
+        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -m ${SRC[0].abspath()} ${SRC[1].abspath()} &gt; ${TGT[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> test)
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
+            rule<span style="color:#f92672">=</span>jsonize) <span style="color:#75715e">### パラメータごとのaccuracyをjson形式で出力</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
+        for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>],
+        rule<span style="color:#f92672">=</span>aggregate_by_param()) <span style="color:#75715e">### パラメータ毎にaccuracyを集約する</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
+        aggregate_by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;fold&#34;</span>],
+        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>average) <span style="color:#75715e">### パラメータ毎の平均を計算</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>, 
+            for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>],
+            rule<span style="color:#f92672">=</span>aggregate_by_alg) <span style="color:#75715e">## アルゴリズム毎に集約</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;max_acc&#34;</span>,
+            aggregate_by <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;fold&#34;</span>],
+            rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>max(<span style="color:#e6db74">&#34;accuracy&#34;</span>))</code></pre></div>
+
+<p>次のように実行。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ./waf configure
+Setting top to                           : /Users/makino/code/mafexp
+Setting out to                           : /Users/makino/code/mafexp/build
+<span style="color:#e6db74">&#39;configure&#39;</span> finished successfully <span style="color:#f92672">(</span><span style="color:#ae81ff">0</span>.004s<span style="color:#f92672">)</span>
+$./waf
+Waf: Entering directory <span style="color:#e6db74">`</span>/Users/makino/code/mafexp/build<span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">[  2/240] 0-train,0-dev: a1a -&gt; build/train/0-train build/dev/0-dev
+</span><span style="color:#e6db74">[  3/240] 1-train,1-dev: a1a -&gt; build/train/1-train build/dev/1-dev
+</span><span style="color:#e6db74">[  3/240] 2-train,2-dev: a1a -&gt; build/train/2-train build/dev/2-dev
+</span><span style="color:#e6db74">[  7/240] 19-model: build/train/1-train -&gt; build/model/19-model
+</span><span style="color:#e6db74">[  7/240] 18-model: build/train/1-train -&gt; build/model/18-model
+</span><span style="color:#e6db74">[  7/240] 22-model: build/train/1-train -&gt; build/model/22-model
+</span><span style="color:#e6db74">...
+</span><span style="color:#e6db74">[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&gt; build/max_acc/87-max_acc
+</span><span style="color:#e6db74">Waf: Leaving directory `/Users/makino/code/mafexp/build&#39;</span>
+<span style="color:#e6db74">&#39;build&#39;</span> finished successfully <span style="color:#f92672">(</span><span style="color:#ae81ff">3</span>.450s<span style="color:#f92672">)</span></code></pre></div>
+
+<h2 id="他に">他に</h2>
+
+<p>出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cat ./build/.maf_id_table.tsv
+<span style="color:#ae81ff">0</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: <span style="color:#ae81ff">0</span><span style="color:#f92672">}</span>
+<span style="color:#ae81ff">1</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: <span style="color:#ae81ff">1</span><span style="color:#f92672">}</span>
+<span style="color:#ae81ff">2</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: <span style="color:#ae81ff">2</span><span style="color:#f92672">}</span>
+<span style="color:#ae81ff">3</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;c&#39;</span>: <span style="color:#ae81ff">9</span>.9999999999999998e-13<span style="color:#f92672">}</span>
+<span style="color:#ae81ff">4</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;c&#39;</span>: <span style="color:#ae81ff">9</span>.9999999999999994e-12<span style="color:#f92672">}</span>
+...</code></pre></div>
+
+<p>また、結果を集約するときなどは、<a href="http://pfi.github.io/maf/usage.html#json">JSON形式でデータを扱う必要がある</a> ので、分類器の出力をJSON形式に加工する関数を作らなければならない。
+GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サンプルコード</a> が参考になる。</p>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+<li><a href="//d.hatena.ne.jp/tanakh/20100212">waf チュートリアル</a></li>
+<li><a href="http://pfi.github.io/maf/usage.html">mafの使い方</a></li>
+<li><a href="http://research.preferred.jp/2013/12/maf/">データ解析作業の救世主！ 超絶☆実験ビルドシステムmafをOSS公開しました</a></li>
+</ul>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/11/03/atom.xml%E3%82%92%E5%8A%A0%E3%81%88%E3%81%9F/" data-tooltip="atom.xmlを加えた">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" data-tooltip="HMMを実装した">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/11/03/atom.xml%E3%82%92%E5%8A%A0%E3%81%88%E3%81%9F/" data-tooltip="atom.xmlを加えた">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" data-tooltip="HMMを実装した">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2014%2F11%2F03%2Fmaf%25E3%2581%258C%25E4%25BE%25BF%25E5%2588%25A9%25E3%2581%259D%25E3%2581%2586%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">An NLP researcher</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Research &amp; development of NLP technologies
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

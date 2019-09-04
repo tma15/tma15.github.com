@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>book on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/book/</link>
+    <link>https://tma15.github.io/tags/book/</link>
     <description>Recent content in book on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 17 Feb 2014 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/book/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/book/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
-      <link>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</link>
+      <link>https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/</link>
       <pubDate>Mon, 17 Feb 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/2/jeff-bezos-and-the-age-of-amazon/</guid>
+      <guid>https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/</guid>
       <description>Amazonの中の話はあまりWeb上で見たことがなかったので興味深く読めた。
 会社の方針は、ジェフ・ベゾスの意思を強く反映している感じ。 ジェフ・ベゾスは顧客のことを第一に考えていて、それを背景にして社員の福利厚生はかなり貧しい感じ。 例えば、社員にバスが動いている時間に帰ってほしくないから、という理由でバスの定期を買う際の補助金を却下しているらしい。 また、長期的なメリットを考えて、短期的な利益は考えずに赤字覚悟で商品の価格を引き下げたりしている。 これで競合他社が立ち入る隙を見せないようにしている。すごい。。 いちAmazonユーザからすると、なんて顧客のことを考えてくれる会社なんだろうと思う。
 誰かを雇ったら、その人を基準に次はもっと優れた人を雇うようにすると言った、Googleなどの話でも聞いたようなことをやっていて、 人材はどの企業でも大事なんだなあと改めて思った (小並感)。
@@ -28,20 +28,20 @@ A9がたまに学会のスポンサーとかで見かけていて、Amazonのに
     
     <item>
       <title>Good style - Writing for Computer Science</title>
-      <link>http://tma15.github.io/blog/2013/3/good-style/</link>
+      <link>https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/</link>
       <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/3/good-style/</guid>
+      <guid>https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/</guid>
       <description>Writing for Computer Science のメモ
  </description>
     </item>
     
     <item>
       <title>Giving presentations - Writing for Computer Science</title>
-      <link>http://tma15.github.io/blog/2013/2/giving-presentaions/</link>
+      <link>https://tma15.github.io/blog/2013/02/23/giving-presentations-writing-for-computer-science/</link>
       <pubDate>Sat, 23 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/2/giving-presentaions/</guid>
+      <guid>https://tma15.github.io/blog/2013/02/23/giving-presentations-writing-for-computer-science/</guid>
       <description>Writing for Computer Science のメモ
  </description>
     </item>

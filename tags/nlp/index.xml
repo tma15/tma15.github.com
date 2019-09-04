@@ -2,21 +2,40 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nlp on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/nlp/</link>
+    <link>https://tma15.github.io/tags/nlp/</link>
     <description>Recent content in nlp on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 31 Jan 2016 19:17:31 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 04 Sep 2019 18:19:54 +0900</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法</title>
+      <link>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+(&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+&lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>N-best解の探索</title>
-      <link>http://tma15.github.io/blog/2016/01/31/</link>
+      <link>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</link>
       <pubDate>Sun, 31 Jan 2016 19:17:31 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2016/01/31/</guid>
+      <guid>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</guid>
       <description>系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。 上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) の説明が分かりやすい。理解するために実装してみた。
  ラティスの構造は以下のとおり。パスの重みは上記コードを参照。
 #0 n1 --- n3 / \ / \ bos x eos \ / \ / #1 n2 --- n4  ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、 ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。 2-best以降もラティスの情報から、あっていることを確認。
@@ -26,20 +45,20 @@ $go test Backtrack ### ビタビアルゴリズムで求めたパス 1 ### n2を
     
     <item>
       <title>CYKアルゴリズムで係り受け解析</title>
-      <link>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</link>
+      <link>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</link>
       <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykfordependencyparsing/</guid>
+      <guid>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</guid>
       <description> CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。 具体的には参考資料の23ページにあるような変換をする。 例えば「私は / ピザを / 食べる」という文節で(&amp;ldquo;/&amp;ldquo;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&amp;gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。 ただしこの解析ではO(n^5)の時間がかかる。
 参考  Dependency Parsing Tutorial at COLING-ACL 2006  </description>
     </item>
     
     <item>
       <title>CYKアルゴリズム</title>
-      <link>http://tma15.github.io/blog/2015/01/cykmemo/</link>
+      <link>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</link>
       <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2015/01/cykmemo/</guid>
+      <guid>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</guid>
       <description> 明けましておめでとうございます。
 確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (ソースコード)。 動的計画法。 表TのT[0, N-1]に&amp;rdquo;S&amp;rdquo;があれば与えられた文法からこの文は導出可能。 文&amp;rdquo;I eat pizza with Maria&amp;rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。
 $python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | | N | | | P | PP | | | | N --l &amp;lt;N&amp;gt; -- I 0 --r &amp;lt;V&amp;gt; --l &amp;lt;V&amp;gt; -- eat 1 --r &amp;lt;N&amp;gt; --l &amp;lt;N&amp;gt; -- pizza 2 --r &amp;lt;PP&amp;gt; --l &amp;lt;P&amp;gt; -- with 3 --r &amp;lt;N&amp;gt; -- Maria 4 -- --l &amp;lt;S&amp;gt; --l &amp;lt;N&amp;gt; -- I 0 --r &amp;lt;V&amp;gt; --l &amp;lt;V&amp;gt; -- eat 1 --r &amp;lt;N&amp;gt; -- pizza 2 --r &amp;lt;PP&amp;gt; --l &amp;lt;P&amp;gt; -- with 3 --r &amp;lt;N&amp;gt; -- Maria 4 -- 参考   </description>
@@ -47,10 +66,10 @@ $python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | 
     
     <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
-      <link>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</link>
+      <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/12/read-question-answering-using-enhanced-lexical-semantic-models/</guid>
+      <guid>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
       <description>Question Answering Using Enhanced Lexical Semantic Models (pdf)
 Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013
 導入  自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する  単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから  answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる  単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない 深い意味解析をしたり構文木の編集距離 (Tree Edit Distance)をしている研究もあるが、計算コストが高い なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる  浅い意味解析は上位下位語や同義語などを識別するlexical sematics   この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する  この論文の貢献  色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical semanticsを入れた場合、性能の差は小さくなる  計算コストを下げたいなら、lexical semanticsを使ってシンプルなモデルを使うこともできる   問題設定 教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。</description>
@@ -58,20 +77,20 @@ Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft R
     
     <item>
       <title>HMMを実装した</title>
-      <link>http://tma15.github.io/blog/2014/10/hmm/</link>
+      <link>https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</link>
       <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/hmm/</guid>
+      <guid>https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</guid>
       <description>概要 勉強のためにGrahamさんが公開されている資料を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。 また、実験用のデータ、評価スクリプトも使用させて頂いている。
 $./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos Accuracy: 75.83% (3460/4563) Most common mistakes: NNS --&amp;gt; NN 49 RB --&amp;gt; NN 35 JJ --&amp;gt; DT 30 RB --&amp;gt; IN 29 NN --&amp;gt; JJ 28 NN --&amp;gt; IN 25 JJ --&amp;gt; NN 24 NN --&amp;gt; DT 24 NNP --&amp;gt; NN 22 VBN --&amp;gt; NN 22 特に工夫はしていないのでこんなものかという感じ。 コードはこちら。</description>
     </item>
     
     <item>
       <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
-      <link>http://tma15.github.io/blog/2014/10/document-classification/</link>
+      <link>https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/</link>
       <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2014/10/document-classification/</guid>
+      <guid>https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/</guid>
       <description>概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
  文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
@@ -83,10 +102,10 @@ $cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ �
     
     <item>
       <title>エッセイ Towards the Machine Comprehension of Text のメモ</title>
-      <link>http://tma15.github.io/blog/2013/12/mct/</link>
+      <link>https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/</link>
       <pubDate>Fri, 27 Dec 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/12/mct/</guid>
+      <guid>https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>エッセイの一部をメモ。
 主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
 Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト  Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&amp;rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&amp;rdquo;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー  Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &amp;ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&amp;rdquo;の&amp;rdquo;それ&amp;rdquo;は何を指しているか？  クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする   興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
@@ -95,20 +114,20 @@ Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理�
     
     <item>
       <title>文書要約メモ（ACL2013）</title>
-      <link>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</link>
+      <link>https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/</link>
       <pubDate>Mon, 30 Sep 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/9/acl2013-summ-note/</guid>
+      <guid>https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/</guid>
       <description>acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
 Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている  さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.</description>
     </item>
     
     <item>
       <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
-      <link>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</link>
+      <link>https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/</link>
       <pubDate>Sat, 16 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/2/robust-disambiguation-of-named-entities-in-text/</guid>
+      <guid>https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/</guid>
       <description>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
 解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない  e.g. MadridでManchesterとBarcelonaの試合があった Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される   アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   priorは、mentionに含まれる表現が一般的にentity e_jである確率 context similarityはmentionとentityの文脈類似度 coherenceは他のmentionのentityとの意味的な近さ   Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標     グラフの中からサブグラフを選択  サブグラフは、一つのmentionが一つのentityとエッジをもつ サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除</description>
@@ -116,10 +135,10 @@ proceeding: pdf
     
     <item>
       <title>Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)</title>
-      <link>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</link>
+      <link>https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/</link>
       <pubDate>Wed, 06 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/2/joint-inference-of-named-entity-recognition-and-normalization-for-tweets/</guid>
+      <guid>https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/</guid>
       <description>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
@@ -128,10 +147,10 @@ proceeding: pdf
     
     <item>
       <title>Named Entity Disambiguation in Streaming Data (ACL 2012)</title>
-      <link>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</link>
+      <link>https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/</link>
       <pubDate>Fri, 01 Feb 2013 00:00:00 +0000</pubDate>
       
-      <guid>http://tma15.github.io/blog/2013/2/named-entity-disambiguation-in-streaming-data/</guid>
+      <guid>https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/</guid>
       <description>Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender
 proceeding: pdf
 解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。

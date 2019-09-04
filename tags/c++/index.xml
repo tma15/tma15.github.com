@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>C&#43;&#43; on Now is better than never.</title>
-    <link>http://tma15.github.io/tags/c&#43;&#43;/</link>
+    <link>https://tma15.github.io/tags/c&#43;&#43;/</link>
     <description>Recent content in C&#43;&#43; on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 06 May 2017 13:09:55 +0900</lastBuildDate>
     
-	<atom:link href="http://tma15.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://tma15.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ゴールデンウィークの空き時間を使ってダブル配列を実装した</title>
-      <link>http://tma15.github.io/blog/2017/05/06/</link>
+      <link>https://tma15.github.io/blog/2017/05/06/%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%BC%E3%82%AF%E3%81%AE%E7%A9%BA%E3%81%8D%E6%99%82%E9%96%93%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%83%80%E3%83%96%E3%83%AB%E9%85%8D%E5%88%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</link>
       <pubDate>Sat, 06 May 2017 13:09:55 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2017/05/06/</guid>
+      <guid>https://tma15.github.io/blog/2017/05/06/%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%BC%E3%82%AF%E3%81%AE%E7%A9%BA%E3%81%8D%E6%99%82%E9%96%93%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%83%80%E3%83%96%E3%83%AB%E9%85%8D%E5%88%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</guid>
       <description>このゴールデンウィークはまとまった休日を取ることができた。 そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、 今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。 ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器のMeCabなどで用いられている。 入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。 そのため、高速にキーを検索することができる。
 開発成果はここにアップロードした。 基本的にはダブル配列法によるトライ検索の実現法を素直に実装している。
 休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):
@@ -28,10 +28,10 @@
     
     <item>
       <title>SWIGを使ってPythonラッパーを生成する</title>
-      <link>http://tma15.github.io/blog/2016/09/05/</link>
+      <link>https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/</link>
       <pubDate>Mon, 05 Sep 2016 19:28:46 +0900</pubDate>
       
-      <guid>http://tma15.github.io/blog/2016/09/05/</guid>
+      <guid>https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/</guid>
       <description>SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
 またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
