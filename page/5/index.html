@@ -260,7 +260,63 @@ if (!doNotTrack) {
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          PA-IIをGoで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
+        
+  October 18, 2014
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        論文はこちら。
+Online Passive-Aggressive Algorithms
+ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) + 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -319,7 +375,7 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -375,7 +431,7 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -429,7 +485,7 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -488,7 +544,7 @@ A9がたまに学会のスポンサーとかで見かけていて、Amazonのに
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -555,7 +611,7 @@ How to do good research, get it published in SIGKDD and get it citedとか
 
   
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
@@ -591,67 +647,6 @@ Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理�
       
       <p>
         <a href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/">
-          Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-12-14T00:00:00Z">
-        
-  December 14, 2013
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        proceeding slide: slideshare
-まとめ CIKM 2013でBest paperを取った、著者が全員女性(参考)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。 何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。
-以下、メモ。
-Why/when do penguins wear sweaters?  タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)  羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう   Serendipity 役に立つんだけど、特に探していたわけではないもの。
-Entity Search この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。
-この論文の焦点 WHAT ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？
-WHY そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？
-データ Yahoo! Answers  ごくわずかにまとめられた意見、ゴシップ、個人情報 観点が多様  Wikipedia  高品質の情報が整理されている ニッチなトピックが豊富  Entity &amp; Relation Extraction Entity: Wikipediaに記述されている概念 1 テキストから表層形を識別し、 2 Wikipediaのentityと紐付けして、
- 文脈依存 文脈非依存な素性  click log   3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

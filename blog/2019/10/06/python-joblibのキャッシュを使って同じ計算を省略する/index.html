@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="">
+<meta name="description" content="本エントリではPythonのJoblibがもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。">
+
+
+<meta property="og:description" content="本エントリではPythonのJoblibがもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Python] Joblibのキャッシュを使って同じ計算を省略する">
+<meta name="twitter:title" content="[Python] Joblibのキャッシュを使って同じ計算を省略する">
+<meta property="og:url" content="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本エントリではPythonのJoblibがもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。">
+<meta name="twitter:description" content="本エントリではPythonのJoblibがもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。">
+<meta property="og:locale" content="en-us">
+
+  
+    <meta property="article:published_time" content="2019-10-06T07:08:25">
+  
+  
+    <meta property="article:modified_time" content="2019-10-06T07:08:25">
+  
+  
+  
+    
+      <meta property="article:section" content="joblib">
+    
+      <meta property="article:section" content="python">
+    
+      <meta property="article:section" content="cache">
+    
+  
+  
+    
+      <meta property="article:tag" content="joblib">
+    
+      <meta property="article:tag" content="python">
+    
+      <meta property="article:tag" content="cache">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/2019/joblib_logo.svg">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2019/joblib_logo.svg">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>[Python] Joblibのキャッシュを使って同じ計算を省略する</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発者。自然言語処理に関する研究から製品化に向けた開発までに興味を持っています。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">Home</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">Tags</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">Archives</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">About</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      [Python] Joblibのキャッシュを使って同じ計算を省略する
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-10-06T07:08:25&#43;09:00">
+        
+  October 6, 2019
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/joblib">joblib</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/cache">cache</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本エントリではPythonの<a href="https://joblib.readthedocs.io/en/latest/">Joblib</a>がもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。</p>
+
+<p>目次:</p>
+
+<ul>
+<li><a href="#joblibとは">Joblibとは</a>
+
+<ul>
+<li><a href="#1-計算結果のキャッシュが可能">1. 計算結果のキャッシュが可能</a></li>
+<li><a href="#2-並列化が容易">2. 並列化が容易</a></li>
+<li><a href="#3-高速、高圧縮な永続化">3. 高速、高圧縮な永続化</a></li>
+</ul></li>
+<li><a href="#環境">環境</a></li>
+<li><a href="#joblibのインストール">Joblibのインストール</a></li>
+<li><a href="#memoryを使って計算結果をキャッシュする">Memoryを使って計算結果をキャッシュする</a>
+
+<ul>
+<li><a href="#キャッシュの簡単な例">キャッシュの簡単な例</a></li>
+<li><a href="#numpyのデータを扱う関数をキャッシュ可能にする">NumPyのデータを扱う関数をキャッシュ可能にする</a></li>
+<li><a href="#メモリーマップを使った高速なキャッシュの参照">メモリーマップを使った高速なキャッシュの参照</a></li>
+<li><a href="#キャッシュされた結果の参照を取得する。">キャッシュされた結果の参照を取得する。</a></li>
+</ul></li>
+<li><a href="#joblibを使ってテキストを単語のidに変換する処理を高速化する">Joblibを使ってテキストを単語のIDに変換する処理を高速化する</a></li>
+<li><a href="#まとめ">まとめ</a></li>
+</ul>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8807784924"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<h2 id="joblibとは">Joblibとは</h2>
+
+<div align="center">
+<img src="https://tma15.github.io/img/2019/joblib_logo.svg" alt="Joblibのロゴ" style="width: 300px;"/>
+</div>
+
+<p>JoblibはPythonにおけるパイプライン処理の効率化をするためのライブラリであり、以下の特徴を持つ。
+今回は特徴の一つであるキャッシュ機能について説明する。</p>
+
+<h3 id="1-計算結果のキャッシュが可能">1. 計算結果のキャッシュが可能</h3>
+
+<p>JoblibではPythonの関数をメモ化することができる。例えば以下のように <code>numpy.square</code> 関数をメモ化すると、同一の入力に対して再び計算せず、キャッシュした計算結果を返す。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; from joblib import Memory
+&gt;&gt;&gt; cachedir = 'your_cache_dir_goes_here'
+&gt;&gt;&gt; mem = Memory(cachedir)
+&gt;&gt;&gt; import numpy
+&gt;&gt;&gt; a = np.vander(numpy.arange(3)).astype(numpy.float)
+&gt;&gt;&gt; square = mem.cache(numpy.square)
+&gt;&gt;&gt; b = square(a)                                   
+________________________________________________________________________________
+[Memory] Calling square...
+square(array([[0., 0., 1.],
+       [1., 1., 1.],
+       [4., 2., 1.]]))
+___________________________________________________________square - 0...s, 0.0min
+
+&gt;&gt;&gt; c = square(a)  # この関数呼び出しでは実際の計算はおこなわれない
+</code></pre>
+
+<h3 id="2-並列化が容易">2. 並列化が容易</h3>
+
+<p>Joblibでは並列化処理を簡潔に記述できる。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; from joblib import Parallel, delayed
+&gt;&gt;&gt; from math import sqrt
+&gt;&gt;&gt; Parallel(n_jobs=1)(delayed(sqrt)(i**2) for i in range(10))
+[0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0]
+</code></pre>
+
+<h3 id="3-高速-高圧縮な永続化">3. 高速、高圧縮な永続化</h3>
+
+<p>Joblibは大規模なデータでも効率的に永続化でき、pickleを代替として利用できる。</p>
+
+<h2 id="環境">環境</h2>
+
+<p>OSはmacOS Mojave バージョン10.14.16である。他の環境は次の通り。</p>
+
+<pre><code class="language-sh">❯❯❯ python --version
+Python 3.7.3
+❯❯❯ pip freeze|grep joblib
+joblib==0.13.2
+❯❯❯ pip freeze|grep numpy
+numpy==1.16.2
+</code></pre>
+
+<h2 id="joblibのインストール">Joblibのインストール</h2>
+
+<pre><code class="language-sh">pip install joblib
+</code></pre>
+
+<h2 id="memoryを使って計算結果をキャッシュする">Memoryを使って計算結果をキャッシュする</h2>
+
+<h3 id="キャッシュの簡単な例">キャッシュの簡単な例</h3>
+
+<p>キャッシュ結果を保存するディレクトリを指定して <code>Memory</code> クラスのインスタンスを作成する。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; from joblib import Memory
+&gt;&gt;&gt; cachedir = 'your_cache_location_directory'
+&gt;&gt;&gt; memory = Memory(cachedir, verbose=0)
+</code></pre>
+
+<p>次に計算結果をキャッシュしたい関数をこの <code>memory</code> でデコレートする。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; @memory.cache
+&gt;&gt;&gt; ... def f(x):
+&gt;&gt;&gt; ...     print('Running f(%s)' % x)
+&gt;&gt;&gt; ...     return x
+</code></pre>
+
+<p>このキャッシュ可能した関数に対して同じ入力を与えて呼び出すと、二度目の呼び出しでは、実際の計算を避けることができる。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; print(f(1))
+Running f(1)
+1
+&gt;&gt;&gt; print(f(1))
+1
+</code></pre>
+
+<p>今まで与えられていない入力に対しては、実際に計算して結果を返す。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; print(f(2))
+&gt;&gt;&gt; Running f(2)
+&gt;&gt;&gt; 2
+</code></pre>
+
+<h3 id="numpyのデータを扱う関数をキャッシュ可能にする">NumPyのデータを扱う関数をキャッシュ可能にする</h3>
+
+<p><code>Memory</code> を実装したもともとの動機はnumpyのarrayを扱う処理をキャッシュ可能にしたかったためとのこと。
+<code>Memory</code> は与えられた入力に対して過去に計算をしているかどうかを確かめるために、高速な<a href="https://developer.mozilla.org/ja/docs/Glossary/Cryptographic_hash_function">暗号学的ハッシュ関数</a> を利用している。</p>
+
+<p>例えば、ある値を受け取り、numpyのarrayを出力する関数と、numpyのarrayを受け取って計算をおこなう関数を2つ定義する。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; import numpy as np
+
+&gt;&gt;&gt; @memory.cache
+... def g(x):
+...     print('A long-running calculation, with parameter %s' % x)
+...     return np.hamming(x)
+
+&gt;&gt;&gt; @memory.cache
+... def h(x):
+...     print('A second long-running calculation, using g(x)')
+...     return np.vander(x)
+</code></pre>
+
+<p>以下のように関数 <code>h</code> が関数 <code>g</code> の結果をもとに2回呼び出されても、2回めの呼び出しでは実際の計算はおこなわれない。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; a = g(3) # 1回目のg呼び出し
+A long-running calculation, with parameter 3
+&gt;&gt;&gt; a
+array([0.08, 1.  , 0.08])
+&gt;&gt;&gt; g(3)  # 2回目のg呼び出し
+array([0.08, 1.  , 0.08])
+&gt;&gt;&gt; b = h(a)  # 1回目のh呼び出し
+A second long-running calculation, using g(x)
+&gt;&gt;&gt; b2 = h(a)  # 2回目のh呼び出し
+&gt;&gt;&gt; b2
+array([[0.0064, 0.08  , 1.    ],
+       [1.    , 1.    , 1.    ],
+       [0.0064, 0.08  , 1.    ]])
+&gt;&gt;&gt; np.allclose(b, b2)
+True
+</code></pre>
+
+<h3 id="メモリーマップを使った高速なキャッシュの参照">メモリーマップを使った高速なキャッシュの参照</h3>
+
+<p>メモリーマップを使うことでnumpyのarrayをキャッシュからの読み込みを高速化することができる。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; cachedir2 = 'your_cachedir2_location'
+&gt;&gt;&gt; memory2 = Memory(cachedir2, mmap_mode='r')  # メモリーマップを読み込みモードで利用
+&gt;&gt;&gt; square = memory2.cache(np.square)
+&gt;&gt;&gt; a = np.vander(np.arange(3)).astype(np.float)
+&gt;&gt;&gt; square(a)
+________________________________________________________________________________
+[Memory] Calling square...
+square(array([[0., 0., 1.],
+       [1., 1., 1.],
+       [4., 2., 1.]]))
+___________________________________________________________square - 0.0s, 0.0min
+memmap([[ 0.,  0.,  1.],
+        [ 1.,  1.,  1.],
+        [16.,  4.,  1.]])
+</code></pre>
+
+<p>関数 <code>square</code> が同じ入力で呼び出されると、メモリーマップを使ってディスクから読み込んで計算結果を返す。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; res = square(a)
+&gt;&gt;&gt; print(repr(res))
+memmap([[ 0.,  0.,  1.],
+        [ 1.,  1.,  1.],
+        [16.,  4.,  1.]])
+</code></pre>
+
+<p><code>mmap_mode</code> については<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html">numpy.load</a>を参照してほしい。</p>
+
+<h3 id="キャッシュされた結果の参照を取得する">キャッシュされた結果の参照を取得する。</h3>
+
+<p>計算結果そのものではなく、参照を取得することもできる。
+参照を取得したい場合は、メモ化した関数に対して <code>call_and_shelve</code> を呼び出す。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; result = g.call_and_shelve(4)
+A long-running calculation, with parameter 4
+&gt;&gt;&gt; result  
+MemorizedResult(location=&quot;...&quot;, func=&quot;...g...&quot;, args_id=&quot;...&quot;)
+</code></pre>
+
+<p>関数 <code>g</code> の計算結果はディスク上に保存され、メモリからは削除される。計算結果を取得するには <code>get</code> 関数を利用する。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; result.get()
+&gt;&gt;&gt; array([0.08, 0.77, 0.77, 0.08])
+</code></pre>
+
+<p>このキャッシュを削除するには <code>clear</code> 関数を利用する。これにより、ディスクからそのキャッシュが削除されるため、再び <code>get</code> 関数を利用しても <code>KeyError</code> となる。</p>
+
+<pre><code class="language-python">&gt;&gt;&gt; result.clear()
+&gt;&gt;&gt; result.get()  
+Traceback (most recent call last):
+...
+KeyError: 'Non-existing cache value (may have been cleared).\nFile ... does not exist'
+</code></pre>
+
+<h2 id="joblibを使ってテキストを単語のidに変換する処理を高速化する">Joblibを使ってテキストを単語のIDに変換する処理を高速化する</h2>
+
+<p>ニューラルネットワークを使った自然言語処理では、事前にテキストに出現する単語を一意な整数へ変換することが一般的である。この処理はテキストの量が多くなるほど時間がかかるものの、毎回計算結果は同じである。この処理をJoblibでキャッシュすることで、2回目の計算を高速化できるか試してみる。</p>
+
+<p>データは次の通り取得する。</p>
+
+<pre><code class="language-sh">wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/vocab-2016-09-10.txt
+wget http://www.statmt.org/lm-benchmark/1-billion-word-language-modeling-benchmark-r13output.tar.gz
+tar zxvf 1-billion-word-language-modeling-benchmark-r13output.tar.gz
+</code></pre>
+
+<p>中身はそれぞれ以下の通りである。</p>
+
+<pre><code class="language-sh">❯❯❯ head ~/data/vocab-2016-09-10.txt
+&lt;/S&gt;
+&lt;S&gt;
+&lt;UNK&gt;
+the
+,
+.
+to
+of
+and
+a
+</code></pre>
+
+<pre><code class="language-sh">❯❯❯ head ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100
+The U.S. Centers for Disease Control and Prevention initially advised school systems to close if outbreaks occurred , then reversed itself , saying the apparent mildness of the virus meant most schools and day care centers should stay open , even if they had confirmed cases of swine flu .
+When Ms. Winfrey invited Suzanne Somers to share her controversial views about bio-identical hormone treatment on her syndicated show in 2009 , it won Ms. Winfrey a rare dollop of unflattering press , including a Newsweek cover story titled &quot; Crazy Talk : Oprah , Wacky Cures &amp; You . &quot;
+Elk calling -- a skill that hunters perfected long ago to lure game with the promise of a little romance -- is now its own sport .
+Don 't !
+Fish , ranked 98th in the world , fired 22 aces en route to a 6-3 , 6-7 ( 5 / 7 ) , 7-6 ( 7 / 4 ) win over seventh-seeded Argentinian David Nalbandian .
+Why does everything have to become such a big issue ?
+AMMAN ( Reuters ) - King Abdullah of Jordan will meet U.S. President Barack Obama in Washington on April 21 to lobby on behalf of Arab states for a stronger U.S. role in Middle East peacemaking , palace officials said on Sunday .
+To help keep traffic flowing the Congestion Charge will remain in operation through-out the strike and TfL will be suspending road works on major London roads wherever possible .
+If no candidate wins an absolute majority , there will be a runoff between the top two contenders , most likely in mid-October .
+Authorities previously served search warrants at Murray 's Las Vegas home and his businesses in Las Vegas and Houston .
+</code></pre>
+
+<p>次にテキストに出現する単語を一意な整数に変換し、文単位でnumpyのarrayに変換するプログラムを用意する。</p>
+
+<pre><code class="language-python">from joblib import Memory
+import numpy as np
+
+
+memory = Memory('cache_dir', mmap_mode='r')
+
+
+@memory.cache
+def load_vocab(vocab_file):
+    item2index = {}
+    with open(vocab_file, 'r') as f:
+        for line in f:
+            item = line.strip()
+            item2index[item] = len(item2index)
+    return item2index
+
+
+@memory.cache
+def convert(data_file, item2index, is_reference):
+    if is_reference:
+        item2index = item2index.get()
+    data = []
+    unk = item2index['&lt;UNK&gt;']
+    with open(data_file, 'r') as f:
+        for line in f:
+            words = line.strip().split()
+            indices = []
+            for word in words:
+                if word in item2index:
+                    indices.append(item2index[word])
+                else:
+                    indices.append(unk)
+            data.append(np.array(indices, dtype=np.int32))
+    return unk
+
+
+def main_with_reference(args):
+    start_at1 = time.time()
+    item2index = load_vocab.call_and_shelve(args.vocab_file)
+    print('Elapsed time of load_vocab', time.time() - start_at1)
+
+    start_at2 = time.time()
+    data = convert(args.data_file, item2index, args.with_reference)
+    print('Elapsed time of convert', time.time() - start_at2)
+
+
+def main_without_reference(args):
+    start_at1 = time.time()
+    item2index = load_vocab(args.vocab_file)
+    print('Elapsed of load_vocab', time.time() - start_at1)
+
+    start_at2 = time.time()
+    data = convert(args.data_file, item2index, args.with_reference)
+    print('Elapsed time of convert', time.time() - start_at2)
+
+
+if __name__ == '__main__':
+    import time
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--vocab_file')
+    ap.add_argument('--data_file')
+    ap.add_argument('--with_reference', action='store_true')
+    args = ap.parse_args()
+
+    if args.with_reference:
+        main_with_reference(args)
+    else:
+        main_without_reference(args)
+</code></pre>
+
+<p>参照を使った場合、使わない場合に対してそれぞれ2回同じ関数を呼び出し、処理時間を計測した。
+まずは参照を使う場合について計測した結果は次のとおりである。</p>
+
+<pre><code class="language-sh">❯❯❯ for i in 0 1; do echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100 --with_reference; done
+0
+________________________________________________________________________________
+[Memory] Calling __main__.load_vocab...
+load_vocab('~/data/vocab-2016-09-10.txt')
+_______________________________________________________load_vocab - 5.8s, 0.1min
+Elapsed time of load_vocab 8.896415948867798
+________________________________________________________________________________
+[Memory] Calling __main__.convert...
+convert('~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100',
+MemorizedResult(location=&quot;cache_dir/joblib&quot;, func=&quot;__main__/load_vocab&quot;, args_id=&quot;6bc0fc840982639b22ef42d2a0bbffa9&quot;),
+True)
+__________________________________________________________convert - 6.2s, 0.1min
+Elapsed time of convert 6.167249917984009
+1
+Elapsed time of load_vocab 0.005745887756347656
+Elapsed time of convert 0.0015680789947509766
+</code></pre>
+
+<p>1回目の <code>load_vocab</code> が約8.90秒、 <code>convert</code> が約6.17秒かかっているのに対して、2回目ではそれぞれ0.0057秒、0.0016秒となっていることがわかる。</p>
+
+<p>次に参照を使わない場合について計測する。
+事前に、上記の結果を保存しているディレクトリを削除する。</p>
+
+<pre><code class="language-sh">❯❯❯ rm -rf cache_dir
+</code></pre>
+
+<p>結果は次のとおりである。</p>
+
+<pre><code class="language-sh">for i in 0 1; do echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100; done
+0
+________________________________________________________________________________
+[Memory] Calling __main__-run.load_vocab...
+load_vocab('~/data/vocab-2016-09-10.txt')
+_______________________________________________________load_vocab - 5.7s, 0.1min
+Elapsed of load_vocab 8.70986008644104
+________________________________________________________________________________
+[Memory] Calling __main__-run.convert...
+convert('~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100',
+{ '!': 278,
+  '&quot;': 11,
+  '#': 5520,
+  '$': 56,
+  '%': 202,
+  '&amp;': 323,
+  &quot;'&quot;: 77,
+  &quot;'A&quot;: 31666,
+  &quot;'ALBA&quot;: 643448,
+  &quot;'ALENE&quot;: 268317,
+  &quot;'ALL&quot;: 643449,
+  &quot;'ALOFA&quot;: 182060,
+  &quot;'AMICO&quot;: 552405,
+  &quot;'AMPEZZO&quot;: 218449,
+  &quot;'AN&quot;: 185156,
+  &quot;'ANANA&quot;: 243173,
+  &quot;'ANDRATX&quot;: 643450,
+  &quot;'AQUILA&quot;: 61890,
+  &quot;'AYIN&quot;: 268318,
+  &quot;'Abate&quot;: 407514,
+  &quot;'Abbaye&quot;: 290027,
+  &quot;'Abbe&quot;: 407515,
+  &quot;'Abbraccio&quot;: 354852,
+  &quot;'Abbé&quot;: 443501,
+  &quot;'Abernon&quot;: 643451,
+  &quot;'Abitot&quot;: 334983,
+  &quot;'Abo&quot;: 490004,
+  &quot;'Aboville&quot;: 552406,
+  &quot;'Abreu&quot;: 643452,
+  &quot;'Abruzzo&quot;: 213291,
+  &quot;'Absence&quot;: 643453,
+  &quot;'Absinthe&quot;: 643454,
+  &quot;'Absolu&quot;: 643455,
+  &quot;'Abym&quot;: 643456,
+  &quot;'Academie&quot;: 378535,
+  &quot;'Académie&quot;: 552407,
+  &quot;'Acampo&quot;: 125839,
+  &quot;'A...,
+False)
+run.py:53: UserWarning: Persisting input arguments took 5.06s to run.
+If this happens often in your code, it can cause performance problems
+(results will be correct in all cases).
+The reason for this is probably some large input arguments for a wrapped
+ function (e.g. large strings).
+THIS IS A JOBLIB ISSUE. If you can, kindly provide the joblib's team with an
+ example so that they can fix the problem.
+  data = convert(args.data_file, item2index, args.with_reference)
+_________________________________________________________convert - 17.1s, 0.3min
+Elapsed time of convert 26.944008827209473
+1
+Elapsed of load_vocab 3.030667781829834
+Elapsed time of convert 4.847580909729004
+</code></pre>
+
+<p>1回目の <code>load_vocab</code> が約8.71秒、 <code>convert</code> が約26.94秒かかっているのに対して、2回目ではそれぞれ3.03秒、4.85秒となっていることがわかる。
+大きな入力を与えた場合、速度が低下するような警告が出ている。</p>
+
+<p>結果をまとめると次のとおりである。</p>
+
+<table>
+<thead>
+<tr>
+<th>関数</th>
+<th>キャッシュ前/後</th>
+<th>参照を利用</th>
+<th>参照を利用しない</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>load_vocab</td>
+<td>キャッシュ前</td>
+<td>8.90</td>
+<td>8.71</td>
+</tr>
+
+<tr>
+<td>load_vocab</td>
+<td>キャッシュ後</td>
+<td>0.0057</td>
+<td>3.03</td>
+</tr>
+
+<tr>
+<td>convert</td>
+<td>キャッシュ前</td>
+<td>6.17</td>
+<td>26.94</td>
+</tr>
+
+<tr>
+<td>convert</td>
+<td>キャッシュ後</td>
+<td>0.0016</td>
+<td>4.85</td>
+</tr>
+</tbody>
+</table>
+
+<p>これらの処理時間の計測結果から、 キャッシュを利用することで処理が高速化されていることがわかる。さらに、(特に今回のように関数に与える入力が大きな場合、) 参照を使った方が、使わない場合と比較して処理が速くなっていることがわかる。</p>
+
+<h2 id="まとめ">まとめ</h2>
+
+<p>Joblibのキャッシュ機能を使って同じ計算を省略する方法について説明した。numpyのarrayについてはメモリーマップでディスクからデータを読み込む方法についても説明した。大きな入力データに対しては参照を使って処理が遅くならないようにできることを確認した。
+テキストに出現する単語をIDに変換する処理について、キャッシュを活用することで2回目以降の処理が高速になることを確認した。</p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>See Also</h3>
+<ul>
+        
+            <li><a href="https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/">PythonでElasticsearchを使うときのメモ</a></li>
+                
+            <li><a href="https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/">mafが便利そう</a></li>
+                
+            <li><a href="https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">Induced SortingをPythonで書いた</a></li>
+                
+            <li><a href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/">scikit-learnのソースコードリーディング（ナイーブベイズ分類）</a></li>
+                
+            <li><a href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/">食べログAPIのPythonラッパーを書いた</a></li>
+                
+</ul>
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/joblib/">joblib</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/cache/">cache</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2019%2F10%2F06%2Fpython-joblib%25E3%2581%25AE%25E3%2582%25AD%25E3%2583%25A3%25E3%2583%2583%25E3%2582%25B7%25E3%2583%25A5%25E3%2582%2592%25E4%25BD%25BF%25E3%2581%25A3%25E3%2581%25A6%25E5%2590%258C%25E3%2581%2598%25E8%25A8%2588%25E7%25AE%2597%25E3%2582%2592%25E7%259C%2581%25E7%2595%25A5%25E3%2581%2599%25E3%2582%258B%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発者。自然言語処理に関する研究から製品化に向けた開発までに興味を持っています。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

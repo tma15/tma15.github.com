@@ -6,10 +6,37 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Sep 2019 18:19:54 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 06 Oct 2019 07:08:25 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cache</title>
+      <link>https://tma15.github.io/categories/cache/</link>
+      <pubDate>Sun, 06 Oct 2019 07:08:25 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/cache/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>joblib</title>
+      <link>https://tma15.github.io/categories/joblib/</link>
+      <pubDate>Sun, 06 Oct 2019 07:08:25 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/joblib/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://tma15.github.io/categories/python/</link>
+      <pubDate>Sun, 06 Oct 2019 07:08:25 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/python/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>neural-network</title>
