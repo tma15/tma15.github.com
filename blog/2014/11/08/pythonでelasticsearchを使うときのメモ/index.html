@@ -8,49 +8,53 @@
 <meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
-<meta name="description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンに登録し、検索するまでを紹介する。
-目次  Elasticsearchのインストール Elasticsearchプラグインのインストール Pythonクライアントをインストール 本記事で利用するデータ データの前処理 ドキュメントを検索エンジンに登録する ドキュメントを検索する まとめ  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
+<meta name="description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。
+  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
 $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $shasum -a 512 -c elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $tar -xzf elasticsearch-7.3.2-darwin-x86_64.tar.gz $cd elasticsearch-7.3.2/  以下のようにして起動すればインストールは完了。
 $./bin/elasticsearch  Elasticsearchプラグインのインストール 日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、elasticsearch-analysis-kuromoji をインストールする。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。
 $./bin/elasticsearch-plugin install analysis-kuromoji -&gt; Downloading analysis-kuromoji from elastic [=================================================] 100% -&gt; Installed analysis-kuromoji  プロキシ環境の場合はプロキシを指定するか、手動でインストールする必要がある。
  Manual install of Elasticsearch plugins プロキシ環境でのpluginコマンドの実行  Pythonクライアントをインストール 次にElasticsearchのPythonクライアントをインストールする。
-pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。">
+pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。
+git clone https://github.com/livedoor/datasets.git cd datasets tar zxvf ldgourmet.">
 
 
-<meta property="og:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンに登録し、検索するまでを紹介する。
-目次  Elasticsearchのインストール Elasticsearchプラグインのインストール Pythonクライアントをインストール 本記事で利用するデータ データの前処理 ドキュメントを検索エンジンに登録する ドキュメントを検索する まとめ  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
+<meta property="og:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。
+  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
 $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $shasum -a 512 -c elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $tar -xzf elasticsearch-7.3.2-darwin-x86_64.tar.gz $cd elasticsearch-7.3.2/  以下のようにして起動すればインストールは完了。
 $./bin/elasticsearch  Elasticsearchプラグインのインストール 日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、elasticsearch-analysis-kuromoji をインストールする。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。
 $./bin/elasticsearch-plugin install analysis-kuromoji -&gt; Downloading analysis-kuromoji from elastic [=================================================] 100% -&gt; Installed analysis-kuromoji  プロキシ環境の場合はプロキシを指定するか、手動でインストールする必要がある。
  Manual install of Elasticsearch plugins プロキシ環境でのpluginコマンドの実行  Pythonクライアントをインストール 次にElasticsearchのPythonクライアントをインストールする。
-pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。">
+pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。
+git clone https://github.com/livedoor/datasets.git cd datasets tar zxvf ldgourmet.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PythonでElasticsearchを使うときのメモ">
 <meta name="twitter:title" content="PythonでElasticsearchを使うときのメモ">
 <meta property="og:url" content="https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/">
 <meta property="twitter:url" content="https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンに登録し、検索するまでを紹介する。
-目次  Elasticsearchのインストール Elasticsearchプラグインのインストール Pythonクライアントをインストール 本記事で利用するデータ データの前処理 ドキュメントを検索エンジンに登録する ドキュメントを検索する まとめ  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
+<meta property="og:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。
+  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
 $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $shasum -a 512 -c elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $tar -xzf elasticsearch-7.3.2-darwin-x86_64.tar.gz $cd elasticsearch-7.3.2/  以下のようにして起動すればインストールは完了。
 $./bin/elasticsearch  Elasticsearchプラグインのインストール 日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、elasticsearch-analysis-kuromoji をインストールする。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。
 $./bin/elasticsearch-plugin install analysis-kuromoji -&gt; Downloading analysis-kuromoji from elastic [=================================================] 100% -&gt; Installed analysis-kuromoji  プロキシ環境の場合はプロキシを指定するか、手動でインストールする必要がある。
  Manual install of Elasticsearch plugins プロキシ環境でのpluginコマンドの実行  Pythonクライアントをインストール 次にElasticsearchのPythonクライアントをインストールする。
-pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。">
-<meta name="twitter:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンに登録し、検索するまでを紹介する。
-目次  Elasticsearchのインストール Elasticsearchプラグインのインストール Pythonクライアントをインストール 本記事で利用するデータ データの前処理 ドキュメントを検索エンジンに登録する ドキュメントを検索する まとめ  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
+pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。
+git clone https://github.com/livedoor/datasets.git cd datasets tar zxvf ldgourmet.">
+<meta name="twitter:description" content="本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。
+  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
 $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $shasum -a 512 -c elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $tar -xzf elasticsearch-7.3.2-darwin-x86_64.tar.gz $cd elasticsearch-7.3.2/  以下のようにして起動すればインストールは完了。
 $./bin/elasticsearch  Elasticsearchプラグインのインストール 日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、elasticsearch-analysis-kuromoji をインストールする。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。
 $./bin/elasticsearch-plugin install analysis-kuromoji -&gt; Downloading analysis-kuromoji from elastic [=================================================] 100% -&gt; Installed analysis-kuromoji  プロキシ環境の場合はプロキシを指定するか、手動でインストールする必要がある。
  Manual install of Elasticsearch plugins プロキシ環境でのpluginコマンドの実行  Pythonクライアントをインストール 次にElasticsearchのPythonクライアントをインストールする。
-pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。">
+pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。
+git clone https://github.com/livedoor/datasets.git cd datasets tar zxvf ldgourmet.">
 <meta property="og:locale" content="en-us">
 
   
     <meta property="article:published_time" content="2014-11-08T00:00:00">
   
   
-    <meta property="article:modified_time" content="2019-09-28T00:00:00">
+    <meta property="article:modified_time" content="2019-10-07T00:00:00">
   
   
   
@@ -303,9 +307,9 @@ if (!doNotTrack) {
       </time>
 
       
-      <time itemprop="lastMod" datetime="2019-09-28T00:00:00Z">
+      <time itemprop="dateModified" datetime="2019-10-07T00:00:00Z">
         (modified at: 
-  September 28, 2019
+  October 7, 2019
 
 )
       </time>
@@ -323,20 +327,39 @@ if (!doNotTrack) {
             <div class="main-content-wrap">
               
 
-<p>本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンに登録し、検索するまでを紹介する。</p>
+<p>本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。</p>
 
-<h2 id="目次">目次</h2>
-
+<h1 id="table-of-contents">Table of Contents</h1><nav id="TableOfContents">
 <ul>
 <li><a href="#elasticsearchのインストール">Elasticsearchのインストール</a></li>
 <li><a href="#elasticsearchプラグインのインストール">Elasticsearchプラグインのインストール</a></li>
 <li><a href="#pythonクライアントをインストール">Pythonクライアントをインストール</a></li>
 <li><a href="#本記事で利用するデータ">本記事で利用するデータ</a></li>
 <li><a href="#データの前処理">データの前処理</a></li>
-<li><a href="#ドキュメントを検索エンジンに登録する">ドキュメントを検索エンジンに登録する</a></li>
+<li><a href="#ドキュメントを検索エンジンに登録する">ドキュメントを検索エンジンに登録する</a>
+<ul>
+<li><a href="#mappingとは">Mappingとは？</a></li>
+<li><a href="#mappingを作成する">Mappingを作成する</a></li>
+</ul></li>
 <li><a href="#ドキュメントを検索する">ドキュメントを検索する</a></li>
 <li><a href="#まとめ">まとめ</a></li>
 </ul>
+</nav>
+
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
 
 <h1 id="elasticsearchのインストール">Elasticsearchのインストール</h1>
 
@@ -354,7 +377,7 @@ $cd elasticsearch-7.3.2/
 <pre><code class="language-sh">$./bin/elasticsearch
 </code></pre>
 
-<h2 id="elasticsearchプラグインのインストール">Elasticsearchプラグインのインストール</h2>
+<h1 id="elasticsearchプラグインのインストール">Elasticsearchプラグインのインストール</h1>
 
 <p>日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、<a href="https://github.com/elasticsearch/elasticsearch-analysis-kuromoji">elasticsearch-analysis-kuromoji</a> を<a href="https://www.elastic.co/guide/en/elasticsearch/plugins/current/analysis-kuromoji.html">インストール</a>する。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。</p>
 
@@ -371,14 +394,14 @@ $cd elasticsearch-7.3.2/
 <li><a href="http://blog.johtani.info/blog/2014/08/01/plugin-using-under-proxy-env/">プロキシ環境でのpluginコマンドの実行</a></li>
 </ul>
 
-<h2 id="pythonクライアントをインストール">Pythonクライアントをインストール</h2>
+<h1 id="pythonクライアントをインストール">Pythonクライアントをインストール</h1>
 
 <p>次にElasticsearchのPythonクライアントをインストールする。</p>
 
 <pre><code class="language-sh">pip install elasticsearch
 </code></pre>
 
-<h2 id="本記事で利用するデータ">本記事で利用するデータ</h2>
+<h1 id="本記事で利用するデータ">本記事で利用するデータ</h1>
 
 <p>本記事は<a href="http://code46.hatenablog.com/entry/2014/01/21/115620">Elasticsearchチュートリアル</a>を参考にしており、データもそれに合わせて<a href="https://github.com/livedoor/datasets">livedoor/datasets</a>を利用している。データは次のようにしてダウンロードする。</p>
 
@@ -483,7 +506,7 @@ tar zxvf ldgourmet.tar.gz
 </ul>
 </blockquote>
 
-<h2 id="データの前処理">データの前処理</h2>
+<h1 id="データの前処理">データの前処理</h1>
 
 <p>上記の <code>restaurants.csv</code> は都道府県や駅がidになっているため (他にもidになっているものがあるが簡単のため省略する) 、 <code>prefs.csv</code> や <code>stations.csv</code> の情報に基づいて、idを実際の名前に変換しておく。</p>
 
@@ -546,11 +569,11 @@ with open(rest) as f, open(output_file, 'w') as g:
 
 <p>これで <code>data.csv</code> に都道府県や駅が実際の名前となったレストラン情報される。</p>
 
-<h2 id="ドキュメントを検索エンジンに登録する">ドキュメントを検索エンジンに登録する</h2>
+<h1 id="ドキュメントを検索エンジンに登録する">ドキュメントを検索エンジンに登録する</h1>
 
 <p>実際にドキュメントを検索エンジンに登録する前に、ドキュメントのデータの構造のようなもの (<a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/mapping.html">Mapping</a>) を定義しておく。</p>
 
-<h3 id="mappingとは">Mappingとは？</h3>
+<h2 id="mappingとは">Mappingとは？</h2>
 
 <p>Mappingとは登録するドキュメントをどのようにインデックスに登録するのか、ドキュメントがどのようなフィールドを持っているのかを定義するものである。例えば以下のような定義をする際にMappingを用いる。</p>
 
@@ -560,7 +583,7 @@ with open(rest) as f, open(output_file, 'w') as g:
 <li>日付のフォーマット</li>
 </ul>
 
-<h3 id="mappingを作成する">Mappingを作成する</h3>
+<h2 id="mappingを作成する">Mappingを作成する</h2>
 
 <p><code>mapping.yaml</code> に登録するドキュメントのMappingを記述する。
 Mappingは利用目的に合わせて定義するものだが、今回は、都道府県名や最寄り駅名をもとにレストランを検索する例とする。</p>
@@ -660,7 +683,7 @@ if __name__ == '__main__':
 <pre><code class="language-python">$python add-documents.py --data_file ./data.csv --mapping_file ./data.yaml
 </code></pre>
 
-<h2 id="ドキュメントを検索する">ドキュメントを検索する</h2>
+<h1 id="ドキュメントを検索する">ドキュメントを検索する</h1>
 
 <p>例えば恵比寿駅の近くにあるレストランを調べたい場合は次のようにする。</p>
 
@@ -735,9 +758,9 @@ description JR恵比寿駅西口ロータリーから徒歩約1分。　　　�
 
 <p>恵比寿駅から近い順に並んで出力されているのがわかる。</p>
 
-<h2 id="まとめ">まとめ</h2>
+<h1 id="まとめ">まとめ</h1>
 
-<p>本エントリではElasticsearchおよびkuromojiの導入手順から、Mappingを定義してドキュメントをインデクシングし、検索するところまで紹介した。検索では最寄り駅からの距離の近さでソートする方法を確認した。</p>
+<p>本エントリではElasticsearchおよびkuromojiの導入手順から、Mappingを定義してドキュメントをbulk APIでインデクシングし、検索するところまで紹介した。検索では最寄り駅からの距離の近さでソートする方法を確認した。</p>
 
               
 
@@ -831,7 +854,7 @@ description JR恵比寿駅西口ロータリーから徒歩約1分。　　　�
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -895,7 +918,7 @@ description JR恵比寿駅西口ロータリーから徒歩約1分。　　　�
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
