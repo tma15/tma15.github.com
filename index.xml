@@ -6,10 +6,23 @@
     <description>Recent content on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Oct 2019 07:08:25 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 01 Mar 2020 16:36:20 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>About</title>
+      <link>https://tma15.github.io/about/</link>
+      <pubDate>Sun, 01 Mar 2020 16:36:20 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/about/</guid>
+      <description> 民間企業の研究部門にて自然言語処理の研究開発業務に従事しています。 自然言語処理における新しい手法の研究を国際会議へ発表する経験に加えて、製品化を見据えた自然言語処理、機械学習ソフトウェア開発の経験があります。 自身で新たな手法を提案するだけでなく、他の研究者が国際会議で発表した手法を自身で実装した経験もあります。
+2020/3現在はデータ分析を主な業務としたフルリモート勤務可能な副業先を探しています。
+開発したソフトウェア ここに挙げるソフトウェアは個人の時間を使って機械学習やプログラミングの勉強のために実装したものです。
+ onlineml: オンライン機械学習アルゴリズムのC++実装 gonline: オンライン機械学習アルゴリズムのGo実装  プログラミングスキル  Python: PyTorchやChainerを使ったニューラルネットワークの実装経験があります。 C++: 自身でランキングのための機械学習アルゴリズムを実装し、製品化まで貢献した経験があります。LibTorchを使ったニューラルネットワークの実装経験があります。  強みのある分野 自然言語処理、ランキング、機械学習
+その他  Twitter GitHub  </description>
+    </item>
     
     <item>
       <title>[Python] Joblibのキャッシュを使って同じ計算を省略する</title>
@@ -38,17 +51,6 @@
       <description>このページでは当サイト (http://tma15.github.io) における個人情報の保護およびその適切な取扱いについての方針を示します。
 当サイトでは、第三者配信の広告サービス (Googleアドセンス) を利用しています。 このような広告配信事業者は、ユーザーの興味に応じた商品やサービスの広告を表示するため、当サイトや他サイトへのアクセスに関する情報 『Cookie』(氏名、住所、メール アドレス、電話番号は含まれません) を使用することがあります。 またGoogleアドセンスに関して、このプロセスの詳細やこのような情報が広告配信事業者に使用されないようにする方法については、こちらをクリックしてください。
 当サイトでは、Googleによるアクセス解析ツール「Googleアナリティクス」を利用しています。 このGoogleアナリティクスはトラフィックデータの収集のためにCookieを使用しています。 このトラフィックデータは匿名で収集されており、個人を特定するものではありません。 この機能はCookieを無効にすることで収集を拒否することが出来ますので、お使いのブラウザの設定をご確認ください。 この規約に関して、詳しくはこちら、またはこちらをクリックしてください。</description>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://tma15.github.io/about/</link>
-      <pubDate>Fri, 06 Sep 2019 17:36:20 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/about/</guid>
-      <description> ソフトウェア  onlineml: オンライン機械学習アルゴリズムのC++実装 gonline: オンライン機械学習アルゴリズムのGo実装  プログラミングスキル C++, Go, Python
-興味のある分野 自然言語処理、機械学習
-その他  Twitter GitHub Links: 色々なリンクのまとめ  </description>
     </item>
     
     <item>
