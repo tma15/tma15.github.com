@@ -266,6 +266,61 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/">
+          並列での学習アルゴリズムの追加
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-08-31T20:03:45&#43;09:00">
+        
+  August 31, 2015
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
+シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。
+$wc -l news20.scale 15935 news20.scale $touch news20.scale.big $for i in 1 2 3 4 5; do cat news20.scale &gt;&gt; news20.scale.big; done $wc -l news20.scale.big 79675 news20.scale.big $time ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 272.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
           オンライン学習の実装いろいろ
         </a>
@@ -577,61 +632,6 @@ $python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | 
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2014-12-03T00:00:00Z">
-        
-  December 3, 2014
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        Question Answering Using Enhanced Lexical Semantic Models (pdf)
-Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013
-導入  自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する  単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから  answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる  単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない 深い意味解析をしたり構文木の編集距離 (Tree Edit Distance)をしている研究もあるが、計算コストが高い なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる  浅い意味解析は上位下位語や同義語などを識別するlexical sematics   この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する  この論文の貢献  色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical semanticsを入れた場合、性能の差は小さくなる  計算コストを下げたいなら、lexical semanticsを使ってシンプルなモデルを使うこともできる   問題設定 教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -653,7 +653,7 @@ Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft R
           </li>
         
       
-      <li class="pagination-number">page 3 of 8</li>
+      <li class="pagination-number">page 3 of 9</li>
     </ul>
   </div>
 

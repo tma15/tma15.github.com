@@ -6,10 +6,20 @@
     <description>Recent content in Posts on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 06 Oct 2019 07:08:25 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 03 Mar 2020 09:54:42 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</title>
+      <link>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</link>
+      <pubDate>Tue, 03 Mar 2020 09:54:42 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</guid>
+      <description>&lt;p&gt;この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
+この記事に載せているプログラムは&lt;a href=&#34;https://github.com/tma15/scikit-learn-document-classification&#34;&gt;ここ&lt;/a&gt;にまとまっています。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[Python] Joblibのキャッシュを使って同じ計算を省略する</title>

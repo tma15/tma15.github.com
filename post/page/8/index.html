@@ -266,6 +266,67 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/">
+          Named Entity Disambiguation in Streaming Data (ACL 2012)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2013-02-01T00:00:00Z">
+        
+  February 1, 2013
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender
+proceeding: pdf
+解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
+課題
+ Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。  正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 このラベル付きの事例は各ステップでラベルを変更することができる。 どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。  曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
+ Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。  つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。  ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
+ ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
+ 訓練データは真に正例の事例と、大量のラベルなしの事例からなる  ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある   E-step
+ 訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる 具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる  α^x_{min}は、事例ごとに決定されるパラメータ   M-step
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/01/08/2013%E5%B9%B4%E3%81%AE%E6%8A%B1%E8%B2%A0/">
           2013年の抱負
         </a>
@@ -589,61 +650,6 @@ SNSなんかやめても他のことに無駄に時間を使うことだけだ�
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/1/01/01/">
-          
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="0001-01-01T00:00:00Z">
-        
-  January 1, 1
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-         素性テンプレート どういうものか？ 素性テンプレートは、CRFなどに出てくる、素性関数を作成するためのもの。 素性関数はラベルyとデータxが与えられた時に、与えられた入力に対応する出力を返す関数 f(x, y)。 問題が形態素解析の場合はxが文字列でyが形態素や品詞などの情報にあたる。 例えば、形態素解析の場合、tを品詞情報や基本形などの情報とすると、形態素w1, w2からなるバイグラムの素性関数f((w1, t1), (w2, t2))のテンプレートは以下のものがある: (形態素解析では辞書から得たありうる形態素列の集合Yから素性関数を作るので、xは見ない(?)）
- w2の品詞大分類 (w2の品詞大分類, w2の品詞細分類) w2の基本形 (w2の基本形, w2の品詞大分類) (w2の基本形, w2の品詞大分類, w2の品詞細分類) w2の文字列長 &hellip;  CRFでは直前の形態素と現在の形態素から作られるこれらの素性関数に対して、正解の品詞情報を付与するように重みを学習している。
-なぜ必要なのか？ どうやって使うのか？ 参考  uchiumi log: 実数素性テンプレートを作ろう 機械学習による自然⾔語処理 チュートリアル 〜PerceptronからCRFまで〜 Conditional Random Fields を用いた日本語形態素解析  
-      
-      <p>
-        <a href="https://tma15.github.io/blog/1/01/01/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -657,8 +663,15 @@ SNSなんかやめても他のことに無駄に時間を使うことだけだ�
           </li>
         
         
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="https://tma15.github.io/post/page/9/">
+              <span>OLDER POSTS</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
       
-      <li class="pagination-number">page 8 of 8</li>
+      <li class="pagination-number">page 8 of 9</li>
     </ul>
   </div>
 

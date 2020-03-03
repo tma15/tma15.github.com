@@ -265,6 +265,62 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/">
+          エッセイ Towards the Machine Comprehension of Text のメモ
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2013-12-27T00:00:00Z">
+        
+  December 27, 2013
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        エッセイの一部をメモ。
+主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
+Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト  Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&rdquo;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー  Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&rdquo;の&rdquo;それ&rdquo;は何を指しているか？  クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする   興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
+ 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである  エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)  システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである   最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/">
           Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ
         </a>
@@ -606,62 +662,6 @@ proceeding(pdf), slide(pdf)
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/">
-          簡単に、奥深く
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-06-03T00:00:00Z">
-        
-  June 3, 2013
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで 久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。 一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、 すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。
-ところでこの前、東工大奥村・高村研、お茶大小林研の合同研究会 に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」 というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど 少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど） 事前にLDAを実装したり、更新式の導出を追ったりしていた。 実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。
-学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。 発表に関して言うと、最近自分が痛感したことが一つある。 「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。 自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは 学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている) 人しかいなかったからということ。 これは自分の経験に基づいた考えなのだけど、 たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って もらうためには自分がどんな職種であれ 全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを わかりやすく説明する必要が出てくるんじゃないかと思う (もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。 しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという ことも伝えられなければならない。 バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している 聴講者へ発表することよりも難しい。
- 「あなたは何をやっているかよく分からない」 「あなたがやっていることは誰でも出来る簡単なことじゃないか」 「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」  発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -683,7 +683,7 @@ proceeding(pdf), slide(pdf)
           </li>
         
       
-      <li class="pagination-number">page 6 of 8</li>
+      <li class="pagination-number">page 6 of 9</li>
     </ul>
   </div>
 
