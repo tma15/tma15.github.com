@@ -21,10 +21,10 @@
 事前学習に用いるテキストの量が多いと、データを計算機上のメモリに一度に載りきらない場合があります。
 この記事ではPyTorchでニューラルネットワークの学習を記述する際に、テキストをファイルに分割して、ファイル単位でテキストを読み込むことで、計算機上で利用するメモリの使用量を節約する方法を紹介します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[PyTorch] データの読み込みにかかるメモリ消費量を節約する">
-<meta name="twitter:title" content="[PyTorch] データの読み込みにかかるメモリ消費量を節約する">
-<meta property="og:url" content="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
-<meta property="twitter:url" content="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+<meta property="og:title" content="[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する">
+<meta name="twitter:title" content="[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
 <meta property="og:site_name" content="Now is better than never.">
 <meta property="og:description" content="
 
@@ -84,14 +84,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
 
 
-    <title>[PyTorch] データの読み込みにかかるメモリ消費量を節約する</title>
+    <title>[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</title>
 
     <link rel="icon" href="https://tma15.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
 
     
     <script type="text/javascript" async
@@ -290,7 +290,7 @@ if (!doNotTrack) {
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      [PyTorch] データの読み込みにかかるメモリ消費量を節約する
+      [PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する
     </h1>
   
   
@@ -592,7 +592,7 @@ return cached text
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -656,7 +656,7 @@ return cached text
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -680,7 +680,7 @@ return cached text
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F03%2F08%2Fpytorch-%25E3%2583%2587%25E3%2583%25BC%25E3%2582%25BF%25E3%2581%25AE%25E8%25AA%25AD%25E3%2581%25BF%25E8%25BE%25BC%25E3%2581%25BF%25E3%2581%25AB%25E3%2581%258B%25E3%2581%258B%25E3%2582%258B%25E3%2583%25A1%25E3%2583%25A2%25E3%2583%25AA%25E6%25B6%2588%25E8%25B2%25BB%25E9%2587%258F%25E3%2582%2592%25E7%25AF%2580%25E7%25B4%2584%25E3%2581%2599%25E3%2582%258B%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F03%2F08%2Fpytorch-dataset%25E3%2581%25AE%25E8%25AA%25AD%25E3%2581%25BF%25E8%25BE%25BC%25E3%2581%25BF%25E3%2581%25AB%25E3%2581%258B%25E3%2581%258B%25E3%2582%258B%25E3%2583%25A1%25E3%2583%25A2%25E3%2583%25AA%25E6%25B6%2588%25E8%25B2%25BB%25E9%2587%258F%25E3%2582%2592%25E7%25AF%2580%25E7%25B4%2584%25E3%2581%2599%25E3%2582%258B%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
