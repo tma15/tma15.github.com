@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -241,13 +241,68 @@ if (!doNotTrack) {
 
       
 
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
         <section class="postShorten-group main-content-wrap">
           
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/">
+          CYKアルゴリズム
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-01-10T00:00:00Z">
+        
+  January 10, 2015
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+         明けましておめでとうございます。
+確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (ソースコード)。 動的計画法。 表TのT[0, N-1]に&rdquo;S&rdquo;があれば与えられた文法からこの文は導出可能。 文&rdquo;I eat pizza with Maria&rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。
+$python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | | N | | | P | PP | | | | N --l &lt;N&gt; -- I 0 --r &lt;V&gt; --l &lt;V&gt; -- eat 1 --r &lt;N&gt; --l &lt;N&gt; -- pizza 2 --r &lt;PP&gt; --l &lt;P&gt; -- with 3 --r &lt;N&gt; -- Maria 4 -- --l &lt;S&gt; --l &lt;N&gt; -- I 0 --r &lt;V&gt; --l &lt;V&gt; -- eat 1 --r &lt;N&gt; -- pizza 2 --r &lt;PP&gt; --l &lt;P&gt; -- with 3 --r &lt;N&gt; -- Maria 4 -- 参考   
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -581,65 +636,6 @@ $./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ..
       
       <p>
         <a href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">
-          Goで日本語の文書を前処理して分類器を学習するところまでやってみる
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2014-10-20T00:00:00Z">
-        
-  October 20, 2014
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
-ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
- 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
- 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
-ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
-$./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

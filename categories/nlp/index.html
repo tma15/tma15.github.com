@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -243,13 +243,82 @@ if (!doNotTrack) {
         
 
       
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
         
           <section class="postShorten-group main-content-wrap">
             
+            
+              
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+          [PyTorch] データの読み込みにかかるメモリ消費量を節約する
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-08T16:04:11&#43;09:00">
+        
+  March 8, 2020
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <!--adsense-->
+
+<p>ニューラルネットワークを用いた自然言語処理では、大量のラベルなしテキストを利用した事前学習によって、目的のタスクの予測モデルの精度を改善することが報告されています。
+事前学習に用いるテキストの量が多いと、データを計算機上のメモリに一度に載りきらない場合があります。
+この記事ではPyTorchでニューラルネットワークの学習を記述する際に、テキストをファイルに分割して、ファイル単位でテキストを読み込むことで、計算機上で利用するメモリの使用量を節約する方法を紹介します。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/08/pytorch-%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
             
               
   
@@ -300,7 +369,9 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        <p>この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
+        <!--adsense-->
+
+<p>この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
 この記事に載せているプログラムは<a href="https://github.com/tma15/scikit-learn-document-classification">ここ</a>にまとまっています。</p>
       
       <p>

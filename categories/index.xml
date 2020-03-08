@@ -6,10 +6,28 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 03 Mar 2020 09:54:42 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2020 16:04:11 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>nlp</title>
+      <link>https://tma15.github.io/categories/nlp/</link>
+      <pubDate>Sun, 08 Mar 2020 16:04:11 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://tma15.github.io/categories/pytorch/</link>
+      <pubDate>Sun, 08 Mar 2020 16:04:11 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/pytorch/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>machine_learning</title>
@@ -17,15 +35,6 @@
       <pubDate>Tue, 03 Mar 2020 09:54:42 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/machine_learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>https://tma15.github.io/categories/nlp/</link>
-      <pubDate>Tue, 03 Mar 2020 09:54:42 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/nlp/</guid>
       <description></description>
     </item>
     

@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -241,12 +241,73 @@ if (!doNotTrack) {
 
       
 
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./">
+          It takes a long time to become young.
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2013-07-07T00:00:00Z">
+        
+  July 7, 2013
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか 深い言葉であると思う。
+Cristian et al., No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)
+proceeding(pdf), slide(pdf)
+今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。 すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。 タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか の関係を調べている。
+ ※著者スライドより  コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉 を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって 言葉の変化には適応しなくなるというもの。 実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに 参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、 流行っている言い回し、言葉を積極的に使う。 ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。 例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&hellip;などと書くのだけど 参加して日が浅いユーザはS: spicy&hellip;などと書く。コミュニティ全体としては年を追う毎にS:という表記で ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。 つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。 いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。
+このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の 特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。 論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。
+以下、スライドを見ながら取ったメモ。
+取り組む課題  ユーザはどのようにコミュニティの一員になるのか ユーザとコミュニティはどのように共に成長していくのか ユーザがコミュニティを退会することを予測できるのか  アイディア コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。
+アプローチ (取り組む課題と対応)  言葉の変化を捉えるための統計的なフレームワークを提案する 言葉の変化に対するユーザの反応を定量化する ユーザがコミュニティを退会することを予測するために有効な素性を提案する  長期的なデータ  BeerAdvocate RateBeer  言葉の変化の例: puzzle 香りの議論の導入で使われる二つの慣例 (Aroma &amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -567,62 +628,6 @@ proceeding: pdf
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/12/togakushi/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/">
-          Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-02-06T00:00:00Z">
-        
-  February 6, 2013
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
-proceeding: pdf
-解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など  &rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet  NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．  &rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

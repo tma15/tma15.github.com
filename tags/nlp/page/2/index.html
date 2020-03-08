@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -243,13 +243,67 @@ if (!doNotTrack) {
         
 
       
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
         
           <section class="postShorten-group main-content-wrap">
             
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/">
+          HMMを実装した
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-25T00:00:00Z">
+        
+  October 25, 2014
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        概要 勉強のためにGrahamさんが公開されている資料を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。 また、実験用のデータ、評価スクリプトも使用させて頂いている。
+$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos Accuracy: 75.83% (3460/4563) Most common mistakes: NNS --&gt; NN 49 RB --&gt; NN 35 JJ --&gt; DT 30 RB --&gt; IN 29 NN --&gt; JJ 28 NN --&gt; IN 25 JJ --&gt; NN 24 NN --&gt; DT 24 NNP --&gt; NN 22 VBN --&gt; NN 22 特に工夫はしていないのでこんなものかという感じ。 コードはこちら。
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
             
               
   

@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -241,12 +241,71 @@ if (!doNotTrack) {
 
       
 
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">
+          Goで日本語の文書を前処理して分類器を学習するところまでやってみる
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-20T00:00:00Z">
+        
+  October 20, 2014
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
+ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+$./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -582,73 +641,6 @@ A9がたまに学会のスポンサーとかで見かけていて、Amazonのに
       
       <p>
         <a href="https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/">
-          2013年と2014年
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2014-01-02T00:00:00Z">
-        
-  January 2, 2014
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        2013年の振り返り 2013年の抱負と照らしあわせて。
-飲み過ぎない 12月は飲み過ぎた。次の日に食欲がなくなったりしてしまったり、ひどい時は2,3日胃がむかむかする感じだったので、反省。回数は多くても、一回あたりに飲む量を少し減らしたい。他の月は適度に楽しめたと思う。いつもお世話になっている美容師さん曰く、
-「最初に飲む量を決めると良い。」
-反転してシュート あまり出来なかった。どうしても前を向いている後ろの選手にはたこうという気持ちが強すぎる。一旦「パスを出せ」と怒られるくらいのプレーが必要かも。
-論文を読む 二日に一本読む、というのは出来なかった（無謀すぎた&hellip;）。とはいえ、すずかけ台論文読み会を主催し、今年は7回開催することが出来た点に関しては満足している。
-この読み会は次の二つの（自分が享受したい）メリットを狙って、参加者は少人数にしぼり、基本的には参加者は読んだ論文をみんなの前で紹介するというスタイルにした:
- 他の参加者にわかりやすく伝えるようにするためにより紹介する論文を読み込むようになる 参加者は少人数に絞っているので、気楽に場を止めて質問することができる  ので自分を含め、参加した人の得るものはそれなりに多くできたと思う。ただ、自分は紹介する論文に対してまだ曖昧な理解をしているままなことも多く、ありがたいご指摘も多々受けるので、もっと読み込まなければいけないところ。
-参加者の規模はこのままで良いのだけど、紹介する論文を参加者にとって有益そうなものにする仕組みを採用すべきかな、とぼんやり考えたり。ある程度人数がいれば、対象となる学会を絞って、気になる論文に投票するという形もありだと思うけど、少人数ではこの形は難しいので、2014年は色々と模索したい。
-2014年の抱負 いくつもあっても大変なので大きく二つ。
-論文を書く 有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、
-How to do good research, get it published in SIGKDD and get it citedとか
-@Pnnc205j だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。
-&mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26 
-とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
-サボれないフットサル・サッカー環境に身を置く T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

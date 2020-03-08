@@ -103,7 +103,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -131,7 +131,7 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -243,7 +243,7 @@ if (!doNotTrack) {
         
 
       
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
@@ -292,13 +292,10 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        私が機械学習研究をするときのコード・データ管理方法 - Qiitaがいい話で参考になった。 特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。
-1. プログラムを作成、コミットする。 プログラムcalc.pyを作成。 def calc(a, b): retunr a + b print calc(1, 2)
-作ったプログラムをコミットする。 git add -A git commit -m &#34;最初のコミット&#34;
-2. プログラムを修正、コミットする。 プログラムcalc.pyを修正。 def calc(a, b): retunr a + 2 * b print calc(1, 2)
-git add -A git commit -m &#34;計算方法を修正&#34; git log git logの出力は以下の様な感じ。
-commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b ... 計算方法の修正 commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 ... 最初のコミット 3. プログラムを指定したコミットIDの状態に戻す。 以下のようにプログラムの中身を確認して、 git show 5e63:calc.py ### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定
-#!/usr/bin/python  def calc(a, b): return a + b print calc(1, 2) あるいは、以下のように差分を確認して、
+        <!--adsense-->
+
+<p><a href="http://qiita.com/ysekky/items/3db54349452dd8a336fb">私が機械学習研究をするときのコード・データ管理方法 - Qiita</a>がいい話で参考になった。
+特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2015/12/20/git%E3%81%A7%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88id%E3%81%AE%E7%8A%B6%E6%85%8B%E3%81%AB%E6%88%BB%E3%81%99/" class="postShorten-excerpt_link link">Continue reading</a>
