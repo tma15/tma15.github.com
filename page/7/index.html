@@ -265,64 +265,6 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Active Sampling for Entity Matching (KDD 2012)を読んだ
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-08-03T00:00:00Z">
-        
-  August 3, 2013
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        proceeding (pdf), slide (html), journal (pdf)
-KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、 マリッサ・メイヤーのYahoo! CEO就任は2012年7月17日、KDD 2012は2012年8月中旬、 おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという 余計な詮索をしていた。 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。
-概要 entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。 ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究 に比べて早く、しかも精度もよく学習できることを示している。
-発表資料   以下メモ。
-Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。
-Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./">
           It takes a long time to become young.
         </a>
@@ -633,6 +575,59 @@ proceeding: pdf
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/12/togakushi/">
+          Togakushi
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2013-02-12T00:00:00Z">
+        
+  February 12, 2013
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2013/02/12/togakushi/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

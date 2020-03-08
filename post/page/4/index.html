@@ -266,60 +266,6 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/">
-          CYKアルゴリズムで係り受け解析
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2015-01-14T00:00:00Z">
-        
-  January 14, 2015
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-         CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。 具体的には参考資料の23ページにあるような変換をする。 例えば「私は / ピザを / 食べる」という文節で(&ldquo;/&ldquo;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。 ただしこの解析ではO(n^5)の時間がかかる。
-参考  Dependency Parsing Tutorial at COLING-ACL 2006  
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/">
           CYKアルゴリズム
         </a>
@@ -641,6 +587,60 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
       
       <p>
         <a href="https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/">
+          HMMを実装した
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-25T00:00:00Z">
+        
+  October 25, 2014
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        概要 勉強のためにGrahamさんが公開されている資料を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。 また、実験用のデータ、評価スクリプトも使用させて頂いている。
+$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ../nlp-programming/data/wiki-en-test.norm &gt; my_answer.pos $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos Accuracy: 75.83% (3460/4563) Most common mistakes: NNS --&gt; NN 49 RB --&gt; NN 35 JJ --&gt; DT 30 RB --&gt; IN 29 NN --&gt; JJ 28 NN --&gt; IN 25 JJ --&gt; NN 24 NN --&gt; DT 24 NNP --&gt; NN 22 VBN --&gt; NN 22 特に工夫はしていないのでこんなものかという感じ。 コードはこちら。
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>
