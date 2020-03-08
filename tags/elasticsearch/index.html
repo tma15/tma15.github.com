@@ -293,20 +293,25 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/elasticsearch">elasticsearch</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。
-  Elasticsearchのインストール Install Elasticsearch from archive on Linux or MacOSに従って以下のようにインストールする。
-$wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz $wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $shasum -a 512 -c elasticsearch-7.3.2-darwin-x86_64.tar.gz.sha512 $tar -xzf elasticsearch-7.3.2-darwin-x86_64.tar.gz $cd elasticsearch-7.3.2/  以下のようにして起動すればインストールは完了。
-$./bin/elasticsearch  Elasticsearchプラグインのインストール 日本語のドキュメントを扱うことを想定しているので、インデックスには形態素を登録したい。なので、elasticsearch-analysis-kuromoji をインストールする。kuromojiは日本語の形態素解析器であり、Elasticsearch内で形態素解析を利用する際によく用いられる。
-$./bin/elasticsearch-plugin install analysis-kuromoji -&gt; Downloading analysis-kuromoji from elastic [=================================================] 100% -&gt; Installed analysis-kuromoji  プロキシ環境の場合はプロキシを指定するか、手動でインストールする必要がある。
- Manual install of Elasticsearch plugins プロキシ環境でのpluginコマンドの実行  Pythonクライアントをインストール 次にElasticsearchのPythonクライアントをインストールする。
-pip install elasticsearch  本記事で利用するデータ 本記事はElasticsearchチュートリアルを参考にしており、データもそれに合わせてlivedoor/datasetsを利用している。データは次のようにしてダウンロードする。
-git clone https://github.com/livedoor/datasets.git cd datasets tar zxvf ldgourmet.
+        <!--adsense-->
+
+<p>本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">Continue reading</a>

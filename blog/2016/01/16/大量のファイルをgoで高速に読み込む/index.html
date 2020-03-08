@@ -7,23 +7,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="">
-<meta name="description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.">
+<meta name="keywords" content="linux">
+<meta name="description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
 
 
-<meta property="og:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.">
+<meta property="og:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="大量のファイルをGoで高速に読み込む">
 <meta name="twitter:title" content="大量のファイルをGoで高速に読み込む">
 <meta property="og:url" content="https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/">
 <meta property="twitter:url" content="https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.">
-<meta name="twitter:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.">
+<meta property="og:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
+<meta name="twitter:description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
 <meta property="og:locale" content="en-us">
 
   
@@ -33,6 +29,10 @@ type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } fu
     <meta property="article:modified_time" content="2016-01-16T10:55:26">
   
   
+  
+    
+      <meta property="article:section" content="linux">
+    
   
   
     
@@ -284,6 +284,14 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
@@ -292,7 +300,9 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
+              <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。</p>
+
+<p>io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
 
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">byInode</span> []<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>
 
@@ -346,7 +356,6 @@ go run dirdump.go large <span style="color:#ae81ff">2</span>  <span style="color
 上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定するとソートをしない。</p>
 
 <p>ext4でも、ソートしないよりも、inode順にソートするほうが高速にファイルを読み込めそうである。</p>
-
               
 
               <br>

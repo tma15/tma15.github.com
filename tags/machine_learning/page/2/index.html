@@ -268,6 +268,63 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/">
+          Dropoutの実装で気になって調べたこと
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-02-21T00:00:00Z">
+        
+  February 21, 2015
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+         Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。
+Caffeだと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。
+ Caffeのdropout_layer.cpp Caffeの設定を参照できるようなsingletonクラス  ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、torchでは層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。
+ Module.lua training evaluate  ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。
+参考  Dropout: A Simple Way to Prevent Neural Networks from Overfitting  
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/">
           scikit-learnのソースコードリーディング（ナイーブベイズ分類）
         </a>

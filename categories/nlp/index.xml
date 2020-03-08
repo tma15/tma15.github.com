@@ -36,5 +36,17 @@
 この記事に載せているプログラムは&lt;a href=&#34;https://github.com/tma15/scikit-learn-document-classification&#34;&gt;ここ&lt;/a&gt;にまとまっています。&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>N-best解の探索</title>
+      <link>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</link>
+      <pubDate>Sun, 31 Jan 2016 19:17:31 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</guid>
+      <description>&lt;p&gt;系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
+上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
+&lt;a href=&#34;http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)&lt;/a&gt;
+の説明が分かりやすい。理解するために実装してみた。&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

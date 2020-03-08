@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>C&#43;&#43; on Now is better than never.</title>
+    <title>c&#43;&#43; on Now is better than never.</title>
     <link>https://tma15.github.io/tags/c&#43;&#43;/</link>
-    <description>Recent content in C&#43;&#43; on Now is better than never.</description>
+    <description>Recent content in c&#43;&#43; on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 06 May 2017 13:09:55 +0900</lastBuildDate>
@@ -17,13 +17,12 @@
       <pubDate>Sat, 06 May 2017 13:09:55 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2017/05/06/%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%BC%E3%82%AF%E3%81%AE%E7%A9%BA%E3%81%8D%E6%99%82%E9%96%93%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%83%80%E3%83%96%E3%83%AB%E9%85%8D%E5%88%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</guid>
-      <description>このゴールデンウィークはまとまった休日を取ることができた。 そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、 今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。 ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器のMeCabなどで用いられている。 入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。 そのため、高速にキーを検索することができる。
-開発成果はここにアップロードした。 基本的にはダブル配列法によるトライ検索の実現法を素直に実装している。
-休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):
- ダブル配列の動的な構築 キーの存在の確認 キーに対する値の取得 キーの削除 ダブル配列の保存・読み込み  動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。 またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。 (まだ時間があったのでマルチバイトにも対応した。このあたりの文字の対応にはStatic Double Array Trie (DASTrie)を眺めて勉強させていただいた。 2017/05/07 17:43追記)
-実装をするにあたり、他に参照した情報源を以下に挙げる:
- 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon ダブル配列の実装方法 Double Array 実装してみた - Mi manca qualche giovedi? 最近のDoubleArrayの性能 - 射撃しつつ前転  いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。 この休日では間に合わず、今後試してみたいと思っているのは以下の通り:
- マルチバイト文字の対応 (対応した 2017/05/07 17:43追記) (構築、検索のベンチマーク 2017/05/07 17:43追記) 分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる  </description>
+      <description>&lt;p&gt;このゴールデンウィークはまとまった休日を取ることができた。
+そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、
+今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。
+ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器の&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;などで用いられている。
+入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。
+そのため、高速にキーを検索することができる。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -32,16 +31,13 @@
       <pubDate>Mon, 05 Sep 2016 19:28:46 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/</guid>
-      <description>SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
-例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c++ (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C++の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C++の実装を作成する このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &amp;quot;std_pair.i&amp;quot; %include &amp;quot;std_string.i&amp;quot; %include &amp;quot;std_map.i&amp;quot; %include &amp;quot;std_vector.i&amp;quot; %{ #define SWIG_FILE_WITH_INIT #include &amp;lt;onlineml/learner/learner.hpp&amp;gt; #include &amp;lt;onlineml/learner/perceptron.hpp&amp;gt; #include &amp;lt;onlineml/common/classifier.hpp&amp;gt; #include &amp;lt;onlineml/learner/averaged_perceptron.hpp&amp;gt; %} %template() std::pair&amp;lt;std::string, float&amp;gt;; %template(PairVector) std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt;; %template(PairVectors) std::vector&amp;lt; std::vector&amp;lt;std::pair&amp;lt;std::string, float&amp;gt; &amp;gt; &amp;gt;; %template(StringVectors) std::vector&amp;lt;std::string&amp;gt;; %include &amp;lt;onlineml/learner/learner.</description>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;このエントリでは&lt;a href=&#34;http://www.swig.org/&#34;&gt;SWIG&lt;/a&gt;を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。&lt;/p&gt;
+
+&lt;p&gt;例えば自然言語処理でよく使われている&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;や&lt;a href=&#34;http://www.chokkan.org/software/crfsuite/&#34;&gt;CRFsuite&lt;/a&gt;などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。&lt;/p&gt;
+
+&lt;p&gt;またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。&lt;/p&gt;</description>
     </item>
     
   </channel>

@@ -74,5 +74,68 @@
       <description></description>
     </item>
     
+    <item>
+      <title>kaggle</title>
+      <link>https://tma15.github.io/categories/kaggle/</link>
+      <pubDate>Sat, 29 Jul 2017 15:30:01 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/kaggle/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>c&#43;&#43;</title>
+      <link>https://tma15.github.io/categories/c&#43;&#43;/</link>
+      <pubDate>Mon, 05 Sep 2016 19:28:46 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/c&#43;&#43;/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>swig</title>
+      <link>https://tma15.github.io/categories/swig/</link>
+      <pubDate>Mon, 05 Sep 2016 19:28:46 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/swig/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>golang</title>
+      <link>https://tma15.github.io/categories/golang/</link>
+      <pubDate>Sun, 31 Jan 2016 19:17:31 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/golang/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>math</title>
+      <link>https://tma15.github.io/categories/math/</link>
+      <pubDate>Sat, 23 Jan 2016 16:04:13 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/math/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://tma15.github.io/categories/linux/</link>
+      <pubDate>Sat, 16 Jan 2016 10:55:26 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elasticsearch</title>
+      <link>https://tma15.github.io/categories/elasticsearch/</link>
+      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/categories/elasticsearch/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

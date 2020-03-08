@@ -24,20 +24,30 @@
     </item>
     
     <item>
+      <title>Kaggle初参加記録</title>
+      <link>https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/</link>
+      <pubDate>Sat, 29 Jul 2017 15:30:01 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/</guid>
+      <description>&lt;p&gt;この一週間休暇を取っていて、多少の暇な時間があったので前から気になっていた&lt;a href=&#34;https://www.kaggle.com/&#34;&gt;Kaggle&lt;/a&gt;に手を付けてみた。
+今回はチュートリアル的に公開されているtitanic号の生存予測タスクに参加した。
+他の参加者がブログで公開されている&lt;a href=&#34;http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html&#34;&gt;素性&lt;/a&gt;を参考に素性を設計した。
+予測モデルには以前C++で実装した平均化パーセプトロンを用いた。
+Scoreが0.79426 (2017/7/29 16:00時点で1428位/7247位) となった。
+Kaggleを続けると、機械学習に関するエンジニア能力が高まりそうで良い。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>Early updateは収束が保証される</title>
       <link>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</link>
       <pubDate>Sun, 04 Sep 2016 11:00:13 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</guid>
-      <description>(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
-構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&amp;rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&amp;rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$</description>
+      <description>&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -46,15 +56,11 @@ $|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$
       <pubDate>Sun, 28 Aug 2016 18:59:58 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/</guid>
-      <description>AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。
-AdaBoost 学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:
-Initialize: 分布D_0をセットする 以下の処理をT回繰り返す: 1. 分布D_tを用いて弱学習器h_tを学習する 2. h_tの信頼度a_tを計算する 3. 次のラウンドの分布D_{t+1}を計算する  予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:
-$$ y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))). $$
-なぜAdaBoostは良いのか  実装が簡単な割に高い予測性能である事が多い 亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる) 経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される  汎化誤差 汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp;amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。
-しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。
-AdaBoostの主な研究 ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:
- Statistical view Margin theory  Statistical view 弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。</description>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。&lt;/p&gt;
+
+&lt;p&gt;具体的には&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/&#34;&gt;Zhi-Hua Zhou&lt;/a&gt;先生のスライド (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;From AdaBoost to LDM&lt;/a&gt;) を眺めて、自分の理解のためにメモとして残したものになっている。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -63,9 +69,14 @@ AdaBoostの主な研究 ここでは主に研究のフォーカスが当てら�
       <pubDate>Sun, 31 Jul 2016 10:13:38 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/</guid>
-      <description>概要  パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する 平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する 平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い 素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い  準備 パーセプトロンを学習するにあたって利用する表記は以下のとおり。
- N: 素性の数 x: 学習事例。実数値のN次元ベクトル y: 学習事例に対するラベル。 {-1, 1} D: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &amp;lt;= i &amp;lt;= K) w: 重みベクトル。実数値のN次元ベクトル dot(a, b): 二つのベクトルの内積を返す sign(x): 1 if x &amp;gt;= 0 else -1  パーセプトロン パーセプトロンの学習の擬似コードは次の通り。 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。
-w = [0, ..., 0] ### N次元 for (x_i, y_i) in D y = sign(dot(x_i, w)) if y != y_i u = y_i * x_i ### x_iの要素に対してy_iを掛ける w += u return w  平均化パーセプトロン 平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとしてw_all、w_avgが増えていること。このw_avgが&amp;rdquo;過去の反復で学習した重みベクトルの平均&amp;rdquo;となっている。</description>
+      <description>&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する&lt;/li&gt;
+&lt;li&gt;平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する&lt;/li&gt;
+&lt;li&gt;平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い&lt;/li&gt;
+&lt;li&gt;素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     
     <item>

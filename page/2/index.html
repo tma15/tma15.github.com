@@ -289,15 +289,11 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        (Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
-構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$
+        <p>(<a href="http://www.aclweb.org/anthology/N12-1015">Structured Perceptron with Inexact Search</a>, NAACL 2012) を読んだ。</p>
+
+<p>構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。</p>
+
+<p>構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -344,21 +340,25 @@ $|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。
-AdaBoost 学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:
-Initialize: 分布D_0をセットする 以下の処理をT回繰り返す: 1. 分布D_tを用いて弱学習器h_tを学習する 2. h_tの信頼度a_tを計算する 3. 次のラウンドの分布D_{t+1}を計算する  予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:
-$$ y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))). $$
-なぜAdaBoostは良いのか  実装が簡単な割に高い予測性能である事が多い 亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる) 経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される  汎化誤差 汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。
-しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。
-AdaBoostの主な研究 ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:
- Statistical view Margin theory  Statistical view 弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。
+        <!--adsense-->
+
+<p>AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。</p>
+
+<p>具体的には<a href="http://cs.nju.edu.cn/zhouzh/">Zhi-Hua Zhou</a>先生のスライド (<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf">From AdaBoost to LDM</a>) を眺めて、自分の理解のためにメモとして残したものになっている。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -405,15 +405,28 @@ AdaBoostの主な研究 ここでは主に研究のフォーカスが当てら�
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        概要  パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する 平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する 平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い 素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い  準備 パーセプトロンを学習するにあたって利用する表記は以下のとおり。
- N: 素性の数 x: 学習事例。実数値のN次元ベクトル y: 学習事例に対するラベル。 {-1, 1} D: N個の学習事例からなる学習データ {(x_i, y_i)} (1 &lt;= i &lt;= K) w: 重みベクトル。実数値のN次元ベクトル dot(a, b): 二つのベクトルの内積を返す sign(x): 1 if x &gt;= 0 else -1  パーセプトロン パーセプトロンの学習の擬似コードは次の通り。 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。
-w = [0, ..., 0] ### N次元 for (x_i, y_i) in D y = sign(dot(x_i, w)) if y != y_i u = y_i * x_i ### x_iの要素に対してy_iを掛ける w += u return w  平均化パーセプトロン 平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとしてw_all、w_avgが増えていること。このw_avgが&rdquo;過去の反復で学習した重みベクトルの平均&rdquo;となっている。
+        <h2 id="概要">概要</h2>
+
+<ul>
+<li>パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する</li>
+<li>平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する</li>
+<li>平均化パーセプトロンは実装が簡単でありながら、良い予測精度が出ることが多い</li>
+<li>素直に平均化パーセプトロンの出力を計算しようとすると各反復における重みベクトルを保持する必要がありメモリ的に学習が非効率であるため、実際には今回メモする方法で実装されることが多い</li>
+</ul>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -460,17 +473,26 @@ w = [0, ..., 0] ### N次元 for (x_i, y_i) in D y = sign(dot(x_i, w)) if y != y_
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/golang">golang</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。 上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) の説明が分かりやすい。理解するために実装してみた。
- ラティスの構造は以下のとおり。パスの重みは上記コードを参照。
-#0 n1 --- n3 / \ / \ bos x eos \ / \ / #1 n2 --- n4  ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、 ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。 2-best以降もラティスの情報から、あっていることを確認。
-下記の###以降はこのエントリ用に付け足した文字列。
-$go test Backtrack ### ビタビアルゴリズムで求めたパス 1 ### n2を通って、 0 ### n3を通る 1-best: 1 ### n2を通って、 1-best: 0 ### n3を通る 2-best: 1 ### n2を通って、 2-best: 1 ### n4を通る 3-best: 0 ### n1を通って、 3-best: 0 ### n3を通る 4-best: 0 ### n1を通って、 4-best: 1 ### n4を通る  goで優先度付きキューを実装するには、heap - The Go Programming LanguageのExample (PriorityQueue) が参考になる。
+        <p>系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
+上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
+<a href="http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934">日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)</a>
+の説明が分かりやすい。理解するために実装してみた。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -517,16 +539,23 @@ $go test Backtrack ### ビタビアルゴリズムで求めたパス 1 ### n2を
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/math">math</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-         EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、 行列式の計算をどのように実装するのかわからなかったので調べて 実装してみた (gist)。
-\[ \frac{1}{\sqrt{2\pi^D |\Sigma|}} \exp\{-\frac{1}{2}({\mathbf x}-{\mathbf \mu})^T\Sigma^{-1}({\mathbf x}-{\mathbf \mu})\} \]
-NumPyのdet関数を覗いてみると&rdquo;The determinant is computed via LU factorization using the LAPACK routine z/dgetrf.&ldquo;とのこと。 LU分解を使って計算している。恥ずかしながら、LU分解は名前しか聞いたことが無かったが、行列を上三角行列Uと下三角行列Lに分解することらしい。 なぜLU分解で行列式を求めるのかを調べると、行列の積の行列式は、行列式の積に等しくて (see 行列の積の行列式)、三角行列の行列式は対角成分の積に等しいため。 計算の途中で、Uの対角成分が小さい場合にゼロ除算が起こりうるので、事前に行列の行を、対角成分が大きくなるように並び替える処理が必要。そうして求めたLとUは、並び替え後の行列に対するものなので、並び替える前のもとの行列の行列式を求める際には、並び替え後の行列の行列式に対して、並び替えた回数だけ-1をかける。
-参考  LU decomposition - Rosetta Code 4 LU分解  
+        <p>EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、
+行列式の計算をどのように実装するのかわからなかったので調べて
+実装してみた (<a href="https://gist.github.com/tma15/bc2e556ca79f055bf3cb">gist</a>)。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -573,14 +602,21 @@ NumPyのdet関数を覗いてみると&rdquo;The determinant is computed via LU 
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.
+        <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -627,19 +663,21 @@ type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } fu
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々
+        <p>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、<code>grep</code>を使えば簡単にデータに重複があるかどうかを確認することができる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>

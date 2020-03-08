@@ -286,16 +286,23 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/math">math</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-         EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、 行列式の計算をどのように実装するのかわからなかったので調べて 実装してみた (gist)。
-\[ \frac{1}{\sqrt{2\pi^D |\Sigma|}} \exp\{-\frac{1}{2}({\mathbf x}-{\mathbf \mu})^T\Sigma^{-1}({\mathbf x}-{\mathbf \mu})\} \]
-NumPyのdet関数を覗いてみると&rdquo;The determinant is computed via LU factorization using the LAPACK routine z/dgetrf.&ldquo;とのこと。 LU分解を使って計算している。恥ずかしながら、LU分解は名前しか聞いたことが無かったが、行列を上三角行列Uと下三角行列Lに分解することらしい。 なぜLU分解で行列式を求めるのかを調べると、行列の積の行列式は、行列式の積に等しくて (see 行列の積の行列式)、三角行列の行列式は対角成分の積に等しいため。 計算の途中で、Uの対角成分が小さい場合にゼロ除算が起こりうるので、事前に行列の行を、対角成分が大きくなるように並び替える処理が必要。そうして求めたLとUは、並び替え後の行列に対するものなので、並び替える前のもとの行列の行列式を求める際には、並び替え後の行列の行列式に対して、並び替えた回数だけ-1をかける。
-参考  LU decomposition - Rosetta Code 4 LU分解  
+        <p>EMアルゴリズムで多変量な混合正規分布のパラメータを推定するプログラムを書いてみようと思ったのだが、多変量正規分布の中に行列式を計算する箇所があり (以下の式の|Σ|)、
+行列式の計算をどのように実装するのかわからなかったので調べて
+実装してみた (<a href="https://gist.github.com/tma15/bc2e556ca79f055bf3cb">gist</a>)。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>

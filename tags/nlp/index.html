@@ -496,17 +496,26 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/golang">golang</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。 上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) の説明が分かりやすい。理解するために実装してみた。
- ラティスの構造は以下のとおり。パスの重みは上記コードを参照。
-#0 n1 --- n3 / \ / \ bos x eos \ / \ / #1 n2 --- n4  ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、 ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。 2-best以降もラティスの情報から、あっていることを確認。
-下記の###以降はこのエントリ用に付け足した文字列。
-$go test Backtrack ### ビタビアルゴリズムで求めたパス 1 ### n2を通って、 0 ### n3を通る 1-best: 1 ### n2を通って、 1-best: 0 ### n3を通る 2-best: 1 ### n2を通って、 2-best: 1 ### n4を通る 3-best: 0 ### n1を通って、 3-best: 0 ### n3を通る 4-best: 0 ### n1を通って、 4-best: 1 ### n4を通る  goで優先度付きキューを実装するには、heap - The Go Programming LanguageのExample (PriorityQueue) が参考になる。
+        <p>系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
+上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
+<a href="http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934">日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)</a>
+の説明が分かりやすい。理解するために実装してみた。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/" class="postShorten-excerpt_link link">Continue reading</a>

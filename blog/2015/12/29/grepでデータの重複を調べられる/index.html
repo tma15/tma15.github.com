@@ -7,43 +7,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="">
-<meta name="description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々">
+<meta name="keywords" content="linux">
+<meta name="description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。">
 
 
-<meta property="og:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々">
+<meta property="og:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="grepでデータの重複を調べられる">
 <meta name="twitter:title" content="grepでデータの重複を調べられる">
 <meta property="og:url" content="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/">
 <meta property="twitter:url" content="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々">
-<meta name="twitter:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々">
+<meta property="og:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。">
+<meta name="twitter:description" content="実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。">
 <meta property="og:locale" content="en-us">
 
   
@@ -53,6 +29,10 @@ $grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つの�
     <meta property="article:modified_time" content="2015-12-29T15:20:02">
   
   
+  
+    
+      <meta property="article:section" content="linux">
+    
   
   
     
@@ -304,6 +284,14 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
@@ -341,7 +329,6 @@ if (!doNotTrack) {
 <p>何も出力されなければ、2つのファイルに重複はない。</p>
 
 <p>参考: <a href="http://d.hatena.ne.jp/rx7/20130829/p1">Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々</a></p>
-
               
 
               <br>

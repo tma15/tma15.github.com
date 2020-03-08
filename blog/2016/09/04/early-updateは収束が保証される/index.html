@@ -9,25 +9,17 @@
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+
 構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。">
 
 
 <meta property="og:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+
 構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Early updateは収束が保証される">
 <meta name="twitter:title" content="Early updateは収束が保証される">
@@ -35,23 +27,15 @@ $|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$
 <meta property="twitter:url" content="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
 <meta property="og:site_name" content="Now is better than never.">
 <meta property="og:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+
 構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。">
 <meta name="twitter:description" content="(Structured Perceptron with Inexact Search, NAACL 2012) を読んだ。
+
 構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
-構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。
-violation violationは構造化パーセプトロンの収束を考えるために必要な定義である。 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。 モデルによって計算される正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,y)}$が不正解のスコア$\mathbf{w}\cdot\mathbf{\phi(x,z)}$よりも高い 組をviolationという。 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$ のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。
-構造化パーセプトロン ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。
-概要 構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する: $$ z = \arg \max_{s \in \mathcal{Y}(x)} \mathbf{w} \phi(x,s). $$
-$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。
-収束性 学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする: $$ R=\max_{(x,y,z)\in C}|\Delta \mathbf{\phi}(x,y,z)|, $$
-$|\mathbf{u}|=1$であるような重みベクトル$\mathbf{u}$が存在し、$\forall (x,y,z)\in C, \mathbf{u}\cdot \Delta \mathbf{\phi}(x,y,z)\geq \delta$ であるとき、学習データは線形分離可能であるという。$\delta$は次のように定義される: $$ \delta = \max_{\mathbf{u}=1} \min_{(x,y,z)\in C} \mathbf{u} \cdot \Delta \mathbf{\phi}(x,y,z), $$">
+
+構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。">
 <meta property="og:locale" content="en-us">
 
   
@@ -320,15 +304,28 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              
-
-<p>(<a href="http://www.aclweb.org/anthology/N12-1015">Structured Perceptron with Inexact Search</a>, NAACL 2012) を読んだ。</p>
+              <p>(<a href="http://www.aclweb.org/anthology/N12-1015">Structured Perceptron with Inexact Search</a>, NAACL 2012) を読んだ。</p>
 
 <p>構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。</p>
 
 <p>構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。</p>
 
-<h2 id="violation">violation</h2>
+<h1 id="table-of-contents">Table of Contents</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#violation">violation</a></li>
+<li><a href="#構造化パーセプトロン">構造化パーセプトロン</a>
+<ul>
+<li><a href="#概要">概要</a></li>
+<li><a href="#収束性">収束性</a></li>
+<li><a href="#証明">証明</a></li>
+<li><a href="#近似的な探索では収束が保証されない">近似的な探索では収束が保証されない</a></li>
+</ul></li>
+<li><a href="#ビームサーチとearly-update">ビームサーチとearly update</a></li>
+<li><a href="#まとめ">まとめ</a></li>
+</ul>
+</nav>
+
+<h1 id="violation">violation</h1>
 
 <p>violationは構造化パーセプトロンの収束を考えるために必要な定義である。
 violationを定義するために、インスタンス$x$と正解のラベル列$y$と、正解以外のラベル列$z$の組を考える。
@@ -337,12 +334,12 @@ violationを定義するために、インスタンス$x$と正解のラベル�
 言い換えると、重みベクトル$\mathbf{w}$に対して、$\mathbf{w}\cdot\Delta\mathbf{\phi}(x,y,z)\leq 0$
 のとき、$(x,y,z)$はvilolationであるという。ただし、$\Delta \phi(x,y,z)=\phi(x,y)-\phi(x,z)$とする。</p>
 
-<h2 id="構造化パーセプトロン">構造化パーセプトロン</h2>
+<h1 id="構造化パーセプトロン">構造化パーセプトロン</h1>
 
 <p>ここでは構造化パーセプトロンの収束がviolationによって決まることを追う。
 さらに、近似的な探索ではviolationでなくなる可能性が出てしまい、収束性の保証が無くなることを追う。</p>
 
-<h3 id="概要">概要</h3>
+<h2 id="概要">概要</h2>
 
 <p>構造化パーセプトロンはラベルを出力するために、インスタンスに対してスコアが最大となるパス$z$をありうるラベル列の集合$\mathcal{Y}(x)$の中から探索する:
 $$
@@ -352,7 +349,7 @@ $$</p>
 <p>$z$は正解を含めて、ありうる候補の中で最大のスコア、つまり$\forall z&rsquo; \in \mathcal{Y}(x), \mathbf{w}\phi(x,z&rsquo;)\leq \mathbf{w}\phi(x,z)$である。
 更新時は$z \neq y$であるため、構造化パーセプトロンが重みの更新に利用する$(x,y,z)$はすべてviolationである。</p>
 
-<h3 id="収束性">収束性</h3>
+<h2 id="収束性">収束性</h2>
 
 <p>学習データ中で最大となる正解のスコアと不正解のスコアの差を$R$とする:
 $$
@@ -371,7 +368,7 @@ $$</p>
 \textrm{err}\leq R^2/\delta^2
 $$</p>
 
-<h3 id="証明">証明</h3>
+<h2 id="証明">証明</h2>
 
 <p>証明を追うのが面倒な場合は、証明中に$\arg \max$が出てこないということ、出てくるのはviolation、つまり$\mathbf{u} \cdot \Delta \phi(x,y,z)\leq 0$となる$(x,y,z)$であることを心に留めておけば読み飛ばしても大丈夫。</p>
 
@@ -430,7 +427,7 @@ $$</p>
 
 <p>パーセプトロンの収束性の証明は、厳密解 (argmax) に依存しない。かわりにviolationに依存する。</p>
 
-<h3 id="近似的な探索では収束が保証されない">近似的な探索では収束が保証されない</h3>
+<h2 id="近似的な探索では収束が保証されない">近似的な探索では収束が保証されない</h2>
 
 <p>近似的な探索では探索空間の部分集合に対して、ラベル列を探索する。そのため、正解のラベル列が
 探索空間の部分集合に存在しないということがあって、かつ$\Delta \phi(x,y,z)\gt 0$、つまり
@@ -440,7 +437,7 @@ $$</p>
 <p>自然言語処理では探索空間が大きく、ビームサーチのような近似的な探索手法が用いられることがあるため、
 このようなモデルのスコア計算に問題はなくても、近似的な探索をするために正解が探索空間から枝切りされてしまうという状況が起きうる。</p>
 
-<h2 id="ビームサーチとearly-update">ビームサーチとearly update</h2>
+<h1 id="ビームサーチとearly-update">ビームサーチとearly update</h1>
 
 <p>early updateを用いた構造化パーセプトロンの学習は以下のようになる:</p>
 
@@ -469,10 +466,9 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
 よって、early updateで重みの学習に用いるデータはすべてviolationである。
 そのため、early updateも、通常の構造化パーセプトロンの収束の証明と同じように、収束を証明できる。</p>
 
-<h2 id="まとめ">まとめ</h2>
+<h1 id="まとめ">まとめ</h1>
 
 <p>early updateは収束が保証される。</p>
-
               
 
               <br>
@@ -563,7 +559,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -627,7 +623,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>

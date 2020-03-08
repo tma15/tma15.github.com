@@ -7,55 +7,43 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="">
-<meta name="description" content="SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+<meta name="keywords" content="c&#43;&#43;, swig">
+<meta name="description" content="
+
+このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC&#43;&#43;実装にはPythonラッパーが付属していることがある。C&#43;&#43;実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC&#43;&#43;で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC&#43;&#43;には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C&#43;&#43;ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C&#43;&#43;、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c&#43;&#43; (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C&#43;&#43;の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C&#43;&#43;の実装を作成する このエントリはC&#43;&#43;の実装そのものではなく、C&#43;&#43;実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &quot;std_pair.i&quot; %include &quot;std_string.i&quot; %include &quot;std_map.i&quot; %include &quot;std_vector.i&quot; %{ #define SWIG_FILE_WITH_INIT #include &lt;onlineml/learner/learner.hpp&gt; #include &lt;onlineml/learner/perceptron.hpp&gt; #include &lt;onlineml/common/classifier.hpp&gt; #include &lt;onlineml/learner/averaged_perceptron.hpp&gt; %} %template() std::pair&lt;std::string, float&gt;; %template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;; %template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;; %template(StringVectors) std::vector&lt;std::string&gt;; %include &lt;onlineml/learner/learner.">
+
+またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。">
 
 
-<meta property="og:description" content="SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+<meta property="og:description" content="
+
+このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC&#43;&#43;実装にはPythonラッパーが付属していることがある。C&#43;&#43;実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC&#43;&#43;で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC&#43;&#43;には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C&#43;&#43;ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C&#43;&#43;、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c&#43;&#43; (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C&#43;&#43;の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C&#43;&#43;の実装を作成する このエントリはC&#43;&#43;の実装そのものではなく、C&#43;&#43;実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &quot;std_pair.i&quot; %include &quot;std_string.i&quot; %include &quot;std_map.i&quot; %include &quot;std_vector.i&quot; %{ #define SWIG_FILE_WITH_INIT #include &lt;onlineml/learner/learner.hpp&gt; #include &lt;onlineml/learner/perceptron.hpp&gt; #include &lt;onlineml/common/classifier.hpp&gt; #include &lt;onlineml/learner/averaged_perceptron.hpp&gt; %} %template() std::pair&lt;std::string, float&gt;; %template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;; %template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;; %template(StringVectors) std::vector&lt;std::string&gt;; %include &lt;onlineml/learner/learner.">
+
+またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SWIGを使ってPythonラッパーを生成する">
 <meta name="twitter:title" content="SWIGを使ってPythonラッパーを生成する">
 <meta property="og:url" content="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/">
 <meta property="twitter:url" content="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+<meta property="og:description" content="
+
+このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC&#43;&#43;実装にはPythonラッパーが付属していることがある。C&#43;&#43;実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC&#43;&#43;で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC&#43;&#43;には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C&#43;&#43;ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C&#43;&#43;、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c&#43;&#43; (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C&#43;&#43;の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C&#43;&#43;の実装を作成する このエントリはC&#43;&#43;の実装そのものではなく、C&#43;&#43;実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &quot;std_pair.i&quot; %include &quot;std_string.i&quot; %include &quot;std_map.i&quot; %include &quot;std_vector.i&quot; %{ #define SWIG_FILE_WITH_INIT #include &lt;onlineml/learner/learner.hpp&gt; #include &lt;onlineml/learner/perceptron.hpp&gt; #include &lt;onlineml/common/classifier.hpp&gt; #include &lt;onlineml/learner/averaged_perceptron.hpp&gt; %} %template() std::pair&lt;std::string, float&gt;; %template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;; %template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;; %template(StringVectors) std::vector&lt;std::string&gt;; %include &lt;onlineml/learner/learner.">
-<meta name="twitter:description" content="SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+
+またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。">
+<meta name="twitter:description" content="
+
+このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
+
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC&#43;&#43;実装にはPythonラッパーが付属していることがある。C&#43;&#43;実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC&#43;&#43;で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC&#43;&#43;には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C&#43;&#43;ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C&#43;&#43;、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c&#43;&#43; (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C&#43;&#43;の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C&#43;&#43;の実装を作成する このエントリはC&#43;&#43;の実装そのものではなく、C&#43;&#43;実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &quot;std_pair.i&quot; %include &quot;std_string.i&quot; %include &quot;std_map.i&quot; %include &quot;std_vector.i&quot; %{ #define SWIG_FILE_WITH_INIT #include &lt;onlineml/learner/learner.hpp&gt; #include &lt;onlineml/learner/perceptron.hpp&gt; #include &lt;onlineml/common/classifier.hpp&gt; #include &lt;onlineml/learner/averaged_perceptron.hpp&gt; %} %template() std::pair&lt;std::string, float&gt;; %template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;; %template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;; %template(StringVectors) std::vector&lt;std::string&gt;; %include &lt;onlineml/learner/learner.">
+
+またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。">
 <meta property="og:locale" content="en-us">
 
   
@@ -66,9 +54,17 @@ SWIGのインターフェースファイルを作成する インターフェー
   
   
   
+    
+      <meta property="article:section" content="c&#43;&#43;">
+    
+      <meta property="article:section" content="swig">
+    
+  
   
     
-      <meta property="article:tag" content="C&#43;&#43;">
+      <meta property="article:tag" content="c&#43;&#43;">
+    
+      <meta property="article:tag" content="swig">
     
   
 
@@ -316,6 +312,16 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/c&#43;&#43;">c&#43;&#43;</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/swig">swig</a>
+    
+  
+
   </div>
 
 
@@ -326,7 +332,18 @@ if (!doNotTrack) {
             <div class="main-content-wrap">
               
 
-<h1 id="swigを使ってpythonラッパーを生成する">SWIGを使ってPythonラッパーを生成する</h1>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
 
 <p>このエントリでは<a href="http://www.swig.org/">SWIG</a>を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。</p>
 
@@ -334,9 +351,18 @@ if (!doNotTrack) {
 
 <p>またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。</p>
 
-<p>(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)</p>
+<h1 id="table-of-contents">Table of Contents</h1><nav id="TableOfContents">
+<ul>
+<li><a href="#利用するツールおよび環境">利用するツールおよび環境</a></li>
+<li><a href="#c-の実装を作成する">C++の実装を作成する</a></li>
+<li><a href="#swigのインターフェースファイルを作成する">SWIGのインターフェースファイルを作成する</a></li>
+<li><a href="#setup-pyを用意する">setup.pyを用意する</a></li>
+<li><a href="#makefile-amを作成する">Makefile.amを作成する</a></li>
+<li><a href="#インストールする">インストールする</a></li>
+</ul>
+</nav>
 
-<h2 id="利用するツールおよび環境">利用するツールおよび環境</h2>
+<h1 id="利用するツールおよび環境">利用するツールおよび環境</h1>
 
 <p>このエントリでは以下のツールを利用する:</p>
 
@@ -351,22 +377,12 @@ if (!doNotTrack) {
 
 <p>またOSはCentOS release 6.8 (さくらのVPS) を利用する。</p>
 
-<h2 id="概要">概要</h2>
-
-<ul>
-<li>C++の実装を作成する</li>
-<li>SWIGのインターフェースファイルを作成する</li>
-<li>setup.pyを用意する</li>
-<li>Makefile.amを作成する</li>
-<li>インストールする</li>
-</ul>
-
-<h2 id="c-の実装を作成する">C++の実装を作成する</h2>
+<h1 id="c-の実装を作成する">C++の実装を作成する</h1>
 
 <p>このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは
 平均化パーセプトロンの<a href="https://github.com/tma15/onlineml">実装</a>を用いる。</p>
 
-<h2 id="swigのインターフェースファイルを作成する">SWIGのインターフェースファイルを作成する</h2>
+<h1 id="swigのインターフェースファイルを作成する">SWIGのインターフェースファイルを作成する</h1>
 
 <p>インターフェースファイルはSWIGへの入力になる。</p>
 
@@ -415,7 +431,22 @@ if (!doNotTrack) {
 #include &lt;onlineml/common/classifier.h&gt;
 </code></pre>
 
-<h2 id="setup-pyを用意する">setup.pyを用意する</h2>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+
+<h1 id="setup-pyを用意する">setup.pyを用意する</h1>
 
 <p>setup.pyは以下の様な目的で使うスクリプト (<a href="http://docs.python.jp/3/distutils/setupscript.html">2. setup スクリプトを書く Python 3.5.2 ドキュメント</a>)。</p>
 
@@ -444,7 +475,7 @@ setup(
     )
 </code></pre>
 
-<h2 id="makefile-amを作成する">Makefile.amを作成する</h2>
+<h1 id="makefile-amを作成する">Makefile.amを作成する</h1>
 
 <p>プロジェクトを以下のディレクトリ構成とする:</p>
 
@@ -485,7 +516,7 @@ python:
              setup.py
 </code></pre>
 
-<h3 id="インストールする">インストールする</h3>
+<h1 id="インストールする">インストールする</h1>
 
 <p>以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:</p>
 
@@ -494,7 +525,6 @@ make
 make install
 make python
 </code></pre>
-
               
 
               <br>
@@ -522,7 +552,9 @@ make python
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">TAGGED IN</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/c&#43;&#43;/">C&#43;&#43;</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/c&#43;&#43;/">c&#43;&#43;</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/swig/">swig</a>
 
                   </div>
                 
@@ -570,7 +602,7 @@ make python
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -634,7 +666,7 @@ make python
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>

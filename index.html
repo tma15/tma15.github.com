@@ -560,17 +560,28 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        概要 この一週間休暇を取っていて、多少の暇な時間があったので前から気になっていたKaggleに手を付けてみた。 今回はチュートリアル的に公開されているtitanic号の生存予測タスクに参加した。 他の参加者がブログで公開されている素性を参考に素性を設計した。 予測モデルには以前C++で実装した平均化パーセプトロンを用いた。 Scoreが0.79426 (2017/7/29 16:00時点で1428位/7247位) となった。 Kaggleを続けると、機械学習に関するエンジニア能力が高まりそうで良い。
-モデル 生存予測モデルおよび年齢予測モデルには以前C++で実装した平均化パーセプトロンを用いた。 平均化パーセプトロンを採用した積極的な理由があるわけではないのだが、今回はOSSに頼らずに、自分で実装した学習器を使いたかったので、消去法的に採用された。 実践的には広く知られたOSSのほうが、優秀なアルゴリズムが実装されていると思うし、バグの可能性も少ないと思うので、今回のようなアプローチはあまり得策ではないと思う。 おそらくランダムフォレストやSVMなどのモデルを利用する参加者が多い中で、パーセプトロンを利用した数少ない人間になるだろう。
-後述するが、本タスクで扱うデータには欠損値が存在する。 そこで、欠損値を予測するためのモデルを別途作成し、値を補完するためのモデルを作成した (これもやはり、平均化パーセプトロン) 。 生存予測モデルへの入力 (素性) を予測するモデルを作成しているので、全体構成としてはいわゆるstackingになっている。
-素性 メタデータ分析的に他の方がブログで公開されている素性を参考に設計している。
- 1-of-k表現  性別 年齢 (0~9, 10~19, 20~29, 30~39, 40~49, 50~というカテゴリに修正している) チケット番号 キャビン 乗車地 チケットのクラス 親の人数 兄弟の人数 肩書 (名前から抽出した次の情報: Mr., Ms., Miss., Master.)  運賃 (値の正規化はしていない) 組み合わせ素性  1.1および{1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8} 1.6および{1.4, 1.5, 1.7, 1.8}   (1.2) このタスクで扱うデータでは、欠損値が存在する。例えば年齢は、生存者の予測に有効に働きそう (幼い子どもは優先的に救助されうる) なのだが、欠損値が少なからず存在する。 そこで、年齢が不明な事例に関しては、年齢を予測するためのモデルを事前に作成しておき、そのモデルによって年齢を予測し、補完した。 年齢予測モデルで利用した素性は1.
+        <p>この一週間休暇を取っていて、多少の暇な時間があったので前から気になっていた<a href="https://www.kaggle.com/">Kaggle</a>に手を付けてみた。
+今回はチュートリアル的に公開されているtitanic号の生存予測タスクに参加した。
+他の参加者がブログで公開されている<a href="http://ahmedbesbes.com/how-to-score-08134-in-titanic-kaggle-challenge.html">素性</a>を参考に素性を設計した。
+予測モデルには以前C++で実装した平均化パーセプトロンを用いた。
+Scoreが0.79426 (2017/7/29 16:00時点で1428位/7247位) となった。
+Kaggleを続けると、機械学習に関するエンジニア能力が高まりそうで良い。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -623,13 +634,12 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        このゴールデンウィークはまとまった休日を取ることができた。 そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、 今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。 ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器のMeCabなどで用いられている。 入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。 そのため、高速にキーを検索することができる。
-開発成果はここにアップロードした。 基本的にはダブル配列法によるトライ検索の実現法を素直に実装している。
-休日中に実装できたの機能は以下の通りで、Key-Value Storeとしてなら利用することが可能な実装になっている (共通接頭辞検索などの機能は現在はない):
- ダブル配列の動的な構築 キーの存在の確認 キーに対する値の取得 キーの削除 ダブル配列の保存・読み込み  動的な構築の高速化のための工夫は他の論文で提案されているらしいが、その実装は間に合わなかった。 またマルチバイト文字の対応はできていないため、日本語処理にはまだ使えない。 (まだ時間があったのでマルチバイトにも対応した。このあたりの文字の対応にはStatic Double Array Trie (DASTrie)を眺めて勉強させていただいた。 2017/05/07 17:43追記)
-実装をするにあたり、他に参照した情報源を以下に挙げる:
- 日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus) | 徳永 拓之 |本 | 通販 | Amazon ダブル配列の実装方法 Double Array 実装してみた - Mi manca qualche giovedi? 最近のDoubleArrayの性能 - 射撃しつつ前転  いままで実装しようと持って挫折してきたものが時間をかければ最低限作れるようになったという意味で進捗を感じた。 この休日では間に合わず、今後試してみたいと思っているのは以下の通り:
- マルチバイト文字の対応 (対応した 2017/05/07 17:43追記) (構築、検索のベンチマーク 2017/05/07 17:43追記) 分類器のオレオレ実装と組み合わせてメモリに載らない大きさの素性サイズのデータで文書分類の実験をしてみる  
+        <p>このゴールデンウィークはまとまった休日を取ることができた。
+そこでこの休日 (の自分の自由時間) 中に自然言語処理界隈で有名な何かの実装に取り組んで、開発スキルの経験値をあげようと思いいたり、
+今まで何度も実装してみようと思って挫折してきたダブル配列を実装することを課題にしてみた。
+ダブル配列はTRIEを実装するためのデータ構造の一つとして有名であり、形態素解析器の<a href="http://taku910.github.io/mecab/">MeCab</a>などで用いられている。
+入力がキーの集合に含まれるかどうかを調べる時間は、保存したキーの集合のサイズではなく、入力の長さに依存する。
+そのため、高速にキーを検索することができる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2017/05/06/%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%BC%E3%82%AF%E3%81%AE%E7%A9%BA%E3%81%8D%E6%99%82%E9%96%93%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%83%80%E3%83%96%E3%83%AB%E9%85%8D%E5%88%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -676,22 +686,29 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/c&#43;&#43;">c&#43;&#43;</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/swig">swig</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        SWIGを使ってPythonラッパーを生成する このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
-例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
-またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。
-(このエントリはSWIG、C++、automakeの経験が浅い著者が情報をまとめたものであり、誤りを含む可能性があるのでご注意ください。)
-利用するツールおよび環境 このエントリでは以下のツールを利用する:
- SWIG (3.0.8) gcc-c++ (4.4.7) autoconf (2.63) automake (1.11.1) libtool (2.2.6b) Python (3.5.0)  またOSはCentOS release 6.8 (さくらのVPS) を利用する。
-概要  C++の実装を作成する SWIGのインターフェースファイルを作成する setup.pyを用意する Makefile.amを作成する インストールする  C++の実装を作成する このエントリはC++の実装そのものではなく、C++実装をPythonから使えるようにするための手順に焦点を当てているので、実装はなんでも良いのだけど、ここでは 平均化パーセプトロンの実装を用いる。
-SWIGのインターフェースファイルを作成する インターフェースファイルはSWIGへの入力になる。
-インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:
-%module onlineml %include &quot;std_pair.i&quot; %include &quot;std_string.i&quot; %include &quot;std_map.i&quot; %include &quot;std_vector.i&quot; %{ #define SWIG_FILE_WITH_INIT #include &lt;onlineml/learner/learner.hpp&gt; #include &lt;onlineml/learner/perceptron.hpp&gt; #include &lt;onlineml/common/classifier.hpp&gt; #include &lt;onlineml/learner/averaged_perceptron.hpp&gt; %} %template() std::pair&lt;std::string, float&gt;; %template(PairVector) std::vector&lt;std::pair&lt;std::string, float&gt; &gt;; %template(PairVectors) std::vector&lt; std::vector&lt;std::pair&lt;std::string, float&gt; &gt; &gt;; %template(StringVectors) std::vector&lt;std::string&gt;; %include &lt;onlineml/learner/learner.
+        <!--adsense-->
+
+<p>このエントリでは<a href="http://www.swig.org/">SWIG</a>を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。</p>
+
+<p>例えば自然言語処理でよく使われている<a href="http://taku910.github.io/mecab/">MeCab</a>や<a href="http://www.chokkan.org/software/crfsuite/">CRFsuite</a>などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。</p>
+
+<p>またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>

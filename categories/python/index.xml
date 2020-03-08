@@ -32,5 +32,16 @@
       <description>&lt;p&gt;本エントリではPythonの&lt;a href=&#34;https://joblib.readthedocs.io/en/latest/&#34;&gt;Joblib&lt;/a&gt;がもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。&lt;/p&gt;</description>
     </item>
     
+    <item>
+      <title>PythonでElasticsearchを使うときのメモ</title>
+      <link>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</link>
+      <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

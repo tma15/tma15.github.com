@@ -286,14 +286,21 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。io/ioutilにあるReadDirはディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。
-type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } func (this byInode) Less(i, j int) bool { fstat_i := this[i].Sys().(*syscall.Stat_t) fstat_j := this[j].Sys().(*syscall.Stat_t) return fstat_i.Ino &lt; fstat_j.Ino } func (this byInode) Swap(i, j int) { this[i], this[j] = this[j], this[i] } func MyReadDir(dirname string) ([]os.FileInfo, error) { f, err := os.Open(dirname) if err != nil { return nil, err } list, err := f.Readdir(-1) f.
+        <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/" class="postShorten-excerpt_link link">Continue reading</a>
@@ -340,19 +347,21 @@ type byInode []os.FileInfo func (this byInode) Len() int { return len(this) } fu
 
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、grepを使えば簡単にデータに重複があるかどうかを確認することができる。
-今回は、csvフォーマットで、1行が1つのデータになっていて、1列目がラベル、2列目が実際のデータであるような場合を例にする。
-例えば学習データの中身が以下で、
-$cat train.csv 1,aaa -1,bbb 1,abc  テストデータの中身が以下の様な場合、
-$cat test.csv 1,aaa -1,bbc 1,aab  次のようにして重複するデータを出力できる:
-$grep -x -f train.csv test.csv 1,aaa  何も出力されなければ、2つのファイルに重複はない。
-参考: Linuxで2つのファイルの共通行を出力する - 元RX-7乗りの適当な日々
+        <p>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、<code>grep</code>を使えば簡単にデータに重複があるかどうかを確認することができる。</p>
       
       <p>
         <a href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
