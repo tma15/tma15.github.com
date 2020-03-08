@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ja">
   <head>
     
     <meta charset="UTF-8">
@@ -40,7 +40,7 @@ Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
 データを次のように作成。
 $perl -MList::Util=shuffle -e &#39;print shuffle(&lt;&gt;)&#39; &lt; ../data/news20.binary &gt; news $head -15000 news &gt; news.train $tail -4996 news &gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み&copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
 $./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[&#43;1]: 0.997986 (2478/2483) Prec[&#43;1]: 0.499295 (2478/4963) -- Acc: 0.">
-<meta property="og:locale" content="en-us">
+<meta property="og:locale" content="ja">
 
   
     <meta property="article:published_time" content="2014-10-18T00:00:00">
@@ -135,7 +135,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="5">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -148,7 +148,7 @@ if (!doNotTrack) {
     
     
       
-        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
       
     
     </a>
@@ -163,12 +163,12 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="5">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
         <a href="https://tma15.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
@@ -184,7 +184,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">ホーム</span>
     </a>
   </li>
 
@@ -194,7 +194,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">タグ</span>
     </a>
   </li>
 
@@ -204,7 +204,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">アーカイブ</span>
     </a>
   </li>
 
@@ -214,7 +214,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
-      <span class="sidebar-button-desc">About</span>
+      <span class="sidebar-button-desc">プロフィール</span>
     </a>
   </li>
 
@@ -268,12 +268,24 @@ if (!doNotTrack) {
 
 
     </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
   </div>
 </nav>
 
       
 
-      <div id="main" data-behavior="5"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
@@ -291,7 +303,12 @@ if (!doNotTrack) {
     
       <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
         
-  October 18, 2014
+  
+  
+  
+  
+    2014-10-18
+  
 
 
       </time>
@@ -399,7 +416,7 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
                 
                 
                   <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    <span class="text-color-light text-small">タグ</span><br/>
                     
   <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/golang/">golang</a>
 
@@ -417,14 +434,14 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" data-tooltip="Goで日本語の文書を前処理して分類器を学習するところまでやってみる">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" data-tooltip="PA-IIをGoで書いた">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -470,7 +487,7 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
         <div class="post-actions-wrap">
   
       <nav >
@@ -481,14 +498,14 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" data-tooltip="Goで日本語の文書を前処理して分類器を学習するところまでやってみる">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" data-tooltip="PA-IIをGoで書いた">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -523,13 +540,13 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
 </div>
 
       </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+      <div id="share-options-bar" class="share-options-bar" data-behavior="2">
   <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
     
       <li class="share-option">
         <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2014%2F10%2F18%2Fadagrad-rda%25E3%2582%2592go%25E3%2581%25A7%25E6%259B%25B8%25E3%2581%2584%25E3%2581%259F%2F">
-          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
     
@@ -544,7 +561,7 @@ Acc: <span style="color:#ae81ff">0</span>.9487590072057646</code></pre></div>
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
     
     <h4 id="about-card-name">Takuya Makino</h4>
     

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ja">
   <head>
     
     <meta charset="UTF-8">
@@ -32,7 +32,7 @@ Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理�
 主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
 Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト  Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&rdquo;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー  Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&rdquo;の&rdquo;それ&rdquo;は何を指しているか？  クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする   興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
  意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである  エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)  システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである   最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.">
-<meta property="og:locale" content="en-us">
+<meta property="og:locale" content="ja">
 
   
     <meta property="article:published_time" content="2013-12-27T00:00:00">
@@ -129,7 +129,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="5">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -142,7 +142,7 @@ if (!doNotTrack) {
     
     
       
-        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
       
     
     </a>
@@ -157,12 +157,12 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="5">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
         <a href="https://tma15.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
@@ -178,7 +178,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">ホーム</span>
     </a>
   </li>
 
@@ -188,7 +188,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">タグ</span>
     </a>
   </li>
 
@@ -198,7 +198,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">アーカイブ</span>
     </a>
   </li>
 
@@ -208,7 +208,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
-      <span class="sidebar-button-desc">About</span>
+      <span class="sidebar-button-desc">プロフィール</span>
     </a>
   </li>
 
@@ -262,12 +262,24 @@ if (!doNotTrack) {
 
 
     </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
   </div>
 </nav>
 
       
 
-      <div id="main" data-behavior="5"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
@@ -285,7 +297,12 @@ if (!doNotTrack) {
     
       <time itemprop="datePublished" datetime="2013-12-27T00:00:00Z">
         
-  December 27, 2013
+  
+  
+  
+  
+    2013-12-27
+  
 
 
       </time>
@@ -588,7 +605,7 @@ if (!doNotTrack) {
                 
                 
                   <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    <span class="text-color-light text-small">タグ</span><br/>
                     
   <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
 
@@ -608,14 +625,14 @@ if (!doNotTrack) {
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/" data-tooltip="2013年と2014年">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/" data-tooltip="Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -661,7 +678,7 @@ if (!doNotTrack) {
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
         <div class="post-actions-wrap">
   
       <nav >
@@ -672,14 +689,14 @@ if (!doNotTrack) {
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/" data-tooltip="2013年と2014年">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/" data-tooltip="Penguins in Sweaters, or Serendipitous Entity Search on User-generated Content (CIKM2013)メモ">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -714,13 +731,13 @@ if (!doNotTrack) {
 </div>
 
       </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+      <div id="share-options-bar" class="share-options-bar" data-behavior="2">
   <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
     
       <li class="share-option">
         <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2013%2F12%2F27%2F%25E3%2582%25A8%25E3%2583%2583%25E3%2582%25BB%25E3%2582%25A4-towards-the-machine-comprehension-of-text-%25E3%2581%25AE%25E3%2583%25A1%25E3%2583%25A2%2F">
-          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
     
@@ -735,7 +752,7 @@ if (!doNotTrack) {
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
     
     <h4 id="about-card-name">Takuya Makino</h4>
     

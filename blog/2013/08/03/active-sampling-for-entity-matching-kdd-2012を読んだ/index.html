@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ja">
   <head>
     
     <meta charset="UTF-8">
@@ -40,7 +40,7 @@ KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは�
 発表資料   以下メモ。
 Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。
 Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。">
-<meta property="og:locale" content="en-us">
+<meta property="og:locale" content="ja">
 
   
     <meta property="article:published_time" content="2013-08-03T00:00:00">
@@ -135,7 +135,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="5">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -148,7 +148,7 @@ if (!doNotTrack) {
     
     
       
-        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
       
     
     </a>
@@ -163,12 +163,12 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="5">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
         <a href="https://tma15.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
@@ -184,7 +184,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">ホーム</span>
     </a>
   </li>
 
@@ -194,7 +194,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">タグ</span>
     </a>
   </li>
 
@@ -204,7 +204,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">アーカイブ</span>
     </a>
   </li>
 
@@ -214,7 +214,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
-      <span class="sidebar-button-desc">About</span>
+      <span class="sidebar-button-desc">プロフィール</span>
     </a>
   </li>
 
@@ -268,12 +268,24 @@ if (!doNotTrack) {
 
 
     </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
   </div>
 </nav>
 
       
 
-      <div id="main" data-behavior="5"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
@@ -291,7 +303,12 @@ if (!doNotTrack) {
     
       <time itemprop="datePublished" datetime="2013-08-03T00:00:00Z">
         
-  August 3, 2013
+  
+  
+  
+  
+    2013-08-03
+  
 
 
       </time>
@@ -407,7 +424,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
                 
                 
                   <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    <span class="text-color-light text-small">タグ</span><br/>
                     
   <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/paper/">paper</a>
 
@@ -425,14 +442,14 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" data-tooltip="Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./" data-tooltip="It takes a long time to become young.">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -478,7 +495,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
         <div class="post-actions-wrap">
   
       <nav >
@@ -489,14 +506,14 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" data-tooltip="Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./" data-tooltip="It takes a long time to become young.">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -531,13 +548,13 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
 </div>
 
       </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+      <div id="share-options-bar" class="share-options-bar" data-behavior="2">
   <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
     
       <li class="share-option">
         <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2013%2F08%2F03%2Factive-sampling-for-entity-matching-kdd-2012%25E3%2582%2592%25E8%25AA%25AD%25E3%2582%2593%25E3%2581%25A0%2F">
-          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
     
@@ -552,7 +569,7 @@ recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
     
     <h4 id="about-card-name">Takuya Makino</h4>
     

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="ja">
   <head>
     
     <meta charset="UTF-8">
@@ -36,7 +36,7 @@
 構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。
 
 構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。">
-<meta property="og:locale" content="en-us">
+<meta property="og:locale" content="ja">
 
   
     <meta property="article:published_time" content="2016-09-04T11:00:13">
@@ -131,7 +131,7 @@ if (!doNotTrack) {
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="5">
+      <header id="header" data-behavior="2">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
@@ -144,7 +144,7 @@ if (!doNotTrack) {
     
     
       
-        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="Author&#39;s picture" />
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
       
     
     </a>
@@ -159,12 +159,12 @@ if (!doNotTrack) {
   </script>
 </header>
 
-      <nav id="sidebar" data-behavior="5">
+      <nav id="sidebar" data-behavior="2">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
         <a href="https://tma15.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
@@ -180,7 +180,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">ホーム</span>
     </a>
   </li>
 
@@ -190,7 +190,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">タグ</span>
     </a>
   </li>
 
@@ -200,7 +200,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">アーカイブ</span>
     </a>
   </li>
 
@@ -210,7 +210,7 @@ if (!doNotTrack) {
     
       <i class="sidebar-button-icon fa fa-lg fa-question"></i>
       
-      <span class="sidebar-button-desc">About</span>
+      <span class="sidebar-button-desc">プロフィール</span>
     </a>
   </li>
 
@@ -264,12 +264,24 @@ if (!doNotTrack) {
 
 
     </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
   </div>
 </nav>
 
       
 
-      <div id="main" data-behavior="5"
+      <div id="main" data-behavior="2"
         class="
                hasCoverMetaIn
                ">
@@ -287,7 +299,12 @@ if (!doNotTrack) {
     
       <time itemprop="datePublished" datetime="2016-09-04T11:00:13&#43;09:00">
         
-  September 4, 2016
+  
+  
+  
+  
+    2016-09-04
+  
 
 
       </time>
@@ -310,7 +327,7 @@ if (!doNotTrack) {
 
 <p>構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。</p>
 
-<h1 id="table-of-contents">Table of Contents</h1><nav id="TableOfContents">
+<h1 id="table-of-contents">目次</h1><nav id="TableOfContents">
 <ul>
 <li><a href="#violation">violation</a></li>
 <li><a href="#構造化パーセプトロン">構造化パーセプトロン</a>
@@ -509,7 +526,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
                 
                 
                   <div class="post-footer-tags">
-                    <span class="text-color-light text-small">TAGGED IN</span><br/>
+                    <span class="text-color-light text-small">タグ</span><br/>
                     
   <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
 
@@ -527,14 +544,14 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" data-tooltip="SWIGを使ってPythonラッパーを生成する">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/" data-tooltip="AdaBoostからLarge Margin Distribution Machineの流れ">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -580,7 +597,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="2">
         <div class="post-actions-wrap">
   
       <nav >
@@ -591,14 +608,14 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" data-tooltip="SWIGを使ってPythonラッパーを生成する">
               
                   <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
                 </a>
             </li>
             <li class="post-action">
               
                 <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/" data-tooltip="AdaBoostからLarge Margin Distribution Machineの流れ">
               
-                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
                 </a>
             </li>
@@ -633,13 +650,13 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
 </div>
 
       </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+      <div id="share-options-bar" class="share-options-bar" data-behavior="2">
   <i id="btn-close-shareoptions" class="fa fa-close"></i>
   <ul class="share-options">
     
       <li class="share-option">
         <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2016%2F09%2F04%2Fearly-update%25E3%2581%25AF%25E5%258F%258E%25E6%259D%259F%25E3%2581%258C%25E4%25BF%259D%25E8%25A8%25BC%25E3%2581%2595%25E3%2582%258C%25E3%2582%258B%2F">
-          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
     
@@ -654,7 +671,7 @@ $\mathbf{w}\cdot \phi(x,y&rsquo;)\leq \mathbf{w}\cdot \phi(x,z)$、つまり$\De
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
     
     <h4 id="about-card-name">Takuya Makino</h4>
     
