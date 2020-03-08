@@ -268,6 +268,61 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
+          Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-12-03T00:00:00Z">
+        
+  December 3, 2014
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        Question Answering Using Enhanced Lexical Semantic Models (pdf)
+Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013
+導入  自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する  単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから  answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる  単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない 深い意味解析をしたり構文木の編集距離 (Tree Edit Distance)をしている研究もあるが、計算コストが高い なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる  浅い意味解析は上位下位語や同義語などを識別するlexical sematics   この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する  この論文の貢献  色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical semanticsを入れた場合、性能の差は小さくなる  計算コストを下げたいなら、lexical semanticsを使ってシンプルなモデルを使うこともできる   問題設定 教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/">
           HMMを実装した
         </a>
@@ -585,67 +640,6 @@ proceeding: pdf
 </article>
 
             
-              
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/">
-          Named Entity Disambiguation in Streaming Data (ACL 2012)
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-02-01T00:00:00Z">
-        
-  February 1, 2013
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender
-proceeding: pdf
-解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
-課題
- Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。  正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 このラベル付きの事例は各ステップでラベルを変更することができる。 どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。  曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
- Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。  つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。  ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
- ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
- 訓練データは真に正例の事例と、大量のラベルなしの事例からなる  ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある   E-step
- 訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる 具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる  α^x_{min}は、事例ごとに決定されるパラメータ   M-step
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-            
             
   <div class="pagination-bar">
     <ul class="pagination">
@@ -659,8 +653,15 @@ proceeding: pdf
           </li>
         
         
+          <li class="pagination-next">
+            <a class="btn btn--default btn--small" href="https://tma15.github.io/tags/nlp/page/3/">
+              <span>OLDER POSTS</span>
+              <i class="fa fa-angle-right text-base icon-ml"></i>
+            </a>
+          </li>
+        
       
-      <li class="pagination-number">page 2 of 2</li>
+      <li class="pagination-number">page 2 of 3</li>
     </ul>
   </div>
 

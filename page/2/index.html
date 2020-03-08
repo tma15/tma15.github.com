@@ -265,6 +265,75 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/">
+          SWIGを使ってPythonラッパーを生成する
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2016-09-05T19:28:46&#43;09:00">
+        
+  September 5, 2016
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/c&#43;&#43;">c&#43;&#43;</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/swig">swig</a>
+    
+  
+
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <!--adsense-->
+
+<p>このエントリでは<a href="http://www.swig.org/">SWIG</a>を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。</p>
+
+<p>例えば自然言語処理でよく使われている<a href="http://taku910.github.io/mecab/">MeCab</a>や<a href="http://www.chokkan.org/software/crfsuite/">CRFsuite</a>などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。</p>
+
+<p>またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/">
           Early updateは収束が保証される
         </a>
@@ -620,67 +689,6 @@ if (!doNotTrack) {
       
       <p>
         <a href="https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/">
-          grepでデータの重複を調べられる
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2015-12-29T15:20:02&#43;09:00">
-        
-  December 29, 2015
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
-    
-  
-
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <p>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、<code>grep</code>を使えば簡単にデータに重複があるかどうかを確認することができる。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>

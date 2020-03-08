@@ -265,6 +265,67 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/">
+          grepでデータの重複を調べられる
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-12-29T15:20:02&#43;09:00">
+        
+  December 29, 2015
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/linux">linux</a>
+    
+  
+
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <p>実験結果が公平なものかどうかを確かめる方法の一つとして、テストデータ中に学習データが存在しているかどうかがあると思う。そんな時は、<code>grep</code>を使えば簡単にデータに重複があるかどうかを確認することができる。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2015/12/20/git%E3%81%A7%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88id%E3%81%AE%E7%8A%B6%E6%85%8B%E3%81%AB%E6%88%BB%E3%81%99/">
           gitで指定したコミットIDの状態に戻す
         </a>
@@ -570,60 +631,6 @@ Caffeだと、今学習しているのか、予測しているのかのphaseをs
       
       <p>
         <a href="https://tma15.github.io/blog/2015/01/17/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%82%92%E4%BB%98%E3%81%91%E3%81%9F/" class="postShorten-excerpt_link link">Continue reading</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/">
-          CYKアルゴリズムで係り受け解析
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2015-01-14T00:00:00Z">
-        
-  January 14, 2015
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-         CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。 具体的には参考資料の23ページにあるような変換をする。 例えば「私は / ピザを / 食べる」という文節で(&ldquo;/&ldquo;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。 ただしこの解析ではO(n^5)の時間がかかる。
-参考  Dependency Parsing Tutorial at COLING-ACL 2006  
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">Continue reading</a>
         
       </p>
     </div>
