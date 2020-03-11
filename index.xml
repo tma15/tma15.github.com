@@ -6,10 +6,25 @@
     <description>Recent content on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 10 Mar 2020 16:50:53 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 11 Mar 2020 15:05:37 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[Colab] Googleの無料GPU環境を使うための準備</title>
+      <link>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</link>
+      <pubDate>Wed, 11 Mar 2020 15:05:37 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</guid>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
+ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
+さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
+本記事ではColabを利用するための計算環境の構築手順を紹介します。
+またハードウェアやエディタといった計算環境のカスタマイズの方法や、自分で作成したプログラム資産をColab上でも活用する方法も紹介します。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</title>
@@ -608,15 +623,19 @@ Rejection sampling algorithm black boxの学習をおこなう前に呼び出さ
       <pubDate>Sun, 07 Jul 2013 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./</guid>
-      <description>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか 深い言葉であると思う。
-Cristian et al., No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)
-proceeding(pdf), slide(pdf)
-今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。 すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。 タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか の関係を調べている。
- ※著者スライドより  コミュニティの言葉の変化とユーザの年齢ごとの反応をオンラインでない現実の話を例とすると、若いうちは周りの大人の言葉 を真似したり、流行りの言葉をよく使うため言葉の変化には柔軟だけど、いい年齢になってくると流行りの言葉をあまり使わなくなって 言葉の変化には適応しなくなるというもの。 実はこれはオンラインのコミュニティでも同じようなことが起きていて、オンラインコミュニティに 参加したばかりのころはユーザはそのコミュニティでよく使われている言い回しを真似て使うようになり、 流行っている言い回し、言葉を積極的に使う。 ところがある程度の時期が経つと、ユーザは新しく流行りだした言葉をあまり積極的に使わなくなってしまう (そして退会へ) 。 例えば、昔からいるユーザはビールのレビューで香りに関する批評を書くときにはAroma: spicy&amp;hellip;などと書くのだけど 参加して日が浅いユーザはS: spicy&amp;hellip;などと書く。コミュニティ全体としては年を追う毎にS:という表記で ビールの香りの批評を書く割合が高くなるのだが、古参ユーザは頑としてAroma:を使っているらしい。 つまり歳をとると新しい変化に適応しなくなってしまう (あるいはできなくなる？) 、という誰も避けられない悲しい性。 いくつになっても新しいものに柔軟な若い考え方であり続けたパブロ・ピカソのような人が天才と呼ばれるんですね、深い。
-このような特徴を利用してユーザがオンラインコミュニティを退会するかどうかを予測する分類器を学習させて既存の 特徴量を使ったときよりも良い性能となることを示している。社会言語学的な洞察を利用した面白い論文だった。 論文のintroducitonにいきなりタイトルの格言が登場してきたりスライドといい、なんかおしゃれだと思った。
-以下、スライドを見ながら取ったメモ。
-取り組む課題  ユーザはどのようにコミュニティの一員になるのか ユーザとコミュニティはどのように共に成長していくのか ユーザがコミュニティを退会することを予測できるのか  アイディア コミュニティで使われる言葉の変化、各々のユーザが使う言葉の変化を見ることによってコミュニティとユーザの関係を捉える。
-アプローチ (取り組む課題と対応)  言葉の変化を捉えるための統計的なフレームワークを提案する 言葉の変化に対するユーザの反応を定量化する ユーザがコミュニティを退会することを予測するために有効な素性を提案する  長期的なデータ  BeerAdvocate RateBeer  言葉の変化の例: puzzle 香りの議論の導入で使われる二つの慣例 (Aroma &amp;amp; S) の例。2001 ~ 2003でAromaがピーク。2003からSmellが伸び始めて、Aromaよりも使われるようになる。この変化は新規ユーザに与える影響とは異なった形で古参ユーザに影響している。全体としては近年になるほどSが使われているのに、古参ユーザはAromaを使いたがり、Sを全然使わない。つまり、この慣例の変化は新規ユーザが起こしていることを示している。</description>
+      <description>&lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
+いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
+深い言葉であると思う。&lt;/p&gt;
+
+&lt;p&gt;Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)&lt;/p&gt;
+
+&lt;p&gt;proceeding(&lt;a href=&#34;http://cs.stanford.edu/people/jure/pubs/language-www13.pdf&#34;&gt;pdf&lt;/a&gt;),  slide(&lt;a href=&#34;http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
+すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
+タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
+よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
+の関係を調べている。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -728,19 +747,11 @@ proceeding: pdf
       <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</guid>
-      <description>Practical machine learning tricks from the KDD 2011 best industry paper
-上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。
-機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。
-結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。
-カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。
-Detecting Adversarial Advertisements in the Wild
-D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel, John Hainsworth, Yunkai Zhou
-一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。
-この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。
-1) Classification 機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかはソースコードが入手可能である。
-ABE: Always Be Ensemble-ing Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。
-Only auto-block or auto-allow on high-confidence predictions 訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。
-Throw a ton of features at the model and let L1 sparsity figure it out 素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。</description>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;</description>
     </item>
     
     <item>

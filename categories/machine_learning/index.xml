@@ -66,5 +66,18 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
 &lt;/ul&gt;</description>
     </item>
     
+    <item>
+      <title>Practical Machine Learning Tricks</title>
+      <link>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</link>
+      <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</guid>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

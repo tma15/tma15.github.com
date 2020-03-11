@@ -140,19 +140,11 @@ Caffeだと、今学習しているのか、予測しているのかのphaseをs
       <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</guid>
-      <description>Practical machine learning tricks from the KDD 2011 best industry paper
-上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。
-機械学習系の論文は新しい手法やアルゴリズムを提案していることが多い。問題の背景、データの準備、素性の設計は論文を読む人の理解を進めたり、手法を再現することができるように記述されていることが望ましいのだけど、スペースを割いて書かれていることはあまりない。研究の目標と、論文のフォーマットの制約が与えられた時、筆者がもっとも重要なアイディアにスペースを割くことは妥当なトレードオフだろう。
-結果として、実際のシステムにおける提案手法に関する実装部分の詳細は記述されていないことが多い。機械学習のこういった側面は、同僚、ブログ、掲示板、ツイッター、オープンソースなどで誰かが取り上げるまでわからないことが多い。
-カンファレンスのindustry tracksの論文は、実践において機械学習のうまみを実現するために何が必要なのかに関して価値のある考察をしながら、上のような問題を避けていることが多い。この論文はKDD 2011でbest industry paperを受賞したGoogleのスパム判定に関するもので、極めて興味深い例である。
-Detecting Adversarial Advertisements in the Wild
-D. Sculley, Matthew Otey, Michael Pohl, Bridget Spitznagel, John Hainsworth, Yunkai Zhou
-一見したところ、この論文は教科書やチュートリアルにあるような一番最初にある機械学習の問題のように見える。: 単純にスパムか、そうでない広告のデータを使ってナイーブベイズ分類器を訓練している。しかしながら、どうもこの論文はそのような単純な問題とは異なるようだ。 - Googleは数を決めつけてしまうことに対してはっきりと懐疑的な立場であるが、この論文は挑戦する課題をいくつか挙げ、Googleにとってビジネスにおいて決定的な問題であるということを述べている。
-この論文は様々な技術の実践的ですばらしい組み合わせについて述べている。簡単にその要約をここに書くが、興味のある方は元の論文を読まれることをおすすめする。
-1) Classification 機械学習の核となる技術は（当然）分類である。: この広告はユーザに見せても大丈夫なのかそうでないのか？関連する機械学習のアルゴリズムのいくつかはソースコードが入手可能である。
-ABE: Always Be Ensemble-ing Netflix Prizeで優勝しているシステム、Microsoft Kinect、IBMのWatsonは、最終的な予測をおこなうために、他の多くの分類器の出力を組み合わせるアンサンブルな手法を使っている。この手法は機械学習におけるno free lunch定理と関連している。（あらゆる問題に対して性能の良い汎用的なアルゴリズムは存在しないので、複数のアルゴリズムから出される出力を総合的に考えて最終的な予測をする）もし、高い予測精度を出すことが目標なら、少なくともアンサンブルな手法を使うことを考えるべきである。
-Only auto-block or auto-allow on high-confidence predictions 訓練されたモデルの予測の不確かさの適切な修正や定量化が必要であるが、このアプリケーションにおいては、人間に決定を任せる場合に&amp;rdquo;I don&amp;rsquo;t know&amp;rdquo;とシステムに判断させることも価値がある。
-Throw a ton of features at the model and let L1 sparsity figure it out 素性の表現は極めて重要である。彼らは広告で使われる単語、トピックやランディングページからのリンク、広告主の情報など、様々な素性を使っている。彼らはモデルがスパースになるようにして、予測に重要な素性のみを見れるようにL1正則化に強く頼っている。</description>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;</description>
     </item>
     
   </channel>
