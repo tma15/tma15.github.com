@@ -13,12 +13,12 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/google-colab/</loc>
+    <loc>https://tma15.github.io/tags/google-colab/</loc>
     <lastmod>2020-03-11T15:05:37+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/google-colab/</loc>
+    <loc>https://tma15.github.io/categories/google-colab/</loc>
     <lastmod>2020-03-11T15:05:37+09:00</lastmod>
   </url>
   
@@ -63,12 +63,12 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/nlp/</loc>
+    <loc>https://tma15.github.io/tags/nlp/</loc>
     <lastmod>2020-03-10T16:50:53+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/nlp/</loc>
+    <loc>https://tma15.github.io/categories/nlp/</loc>
     <lastmod>2020-03-10T16:50:53+09:00</lastmod>
   </url>
   
@@ -83,22 +83,22 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/machine_learning/</loc>
-    <lastmod>2020-03-12T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/categories/machine_learning/</loc>
     <lastmod>2020-03-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/python/</loc>
-    <lastmod>2020-03-03T09:54:42+09:00</lastmod>
+    <loc>https://tma15.github.io/tags/machine_learning/</loc>
+    <lastmod>2020-03-12T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/tags/python/</loc>
+    <lastmod>2020-03-03T09:54:42+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/python/</loc>
     <lastmod>2020-03-03T09:54:42+09:00</lastmod>
   </url>
   
@@ -143,6 +143,11 @@
   </url>
   
   <url>
+    <loc>https://tma15.github.io/categories/acl2019/</loc>
+    <lastmod>2019-09-04T18:19:54+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/acl2019/</loc>
     <lastmod>2019-09-04T18:19:54+09:00</lastmod>
   </url>
@@ -163,17 +168,22 @@
   </url>
   
   <url>
+    <loc>https://tma15.github.io/categories/paper/</loc>
+    <lastmod>2019-09-04T18:19:54+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2019-09-04T18:19:54+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/kaggle/</loc>
+    <loc>https://tma15.github.io/tags/kaggle/</loc>
     <lastmod>2017-07-29T15:30:01+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/kaggle/</loc>
+    <loc>https://tma15.github.io/categories/kaggle/</loc>
     <lastmod>2017-07-29T15:30:01+09:00</lastmod>
   </url>
   
@@ -243,12 +253,12 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/math/</loc>
+    <loc>https://tma15.github.io/categories/math/</loc>
     <lastmod>2016-01-23T16:04:13+09:00</lastmod>
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/math/</loc>
+    <loc>https://tma15.github.io/tags/math/</loc>
     <lastmod>2016-01-23T16:04:13+09:00</lastmod>
   </url>
   

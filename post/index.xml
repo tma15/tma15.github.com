@@ -142,7 +142,9 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       <pubDate>Sun, 04 Sep 2016 11:00:13 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</guid>
-      <description>&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
 
 &lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
 

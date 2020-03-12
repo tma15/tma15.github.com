@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>paper on Now is better than never.</title>
+    <link>https://tma15.github.io/categories/paper/</link>
+    <description>Recent content in paper on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Wed, 04 Sep 2019 18:19:54 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/categories/paper/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法</title>
+      <link>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+(&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+&lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Early updateは収束が保証される</title>
+      <link>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</link>
+      <pubDate>Sun, 04 Sep 2016 11:00:13 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</guid>
+      <description>&lt;!--adsense--&gt;
+
+&lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
+
+&lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
