@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>python on Now is better than never.</title>
@@ -6,10 +6,25 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 03 Mar 2020 09:54:42 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
+      <link>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
+古くはN-gram言語モデルが用いられました。
+最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
+ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。&lt;/p&gt;
+&lt;p&gt;本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
+本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</title>
@@ -18,7 +33,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
 この記事に載せているプログラムは&lt;a href=&#34;https://github.com/tma15/scikit-learn-document-classification&#34;&gt;ここ&lt;/a&gt;にまとまっています。&lt;/p&gt;</description>
     </item>
@@ -39,7 +53,6 @@
       
       <guid>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。&lt;/p&gt;</description>
     </item>
     
@@ -55,11 +68,11 @@
 これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
 &amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
 ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
-\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
-&amp;amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]</description>
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\
+&amp;amp; = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{split} \]</description>
     </item>
     
   </channel>

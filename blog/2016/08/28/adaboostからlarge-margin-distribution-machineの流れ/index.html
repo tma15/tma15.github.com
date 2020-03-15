@@ -5,20 +5,16 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="machine_learning">
 <meta name="description" content="
-
 AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-
 具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。">
 
 
 <meta property="og:description" content="
-
 AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-
 具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AdaBoostからLarge Margin Distribution Machineの流れ">
@@ -27,14 +23,10 @@ AdaBoostはKaggleなどのコンペで良い成績を出しているアンサン
 <meta property="twitter:url" content="https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/">
 <meta property="og:site_name" content="Now is better than never.">
 <meta property="og:description" content="
-
 AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-
 具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。">
 <meta name="twitter:description" content="
-
 AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。
-
 具体的にはZhi-Hua Zhou先生のスライド (From AdaBoost to LDM) を眺めて、自分の理解のためにメモとして残したものになっている。">
 <meta property="og:locale" content="ja">
 
@@ -272,6 +264,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -279,8 +273,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -362,105 +354,80 @@ if (!doNotTrack) {
 </script>
 
 
-
 <p>AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。</p>
-
 <p>具体的には<a href="http://cs.nju.edu.cn/zhouzh/">Zhi-Hua Zhou</a>先生のスライド (<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf">From AdaBoost to LDM</a>) を眺めて、自分の理解のためにメモとして残したものになっている。</p>
-
-<h1 id="table-of-contents">目次</h1><nav id="TableOfContents">
-<ul>
-<li><a href="#adaboost">AdaBoost</a>
-<ul>
-<li><a href="#なぜadaboostは良いのか">なぜAdaBoostは良いのか</a></li>
-<li><a href="#汎化誤差">汎化誤差</a></li>
-</ul></li>
-<li><a href="#adaboostの主な研究">AdaBoostの主な研究</a>
-<ul>
-<li><a href="#statistical-view">Statistical view</a></li>
-<li><a href="#margin-theory">Margin theory</a></li>
-</ul></li>
-<li><a href="#margin-theoryの疑問">Margin theoryの疑問</a>
-<ul>
-<li><a href="#それから7年後">それから7年後</a></li>
-<li><a href="#margin-theoryは生き残るのか">Margin theoryは生き残るのか？</a></li>
-<li><a href="#新しい知見">新しい知見</a></li>
-</ul></li>
-<li><a href="#large-margin-distribution-machine">Large Margin Distribution Machine</a>
-<ul>
-<li><a href="#large-marginとlarge-margin-distributionの大きな違い">Large marginとLarge margin distributionの大きな違い</a></li>
-<li><a href="#定式化と最適化">定式化と最適化</a></li>
-<li><a href="#結果">結果</a></li>
-</ul></li>
-<li><a href="#まとめ">まとめ</a></li>
-</ul>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#adaboost">AdaBoost</a>
+      <ul>
+        <li><a href="#なぜadaboostは良いのか">なぜAdaBoostは良いのか</a></li>
+        <li><a href="#汎化誤差">汎化誤差</a></li>
+      </ul>
+    </li>
+    <li><a href="#adaboostの主な研究">AdaBoostの主な研究</a>
+      <ul>
+        <li><a href="#statistical-view">Statistical view</a></li>
+        <li><a href="#margin-theory">Margin theory</a></li>
+      </ul>
+    </li>
+    <li><a href="#margin-theoryの疑問">Margin theoryの疑問</a>
+      <ul>
+        <li><a href="#それから7年後">それから7年後</a></li>
+        <li><a href="#margin-theoryは生き残るのか">Margin theoryは生き残るのか？</a></li>
+        <li><a href="#新しい知見">新しい知見</a></li>
+      </ul>
+    </li>
+    <li><a href="#large-margin-distribution-machine">Large Margin Distribution Machine</a>
+      <ul>
+        <li><a href="#large-marginとlarge-margin-distributionの大きな違い">Large marginとLarge margin distributionの大きな違い</a></li>
+        <li><a href="#定式化と最適化">定式化と最適化</a></li>
+        <li><a href="#結果">結果</a></li>
+      </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
 </nav>
-
-<h1 id="adaboost">AdaBoost</h1>
-
+<h2 id="adaboost">AdaBoost</h2>
 <p>学習時は、学習データに対して重要度の分布を考慮する。反復的に重要度を使って弱学習器を学習し、T個の学習器を作成する (弱学習器はランダムよりは良い性能であるような分類器)。サンプルに対して現在のラウンドの弱学習器が間違えたサンプルほど重要度が高くなるように分布を更新して、次のラウンドの学習に用いる。まとめると、AdaBoostの学習は次のような流れになる:</p>
-
 <pre><code>Initialize: 分布D_0をセットする
 以下の処理をT回繰り返す:
 1. 分布D_tを用いて弱学習器h_tを学習する
 2. h_tの信頼度a_tを計算する
 3. 次のラウンドの分布D_{t+1}を計算する
-</code></pre>
-
-<p>予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:</p>
-
+</code></pre><p>予測時は、T個の弱学習器を信頼度aで重み付けした弱学習器$h_t$の線形結合によってサンプル$x$ ($\mathbf{x} \in \mathcal{R}^d$) のラベル$y$ ($y \in {-1, +1}$) を予測する:</p>
 <p>$$
 y = sign(\sum_{t=1}^{T}(a_t h_t(\mathbf{x}))).
 $$</p>
-
-<h2 id="なぜadaboostは良いのか">なぜAdaBoostは良いのか</h2>
-
+<h3 id="なぜadaboostは良いのか">なぜAdaBoostは良いのか</h3>
 <ol>
 <li>実装が簡単な割に高い予測性能である事が多い</li>
 <li>亜種が色々提案されている (分類、回帰、ランキングなど色々なタスクに適用できる)</li>
 <li>経験誤差がブースティングの反復回数に対して指数的に減少することが理論的に保証される</li>
 </ol>
-
-<h2 id="汎化誤差">汎化誤差</h2>
-
+<h3 id="汎化誤差">汎化誤差</h3>
 <p>汎化誤差は、ブースティングの反復回数に応じて増加することが証明されている (Freund &amp; Schapire, 97) 。つまり、ブースティングの反復回数を増やすと、過学習を起こしやすいということである。</p>
-
 <p>しかしながら、実験的には過学習はあまり起きない。なぜ過学習が起きにくいのか、これは重要な疑問である。</p>
-
-<h1 id="adaboostの主な研究">AdaBoostの主な研究</h1>
-
+<h2 id="adaboostの主な研究">AdaBoostの主な研究</h2>
 <p>ここでは主に研究のフォーカスが当てられている二つトピックを挙げる:</p>
-
 <ul>
 <li>Statistical view</li>
 <li>Margin theory</li>
 </ul>
-
-<h2 id="statistical-view">Statistical view</h2>
-
+<h3 id="statistical-view">Statistical view</h3>
 <p>弱学習器の重み付き足し算$H(x)=\sum a_t h_t(x)$に対してロジスティック関数を考えて、確率$p(f(\mathbf{x})=1|x)= \exp(H(x))/( \exp(H(\mathbf{x})) + \exp(-H(\mathbf{x})))$を推定することを考えると、負の対数尤度を最大化する最適化問題として捉えることが出来る ($f(\mathbf{x}) \in {-1, 1})$)。</p>
-
 <p>なぜ過学習しにくいのかは説明できない。
 サイズが大きな決定木 (複雑なモデル) ほど過学習しやすい、という話があるが、サイズが大きな決定木を弱学習器としたほうが良い結果になっている。</p>
-
-<h2 id="margin-theory">Margin theory</h2>
-
+<h3 id="margin-theory">Margin theory</h3>
 <p>マージンは超平面からの距離であり、大きいほど分類器が自信を持っているとみなせる。</p>
-
 <p>(Schapire+, 98)はAdaBoostの汎化誤差は（他の変数を固定すると）学習データのマージンが大きいほど小さくなる、ということを証明した。そのためMargin theoryは過学習が起きにくい理由を次のように説明できる:「経験誤差が0になった後も、マージンは大きくなるから」</p>
-
 <p>最小のマージンが大きいほど、誤り率は小さくなる。よって、最小のマージンを考えることによって、BreimanはSchapireらよりも低い、汎化誤差の上限を証明した。</p>
-
-<h1 id="margin-theoryの疑問">Margin theoryの疑問</h1>
-
+<h2 id="margin-theoryの疑問">Margin theoryの疑問</h2>
 <p>(Breiman, 99)はarc-gvを提案した。arc-gvは最小のマージンを直接最大化する手法である。つまり、arc-gvはAdaBoostよりも良い性能であることが期待される。しかしながら、AdaBoostとの比較実験から次のことが分かった:</p>
-
 <ul>
 <li>arc-gvはAdaBoostより一様に大きい最小マージンを作る</li>
 <li>ほぼすべての場合において汎化誤差はAdaBoostよりも増加する</li>
 </ul>
-
 <p>そのためBreimanはこのMargin theoryは疑わしいという結論に至り、このmargin theoryは廃れることになる。</p>
-
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -475,64 +442,41 @@ $$</p>
 </script>
 
 
-
-<h2 id="それから7年後">それから7年後</h2>
-
+<h3 id="それから7年後">それから7年後</h3>
 <p>(Reyzin &amp; Schapire, 06)はBreimanは実験においてモデルの複雑性をうまくコントロールしていなかったことを見つけた:</p>
-
 <ul>
 <li>Breimanは葉の数を固定して決定木 (モデル) の複雑性をコントロールした</li>
 <li>Reyzin &amp; Schapireはarc-gvの木がAdaBoostの木よりも深い事が多いことを指摘した</li>
 </ul>
-
 <p>Reyzin &amp; SchapireはBreimanの実験を、decision stump (一つの素性の有無で分類をおこなう分類器) を使っておこなった。この実験ではarc-gvはより大きな最小マージンを伴うが、より悪いマージンの分布を伴っていた。</p>
-
-<h2 id="margin-theoryは生き残るのか">Margin theoryは生き残るのか？</h2>
-
+<h3 id="margin-theoryは生き残るのか">Margin theoryは生き残るのか？</h3>
 <p>Reyzin &amp; Schapireは最小マージンは重要ではなく、マージンの平均や中央値が重要であると主張した。マージンの分布がより重要であると主張するには、マージンの分布に基づく上限が、最小マージンに基づく上限と同等に低い必要がある。</p>
-
 <p>Reyzin &amp; Schapire以降はmarginの平均と、マージンの分散によって汎化誤差の上限を保証した研究がなされていった。</p>
-
 <ul>
 <li>(Wang+, 08)</li>
 <li>(Gao &amp; Zhou, 13)</li>
 </ul>
-
-<h2 id="新しい知見">新しい知見</h2>
-
+<h3 id="新しい知見">新しい知見</h3>
 <p>(Gao &amp; Zhou, 13): マージンの平均だけではなく、マージンの分散にも注意を払うべきである。</p>
-
-<h1 id="large-margin-distribution-machine">Large Margin Distribution Machine</h1>
-
-<h2 id="large-marginとlarge-margin-distributionの大きな違い">Large marginとLarge margin distributionの大きな違い</h2>
-
+<h2 id="large-margin-distribution-machine">Large Margin Distribution Machine</h2>
+<h3 id="large-marginとlarge-margin-distributionの大きな違い">Large marginとLarge margin distributionの大きな違い</h3>
 <p>Large marginは最小マージンを最大化する。Large margin distributionはマージンの平均の最大化およびマージンの分散の最小化を同時におこなってマージンの分布を最適化する。<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf">スライド</a>p.45の例が分かりやすい。
 利点として、サポートベクターのみに依存せずに超平面を引ける。また外れ値やノイズに対して敏感になりにくいなどが挙げられる。</p>
-
-<h2 id="定式化と最適化">定式化と最適化</h2>
-
+<h3 id="定式化と最適化">定式化と最適化</h3>
 <p>定式化および最適化については元論文 (<a href="http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/kdd14ldm.pdf">Large Margin Distribution Machine</a>, KDD 2014)を読んだほうが良いので割愛する。ざっくり言うと、以下の様な定式化をおこなう:</p>
-
 <p>$$
 \begin{eqnarray}
-\min_{\mathbf{w}} &amp;&amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \<br />
+\min_{\mathbf{w}} &amp;&amp; \lambda_1 \hat{\gamma} - \lambda_2 \bar{\gamma}, \\<br>
 \textrm{s.t.} &amp;&amp; y_i \mathbf{w} \mathbf{x}_i \geq 1, 1 \leq i \leq m.
 \end{eqnarray}
 $$</p>
-
 <p>ただし、$\bar{\gamma}$はマージンの平均、$\hat{\gamma}$はマージンの分散を表し、$\lambda_1$および$\lambda_2$はそれらの項をどれくらい重視するかを決める定数を表す。</p>
-
 <p>つまり、学習データ$\{(\mathbf{x}_i, y_i)\}_{i=1}^m$
 をマージンが1以上で正しく分類するという条件のもと、マージンの平均を大きく、かつマージンの分散が小さくなるような$\mathbf{w}$を見つける、という問題となっている。</p>
-
 <p>この問題を双対問題化することによってラグランジュの未定乗数を閉形式で求めることができ、その手法をKernel Large Margin Distribution Machineと呼んでいる。</p>
-
-<h2 id="結果">結果</h2>
-
+<h3 id="結果">結果</h3>
 <p>複数のデータセットで実験をおこない、Kernel Large Distribution Machineは、カーネル化したSVMよりも良い予測性能を出している。さらに学習時間もLIBLINEARより短く、ハイパーパラメータにも過敏ではない、などの結果も得られている。</p>
-
-<h1 id="まとめ">まとめ</h1>
-
+<h2 id="まとめ">まとめ</h2>
 <ul>
 <li>AdaBoostの汎化能力はマージンを大きくすることによって高くなる</li>
 <li>arc-gvの失敗を分析して、最小マージンを大きくするのではなく、マージンの分散を小さくする方が良いことが分かった</li>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>neural_network on Now is better than never.</title>
+    <link>https://tma15.github.io/tags/neural_network/</link>
+    <description>Recent content in neural_network on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/neural_network/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
+      <link>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
+古くはN-gram言語モデルが用いられました。
+最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
+ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。&lt;/p&gt;
+&lt;p&gt;本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
+本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法</title>
+      <link>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</guid>
+      <description>&lt;p&gt;自然言語処理において、ニューラルネットワークは文や単語を実数値の密ベクトル表現に変換し、
+得られた表現に基づいて目的のタスクを解くというアプローチが多い。
+自然言語処理のさまざまなタスクで高い精度を上げている一方で、
+テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
+速度が遅いなどの実用的な課題がある。
+自然言語処理に関する国際会議ACL 2019で発表された論文
+&amp;lsquo;&amp;lsquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rsquo;&amp;rsquo;
+(&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
+が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
+&lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
+本記事ではこの論文でどういった技術が提案されているのかをまとめる。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Dropoutの実装で気になって調べたこと</title>
+      <link>https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/</link>
+      <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

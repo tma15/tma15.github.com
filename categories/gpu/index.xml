@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>gpu on Now is better than never.</title>
@@ -18,7 +18,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Hugo tranquilpeak theme demo">
@@ -240,6 +240,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -277,6 +277,90 @@ if (!doNotTrack) {
         
           <section class="postShorten-group main-content-wrap">
             
+            
+              
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <!--adsense-->
+<p>単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
+古くはN-gram言語モデルが用いられました。
+最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
+ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。</p>
+<p>本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
+本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
+</article>
+
             
               
   
@@ -333,7 +417,6 @@ if (!doNotTrack) {
     <div class="postShorten-excerpt" itemprop="articleBody">
       
         <!--adsense-->
-
 <p>この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
 この記事に載せているプログラムは<a href="https://github.com/tma15/scikit-learn-document-classification">ここ</a>にまとまっています。</p>
       
@@ -494,7 +577,6 @@ if (!doNotTrack) {
     <div class="postShorten-excerpt" itemprop="articleBody">
       
         <!--adsense-->
-
 <p>本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。</p>
       
       <p>
@@ -615,7 +697,7 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-         「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
+        「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
   GitHubにコードを上げた (sais.py)。
 参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
  Two Efficient Algorithms for Linear Time Suffix Array Construction  
@@ -692,74 +774,14 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
 これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
 &amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
 ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
-\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
-&amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\
+&amp; = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{split} \]
       
       <p>
         <a href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-            
-              
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/">
-          食べログAPIのPythonラッパーを書いた
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-05-12T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-05-12
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        ソースコードはこちら。
-食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
-インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &#39;Your access key here.&#39; tabelog = Tabelog(key) レストラン検索 prefecture = &#39;東京&#39; station = &#39;渋谷&#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &#39;rcd:&#39;, restaurant.rcd print &#39;name:&#39;, restaurant.name print &#39;url:&#39;, restaurant.tabelogurl print &#39;mobile url:&#39;, restaurant.tabelogmobileurl print &#39;dinner price:&#39;, restaurant.dinnerprice print &#39;lunch price:&#39;, restaurant.lunchprice print &#39;total score:&#39;, restaurant.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>

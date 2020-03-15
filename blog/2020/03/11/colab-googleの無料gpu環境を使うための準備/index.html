@@ -5,11 +5,10 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="google-colab, gpu, pytorch">
 <meta name="description" content="
-
 Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
@@ -18,7 +17,6 @@ Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環�
 
 
 <meta property="og:description" content="
-
 Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
@@ -31,14 +29,12 @@ Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環�
 <meta property="twitter:url" content="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/">
 <meta property="og:site_name" content="Now is better than never.">
 <meta property="og:description" content="
-
 Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
 本記事ではColabを利用するための計算環境の構築手順を紹介します。
 またハードウェアやエディタといった計算環境のカスタマイズの方法や、自分で作成したプログラム資産をColab上でも活用する方法も紹介します。">
 <meta name="twitter:description" content="
-
 Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
@@ -291,6 +287,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -298,8 +296,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -385,35 +381,31 @@ if (!doNotTrack) {
 </script>
 
 
-
 <p>Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
 本記事ではColabを利用するための計算環境の構築手順を紹介します。
 またハードウェアやエディタといった計算環境のカスタマイズの方法や、自分で作成したプログラム資産をColab上でも活用する方法も紹介します。</p>
-
-<h1 id="table-of-contents">目次</h1><nav id="TableOfContents">
-<ul>
-<li><a href="#notebookを作成">Notebookを作成</a></li>
-<li><a href="#キーバインドをvimにする">キーバインドをVimにする</a></li>
-<li><a href="#gpuを使う設定にする">GPUを使う設定にする</a></li>
-<li><a href="#データセットのダウンロード">データセットのダウンロード</a></li>
-<li><a href="#自作したpythonモジュールを読み込む">自作したPythonモジュールを読み込む</a>
-<ul>
-<li><a href="#google-driveをマウント">Google Driveをマウント</a></li>
-<li><a href="#pythonプログラムをgoogle-driveへアップロード">PythonプログラムをGoogle Driveへアップロード</a></li>
-<li><a href="#アップロードしたpythonプログラムに含まれるモジュールをimport">アップロードしたPythonプログラムに含まれるモジュールをimport</a></li>
-</ul></li>
-<li><a href="#まとめ">まとめ</a></li>
-</ul>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#notebookを作成">Notebookを作成</a></li>
+    <li><a href="#キーバインドをvimにする">キーバインドをVimにする</a></li>
+    <li><a href="#gpuを使う設定にする">GPUを使う設定にする</a></li>
+    <li><a href="#データセットのダウンロード">データセットのダウンロード</a></li>
+    <li><a href="#自作したpythonモジュールを読み込む">自作したPythonモジュールを読み込む</a>
+      <ul>
+        <li><a href="#google-driveをマウント">Google Driveをマウント</a></li>
+        <li><a href="#pythonプログラムをgoogle-driveへアップロード">PythonプログラムをGoogle Driveへアップロード</a></li>
+        <li><a href="#アップロードしたpythonプログラムに含まれるモジュールをimport">アップロードしたPythonプログラムに含まれるモジュールをimport</a></li>
+      </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
 </nav>
-
-<h1 id="notebookを作成">Notebookを作成</h1>
-
+<h2 id="notebookを作成">Notebookを作成</h2>
 <p>Google Driveでフォルダを作成します。
 以下の例ではja-language-modelというフォルダとします。
 このフォルダへ移動して右クリックを押し、「その他」→「Googlee Colaboratory」をクリックします。</p>
-
 
  
   
@@ -458,9 +450,7 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>その他にGoogle Colaboratoryが出てこない場合、フォルダ名の右にある下三角のポチからドロップダウンで「アプリで開く」→「アプリを追加」からGoogle Colaboratoryをインストールします。</p>
-
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -475,13 +465,9 @@ if (!doNotTrack) {
 </script>
 
 
-
-<h1 id="キーバインドをvimにする">キーバインドをVimにする</h1>
-
+<h2 id="キーバインドをvimにする">キーバインドをVimにする</h2>
 <p>普段エディターとしてVimを使っている方は以下の通り設定することで、Colab上でもVimで編集ができます。エディターがVimでなくてもよい方はこの章は飛ばしてください。</p>
-
 <p>まず画面右上にある歯車の設定アイコンをクリックします。</p>
-
 
  
   
@@ -526,9 +512,7 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>Editorをクリックします。</p>
-
 
  
   
@@ -573,9 +557,7 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>エディターにVimを設定します。</p>
-
 
  
   
@@ -620,15 +602,10 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>これでVimをエディターにすることができました。</p>
-
-<h1 id="gpuを使う設定にする">GPUを使う設定にする</h1>
-
+<h2 id="gpuを使う設定にする">GPUを使う設定にする</h2>
 <p>ハードウェアにGPUを利用したい方は以下の通り設定します。GPUを必要としない方はこの章は飛ばしてください。</p>
-
 <p>EditタブのNotebook settingをクリックします。</p>
-
 
  
   
@@ -673,9 +650,7 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>Hardware settingのGPUをクリックします。</p>
-
 
  
   
@@ -720,9 +695,7 @@ if (!doNotTrack) {
 
   <div style="clear:both;"></div>
 
-
 <p>以下を実行して <code>True</code> が出力されれば設定ができています。</p>
-
 
  
   
@@ -769,7 +742,6 @@ if (!doNotTrack) {
 
 
 
-
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
      style="display:block; text-align:center;"
@@ -782,18 +754,12 @@ if (!doNotTrack) {
 </script>
 
 
-
-<h1 id="データセットのダウンロード">データセットのダウンロード</h1>
-
+<h2 id="データセットのダウンロード">データセットのダウンロード</h2>
 <p>ノートブックのセルで先頭に <code>!</code> をつけると、その行はLinuxコマンドとして実行されます。
 <code>wget</code> コマンドを使えば、通常のLinuxマシンのようにデータをダウンロードできます。
 この記事では <a href="https://github.com/Hironsan/ja.text8">jawiki8</a> を利用させていただきます。</p>
-
 <pre><code>!wget https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/ja.text8.zip
-</code></pre>
-
-<p>結果は以下の通りです。</p>
-
+</code></pre><p>結果は以下の通りです。</p>
 <pre><code>--2020-03-11 05:47:33--  https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/ja.text8.zip
 Resolving s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)... 52.219.4.126
 Connecting to s3-ap-northeast-1.amazonaws.com (s3-ap-northeast-1.amazonaws.com)|52.219.4.126|:443... connected.
@@ -804,29 +770,18 @@ Saving to: ‘ja.text8.zip’
 ja.text8.zip        100%[===================&gt;]  32.33M  15.4MB/s    in 2.1s    
 
 2020-03-11 05:47:36 (15.4 MB/s) - ‘ja.text8.zip’ saved [33905114/33905114]
-</code></pre>
-
-<h1 id="自作したpythonモジュールを読み込む">自作したPythonモジュールを読み込む</h1>
-
+</code></pre><h2 id="自作したpythonモジュールを読み込む">自作したPythonモジュールを読み込む</h2>
 <p>自作したモジュールをColabで利用する場合、Google Drive上にプログラムをアップロードする必要があります。
 まずはノートブックからGoogle Driveのフォルダを参照できるように以下を実行してフォルダをマウントします。</p>
-
-<h2 id="google-driveをマウント">Google Driveをマウント</h2>
-
+<h3 id="google-driveをマウント">Google Driveをマウント</h3>
 <pre><code>from google.colab import drive
 drive.mount('/content/drive')
-</code></pre>
-
-<p><code>&lt;URL&gt;</code> にブラウザでアクセスし、出てきた認証コードを貼り付けて実行します。</p>
-
+</code></pre><p><code>&lt;URL&gt;</code> にブラウザでアクセスし、出てきた認証コードを貼り付けて実行します。</p>
 <pre><code>Go to this URL in a browser: &lt;URL&gt;
 
 Enter your authorization code:
 
-</code></pre>
-
-<p>これで <code>drive/My Drive</code> にGoogle Driveのフォルダがマウントされます。</p>
-
+</code></pre><p>これで <code>drive/My Drive</code> にGoogle Driveのフォルダがマウントされます。</p>
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -841,23 +796,17 @@ Enter your authorization code:
 </script>
 
 
-
-<h2 id="pythonプログラムをgoogle-driveへアップロード">PythonプログラムをGoogle Driveへアップロード</h2>
-
+<h3 id="pythonプログラムをgoogle-driveへアップロード">PythonプログラムをGoogle Driveへアップロード</h3>
 <p>次に、自作のクラスを利用できるように、Pythonプログラムをアップロードします。
 ここでは以下のようなクラスを実装した <code>lm.py</code> をアップロードします。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> torch
 
-<pre><code class="language-python">import torch
 
-
-class LanguageModel(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        print(&quot;Create Language model&quot;)
-</code></pre>
-
-<p>この <code>lm.py</code> をja-language-modelフォルダにアップグレードします。</p>
-
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LanguageModel</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
+    <span style="color:#66d9ef">def</span> __init__(self):
+        super()<span style="color:#f92672">.</span>__init__()
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Create Language model&#34;</span>)
+</code></pre></div><p>この <code>lm.py</code> をja-language-modelフォルダにアップグレードします。</p>
 
  
   
@@ -902,12 +851,9 @@ class LanguageModel(torch.nn.Module):
 
   <div style="clear:both;"></div>
 
-
-<h2 id="アップロードしたpythonプログラムに含まれるモジュールをimport">アップロードしたPythonプログラムに含まれるモジュールをimport</h2>
-
+<h3 id="アップロードしたpythonプログラムに含まれるモジュールをimport">アップロードしたPythonプログラムに含まれるモジュールをimport</h3>
 <p>自作クラスをノートブックから利用できるようにするために、 <code>sys.path</code> にパスを追加します。
 問題なければ、自作クラスを作成することができます。</p>
-
 
  
   
@@ -952,9 +898,7 @@ class LanguageModel(torch.nn.Module):
 
   <div style="clear:both;"></div>
 
-
-<h1 id="まとめ">まとめ</h1>
-
+<h2 id="まとめ">まとめ</h2>
 <p>本記事ではGoogleが提供しているクラウド上の計算資源を利用するための準備を紹介しました。ブラウザから簡単に計算環境を簡単に作成できることがわかります。
 またGoogle Driveをマウントすれば、自分のプログラム資源を簡単に活用することもできました。</p>
               
@@ -1151,7 +1095,7 @@ class LanguageModel(torch.nn.Module):
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" data-tooltip="[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -1215,7 +1159,7 @@ class LanguageModel(torch.nn.Module):
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" data-tooltip="[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>

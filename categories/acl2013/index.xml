@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>acl2013 on Now is better than never.</title>
+    <link>https://tma15.github.io/categories/acl2013/</link>
+    <description>Recent content in acl2013 on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Wed, 03 Dec 2014 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/categories/acl2013/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
+      <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
+      <description>&lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

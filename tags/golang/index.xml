@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>golang on Now is better than never.</title>
@@ -52,8 +52,7 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/</guid>
-      <description>go言語で書いた (gist)。集合の要素は前もってソートしておいて、比較回数を減らしている。
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sort&amp;#34; &amp;#34;strconv&amp;#34; ) func CountDuplicateElem(x, y []string) int { i := 0 j := 0 num_match := 0 num_cmp := 0 for { if i &amp;gt;= len(x){ break } for { num_cmp += 1 if j &amp;gt;= len(y) { // 位置jがyの長さを超えたら終了  break } if x[i] &amp;lt; y[j] { // 辞書順でx[i]がy[j]よりも小さければ終了  break // ソートされていればjより大きな位置の文字で一致することは無い  } if x[i] == y[j] { num_match += 1 j += 1 break } j += 1 } i += 1 } return num_match } func NaiveCount(x, y []string) int { num_match := 0 for i := 0; i&amp;lt;len(x);i++{ for j := 0; j&amp;lt;len(y);j++{ if x[i] == y[j] { num_match += 1 } } } return num_match } func main() { k := []string{} l := []string{} for i:=0; i&amp;lt;100000; i++{ k = append(k, strconv.</description>
+      <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -91,7 +90,7 @@ $cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ �
 Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
 ソースコードはこちら。 多値分類問題にも対応できるようにした。二値分類問題と比べてヒンジ損失が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。
 データを次のように作成。
-$perl -MList::Util=shuffle -e &amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39; &amp;lt; ../data/news20.binary &amp;gt; news $head -15000 news &amp;gt; news.train $tail -4996 news &amp;gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
+$perl -MList::Util=shuffle -e &amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39; &amp;lt; ../data/news20.binary &amp;gt; news $head -15000 news &amp;gt; news.train $tail -4996 news &amp;gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み(c)をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
 $./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[+1]: 0.997986 (2478/2483) Prec[+1]: 0.499295 (2478/4963) -- Acc: 0.</description>
     </item>
     

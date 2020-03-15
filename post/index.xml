@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Now is better than never.</title>
@@ -6,10 +6,25 @@
     <description>Recent content in Posts on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 11 Mar 2020 15:05:37 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
+      <link>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
+古くはN-gram言語モデルが用いられました。
+最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
+ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。&lt;/p&gt;
+&lt;p&gt;本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
+本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[Colab] Googleの無料GPU環境を使うための準備</title>
@@ -18,7 +33,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
@@ -33,7 +47,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;ニューラルネットワークの学習には、複数の事例 (たとえば単語の系列) に対して並列に損失関数を計算し、得られた勾配に基づいてパラメータを更新するミニバッチ学習が用いられます。自然言語処理において、ミニバッチ学習時は単語の系列を同じ長さにそろえて処理します。これはニューラルネットワーク内での計算において、データが密行列として扱われることが多いためです。
 この長さをそろえる処理はパディングといわれています。
 当然ながら、ミニバッチ内で系列の長さが不ぞろいなほど、パディングによって追加される疑似的な単語が増えるため、本来不要な計算が増えます。また、ミニバッチを表す密行列が大きいほど、計算にかかる時間が大きくなります。
@@ -47,7 +60,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;ニューラルネットワークを用いた自然言語処理では、大量のラベルなしテキストを利用した事前学習によって、目的のタスクの予測モデルの精度を改善することが報告されています。
 事前学習に用いるテキストの量が多いと、データを計算機上のメモリに一度に載りきらない場合があります。
 この記事ではPyTorchでニューラルネットワークの学習を記述する際に、テキストをファイルに分割して、ファイル単位でテキストを読み込むことで、計算機上で利用するメモリの使用量を節約する方法を紹介します。&lt;/p&gt;</description>
@@ -60,7 +72,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
 この記事に載せているプログラムは&lt;a href=&#34;https://github.com/tma15/scikit-learn-document-classification&#34;&gt;ここ&lt;/a&gt;にまとまっています。&lt;/p&gt;</description>
     </item>
@@ -86,7 +97,7 @@
 テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
 速度が遅いなどの実用的な課題がある。
 自然言語処理に関する国際会議ACL 2019で発表された論文
-&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+&amp;lsquo;&amp;lsquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rsquo;&amp;rsquo;
 (&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
 が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
 &lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
@@ -128,11 +139,8 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       
       <guid>https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;このエントリでは&lt;a href=&#34;http://www.swig.org/&#34;&gt;SWIG&lt;/a&gt;を使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。&lt;/p&gt;
-
 &lt;p&gt;例えば自然言語処理でよく使われている&lt;a href=&#34;http://taku910.github.io/mecab/&#34;&gt;MeCab&lt;/a&gt;や&lt;a href=&#34;http://www.chokkan.org/software/crfsuite/&#34;&gt;CRFsuite&lt;/a&gt;などのC++実装にはPythonラッパーが付属していることがある。C++実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC++で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC++には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C++ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。&lt;/p&gt;
-
 &lt;p&gt;またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。&lt;/p&gt;</description>
     </item>
     
@@ -143,11 +151,8 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       
       <guid>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
-
 &lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
-
 &lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;</description>
     </item>
     
@@ -158,9 +163,7 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       
       <guid>https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;AdaBoostはKaggleなどのコンペで良い成績を出しているアンサンブル学習手法の一つである。このエントリはまずAdaBoostの概要および、なぜAdaBoostが高い汎化能力を示しやすいのかをまとめる。汎化能力が出やすい理由を調査することで、Large Margin Distribution Machineへと発展していった、という経緯を俯瞰することを目的とする。&lt;/p&gt;
-
 &lt;p&gt;具体的には&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/&#34;&gt;Zhi-Hua Zhou&lt;/a&gt;先生のスライド (&lt;a href=&#34;http://cs.nju.edu.cn/zhouzh/zhouzh.files/publication/Adaboost2LDM.pdf&#34;&gt;From AdaBoost to LDM&lt;/a&gt;) を眺めて、自分の理解のためにメモとして残したものになっている。&lt;/p&gt;</description>
     </item>
     
@@ -171,7 +174,6 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       
       <guid>https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/</guid>
       <description>&lt;h2 id=&#34;概要&#34;&gt;概要&lt;/h2&gt;
-
 &lt;ul&gt;
 &lt;li&gt;パーセプトロンは学習事例を受け取り重みベクトルを更新する、という処理を反復した後に重みベクトルを出力する&lt;/li&gt;
 &lt;li&gt;平均化パーセプトロンは過去の反復で学習した重みベクトルの平均を出力する&lt;/li&gt;
@@ -228,7 +230,6 @@ Kaggleを続けると、機械学習に関するエンジニア能力が高ま�
       
       <guid>https://tma15.github.io/blog/2015/12/20/git%E3%81%A7%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88id%E3%81%AE%E7%8A%B6%E6%85%8B%E3%81%AB%E6%88%BB%E3%81%99/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;&lt;a href=&#34;http://qiita.com/ysekky/items/3db54349452dd8a336fb&#34;&gt;私が機械学習研究をするときのコード・データ管理方法 - Qiita&lt;/a&gt;がいい話で参考になった。
 特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。&lt;/p&gt;</description>
     </item>
@@ -271,11 +272,8 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
       <pubDate>Sat, 21 Feb 2015 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/</guid>
-      <description> Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。
-Caffeだと、今学習しているのか、予測しているのかのphaseをsingletonクラスを使ってグローバルに参照できるようにしている。なので、おそらく外から見たら異なるクラスの層と同じようにふるまうことができる。
- Caffeのdropout_layer.cpp Caffeの設定を参照できるようなsingletonクラス  ちなみに、上記のsingletonクラスでCPUを使うのか、GPUを使うのかの切り替えもやっている。一方、torchでは層ごとにモード{training, evaluate}を切り替えるようにしているようだ。なので、Dropout層を使うときはモードの切り替えを忘れないようにしないといけないはず。
- Module.lua training evaluate  ユニットをランダムに消すようなことをしない一般的な層と同じように使えるようにするにはCaffeのような書き方をしたほうがよいのだろうか。
-参考  Dropout: A Simple Way to Prevent Neural Networks from Overfitting  </description>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -293,8 +291,7 @@ Caffeだと、今学習しているのか、予測しているのかのphaseをs
       <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</guid>
-      <description> CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。 具体的には参考資料の23ページにあるような変換をする。 例えば「私は / ピザを / 食べる」という文節で(&amp;ldquo;/&amp;ldquo;を堺に)区切られた文があって、「私は」が「食べる」、「ピザを」が「食べる」をそれぞれ修飾しているとき、「食べる」=&amp;gt;「私は」「食べる」のような導出に変換してやることで係り受け関係を木で表現できる。 一番良い木を推定するには、テーブルTの各セルに係り受けのスコアの最大値を記憶しておいて、T[0, N]からバックトラックする (Nは文節の数)。 ただしこの解析ではO(n^5)の時間がかかる。
-参考  Dependency Parsing Tutorial at COLING-ACL 2006  </description>
+      <description>&lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -303,9 +300,8 @@ Caffeだと、今学習しているのか、予測しているのかのphaseをs
       <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</guid>
-      <description> 明けましておめでとうございます。
-確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (ソースコード)。 動的計画法。 表TのT[0, N-1]に&amp;rdquo;S&amp;rdquo;があれば与えられた文法からこの文は導出可能。 文&amp;rdquo;I eat pizza with Maria&amp;rdquo; を文脈自由文法で表すと、曖昧性があるため二つの木が導出できる。
-$python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | | N | | | P | PP | | | | N --l &amp;lt;N&amp;gt; -- I 0 --r &amp;lt;V&amp;gt; --l &amp;lt;V&amp;gt; -- eat 1 --r &amp;lt;N&amp;gt; --l &amp;lt;N&amp;gt; -- pizza 2 --r &amp;lt;PP&amp;gt; --l &amp;lt;P&amp;gt; -- with 3 --r &amp;lt;N&amp;gt; -- Maria 4 -- --l &amp;lt;S&amp;gt; --l &amp;lt;N&amp;gt; -- I 0 --r &amp;lt;V&amp;gt; --l &amp;lt;V&amp;gt; -- eat 1 --r &amp;lt;N&amp;gt; -- pizza 2 --r &amp;lt;PP&amp;gt; --l &amp;lt;P&amp;gt; -- with 3 --r &amp;lt;N&amp;gt; -- Maria 4 -- 参考   </description>
+      <description>&lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
+&lt;p&gt;確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (&lt;a href=&#34;https://github.com/tma15/nlppractice/blob/master/cyk.py&#34;&gt;ソースコード&lt;/a&gt;)。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -314,9 +310,8 @@ $python cyk.py I eat pizza with Maria N | S | S | | S | V | S,V | | S,V | | N | 
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
-      <description>Question Answering Using Enhanced Lexical Semantic Models (pdf)
-Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013
-導入  自然文の質問文を入力として受け付けて、解答として適切な文の選択(answer sentence selection)をして出力する  単に名詞を解答として選択して出力するよりも、文脈が付いていたほうが根拠が分かるし、ユーザにとっては価値があるから  answer sentence selectionは質問文と文書中の文とのマッチングの問題と考えられる  単語の表層形のマッチングを単純な方法だと精度はそんなに上がらない 深い意味解析をしたり構文木の編集距離 (Tree Edit Distance)をしている研究もあるが、計算コストが高い なのでこの研究では浅い意味解析を頑張ってanswer sentence selectionの性能を上げることに焦点を当てる  浅い意味解析は上位下位語や同義語などを識別するlexical sematics   この論文ではlatent word-alignment structureとしてanswer sentence selectionを定式化する  この論文の貢献  色々なlexical semanticを組み合わせれば、学習アルゴリズムなどに関係なくanswer sentence selectionシステムの性能を上げられる lexical word-alignment structureは、非構造なモデルよりも高い性能を出せるが、両方のモデルにlexical semanticsを入れた場合、性能の差は小さくなる  計算コストを下げたいなら、lexical semanticsを使ってシンプルなモデルを使うこともできる   問題設定 教師あり学習でanswer sentence selectionに取り組む。学習時は質問文qと、それに関連するラベル付きの文(yi, si)のリストが与えられるので、それを学習データとしてパラメータを学習。yiは1であればsiは正解の文、0であれば不正解の文を表す。予測時は未知の文に対し、文が正解である確率を予測し、yiとする。</description>
+      <description>&lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -326,7 +321,6 @@ Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft R
       
       <guid>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;本記事ではPythonとElasticsearchを使って、日本のレストランに関するデータを使って記事を検索エンジンにbulk APIを使って登録し、検索するまでを紹介する。&lt;/p&gt;</description>
     </item>
     
@@ -336,8 +330,7 @@ Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft R
       <pubDate>Sat, 08 Nov 2014 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/</guid>
-      <description>go言語で書いた (gist)。集合の要素は前もってソートしておいて、比較回数を減らしている。
-package main import ( &amp;#34;fmt&amp;#34; &amp;#34;sort&amp;#34; &amp;#34;strconv&amp;#34; ) func CountDuplicateElem(x, y []string) int { i := 0 j := 0 num_match := 0 num_cmp := 0 for { if i &amp;gt;= len(x){ break } for { num_cmp += 1 if j &amp;gt;= len(y) { // 位置jがyの長さを超えたら終了  break } if x[i] &amp;lt; y[j] { // 辞書順でx[i]がy[j]よりも小さければ終了  break // ソートされていればjより大きな位置の文字で一致することは無い  } if x[i] == y[j] { num_match += 1 j += 1 break } j += 1 } i += 1 } return num_match } func NaiveCount(x, y []string) int { num_match := 0 for i := 0; i&amp;lt;len(x);i++{ for j := 0; j&amp;lt;len(y);j++{ if x[i] == y[j] { num_match += 1 } } } return num_match } func main() { k := []string{} l := []string{} for i:=0; i&amp;lt;100000; i++{ k = append(k, strconv.</description>
+      <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -397,7 +390,7 @@ $cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ �
 Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
 ソースコードはこちら。 多値分類問題にも対応できるようにした。二値分類問題と比べてヒンジ損失が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。
 データを次のように作成。
-$perl -MList::Util=shuffle -e &amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39; &amp;lt; ../data/news20.binary &amp;gt; news $head -15000 news &amp;gt; news.train $tail -4996 news &amp;gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み&amp;copy;をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
+$perl -MList::Util=shuffle -e &amp;#39;print shuffle(&amp;lt;&amp;gt;)&amp;#39; &amp;lt; ../data/news20.binary &amp;gt; news $head -15000 news &amp;gt; news.train $tail -4996 news &amp;gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み(c)をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
 $./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[+1]: 0.997986 (2478/2483) Prec[+1]: 0.499295 (2478/4963) -- Acc: 0.</description>
     </item>
     
@@ -434,7 +427,7 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
       <pubDate>Wed, 07 May 2014 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</guid>
-      <description> 「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
+      <description>「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
   GitHubにコードを上げた (sais.py)。
 参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
  Two Efficient Algorithms for Linear Time Suffix Array Construction  </description>
@@ -446,8 +439,8 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
       <pubDate>Sat, 15 Mar 2014 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2014/03/15/%E5%8C%97%E4%BA%AC%E6%BB%9E%E5%9C%A8%E3%83%A1%E3%83%A2/</guid>
-      <description> 北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。
-交通事情  北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい 空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全 普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある 普通のタクシーはナンバーが「京B&amp;hellip;」で始まるので、それ以外のタクシーは怪しい たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない 中国人はタクシーに乗るときは、まず助手席に座る  カーナビがないので近くに座って道案内しないといけない 精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る  中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある エスカレータは右側に立つ  飲食事情  中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。 たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。 中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。  </description>
+      <description>北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。
+交通事情  北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい 空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全 普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある 普通のタクシーはナンバーが「京B&amp;hellip;」で始まるので、それ以外のタクシーは怪しい たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない 中国人はタクシーに乗るときは、まず助手席に座る  カーナビがないので近くに座って道案内しないといけない 精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る   中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある エスカレータは右側に立つ  飲食事情  中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。 たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。 中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。  </description>
     </item>
     
     <item>
@@ -483,8 +476,7 @@ A9がたまに学会のスポンサーとかで見かけていて、Amazonのに
 論文を書く 有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、
 How to do good research, get it published in SIGKDD and get it citedとか
 @Pnnc205j だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。
-&amp;mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26 
-とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
+&amp;mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26  とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
 サボれないフットサル・サッカー環境に身を置く T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。</description>
     </item>
     
@@ -496,8 +488,8 @@ How to do good research, get it published in SIGKDD and get it citedとか
       <guid>https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/</guid>
       <description>エッセイの一部をメモ。
 主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
-Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト  Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&amp;rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&amp;rdquo;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー  Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &amp;ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&amp;rdquo;の&amp;rdquo;それ&amp;rdquo;は何を指しているか？  クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする   興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
- 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである  エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)  システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである   最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.</description>
+Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト   Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&amp;ldquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&amp;quot;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー   Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &amp;ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&amp;quot;の&amp;quot;それ&amp;quot;は何を指しているか？   クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする     興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
+ 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである   エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)   システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである    最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.</description>
     </item>
     
     <item>
@@ -509,12 +501,12 @@ Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理�
       <description>proceeding slide: slideshare
 まとめ CIKM 2013でBest paperを取った、著者が全員女性(参考)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。 何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。
 以下、メモ。
-Why/when do penguins wear sweaters?  タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)  羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう   Serendipity 役に立つんだけど、特に探していたわけではないもの。
+Why/when do penguins wear sweaters?  タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)  羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう    Serendipity 役に立つんだけど、特に探していたわけではないもの。
 Entity Search この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。
 この論文の焦点 WHAT ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？
 WHY そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？
 データ Yahoo! Answers  ごくわずかにまとめられた意見、ゴシップ、個人情報 観点が多様  Wikipedia  高品質の情報が整理されている ニッチなトピックが豊富  Entity &amp;amp; Relation Extraction Entity: Wikipediaに記述されている概念 1 テキストから表層形を識別し、 2 Wikipediaのentityと紐付けして、
- 文脈依存 文脈非依存な素性  click log   3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)</description>
+ 文脈依存 文脈非依存な素性  click log    3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)</description>
     </item>
     
     <item>
@@ -529,11 +521,11 @@ WHY そのような知識源がどのように面白く、セレンディピテ�
 これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
 &amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
 ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
-\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
-&amp;amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
-&amp;amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]</description>
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\
+&amp;amp; = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
+&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{split} \]</description>
     </item>
     
     <item>
@@ -543,7 +535,7 @@ WHY そのような知識源がどのように面白く、セレンディピテ�
       
       <guid>https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/</guid>
       <description>acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
-Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている  さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.</description>
+Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている   さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.</description>
     </item>
     
     <item>
@@ -552,7 +544,7 @@ Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task
       <pubDate>Tue, 10 Sep 2013 00:00:00 +0000</pubDate>
       
       <guid>https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
-      <description> KDD 2013読み会に参加させていただきました。 せっかくなのでと思い論文を読んで発表してきた。 主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。 個人的には参加者数が多すぎず少なすぎなかったのが良かった。
+      <description>KDD 2013読み会に参加させていただきました。 せっかくなのでと思い論文を読んで発表してきた。 主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。 個人的には参加者数が多すぎず少なすぎなかったのが良かった。
 読んだ論文 Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013
 proceeding (pdf)
 ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。 カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。 記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。
@@ -560,7 +552,7 @@ proceeding (pdf)
 人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。
 関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。
 発表資料   議論 大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。 自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。
- diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは diversityを良くしたら本当にユーザにとってためになるものが提供できるのか  極論するとランダムな文書集合で満足するユーザがいるかもしれない  diversityにも色々あるし、diversityの良さは人によって違うのでは  色々なdiversityと人間の評価の相関とか調べると面白いかも   </description>
+ diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは diversityを良くしたら本当にユーザにとってためになるものが提供できるのか  極論するとランダムな文書集合で満足するユーザがいるかもしれない   diversityにも色々あるし、diversityの良さは人によって違うのでは  色々なdiversityと人間の評価の相関とか調べると面白いかも    </description>
     </item>
     
     <item>
@@ -573,8 +565,7 @@ proceeding (pdf)
 KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、 マリッサ・メイヤーのYahoo! CEO就任は2012年7月17日、KDD 2012は2012年8月中旬、 おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという 余計な詮索をしていた。 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。
 概要 entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。 ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究 に比べて早く、しかも精度もよく学習できることを示している。
 発表資料   以下メモ。
-Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。
-Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。</description>
+Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。 Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。</description>
     </item>
     
     <item>
@@ -586,11 +577,8 @@ Rejection sampling algorithm black boxの学習をおこなう前に呼び出さ
       <description>&lt;p&gt;若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
 いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
 深い言葉であると思う。&lt;/p&gt;
-
 &lt;p&gt;Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)&lt;/p&gt;
-
 &lt;p&gt;proceeding(&lt;a href=&#34;http://cs.stanford.edu/people/jure/pubs/language-www13.pdf&#34;&gt;pdf&lt;/a&gt;),  slide(&lt;a href=&#34;http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
-
 &lt;p&gt;今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
 すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
 タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
@@ -649,7 +637,7 @@ Rejection sampling algorithm black boxの学習をおこなう前に呼び出さ
       <guid>https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/</guid>
       <description>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
-解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない  e.g. MadridでManchesterとBarcelonaの試合があった Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される   アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   priorは、mentionに含まれる表現が一般的にentity e_jである確率 context similarityはmentionとentityの文脈類似度 coherenceは他のmentionのentityとの意味的な近さ   Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標     グラフの中からサブグラフを選択  サブグラフは、一つのmentionが一つのentityとエッジをもつ サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除</description>
+解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない   + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される  アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ  + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標   + グラフの中からサブグラフを選択  + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除   prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい  </description>
     </item>
     
     <item>
@@ -670,7 +658,7 @@ proceeding: pdf
       <description>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&amp;rdquo;Gaga&amp;rdquo;, &amp;ldquo;Lady Gaaaga&amp;rdquo;, &amp;ldquo;Lady Gaga&amp;rdquo;は&amp;rdquo;Lady Gaga&amp;rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &amp;ldquo;Anne Gronloh&amp;rdquo;というエンティティには&amp;rdquo;Mw.,Gronloh&amp;rdquo;, &amp;ldquo;Anneke Kronloh&amp;rdquo;, &amp;ldquo;Mevrouw G&amp;rdquo;など  &amp;rdquo;&amp;hellip; Alex&amp;rsquo;s jokes. &amp;hellip;&amp;ldquo;と&amp;rdquo;&amp;hellip; Alex Russo was like&amp;hellip;&amp;ldquo;という二つのtweet  NERモデルにより&amp;rdquo;Alex&amp;rdquo;と&amp;rdquo;Alex Russo&amp;rdquo;がともにPERSONであることが識別できれば，NENモデルは&amp;rdquo;Alex&amp;rdquo;を&amp;rdquo;Alex Russo&amp;rdquo;に名寄せできる．  &amp;rdquo; &amp;hellip; she knew Burger King when &amp;hellip;&amp;ldquo;と&amp;rdquo;.</description>
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   + tweetは，エンティティに対していろいろな表現をされる． + e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  + &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  + NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;</description>
     </item>
     
     <item>
@@ -683,11 +671,10 @@ proceeding: pdf
 proceeding: pdf
 解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
 課題
- Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。  正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 このラベル付きの事例は各ステップでラベルを変更することができる。 どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。  曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
- Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。  つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。  ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
+ Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。   + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
+ Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。   + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
  ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
- 訓練データは真に正例の事例と、大量のラベルなしの事例からなる  ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある   E-step
- 訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる 具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる  α^x_{min}は、事例ごとに決定されるパラメータ   M-step</description>
+ 訓練データは真に正例の事例と、大量のラベルなしの事例からなる   + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  E-step</description>
     </item>
     
     <item>
@@ -708,9 +695,7 @@ proceeding: pdf
       
       <guid>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
-
 &lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;</description>
     </item>
     
@@ -756,17 +741,6 @@ SNSなんかやめても他のことに無駄に時間を使うことだけだ�
       
       <guid>https://tma15.github.io/blog/2012/11/10/hello-world/</guid>
       <description>なんとなくつくってみた。 Hydeを使って動かしている。</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://tma15.github.io/blog/1/01/01/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/1/01/01/</guid>
-      <description> 素性テンプレート どういうものか？ 素性テンプレートは、CRFなどに出てくる、素性関数を作成するためのもの。 素性関数はラベルyとデータxが与えられた時に、与えられた入力に対応する出力を返す関数 f(x, y)。 問題が形態素解析の場合はxが文字列でyが形態素や品詞などの情報にあたる。 例えば、形態素解析の場合、tを品詞情報や基本形などの情報とすると、形態素w1, w2からなるバイグラムの素性関数f((w1, t1), (w2, t2))のテンプレートは以下のものがある: (形態素解析では辞書から得たありうる形態素列の集合Yから素性関数を作るので、xは見ない(?)）
- w2の品詞大分類 (w2の品詞大分類, w2の品詞細分類) w2の基本形 (w2の基本形, w2の品詞大分類) (w2の基本形, w2の品詞大分類, w2の品詞細分類) w2の文字列長 &amp;hellip;  CRFでは直前の形態素と現在の形態素から作られるこれらの素性関数に対して、正解の品詞情報を付与するように重みを学習している。
-なぜ必要なのか？ どうやって使うのか？ 参考  uchiumi log: 実数素性テンプレートを作ろう 機械学習による自然⾔語処理 チュートリアル 〜PerceptronからCRFまで〜 Conditional Random Fields を用いた日本語形態素解析  </description>
     </item>
     
   </channel>

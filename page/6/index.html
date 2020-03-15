@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Hugo tranquilpeak theme demo">
@@ -240,6 +240,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -247,8 +249,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -274,6 +274,67 @@ if (!doNotTrack) {
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          Induced SortingをPythonで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-05-07T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-05-07
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
+  GitHubにコードを上げた (sais.py)。
+参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
+ Two Efficient Algorithms for Linear Time Suffix Array Construction  
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -321,8 +382,8 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-         北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。
-交通事情  北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい 空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全 普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある 普通のタクシーはナンバーが「京B&hellip;」で始まるので、それ以外のタクシーは怪しい たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない 中国人はタクシーに乗るときは、まず助手席に座る  カーナビがないので近くに座って道案内しないといけない 精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る  中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある エスカレータは右側に立つ  飲食事情  中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。 たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。 中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。  
+        北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。
+交通事情  北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい 空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全 普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある 普通のタクシーはナンバーが「京B&hellip;」で始まるので、それ以外のタクシーは怪しい たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない 中国人はタクシーに乗るときは、まず助手席に座る  カーナビがないので近くに座って道案内しないといけない 精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る   中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある エスカレータは右側に立つ  飲食事情  中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。 たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。 中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。  
       
       <p>
         <a href="https://tma15.github.io/blog/2014/03/15/%E5%8C%97%E4%BA%AC%E6%BB%9E%E5%9C%A8%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -456,8 +517,7 @@ A9がたまに学会のスポンサーとかで見かけていて、Amazonのに
 論文を書く 有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、
 How to do good research, get it published in SIGKDD and get it citedとか
 @Pnnc205j だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。
-&mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26 
-とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
+&mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26  とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
 サボれないフットサル・サッカー環境に身を置く T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。
       
       <p>
@@ -518,8 +578,8 @@ How to do good research, get it published in SIGKDD and get it citedとか
       
         エッセイの一部をメモ。
 主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
-Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト  Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&rdquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&rdquo;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー  Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&rdquo;の&rdquo;それ&rdquo;は何を指しているか？  クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする   興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
- 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである  エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)  システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである   最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.
+Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト   Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&ldquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&quot;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー   Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&quot;の&quot;それ&quot;は何を指しているか？   クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする     興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
+ 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである   エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)   システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである    最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.
       
       <p>
         <a href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -580,12 +640,12 @@ Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理�
         proceeding slide: slideshare
 まとめ CIKM 2013でBest paperを取った、著者が全員女性(参考)という、自分が今まで読んだ中でおそらく一番華やかな論文で、Yahoo Answersを知識源として、セレンディピティ (思ってもみなかったけど、クエリと関連していること) を感じる検索を提供する話。 何か新たな手法を提案した、というよりは、Yahoo Answersという知識源を使うことで、何か思ってもみなかったけど、面白い検索結果を提供できるんじゃないかな〜というアイディアを実際に試してみた、という感じだろうか。
 以下、メモ。
-Why/when do penguins wear sweaters?  タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)  羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう   Serendipity 役に立つんだけど、特に探していたわけではないもの。
+Why/when do penguins wear sweaters?  タスマニアで起きた原油漏れで体に油がついてしまったペンギンが、再び元の生活に戻れるようにするためのチャリティーソング (James GordonのSweaters for Penguins)  羽毛に原油がつくことで断熱性が落ち、ペンギンが凍えてしまう くちばしで羽毛に付いた原油を落とそうとすることで体を傷つけてしまう    Serendipity 役に立つんだけど、特に探していたわけではないもの。
 Entity Search この論文ではWikipediaとYahoo! Answersから抽出した、メタデータで情報を豊富にしたentityネットワークを基にentity-driven serendipitous search systemを作成する。
 この論文の焦点 WHAT ウェブコミュニティの知識源はどのようなentity間の関係を提供するのか？
 WHY そのような知識源がどのように面白く、セレンディピティなブラウジング経験に寄与するのか？
 データ Yahoo! Answers  ごくわずかにまとめられた意見、ゴシップ、個人情報 観点が多様  Wikipedia  高品質の情報が整理されている ニッチなトピックが豊富  Entity &amp; Relation Extraction Entity: Wikipediaに記述されている概念 1 テキストから表層形を識別し、 2 Wikipediaのentityと紐付けして、
- 文脈依存 文脈非依存な素性  click log   3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)
+ 文脈依存 文脈非依存な素性  click log    3 Wikipediaのentityを、テキストとの関連度順に基いてランキングする (aboutnessスコア(34)を使ってランキングする)
       
       <p>
         <a href="https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -659,73 +719,14 @@ WHY そのような知識源がどのように面白く、セレンディピテ�
 これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
 &amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
 ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
-\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, yn))\
-&amp; = \log(\prod{n=1}^N p(y_n)p(\mathbf{x}_n|yn))\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \log p(\mathbf{x}_n|yn)\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K\log p(x{nk}|yn)\
-&amp; = \sum{n=1}^N \log p(yn) + \sum{n=1}^N \sum{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma{ynk}^2) - \frac{(x{nk}-\mu_{ynk})^2}{2\sigma{y_nk}^2}\} \end{split} \]
+\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\
+&amp; = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
+&amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{split} \]
       
       <p>
         <a href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/">
-          文書要約メモ（ACL2013）
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-09-30T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-09-30
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
-Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている  さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>

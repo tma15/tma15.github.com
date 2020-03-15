@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="linux">
 <meta name="description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
@@ -256,6 +256,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -263,8 +265,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -333,9 +333,7 @@ if (!doNotTrack) {
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
               <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。</p>
-
 <p>io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">byInode</span> []<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Len</span>() <span style="color:#66d9ef">int</span> { <span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">this</span>) }
@@ -372,21 +370,17 @@ if (!doNotTrack) {
     <span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Sort</span>(<span style="color:#a6e22e">byInode</span>(<span style="color:#a6e22e">list</span>))
 <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">list</span>, <span style="color:#66d9ef">nil</span>
 }</code></pre></div>
-
 <p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。</p>
-
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
 time go run dirdump.go dir <span style="color:#ae81ff">1</span>
-go run dirdump.go large <span style="color:#ae81ff">1</span>  <span style="color:#ae81ff">4</span>.07s user <span style="color:#ae81ff">4</span>.54s system <span style="color:#ae81ff">19</span>% cpu <span style="color:#ae81ff">43</span>.450 total
+go run dirdump.go large <span style="color:#ae81ff">1</span>  4.07s user 4.54s system 19% cpu 43.450 total
 
 sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
 time go run dirdump.go dir <span style="color:#ae81ff">2</span>
-go run dirdump.go large <span style="color:#ae81ff">2</span>  <span style="color:#ae81ff">5</span>.85s user <span style="color:#ae81ff">8</span>.98s system <span style="color:#ae81ff">4</span>% cpu <span style="color:#ae81ff">4</span>:58.27 total</code></pre></div>
-
+go run dirdump.go large <span style="color:#ae81ff">2</span>  5.85s user 8.98s system 4% cpu 4:58.27 total</code></pre></div>
 <p>ソースコードは<a href="https://gist.github.com/tma15/78146f0762e8c12571e0">gist</a>にアップロードした。
 上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定するとソートをしない。</p>
-
 <p>ext4でも、ソートしないよりも、inode順にソートするほうが高速にファイルを読み込めそうである。</p>
               
 

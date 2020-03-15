@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>nlp on Now is better than never.</title>
@@ -6,10 +6,25 @@
     <description>Recent content in nlp on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Tue, 10 Mar 2020 16:50:53 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/nlp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
+      <link>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
+古くはN-gram言語モデルが用いられました。
+最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
+ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。&lt;/p&gt;
+&lt;p&gt;本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
+本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</title>
@@ -18,7 +33,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;ニューラルネットワークの学習には、複数の事例 (たとえば単語の系列) に対して並列に損失関数を計算し、得られた勾配に基づいてパラメータを更新するミニバッチ学習が用いられます。自然言語処理において、ミニバッチ学習時は単語の系列を同じ長さにそろえて処理します。これはニューラルネットワーク内での計算において、データが密行列として扱われることが多いためです。
 この長さをそろえる処理はパディングといわれています。
 当然ながら、ミニバッチ内で系列の長さが不ぞろいなほど、パディングによって追加される疑似的な単語が増えるため、本来不要な計算が増えます。また、ミニバッチを表す密行列が大きいほど、計算にかかる時間が大きくなります。
@@ -32,7 +46,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;ニューラルネットワークを用いた自然言語処理では、大量のラベルなしテキストを利用した事前学習によって、目的のタスクの予測モデルの精度を改善することが報告されています。
 事前学習に用いるテキストの量が多いと、データを計算機上のメモリに一度に載りきらない場合があります。
 この記事ではPyTorchでニューラルネットワークの学習を記述する際に、テキストをファイルに分割して、ファイル単位でテキストを読み込むことで、計算機上で利用するメモリの使用量を節約する方法を紹介します。&lt;/p&gt;</description>
@@ -45,7 +58,6 @@
       
       <guid>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;この記事ではパーセプトロンを使って文書分類器を学習し、学習済みの分類器を使って文書を分類する流れをご紹介します。パーセプトロンはシンプルな分類アルゴリズムの一つである一方で、これを理解していると他の分類アルゴリズムを理解する助けになるため、初めて機械学習を学ぶ初学者の方にとってよい題材といえます。
 この記事に載せているプログラムは&lt;a href=&#34;https://github.com/tma15/scikit-learn-document-classification&#34;&gt;ここ&lt;/a&gt;にまとまっています。&lt;/p&gt;</description>
     </item>
@@ -62,7 +74,7 @@
 テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
 速度が遅いなどの実用的な課題がある。
 自然言語処理に関する国際会議ACL 2019で発表された論文
-&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+&amp;lsquo;&amp;lsquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rsquo;&amp;rsquo;
 (&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
 が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
 &lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
@@ -79,6 +91,35 @@
 上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
 &lt;a href=&#34;http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934&#34;&gt;日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)&lt;/a&gt;
 の説明が分かりやすい。理解するために実装してみた。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CYKアルゴリズムで係り受け解析</title>
+      <link>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</link>
+      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</guid>
+      <description>&lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>CYKアルゴリズム</title>
+      <link>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</link>
+      <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</guid>
+      <description>&lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
+&lt;p&gt;確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (&lt;a href=&#34;https://github.com/tma15/nlppractice/blob/master/cyk.py&#34;&gt;ソースコード&lt;/a&gt;)。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
+      <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
+      <description>&lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;</description>
     </item>
     
   </channel>

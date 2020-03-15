@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Now is better than never.</title>
@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 11 Mar 2020 15:05:37 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,54 @@
     <item>
       <title>google-colab</title>
       <link>https://tma15.github.io/categories/google-colab/</link>
-      <pubDate>Wed, 11 Mar 2020 15:05:37 +0900</pubDate>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/google-colab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>machine_learning</title>
+      <link>https://tma15.github.io/categories/machine_learning/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/machine_learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>neural_network</title>
+      <link>https://tma15.github.io/categories/neural_network/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/neural_network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nlp</title>
+      <link>https://tma15.github.io/categories/nlp/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://tma15.github.io/categories/python/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://tma15.github.io/categories/pytorch/</link>
+      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/pytorch/</guid>
       <description></description>
     </item>
     
@@ -26,42 +71,6 @@
       <pubDate>Wed, 11 Mar 2020 15:05:37 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/gpu/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pytorch</title>
-      <link>https://tma15.github.io/categories/pytorch/</link>
-      <pubDate>Wed, 11 Mar 2020 15:05:37 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/pytorch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>https://tma15.github.io/categories/nlp/</link>
-      <pubDate>Tue, 10 Mar 2020 16:50:53 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>machine_learning</title>
-      <link>https://tma15.github.io/categories/machine_learning/</link>
-      <pubDate>Tue, 03 Mar 2020 09:54:42 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/machine_learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://tma15.github.io/categories/python/</link>
-      <pubDate>Tue, 03 Mar 2020 09:54:42 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/python/</guid>
       <description></description>
     </item>
     
@@ -89,15 +98,6 @@
       <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/acl2019/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>neural-network</title>
-      <link>https://tma15.github.io/categories/neural-network/</link>
-      <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/neural-network/</guid>
       <description></description>
     </item>
     
@@ -161,6 +161,15 @@
       <pubDate>Sat, 16 Jan 2016 10:55:26 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>acl2013</title>
+      <link>https://tma15.github.io/categories/acl2013/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/categories/acl2013/</guid>
       <description></description>
     </item>
     

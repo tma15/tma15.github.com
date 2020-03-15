@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>paper on Now is better than never.</title>
@@ -23,7 +23,7 @@
 テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
 速度が遅いなどの実用的な課題がある。
 自然言語処理に関する国際会議ACL 2019で発表された論文
-&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+&amp;lsquo;&amp;lsquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rsquo;&amp;rsquo;
 (&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
 が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
 &lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。
@@ -37,12 +37,19 @@
       
       <guid>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</guid>
       <description>&lt;!--adsense--&gt;
-
 &lt;p&gt;(&lt;a href=&#34;http://www.aclweb.org/anthology/N12-1015&#34;&gt;Structured Perceptron with Inexact Search&lt;/a&gt;, NAACL 2012) を読んだ。&lt;/p&gt;
-
 &lt;p&gt;構造化パーセプトロンは構造を持つ出力を予測するパーセプトロンであり、自然言語処理では品詞タグ付けなどに用いられる。出力を予測する際には効率的に出力を探索するために、ビームサーチが用いられることが多いが、一般的な構造化パーセプトロンに対してビームサーチを適用すると、パーセプトロンの収束性が保証されない。&lt;/p&gt;
-
 &lt;p&gt;構造化パーセプトロンを効率的に学習する手法として、early updateというヒューリスティクスな手法が提案されている。early updateは出力を予測する途中で正解でないとわかった段階で場合に重みを更新するヒューリスティクスな手法である。しかしながら、early updateはラベル列を最後まで見ずに重みを更新するのにも関わらず、violation fixingという枠組みで収束が保証される。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
+      <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
+      <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</guid>
+      <description>&lt;p&gt;Question Answering Using Enhanced Lexical Semantic Models (&lt;a href=&#34;http://www.aclweb.org/anthology/P13-1171&#34;&gt;pdf&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;Wen-tau Yih, Ming-Wei Chang, Christopher Meek and Andrzej Pastusiak, Microsoft Research, ACL 2013&lt;/p&gt;</description>
     </item>
     
   </channel>

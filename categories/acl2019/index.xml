@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>acl2019 on Now is better than never.</title>
@@ -23,7 +23,7 @@
 テキスト検索などの高速な処理速度を要求されるような場面では密ベクトルを処理するのは
 速度が遅いなどの実用的な課題がある。
 自然言語処理に関する国際会議ACL 2019で発表された論文
-&amp;ldquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rdquo;
+&amp;lsquo;&amp;lsquo;Learning Compressed Sentence Representations for On-Device Text Processing&amp;rsquo;&amp;rsquo;
 (&lt;a href=&#34;https://www.aclweb.org/anthology/P19-1011&#34;&gt;pdf&lt;/a&gt;)
 が、類似文検索タスクにおいて、検索精度をほぼ落とさずに、高速な検索がおこなえるように、文の表現を実数値ではなく、
 &lt;strong&gt;二値&lt;/strong&gt;ベクトルで表現する方法を提案した。

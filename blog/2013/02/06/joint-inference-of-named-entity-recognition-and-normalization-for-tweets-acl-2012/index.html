@@ -5,19 +5,19 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.57.2 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など  &rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet  NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．  &rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.">
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   &#43; 名寄せは，一番単語数が多い表現にまとめる &#43; 最大の単語数の表現が複数あればWikipediaにある表現を採用 &#43; PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   &#43; tweetは，エンティティに対していろいろな表現をされる． &#43; e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  &#43; &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  &#43; NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;">
 
 
 <meta property="og:description" content="Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など  &rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet  NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．  &rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.">
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   &#43; 名寄せは，一番単語数が多い表現にまとめる &#43; 最大の単語数の表現が複数あればWikipediaにある表現を採用 &#43; PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   &#43; tweetは，エンティティに対していろいろな表現をされる． &#43; e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  &#43; &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  &#43; NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)">
 <meta name="twitter:title" content="Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)">
@@ -27,11 +27,11 @@ proceeding: pdf
 <meta property="og:description" content="Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など  &rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet  NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．  &rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.">
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   &#43; 名寄せは，一番単語数が多い表現にまとめる &#43; 最大の単語数の表現が複数あればWikipediaにある表現を採用 &#43; PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   &#43; tweetは，エンティティに対していろいろな表現をされる． &#43; e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  &#43; &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  &#43; NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;">
 <meta name="twitter:description" content="Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．  名寄せは，一番単語数が多い表現にまとめる 最大の単語数の表現が複数あればWikipediaにある表現を採用 PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．   アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる  tweetは，エンティティに対していろいろな表現をされる． e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など  &rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet  NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．  &rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.">
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   &#43; 名寄せは，一番単語数が多い表現にまとめる &#43; 最大の単語数の表現が複数あればWikipediaにある表現を採用 &#43; PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   &#43; tweetは，エンティティに対していろいろな表現をされる． &#43; e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  &#43; &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  &#43; NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;">
 <meta property="og:locale" content="ja">
 
   
@@ -266,6 +266,8 @@ if (!doNotTrack) {
     <h3 style="color:white">最近の投稿</h3>
     <ul >
     
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
     <li ><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/" class="sidebar-button-link" style="color:white">[Colab] Googleの無料GPU環境を使うための準備</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white">[PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法</a></li>
@@ -273,8 +275,6 @@ if (!doNotTrack) {
     <li ><a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する</a></li>
     
     <li ><a href="https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/" class="sidebar-button-link" style="color:white">[Python] scikit-learnで学ぶパーセプトロンによる文書分類入門</a></li>
-    
-    <li ><a href="https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">[Python] Joblibのキャッシュを使って同じ計算を省略する</a></li>
     
     </ul>
 
@@ -334,95 +334,77 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              
-
-<p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou</p>
-
+              <p>Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou</p>
 <p>proceeding: <a href="http://www.aclweb.org/anthology-new/P/P12/P12-1055.pdf">pdf</a></p>
-
 <h2 id="解いている問題">解いている問題</h2>
-
 <p>tweet (英語のtweetに限定) の集合が与えられたときに</p>
-
 <ul>
 <li>tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる．</li>
-<li>これらの同定されたテキストに対して名寄せをおこなう．
-<ul></li>
-<li>名寄せは，一番単語数が多い表現にまとめる</li>
-<li>最大の単語数の表現が複数あればWikipediaにある表現を採用</li>
-<li>PERSONと識別された三つの表現&rdquo;Gaga&rdquo;, &ldquo;Lady Gaaaga&rdquo;, &ldquo;Lady Gaga&rdquo;は&rdquo;Lady Gaga&rdquo;にまとめる．
-</ul></li>
+<li>これらの同定されたテキストに対して名寄せをおこなう．</li>
 </ul>
-
+<ul>
++ 名寄せは，一番単語数が多い表現にまとめる
++ 最大の単語数の表現が複数あればWikipediaにある表現を採用
++ PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる．
+</ul>
 <h2 id="アプローチ">アプローチ</h2>
-
 <ul>
-<li>固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる
-<ul></li>
-<li>tweetは，エンティティに対していろいろな表現をされる．</li>
-<li>e.g. &ldquo;Anne Gronloh&rdquo;というエンティティには&rdquo;Mw.,Gronloh&rdquo;, &ldquo;Anneke Kronloh&rdquo;, &ldquo;Mevrouw G&rdquo;など
-</ul></li>
-<li>&rdquo;&hellip; Alex&rsquo;s jokes. &hellip;&ldquo;と&rdquo;&hellip; Alex Russo was like&hellip;&ldquo;という二つのtweet
-<ul></li>
-<li>NERモデルにより&rdquo;Alex&rdquo;と&rdquo;Alex Russo&rdquo;がともにPERSONであることが識別できれば，NENモデルは&rdquo;Alex&rdquo;を&rdquo;Alex Russo&rdquo;に名寄せできる．
-</ul></li>
-<li>&rdquo; &hellip; she knew Burger King when &hellip;&ldquo;と&rdquo;.. I&rsquo;m craving all sorts of food: mcdonalds, burger king, &hellip;&ldquo;という二つのtweet
-<ul></li>
-<li>NENモデルが&rdquo;Burger King&rdquo;と&rsquo;burger king&rdquo;が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
-</ul></li>
-<li>学習にはCRFを用いる
-<ul></li>
-<li>skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．</li>
-<li>ラベルは{B, I, L, O, U}</li>
-<li>一つ目のtweetに含まれる&rdquo;Gaga&rdquo;と二つ目のtweetに含まれる&rdquo;Lady Gaga&rdquo;にPERSONが割り当てられ，一つ目のtweetに含まれる&rdquo;Gaga&rdquo;と二つ目のtweetに含まれる&rdquo;Gaga&rdquo;が同一のエンティティを指していると識別できれば&rdquo;Gaga&rdquo;と&rdquo;Lady Gaga&rdquo;は同じものを指している</li>
-<li>(CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．</li>
-<li>初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値</li>
-<li>第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値</li>
-<li>初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．</li>
-<li>skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
-</ul></li>
+<li>固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる</li>
 </ul>
-
+<ul>
++ tweetは，エンティティに対していろいろな表現をされる．
++ e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など
+</ul>
++ "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet
+<ul>
++ NERモデルにより"Alex"と"Alex Russo"がともにPERSONであることが識別できれば，NENモデルは"Alex"を"Alex Russo"に名寄せできる．
+</ul>
++ " ... she knew Burger King when ..."と".. I'm craving all sorts of food: mcdonalds, burger king, ..."という二つのtweet
+<ul>
++ NENモデルが"Burger King"と'burger king"が別のエンティティを指していると識別できればNERモデルはこれらに異なるラベルを割り当てられる．
+</ul>
++ 学習にはCRFを用いる
+<ul>
++ skip-chain CRFと似たモデルだけど，tweet mのi番目の単語とtweet nのj番目の単語が同じエンティティを指しているかを表すnormalization変数があるのが違う．
++ ラベルは{B, I, L, O, U}
++ 一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Lady Gaga"にPERSONが割り当てられ，一つ目のtweetに含まれる"Gaga"と二つ目のtweetに含まれる"Gaga"が同一のエンティティを指していると識別できれば"Gaga"と"Lady Gaga"は同じものを指している
++ (CRFの復習) 重みを更新するときの，対数裕度関数を重み変数λで偏微分したときに二つの項がでてくる．
++ 初項は正解となるラベルが与えられたときの，素性関数kの訓練データに対しての合計値
++ 第二項は現在のパラメータによって決定されるモデルによる素性関数kの期待値の合計値
++ 初項が第二項よりも大きいほど，重みλ_kは大きくなるし，初項が第二項よりも小さいほど重みλ_kは小さくなる．
++ skip-chainなので，素性関数は隣り合ったラベルの組み合わせに加えて，隣り合っていないラベルの組み合わせも見ることができるし，このモデルでは他のツイートの単語につくラベルとの関係も見る．
+</ul>
 <p><strong>複数のtweetを同時に考慮することの利点</strong></p>
-
 <ul>
-<li>&rdquo;&hellip; Bobby Shaw you don&rsquo;t invite the wind&hellip;&ldquo;と&rdquo;&hellip; I own yah! Loool bobby shaw&hellip;&rdquo;
-<ul></li>
-<li>&ldquo;Bobby Shaw&rdquo;をPERSONと識別することは比較的簡単．</li>
-<li>一つ目のtweetの&rdquo;you&rdquo;が，二つ目のtweetの&rsquo;bobby shaw&rdquo;がPERSONであることの手がかりとなる．
-</ul></li>
+<li>&ldquo;&hellip; Bobby Shaw you don&rsquo;t invite the wind&hellip;&ldquo;と&rdquo;&hellip; I own yah! Loool bobby shaw&hellip;&rdquo;</li>
 </ul>
-
+<ul>
++ "Bobby Shaw"をPERSONと識別することは比較的簡単．
++ 一つ目のtweetの"you"が，二つ目のtweetの'bobby shaw"がPERSONであることの手がかりとなる．
+</ul>
 <p><strong>ラベルの候補の絞り込み</strong></p>
-
 <ul>
 <li>外部資源から固有表現を取ってきて辞書を作っておく．</li>
-<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える
-<ul></li>
-<li>&ldquo;new york&rdquo;という句が出てきたとき，辞書にある&rdquo;New York City&rdquo;と&rdquo;New York Times&rdquo;と一致する．</li>
-<li>&ldquo;new&rdquo;には，&rdquo;B-LOCATION&rdquo;, &ldquo;B-ORGANIZATION&rdquo;，&rdquo;york&rdquo;には&rdquo;I-LOCATION&rdquo;, &ldquo;I-ORGANIZATION&rdquo;がラベルの候補の集合にそれぞれ追加される．
-</ul></li>
-<li>ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない</li>
+<li>tweetの中に，辞書に含まれる固有表現の一部と一致していれば，ラベルの候補の集合へその固有表現のラベルを加える</li>
 </ul>
-
+<ul>
++ "new york"という句が出てきたとき，辞書にある"New York City"と"New York Times"と一致する．
++ "new"には，"B-LOCATION", "B-ORGANIZATION"，"york"には"I-LOCATION", "I-ORGANIZATION"がラベルの候補の集合にそれぞれ追加される．
+</ul>
++ ラベルの候補の集合へひとつでもラベルが追加されていれば，y^i_mはこのラベルの候補の集合のみしか考えない
 <p><strong>normalization変数zもルールである程度決めてしまう</strong></p>
-
 <ul>
 <li>同じtweet mで，表層的に同じ語があれば，それらは同じエンティティについて述べていると考え，z^{ij}_{mm}=1とする．</li>
 <li>tweet mとtweet nのcos類似度が0.8以上なら，すべてi, jに対してのz^{ij}_{mn}=1</li>
 <li>tweet mとtweet nのcos類似度が0.3以下なら，すべてi, jに対してのz^{ij}_{mn}=0</li>
 </ul>
-
 <p><strong>素性</strong></p>
-
 <ul>
 <li>大文字かどうか，接頭辞，接尾辞，ストップワードかどうかなど</li>
 <li>基本形，out-of-vocabularyかどうか，ハッシュタグかどうかなど</li>
 <li>ラベル候補の絞り込み時にラベル候補の集合に何か追加されているかどうか，一番追加されているラベルは何か</li>
 </ul>
-
-<h2 id="感想-疑問点">感想・疑問点</h2>
-
+<h2 id="感想疑問点">感想・疑問点</h2>
 <ul>
 <li>Discussionで，エラーの大半がスラング，略語だと書かれているけど，これを解決することで提案手法がTwitterのデータを扱う上での強みとなりそうだと思った．</li>
 </ul>
