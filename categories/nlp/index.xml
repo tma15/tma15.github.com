@@ -94,25 +94,6 @@
     </item>
     
     <item>
-      <title>CYKアルゴリズムで係り受け解析</title>
-      <link>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</link>
-      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</guid>
-      <description>&lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>CYKアルゴリズム</title>
-      <link>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</link>
-      <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</guid>
-      <description>&lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
-&lt;p&gt;確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (&lt;a href=&#34;https://github.com/tma15/nlppractice/blob/master/cyk.py&#34;&gt;ソースコード&lt;/a&gt;)。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
       <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>

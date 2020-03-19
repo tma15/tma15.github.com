@@ -293,20 +293,20 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/">
-          文書要約メモ（ACL2013）
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/">
+          Joint Inference of Named Entity Recognition and Normalization for Tweets (ACL 2012)
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2013-09-30T00:00:00Z">
+      <time itemprop="datePublished" datetime="2013-02-06T00:00:00Z">
         
   
   
   
   
-    2013-09-30
+    2013-02-06
   
 
 
@@ -322,11 +322,13 @@ if (!doNotTrack) {
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
-Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている   さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.
+        Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
+proceeding: pdf
+解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   + tweetは，エンティティに対していろいろな表現をされる． + e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など  + "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet  + NERモデルにより"Alex"と"Alex Russo"
       
       <p>
-        <a href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/" class="postShorten-excerpt_link link">続きを読む</a>
+        <a href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>
@@ -352,20 +354,20 @@ Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/">
+          Named Entity Disambiguation in Streaming Data (ACL 2012)
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2013-09-10T00:00:00Z">
+      <time itemprop="datePublished" datetime="2013-02-01T00:00:00Z">
         
   
   
   
   
-    2013-09-10
+    2013-02-01
   
 
 
@@ -381,18 +383,17 @@ Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        KDD 2013読み会に参加させていただきました。 せっかくなのでと思い論文を読んで発表してきた。 主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。 個人的には参加者数が多すぎず少なすぎなかったのが良かった。
-読んだ論文 Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013
-proceeding (pdf)
-ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。 カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。 記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。
-ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。 これは1/2近似であることを証明する時に必要な性質をもっているため。 この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。 今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら他の論文でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。
-人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。
-関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。
-発表資料   議論 大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。 自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。
- diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは diversityを良くしたら本当にユーザにとってためになるものが提供できるのか  極論するとランダムな文書集合で満足するユーザがいるかもしれない   diversityにも色々あるし、diversityの良さは人によって違うのでは  色々なdiversityと人間の評価の相関とか調べると面白いかも    
+        Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender
+proceeding: pdf
+解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
+課題
+ Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。   + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
+ Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。   + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
+ ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
+ 訓練データは真に正例の事例と、大量のラベルなしの事例からなる   + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  E-step
       
       <p>
-        <a href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">続きを読む</a>
+        <a href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>
@@ -418,290 +419,61 @@ proceeding (pdf)
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Active Sampling for Entity Matching (KDD 2012)を読んだ
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/">
+          Practical Machine Learning Tricks
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2013-08-03T00:00:00Z">
+      <time itemprop="datePublished" datetime="2012-12-15T00:00:00Z">
         
   
   
   
   
-    2013-08-03
+    2012-12-15
   
 
 
       </time>
 
       
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        proceeding (pdf), slide (html), journal (pdf)
-KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、 マリッサ・メイヤーのYahoo! CEO就任は2012年7月17日、KDD 2012は2012年8月中旬、 おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという 余計な詮索をしていた。 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。
-概要 entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。 ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究 に比べて早く、しかも精度もよく学習できることを示している。
-発表資料   以下メモ。
-Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。 Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./">
-          It takes a long time to become young.
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-07-07T00:00:00Z">
-        
+      <time itemprop="dateModified" datetime="2020-03-12T00:00:00Z">
+        (更新日: 
   
   
   
   
-    2013-07-07
+    2020-03-12
   
 
-
+)
       </time>
-
       
 
     
     
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
   </div>
 
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       
-        <p>若くなるのには時間がかかる。これは画家パブロ・ピカソが言ったとされる格言で
-いきなり聞くと何を矛盾したことを言ってるのだろうと思うかもしれないけどこの論文を読むとなかなか
-深い言葉であると思う。</p>
-<p>Cristian et al.,  No Country for Old Members: User Lifecycle and Linguistic Change in Online Communities, WWW 2013. (Best Paper Award)</p>
-<p>proceeding(<a href="http://cs.stanford.edu/people/jure/pubs/language-www13.pdf">pdf</a>),  slide(<a href="http://www.mpi-sws.org/~cristian/Linguistic_change_files/linguistic_change_slides.pdf">pdf</a>)</p>
-<p>今回のすずかけ台でおこなっている読み会ではこの論文を紹介した。
-すごくしゃれおつなスライドを公開しているのだけどスライドにしてはサイズが大きい(80MBある)ので読み込みに時間がかかる。
-タイトルの通り、(BeerAdvocate、RateBeerなどの)オンラインコミュニティにおいて
-よく使われる流行りの単語などの変化と、ユーザがどれくらいそのコミュニティを活用するか
-の関係を調べている。</p>
+        <!--adsense-->
+<p><a href="http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/">Practical machine learning tricks from the KDD 2011 best industry paper</a></p>
+<p>上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。</p>
       
       <p>
-        <a href="https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/">
-          簡単に、奥深く
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-06-03T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-06-03
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで 久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。 一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、 すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。
-ところでこの前、東工大奥村・高村研、お茶大小林研の合同研究会 に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」 というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど 少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど） 事前にLDAを実装したり、更新式の導出を追ったりしていた。 実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。
-学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。 発表に関して言うと、最近自分が痛感したことが一つある。 「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。 自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは 学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている) 人しかいなかったからということ。 これは自分の経験に基づいた考えなのだけど、 たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って もらうためには自分がどんな職種であれ 全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを わかりやすく説明する必要が出てくるんじゃないかと思う (もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。 しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという ことも伝えられなければならない。 バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している 聴講者へ発表することよりも難しい。
- 「あなたは何をやっているかよく分からない」 「あなたがやっていることは誰でも出来る簡単なことじゃないか」 「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」  発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/">
-          食べログAPIのPythonラッパーを書いた
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-05-12T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-05-12
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        ソースコードはこちら。
-食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
-インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &#39;Your access key here.&#39; tabelog = Tabelog(key) レストラン検索 prefecture = &#39;東京&#39; station = &#39;渋谷&#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &#39;rcd:&#39;, restaurant.rcd print &#39;name:&#39;, restaurant.name print &#39;url:&#39;, restaurant.tabelogurl print &#39;mobile url:&#39;, restaurant.tabelogmobileurl print &#39;dinner price:&#39;, restaurant.dinnerprice print &#39;lunch price:&#39;, restaurant.lunchprice print &#39;total score:&#39;, restaurant.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/">
-          Good style - Writing for Computer Science
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-03-27T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-03-27
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        Writing for Computer Science のメモ
- 
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/" class="postShorten-excerpt_link link">続きを読む</a>
+        <a href="https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>
@@ -723,15 +495,8 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
           </li>
         
         
-          <li class="pagination-next">
-            <a class="btn btn--default btn--small" href="https://tma15.github.io/post/page/8/">
-              <span>古い投稿</span>
-              <i class="fa fa-angle-right text-base icon-ml"></i>
-            </a>
-          </li>
-        
       
-      <li class="pagination-number">page 7 of 9</li>
+      <li class="pagination-number">page 7 of 7</li>
     </ul>
   </div>
 

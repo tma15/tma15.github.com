@@ -111,14 +111,5 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
 インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &amp;#39;Your access key here.&amp;#39; tabelog = Tabelog(key) レストラン検索 prefecture = &amp;#39;東京&amp;#39; station = &amp;#39;渋谷&amp;#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &amp;#39;rcd:&amp;#39;, restaurant.rcd print &amp;#39;name:&amp;#39;, restaurant.name print &amp;#39;url:&amp;#39;, restaurant.tabelogurl print &amp;#39;mobile url:&amp;#39;, restaurant.tabelogmobileurl print &amp;#39;dinner price:&amp;#39;, restaurant.dinnerprice print &amp;#39;lunch price:&amp;#39;, restaurant.lunchprice print &amp;#39;total score:&amp;#39;, restaurant.</description>
     </item>
     
-    <item>
-      <title>Hello World</title>
-      <link>https://tma15.github.io/blog/2012/11/10/hello-world/</link>
-      <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2012/11/10/hello-world/</guid>
-      <description>なんとなくつくってみた。 Hydeを使って動かしている。</description>
-    </item>
-    
   </channel>
 </rss>

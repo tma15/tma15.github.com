@@ -277,34 +277,6 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
     </item>
     
     <item>
-      <title>コメント欄を付けた</title>
-      <link>https://tma15.github.io/blog/2015/01/17/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%82%92%E4%BB%98%E3%81%91%E3%81%9F/</link>
-      <pubDate>Sat, 17 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2015/01/17/%E3%82%B3%E3%83%A1%E3%83%B3%E3%83%88%E6%AC%84%E3%82%92%E4%BB%98%E3%81%91%E3%81%9F/</guid>
-      <description>DISQUSを使ってこのブログにコメント欄をつけてみた。</description>
-    </item>
-    
-    <item>
-      <title>CYKアルゴリズムで係り受け解析</title>
-      <link>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</link>
-      <pubDate>Wed, 14 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2015/01/14/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%A7%E4%BF%82%E3%82%8A%E5%8F%97%E3%81%91%E8%A7%A3%E6%9E%90/</guid>
-      <description>&lt;p&gt;CYKアルゴリズムは文脈自由文法を解析するためのものであるので、係り受け解析に適用するには、係り受け解析結果を文脈自由文法のような木で表現する。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>CYKアルゴリズム</title>
-      <link>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</link>
-      <pubDate>Sat, 10 Jan 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2015/01/10/cyk%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0/</guid>
-      <description>&lt;p&gt;明けましておめでとうございます。&lt;/p&gt;
-&lt;p&gt;確率的言語モデルを読んで文脈自由文法に対する構文解析手法であるCYKアルゴリズムのところを読んだ (&lt;a href=&#34;https://github.com/tma15/nlppractice/blob/master/cyk.py&#34;&gt;ソースコード&lt;/a&gt;)。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
       <title>Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ</title>
       <link>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</link>
       <pubDate>Wed, 03 Dec 2014 00:00:00 +0000</pubDate>
@@ -331,15 +303,6 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
       
       <guid>https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/</guid>
       <description>&lt;p&gt;go言語で書いた (&lt;a href=&#34;https://gist.github.com/tma15/1277c7826a67a1c76212&#34;&gt;gist&lt;/a&gt;)。集合の要素は前もってソートしておいて、比較回数を減らしている。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>atom.xmlを加えた</title>
-      <link>https://tma15.github.io/blog/2014/11/03/atom.xml%E3%82%92%E5%8A%A0%E3%81%88%E3%81%9F/</link>
-      <pubDate>Mon, 03 Nov 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2014/11/03/atom.xml%E3%82%92%E5%8A%A0%E3%81%88%E3%81%9F/</guid>
-      <description>今さらだが、 atom.xml を追加して更新情報を配信できるようにした。</description>
     </item>
     
     <item>
@@ -434,16 +397,6 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
     </item>
     
     <item>
-      <title>北京滞在メモ</title>
-      <link>https://tma15.github.io/blog/2014/03/15/%E5%8C%97%E4%BA%AC%E6%BB%9E%E5%9C%A8%E3%83%A1%E3%83%A2/</link>
-      <pubDate>Sat, 15 Mar 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2014/03/15/%E5%8C%97%E4%BA%AC%E6%BB%9E%E5%9C%A8%E3%83%A1%E3%83%A2/</guid>
-      <description>北京滞在時(2014/03/11 - 2014/03/14)に見聞きした情報をメモ。
-交通事情  北京はタクシーの数がその需要に比べて不足しているらしくなかなか捕まらないらしい 空港についた時に「taxi」って英語しゃべりかけてくる人は怪しい（白タク）の可能性が高いらしいので、ちゃんとタクシー乗り場に行ったほうが安全 普通のタクシーの運転手はほぼ英語が通じないので、いつでも筆談できるようにする必要がある 普通のタクシーはナンバーが「京B&amp;hellip;」で始まるので、それ以外のタクシーは怪しい たまにタクシー待ちしていると、一般の人が「乗ってく？」と聞いてくるらしいが当然金を要求してくるので無視したほう良い めちゃめちゃとばすタクシーもいる。それに乗った時は手の汗が止まらない 中国人はタクシーに乗るときは、まず助手席に座る  カーナビがないので近くに座って道案内しないといけない 精算時に運転手が偽札とすり替えることもあるらしいので、近くに座る   中国では、車の数をコントロールされているので、車を買うにはくじに当たる必要がある エスカレータは右側に立つ  飲食事情  中国では食事の時にご飯を残すのが普通。日本では食べきるのが普通なのでなかなか馴れない。 たまにとても辛い料理があるので、辛そうな料理は少しずつ食べたほうが良い。 中国の知り合いと飲みに行くと、ゲストに対して一人ずつ次々に乾杯してくる。しかも、中国式の乾杯は文字通り、杯を乾す。つぶれない自信がない時はみんなで乾杯しようって言うか、「ジャパニーズスタイルの乾杯にしよう」と言ってうまくかわす（もちろん無理な強要はしてこない）。  </description>
-    </item>
-    
-    <item>
       <title>ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者</title>
       <link>https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/</link>
       <pubDate>Mon, 17 Feb 2014 00:00:00 +0000</pubDate>
@@ -456,28 +409,6 @@ confusion matrixを書く元気は残っていなかったのでaccuracyしか�
 A9がたまに学会のスポンサーとかで見かけていて、Amazonのにっこりマークが付いていてどういう関係なんだろうと思っていたが、A9はAmazonの技術系の子会社だということもこの本で知った。 あと、もともと本を始めとする小売業のようなことをやっていたのに、どのようにAmazon Web Serviceを提供するに至ったかの話も書いてあって面白かった。
 個人的には、部門間の調整が難しいという大企業ならではの問題をなんとかしたいと思った中間管理職のチームが、部門間の対話を推進する仕組みを提案した時にジェフ・ベゾスが言った以下の言葉が印象に残った。
 「言いたいことはわかるが、それは大まちがいだ。コミュニケーションは機能不全の印なんだ。緊密で有機的につながる仕事ができないから、関係者のコミュニケーションが必要になる。部署間のコミュニケーションを増やす方法ではなく、減らす方法を探すべきだ。」</description>
-    </item>
-    
-    <item>
-      <title>2013年と2014年</title>
-      <link>https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/</link>
-      <pubDate>Thu, 02 Jan 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2014/01/02/2013%E5%B9%B4%E3%81%A82014%E5%B9%B4/</guid>
-      <description>2013年の振り返り 2013年の抱負と照らしあわせて。
-飲み過ぎない 12月は飲み過ぎた。次の日に食欲がなくなったりしてしまったり、ひどい時は2,3日胃がむかむかする感じだったので、反省。回数は多くても、一回あたりに飲む量を少し減らしたい。他の月は適度に楽しめたと思う。いつもお世話になっている美容師さん曰く、
-「最初に飲む量を決めると良い。」
-反転してシュート あまり出来なかった。どうしても前を向いている後ろの選手にはたこうという気持ちが強すぎる。一旦「パスを出せ」と怒られるくらいのプレーが必要かも。
-論文を読む 二日に一本読む、というのは出来なかった（無謀すぎた&amp;hellip;）。とはいえ、すずかけ台論文読み会を主催し、今年は7回開催することが出来た点に関しては満足している。
-この読み会は次の二つの（自分が享受したい）メリットを狙って、参加者は少人数にしぼり、基本的には参加者は読んだ論文をみんなの前で紹介するというスタイルにした:
- 他の参加者にわかりやすく伝えるようにするためにより紹介する論文を読み込むようになる 参加者は少人数に絞っているので、気楽に場を止めて質問することができる  ので自分を含め、参加した人の得るものはそれなりに多くできたと思う。ただ、自分は紹介する論文に対してまだ曖昧な理解をしているままなことも多く、ありがたいご指摘も多々受けるので、もっと読み込まなければいけないところ。
-参加者の規模はこのままで良いのだけど、紹介する論文を参加者にとって有益そうなものにする仕組みを採用すべきかな、とぼんやり考えたり。ある程度人数がいれば、対象となる学会を絞って、気になる論文に投票するという形もありだと思うけど、少人数ではこの形は難しいので、2014年は色々と模索したい。
-2014年の抱負 いくつもあっても大変なので大きく二つ。
-論文を書く 有名どころの国際学会の論文を読んでいるのは、自分もそういった国際学会に論文を通すため。査読付き国際学会に論文を通す、というのを目標にすべきところだけど、まずは論文を書く回数を増やす。あと、論文を書き始めるタイミングを、研究を始めるとき、あるいは研究の途中にする。論文を書き始めるタイミングは早いほうが良いという意見については色々なところで目にする気がする。例えば、
-How to do good research, get it published in SIGKDD and get it citedとか
-@Pnnc205j だから早い段階からの論文執筆開始を推しているのさ。こうすると自分の研究の進め方につっこみが入れやすいしね。
-&amp;mdash; Tetsuya Sakai (酒井哲也) (@tetsuyasakai) 2012, 3月 26  とか。松尾ぐみの論文の書き方：英語論文でその重要性について書かれている、論文の「完成度を上げる」ためにも、早く書くことがとても大事なんだと思う。あとは、取り組むタスクに対して研究になりそうなところを目を凝らして物色したい。
-サボれないフットサル・サッカー環境に身を置く T村さんから指摘されたが、普段からヌルい空気でプレーしていることが攻守の切り替えの遅さを招いている気がする。仲間内でプレーしている時は大きな問題ではないけど、まじめな試合でこのことが致命的に自分の価値を下げていた。みんなで楽しむフットサル・サッカーも続けるけど、サボれない場所でもプレーする機会をつくりたいところ。とりあえずは個サルに参加して、知らない人の前で「情けないプレーなんてできない」と思える環境を少なくとも月に1回はつくる。</description>
     </item>
     
     <item>
@@ -587,18 +518,6 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
     </item>
     
     <item>
-      <title>簡単に、奥深く</title>
-      <link>https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/</link>
-      <pubDate>Mon, 03 Jun 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2013/06/03/%E7%B0%A1%E5%8D%98%E3%81%AB%E5%A5%A5%E6%B7%B1%E3%81%8F/</guid>
-      <description>暑すぎず寒すぎず、ソサイチ（8人制サッカー）、フットサルをするには快適な季節になってきたということで 久しぶりにソサイチをしてきた。今回は一番底で守備をやっていたのだけど、ときたま攻撃参加。 一回目の試合の前半、掛けあがってスルーパスをもらい、シュートを意識したトラップ、相手の重心の逆をつくドリブル、 すかさず左隅を狙ってシュートという頭に描いた通りの動きができたものの、ボール2個分くらいずれてしまった。
-ところでこの前、東工大奥村・高村研、お茶大小林研の合同研究会 に参加してきた。「点過程の直感的な理解から始めるDirichlet Process入門」 というタイトルの招待講演があるということで、ノンパラベイズについてはほとんど知らなかったのだけど 少しでも内容を理解したいと思い、（ノンパラベイズではないのだけど） 事前にLDAを実装したり、更新式の導出を追ったりしていた。 実はすごく難しい内容をなんとなく理解させてもらったつもりになっている。
-学生の方達の発表を聴講する機会もあり、面白い研究を聞けて楽しかった。 発表に関して言うと、最近自分が痛感したことが一つある。 「発表の聴講者がどういう人達であるか」を意識することはすごく大事なことであるということ。 自分が学生のときには全然意識していなくて、なんで聴講者のバックグラウンドを意識しなかったのかな〜と考えて一つ挙がったのは 学生のときの発表の聴講者はほぼ自分と同じバックグラウンドを持つ(かつ自分より長くその分野に携わっている) 人しかいなかったからということ。 これは自分の経験に基づいた考えなのだけど、 たぶんこんな特殊な状況は学生のときだけで、自分が取り組んでいることに対して対価を支払って もらうためには自分がどんな職種であれ 全く異なるバックグラウンドを持つ人達に自分がやっている内容は価値があるんですよっていうことを わかりやすく説明する必要が出てくるんじゃないかと思う (もちろん学生のうちから異なるバックグラウンドを持つ聴講者に発表する経験をしている人もいると多くいると思う)。 しかも内容はわかりやすいだけではだめで、実際にそのことを実現するのは簡単ではないという ことも伝えられなければならない。 バックグラウンドを共有していない聴講者にそういった発表をすることはバックグラウンドを共有している 聴講者へ発表することよりも難しい。
- 「あなたは何をやっているかよく分からない」 「あなたがやっていることは誰でも出来る簡単なことじゃないか」 「あなたがやっていることはよく分かったが実現するには簡単ではなさそうなのであなたが必要だ」  発表のフィードバックは上の3つのうち、どれになるのかを意識して試行錯誤していきたい。</description>
-    </item>
-    
-    <item>
       <title>食べログAPIのPythonラッパーを書いた</title>
       <link>https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/</link>
       <pubDate>Sun, 12 May 2013 00:00:00 +0000</pubDate>
@@ -610,26 +529,6 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
     </item>
     
     <item>
-      <title>Good style - Writing for Computer Science</title>
-      <link>https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/</link>
-      <pubDate>Wed, 27 Mar 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2013/03/27/good-style-writing-for-computer-science/</guid>
-      <description>Writing for Computer Science のメモ
- </description>
-    </item>
-    
-    <item>
-      <title>Giving presentations - Writing for Computer Science</title>
-      <link>https://tma15.github.io/blog/2013/02/23/giving-presentations-writing-for-computer-science/</link>
-      <pubDate>Sat, 23 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2013/02/23/giving-presentations-writing-for-computer-science/</guid>
-      <description>Writing for Computer Science のメモ
- </description>
-    </item>
-    
-    <item>
       <title>Robust Disambiguation of Named Entities in Text (EMNLP 2011)</title>
       <link>https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/</link>
       <pubDate>Sat, 16 Feb 2013 00:00:00 +0000</pubDate>
@@ -638,15 +537,6 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
       <description>Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
 解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない   + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される  アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ  + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標   + グラフの中からサブグラフを選択  + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除   prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい  </description>
-    </item>
-    
-    <item>
-      <title>Togakushi</title>
-      <link>https://tma15.github.io/blog/2013/02/12/togakushi/</link>
-      <pubDate>Tue, 12 Feb 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2013/02/12/togakushi/</guid>
-      <description></description>
     </item>
     
     <item>
@@ -678,17 +568,6 @@ proceeding: pdf
     </item>
     
     <item>
-      <title>2013年の抱負</title>
-      <link>https://tma15.github.io/blog/2013/01/08/2013%E5%B9%B4%E3%81%AE%E6%8A%B1%E8%B2%A0/</link>
-      <pubDate>Tue, 08 Jan 2013 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2013/01/08/2013%E5%B9%B4%E3%81%AE%E6%8A%B1%E8%B2%A0/</guid>
-      <description>飲み過ぎない 歳を重ねてもお酒を美味しく飲みたいから。 若いからといって毎日飲みまくるのはやめる。 健康第一。
-反転してシュート 言わずもがな。
-論文を読む 2012年末頃はほとんど読めていなかった。 本当は一日一本くらいのペースで読めたらかっこいいけど、 二日に一本読めたら上出来くらいの低めの目標で。 （事情によりあまり開催できていないけど）身内と細々とやっている 機械学習勉強会でも積極的に発表したい。</description>
-    </item>
-    
-    <item>
       <title>Practical Machine Learning Tricks</title>
       <link>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</link>
       <pubDate>Sat, 15 Dec 2012 00:00:00 +0000</pubDate>
@@ -697,50 +576,6 @@ proceeding: pdf
       <description>&lt;!--adsense--&gt;
 &lt;p&gt;&lt;a href=&#34;http://blog.david-andrzejewski.com/machine-learning/practical-machine-learning-tricks-from-the-kdd-2011-best-industry-paper/&#34;&gt;Practical machine learning tricks from the KDD 2011 best industry paper&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;上のブログはKDD 2011のindustry tracksでbest paperを受賞した論文を紹介しているのだけど、その紹介している内容がとても参考になったので日本語でまとめなおしている。間違った解釈をしていることがおおいにありうるので、英語が読める人は元のブログを読むことをおすすめします。&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Hakone Museum of Art</title>
-      <link>https://tma15.github.io/blog/2012/11/29/hakone-museum-of-art/</link>
-      <pubDate>Thu, 29 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2012/11/29/hakone-museum-of-art/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>without sns</title>
-      <link>https://tma15.github.io/blog/2012/11/29/without-sns/</link>
-      <pubDate>Thu, 29 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2012/11/29/without-sns/</guid>
-      <description>「Twitpic」のCTOが30日間ソーシャルメディアをやめてみたら人生変わった話
-この記事を初めて読んだとき、自分には無理だなあと思っていた。
-でも、やってみたら、できた。そして記事で書かれていることを体験して、強く同意した。
-最初の2、3日に起きる禁断症状を乗り越えてしまえばそんなに辛くないし、ぼーっとストリーム を眺めている時間は無くなった。
-（TwipicのCTOには遠くおよばないけど）プログラミングの時間は増えたと 思っているし、友人たちとより密度の濃い時間を過ごすことができている。 （友人といる時にちょっと関心の薄い話題になって退屈になるとiPhoneで SNS覗いたり、なんてことをしてたんだけど、今は意識的にそういう事はやめてる。）
-本を書いたりなんて当然してないんだけど、技術書を読む時間や論文を読む時間が増えた。
-SNSなんかやめても他のことに無駄に時間を使うことだけだ、と思っていたことも あるし、実際に無駄な時間の使い方をしていると感じることもあるけど、SNS に入り浸っていた時よりは確実に良い時間の使い方をできている。
-記事をなぞったようなことしかやっていないのだけど、この「情報ダイエット」は自分にとって 価値のあるようだったものに思うし、今後もこの状態のままでいようと思う。
-なんらかのSNSをベースにして連絡を取ったりする友人・知り合いもいるのであくまでダイエット。</description>
-    </item>
-    
-    <item>
-      <title>kaanapali</title>
-      <link>https://tma15.github.io/blog/2012/11/15/kaanapali/</link>
-      <pubDate>Thu, 15 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2012/11/15/kaanapali/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hello World</title>
-      <link>https://tma15.github.io/blog/2012/11/10/hello-world/</link>
-      <pubDate>Sat, 10 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2012/11/10/hello-world/</guid>
-      <description>なんとなくつくってみた。 Hydeを使って動かしている。</description>
     </item>
     
   </channel>
