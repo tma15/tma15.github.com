@@ -17,7 +17,8 @@
       <pubDate>Sun, 22 Mar 2020 15:39:12 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/</guid>
-      <description>&lt;p&gt;本記事ではPythonのWebアプリケーションフレームワークの一つである&lt;a href=&#34;https://palletsprojects.com/p/flask/&#34;&gt;Flask&lt;/a&gt;のblueprintの使い方について紹介します。
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;本記事ではPythonのWebアプリケーションフレームワークの一つである&lt;a href=&#34;https://palletsprojects.com/p/flask/&#34;&gt;Flask&lt;/a&gt;のblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事は&lt;a href=&#34;https://github.com/Robpol86/Flask-Large-Application-Example&#34;&gt;Flask-Large-Aplication-Example&lt;/a&gt;を参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。

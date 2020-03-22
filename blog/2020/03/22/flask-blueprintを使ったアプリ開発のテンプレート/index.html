@@ -8,14 +8,16 @@
 <meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, flask">
-<meta name="description" content="本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
+<meta name="description" content="
+本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事はFlask-Large-Aplication-Exampleを参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
 Flaskのblueprintを使って初めてアプリケーションを実装する人の参考になるような入門記事です。">
 
 
-<meta property="og:description" content="本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
+<meta property="og:description" content="
+本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事はFlask-Large-Aplication-Exampleを参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
@@ -26,12 +28,14 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 <meta property="og:url" content="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
 <meta property="twitter:url" content="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
+<meta property="og:description" content="
+本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事はFlask-Large-Aplication-Exampleを参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
 Flaskのblueprintを使って初めてアプリケーションを実装する人の参考になるような入門記事です。">
-<meta name="twitter:description" content="本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
+<meta name="twitter:description" content="
+本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事はFlask-Large-Aplication-Exampleを参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
@@ -72,6 +76,9 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 
 
 
+
+  <meta property="og:image" content="https://tma15.github.io/img/2020/03/22/code-1076536_640.jpg">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2020/03/22/code-1076536_640.jpg">
 
 
 
@@ -365,7 +372,21 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>本記事ではPythonのWebアプリケーションフレームワークの一つである<a href="https://palletsprojects.com/p/flask/">Flask</a>のblueprintの使い方について紹介します。
+              
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>本記事ではPythonのWebアプリケーションフレームワークの一つである<a href="https://palletsprojects.com/p/flask/">Flask</a>のblueprintの使い方について紹介します。
 blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
 特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
 本記事は<a href="https://github.com/Robpol86/Flask-Large-Application-Example">Flask-Large-Aplication-Example</a>を参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
