@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 22 Mar 2020 15:39:12 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>flask</title>
+      <link>https://tma15.github.io/tags/flask/</link>
+      <pubDate>Sun, 22 Mar 2020 15:39:12 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/flask/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://tma15.github.io/tags/python/</link>
+      <pubDate>Sun, 22 Mar 2020 15:39:12 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/python/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>google-colab</title>
@@ -44,15 +62,6 @@
       <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://tma15.github.io/tags/python/</link>
-      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/python/</guid>
       <description></description>
     </item>
     

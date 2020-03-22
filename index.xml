@@ -12,6 +12,19 @@
     
     
     <item>
+      <title>[Flask] Blueprintを使ったアプリ開発のテンプレート</title>
+      <link>https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/</link>
+      <pubDate>Sun, 22 Mar 2020 15:39:12 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/</guid>
+      <description>&lt;p&gt;本記事ではPythonのWebアプリケーションフレームワークの一つである&lt;a href=&#34;https://palletsprojects.com/p/flask/&#34;&gt;Flask&lt;/a&gt;のblueprintの使い方について紹介します。
+blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
+特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
+本記事は&lt;a href=&#34;https://github.com/Robpol86/Flask-Large-Application-Example&#34;&gt;Flask-Large-Aplication-Example&lt;/a&gt;を参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
+Flaskのblueprintを使って初めてアプリケーションを実装する人の参考になるような入門記事です。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
       <link>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
       <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>

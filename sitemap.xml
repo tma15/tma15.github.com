@@ -3,12 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</loc>
-    <lastmod>2020-03-15T15:24:03+09:00</lastmod>
+    <loc>https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/flask/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/flask/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/python/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/python/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2020-03-22T15:39:12+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</loc>
     <lastmod>2020-03-15T15:24:03+09:00</lastmod>
   </url>
   
@@ -53,32 +88,12 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2020-03-15T15:24:03+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/python/</loc>
-    <lastmod>2020-03-15T15:24:03+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/python/</loc>
-    <lastmod>2020-03-15T15:24:03+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/tags/pytorch/</loc>
     <lastmod>2020-03-15T15:24:03+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/pytorch/</loc>
-    <lastmod>2020-03-15T15:24:03+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
     <lastmod>2020-03-15T15:24:03+09:00</lastmod>
   </url>
   
