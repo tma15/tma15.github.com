@@ -6,10 +6,23 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 22 Mar 2020 15:39:12 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 29 Mar 2020 16:08:15 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【機械学習】scikit-learnで学ぶstacking</title>
+      <link>https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/</link>
+      <pubDate>Sun, 29 Mar 2020 16:08:15 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;stackingはアンサンブル学習と呼ばれる機械学習の一種で、他の機械学習に基づく複数の予測モデルの出力を入力の一部として扱い、予測モデルを構築します。
+単純なアルゴリズムであるのにもかかわらず、何かしらの分類器単体よりも高い予測精度を得やすく、予測精度を競うようなコンペにおいて良く用いられています。
+本記事ではscikit-learnのバージョン0.22で導入された&lt;a href=&#34;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html&#34;&gt;StackingClassifier&lt;/a&gt;の使い方について紹介するとともに、学習時の挙動を紹介します。
+本記事を読むことでscikit-learnでのstackingの学習の流れを理解できます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[Flask] Blueprintを使ったアプリ開発のテンプレート</title>
@@ -104,14 +117,14 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
       <description>個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。
 気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
 \[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
-これのlogをとると、 \[ \begin{split} \log p(x;\mu, \sigma^2) &amp;amp;= \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\}\
-&amp;amp;= -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{split} \]
-ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、
-\[ \begin{split} \log L(X, Y; \mu, \sigma) &amp;amp;= \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\
-&amp;amp; = \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\
-&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\
-&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\
-&amp;amp; = \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{split} \]</description>
+これのlogをとると、
+$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\
+&amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\
+&amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
     </item>
     
     <item>

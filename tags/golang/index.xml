@@ -56,16 +56,6 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
     </item>
     
     <item>
-      <title>HMMを実装した</title>
-      <link>https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</link>
-      <pubDate>Sat, 25 Oct 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://tma15.github.io/blog/2014/10/25/hmm%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</guid>
-      <description>概要 勉強のためにGrahamさんが公開されている資料を参考に隠れマルコフモデルを実装した (このエントリでいう隠れマルコフモデルは、単語の品詞を推定するような教師あり学習)。 また、実験用のデータ、評価スクリプトも使用させて頂いている。
-$./hmm train -i ../nlp-programming/data/wiki-en-train.norm_pos $./hmm test -i ../nlp-programming/data/wiki-en-test.norm &amp;gt; my_answer.pos $./nlp-programming/script/gradepos.pl ../nlp-programming/data/wiki-en-test.pos my_answer.pos Accuracy: 75.83% (3460/4563) Most common mistakes: NNS --&amp;gt; NN 49 RB --&amp;gt; NN 35 JJ --&amp;gt; DT 30 RB --&amp;gt; IN 29 NN --&amp;gt; JJ 28 NN --&amp;gt; IN 25 JJ --&amp;gt; NN 24 NN --&amp;gt; DT 24 NNP --&amp;gt; NN 22 VBN --&amp;gt; NN 22 特に工夫はしていないのでこんなものかという感じ。 コードはこちら。</description>
-    </item>
-    
-    <item>
       <title>Goで日本語の文書を前処理して分類器を学習するところまでやってみる</title>
       <link>https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/</link>
       <pubDate>Mon, 20 Oct 2014 00:00:00 +0000</pubDate>
