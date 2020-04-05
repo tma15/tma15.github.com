@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 29 Mar 2020 16:08:15 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 16:26:26 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>machine_learning</title>
       <link>https://tma15.github.io/tags/machine_learning/</link>
-      <pubDate>Sun, 29 Mar 2020 16:08:15 +0900</pubDate>
+      <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/machine_learning/</guid>
       <description></description>
@@ -23,9 +23,18 @@
     <item>
       <title>python</title>
       <link>https://tma15.github.io/tags/python/</link>
-      <pubDate>Sun, 29 Mar 2020 16:08:15 +0900</pubDate>
+      <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://tma15.github.io/tags/pytorch/</link>
+      <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/pytorch/</guid>
       <description></description>
     </item>
     
@@ -71,15 +80,6 @@
       <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pytorch</title>
-      <link>https://tma15.github.io/tags/pytorch/</link>
-      <pubDate>Sun, 15 Mar 2020 15:24:03 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/pytorch/</guid>
       <description></description>
     </item>
     

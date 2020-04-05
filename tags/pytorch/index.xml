@@ -6,10 +6,23 @@
     <description>Recent content in pytorch on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 15 Mar 2020 15:24:03 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 16:26:26 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【PyTorch】限られたメモリにおける大きなバッチサイズでの学習</title>
+      <link>https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/</link>
+      <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/</guid>
+      <description>&lt;p&gt;ニューラルネットワークの学習ではミニバッチ学習という複数の学習事例に対して得られる損失の総和を最小化するようにパラメータを更新します。
+バッチサイズは計算機のメモリ容量に応じて人が決める値ですが、
+BERTはバッチサイズを大きくしたほうが学習が安定しやすいという&lt;a href=&#34;https://arxiv.org/abs/1907.11692&#34;&gt;報告&lt;/a&gt;があります。
+しかし、デバイスのメモリに載りきらないサイズでは学習中にメモリーエラーを起こしてしまいます。
+本記事ではPyTorchコードを使って、メモリ容量が限られた環境でも大きなバッチサイズでミニバッチ学習する方法を紹介します。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</title>
