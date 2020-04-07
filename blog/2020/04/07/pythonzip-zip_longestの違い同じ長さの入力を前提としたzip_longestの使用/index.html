@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="python">
+<meta name="description" content="本記事ではPythonにおいて複数の入力を列挙する関数であるzip、zip_longestおよびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。">
+
+
+<meta property="og:description" content="本記事ではPythonにおいて複数の入力を列挙する関数であるzip、zip_longestおよびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用">
+<meta name="twitter:title" content="【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本記事ではPythonにおいて複数の入力を列挙する関数であるzip、zip_longestおよびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。">
+<meta name="twitter:description" content="本記事ではPythonにおいて複数の入力を列挙する関数であるzip、zip_longestおよびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-04-07T17:23:57">
+  
+  
+    <meta property="article:modified_time" content="2020-04-07T17:23:57">
+  
+  
+  
+    
+      <meta property="article:section" content="python">
+    
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/python-logo-master-v3-TM.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/python-logo-master-v3-TM.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発者。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/" class="sidebar-button-link" style="color:white">【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/" class="sidebar-button-link" style="color:white">【PyTorch】限られたメモリにおける大きなバッチサイズでの学習</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/" class="sidebar-button-link" style="color:white">【機械学習】scikit-learnで学ぶstacking</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/" class="sidebar-button-link" style="color:white">[Flask] Blueprintを使ったアプリ開発のテンプレート</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white">[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)</a></li>
+    
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-04-07T17:23:57&#43;09:00">
+        
+  
+  
+  
+  
+    2020-04-07
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本記事ではPythonにおいて複数の入力を列挙する関数である<code>zip</code>、<code>zip_longest</code>およびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。</p>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#zipの使用例">zipの使用例</a></li>
+    <li><a href="#itertoolszip_longestの使用例">itertools.zip_longestの使用例</a></li>
+    <li><a href="#iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する">iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する</a></li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
+</nav>
+<p>本記事ではPython 3.6.6を利用しています。</p>
+<h2 id="zipの使用例">zipの使用例</h2>
+<p><code>zip</code>は与えられたリストや文字列などのイテラブルから要素のタプルを返すイテレータを作成します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+c <span style="color:#ae81ff">3</span>
+</code></pre></div><p><code>zip</code>はイテラブルの中で最短の長さのイテレータを返す点に注意が必要です。
+以下の様に<code>abc</code>、<code>12</code>の二つの文字列を与えると、長さが2のイテレータを作成します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+</code></pre></div><p>Pythonの<a href="https://docs.python.org/3/library/functions.html#zip">ドキュメント</a>では<code>zip</code>に関して以下のように説明があります。</p>
+<blockquote>
+<p>zip() should only be used with unequal length inputs when you don’t care about trailing, unmatched values from the longer iterables. If those values are important, use itertools.zip_longest() instead.</p>
+</blockquote>
+<p>長さが異なる入力に対して<code>zip</code>を使う場合は、長いイテラブルの終わりのほうの要素が使われないことに注意が必要です。それが困る場合は<code>itertools.zip_longest</code>を使うことが推奨されています。</p>
+<h2 id="itertoolszip_longestの使用例">itertools.zip_longestの使用例</h2>
+<p><code>zip</code>と似た<code>zip_longest</code>という関数も利用できます。
+<code>zip_longest</code>は<code>zip</code>と異なり、最長のイテラブルの長さのイテレータを作成します。
+最長のイテラブル以外のものについて、長さを超えた場合の要素はデフォルトでは<code>None</code>が返ってきます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</span> itertools
+
+In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+c None
+</code></pre></div><p><code>None</code>以外の他の値を返すようにしたい場合は<code>fillvalue</code>という引数を与えます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">5</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>, fillvalue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;O&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+c O
+</code></pre></div><p>上記のように<code>itertools.zip_longest</code>では最長の入力に合わせてイテレータを作成することができます。</p>
+<h2 id="iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する">iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する</h2>
+<p>上記で紹介したように、<code>zip</code>は入力の長さが異なっていた場合に、最短の入力の長さのイテレータを作成します。
+一方で<code>itertools.zip_longest</code>は最長の入力の長さのイテレータを作成します。
+そのため、これら2つの関数を利用するときに、入力の長さが同じことを想定しているにもかかわらず、入力の長さが異なっていても、プログラムは動作する可能性があり、バグの原因となることもあると思います。</p>
+<p>そこで、<code>zip_longest</code>に与える入力の長さが等しいことを保証したい場合を考えます。
+単純には<code>zip_longest</code>に入力する前にすべてのイテラブルの長さが等しいことを確認すれば良いですが、
+イテレータを入力とする場合、<code>len()</code>で長さを取得できません。</p>
+<p>イテレータが入力として与えられても、長さが等しくない場合にエラーを出せるようにするために、<code>zip_longest</code>を使って以下の様な関数を作成します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> itertools
+
+In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">zip_equal</span>(<span style="color:#f92672">*</span>iterables):
+   <span style="color:#f92672">...</span>:     sentinel <span style="color:#f92672">=</span> object()
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
+   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
+   <span style="color:#f92672">...</span>:             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
+   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">yield</span> combination
+   <span style="color:#f92672">...</span>:
+</code></pre></div><p>この関数では<code>fillvalue</code>で指定した要素が<code>zip_longest</code>によって得られたタプルに含まれていた場合、エラーを出すようにしています。<code>fillvalue</code>があるということはイテラブルの長さが等しくないことを表すため、このエラーはイテラブルの長さが等しくない場合に出ます。</p>
+<p>長さが等しい入力とそうでない入力を与えて結果を確認します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">3</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+c <span style="color:#ae81ff">3</span>
+
+In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
+   <span style="color:#f92672">...</span>:
+a <span style="color:#ae81ff">1</span>
+b <span style="color:#ae81ff">2</span>
+<span style="color:#f92672">---------------------------------------------------------------------------</span>
+<span style="color:#a6e22e">ValueError</span>                                Traceback (most recent call last)
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span><span style="color:#f92672">-</span>d2760dd8dd39<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+<span style="color:#ae81ff">2</span>     <span style="color:#66d9ef">print</span>(x, y)
+<span style="color:#ae81ff">3</span>
+
+<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>f6da01ba3db<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> zip_equal(<span style="color:#f92672">*</span>iterables)
+<span style="color:#ae81ff">3</span>     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
+<span style="color:#ae81ff">4</span>         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
+<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">5</span>             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
+<span style="color:#ae81ff">6</span>         <span style="color:#66d9ef">yield</span> combination
+<span style="color:#ae81ff">7</span>
+
+<span style="color:#a6e22e">ValueError</span>: iterables have different lengths
+</code></pre></div><p>同じ長さの入力を与えた場合は処理が終了し、そうでない場合はエラーを出すことができます。
+この関数は必ず入力の長さが同じであることを保証したい場合におすすめの使用方法です。</p>
+<h2 id="まとめ">まとめ</h2>
+<p>本記事ではPythonにおいて複数の入力を列挙する関数である<code>zip</code>、<code>zip_longest</code>について紹介しました。
+また入力の長さが等しいことを保証するような利用方法について解説しました。</p>
+<p>最後に、本記事を書くにあたり参考にした記事を以下に掲載します。</p>
+<p><a href="https://stackoverflow.com/questions/32954486/zip-iterators-asserting-for-equal-length-in-python">zip iterators asserting for equal length in python</a></p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【PyTorch】限られたメモリにおける大きなバッチサイズでの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-04-05T16:26:26&#43;09:00">
+        
+  
+  
+  
+  
+    2020-04-05
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
+          【機械学習】scikit-learnで学ぶstacking
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-29T16:08:15&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-29
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
+          [Flask] Blueprintを使ったアプリ開発のテンプレート
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-22T15:39:12&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-22
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/flask">flask</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/22/code-1076536_640.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/">
+          PythonでElasticsearchを使うときのメモ
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-11-08T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-11-08
+  
+
+
+      </time>
+
+      
+      <time itemprop="dateModified" datetime="2019-10-07T00:00:00Z">
+        (更新日: 
+  
+  
+  
+  
+    2019-10-07
+  
+
+)
+      </time>
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/elasticsearch">elasticsearch</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/" data-tooltip="【PyTorch】限られたメモリにおける大きなバッチサイズでの学習">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/" data-tooltip="【PyTorch】限られたメモリにおける大きなバッチサイズでの学習">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F04%2F07%2Fpythonzip-zip_longest%25E3%2581%25AE%25E9%2581%2595%25E3%2581%2584%25E5%2590%258C%25E3%2581%2598%25E9%2595%25B7%25E3%2581%2595%25E3%2581%25AE%25E5%2585%25A5%25E5%258A%259B%25E3%2582%2592%25E5%2589%258D%25E6%258F%2590%25E3%2581%25A8%25E3%2581%2597%25E3%2581%259Fzip_longest%25E3%2581%25AE%25E4%25BD%25BF%25E7%2594%25A8%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発者。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

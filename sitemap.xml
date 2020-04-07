@@ -4,7 +4,32 @@
   
   <url>
     <loc>https://tma15.github.io/categories/</loc>
-    <lastmod>2020-04-05T16:26:26+09:00</lastmod>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/python/</loc>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/python/</loc>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2020-04-07T17:23:57+09:00</lastmod>
   </url>
   
   <url>
@@ -18,32 +43,12 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2020-04-05T16:26:26+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/python/</loc>
-    <lastmod>2020-04-05T16:26:26+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/python/</loc>
-    <lastmod>2020-04-05T16:26:26+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/tags/pytorch/</loc>
     <lastmod>2020-04-05T16:26:26+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/pytorch/</loc>
-    <lastmod>2020-04-05T16:26:26+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
     <lastmod>2020-04-05T16:26:26+09:00</lastmod>
   </url>
   

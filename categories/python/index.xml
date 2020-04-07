@@ -6,10 +6,21 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 05 Apr 2020 16:26:26 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2020 17:23:57 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用</title>
+      <link>https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/</link>
+      <pubDate>Tue, 07 Apr 2020 17:23:57 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/</guid>
+      <description>&lt;p&gt;本記事ではPythonにおいて複数の入力を列挙する関数である&lt;code&gt;zip&lt;/code&gt;、&lt;code&gt;zip_longest&lt;/code&gt;およびそれらの違いを紹介します。
+また、これらの関数は入力の長さが異なっていても動作するため、
+同じ長さを保証するように入力の要素を列挙する方法も紹介します。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【PyTorch】限られたメモリにおける大きなバッチサイズでの学習</title>
