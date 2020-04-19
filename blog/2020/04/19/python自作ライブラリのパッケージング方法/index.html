@@ -7,20 +7,38 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="">
-<meta name="description" content="Hugo tranquilpeak theme demo">
+<meta name="keywords" content="python">
+<meta name="description" content="自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。">
 
 
-<meta property="og:description" content="Hugo tranquilpeak theme demo">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Now is better than never.">
-<meta name="twitter:title" content="Now is better than never.">
-<meta property="og:url" content="https://tma15.github.io/">
-<meta property="twitter:url" content="https://tma15.github.io/">
+<meta property="og:description" content="自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Python】自作ライブラリのパッケージング方法">
+<meta name="twitter:title" content="【Python】自作ライブラリのパッケージング方法">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="Hugo tranquilpeak theme demo">
-<meta name="twitter:description" content="Hugo tranquilpeak theme demo">
+<meta property="og:description" content="自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。">
+<meta name="twitter:description" content="自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。">
 <meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-04-19T16:07:11">
+  
+  
+    <meta property="article:modified_time" content="2020-04-19T16:07:11">
+  
+  
+  
+    
+      <meta property="article:section" content="python">
+    
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+  
 
 
 <meta name="twitter:card" content="summary">
@@ -35,6 +53,9 @@
 
 
 
+  <meta property="og:image" content="https://tma15.github.io/img/python-logo-master-v3-TM.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/python-logo-master-v3-TM.png">
+
 
 
 
@@ -43,16 +64,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
 
 
-    <title>Now is better than never.</title>
+    <title>【Python】自作ライブラリのパッケージング方法</title>
 
     <link rel="icon" href="https://tma15.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://tma15.github.io/index.xml">
-    
 
     
 
-    <link rel="canonical" href="https://tma15.github.io/">
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
 
     
     <script type="text/javascript" async
@@ -283,27 +302,16 @@ if (!doNotTrack) {
         class="
                hasCoverMetaIn
                ">
-        <section class="postShorten-group main-content-wrap">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
           
           
-            
+            <div class="post-header main-content-wrap text-left">
   
-    
+    <h1 class="post-title" itemprop="headline">
+      【Python】自作ライブラリのパッケージング方法
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
-          【Python】自作ライブラリのパッケージング方法
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
       <time itemprop="datePublished" datetime="2020-04-19T16:07:11&#43;09:00">
@@ -333,28 +341,197 @@ if (!doNotTrack) {
   </div>
 
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <p>自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/python-logo-master-v3-TM.png"/>
-      </div>
-    </a>
-  
-</article>
-
+</div>
           
-            
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。</p>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#モジュールの作成">モジュールの作成</a>
+      <ul>
+        <li><a href="#ディレクトリ構成">ディレクトリ構成</a></li>
+        <li><a href="#パッケージ">パッケージ</a></li>
+      </ul>
+    </li>
+    <li><a href="#コマンドラインの作成">コマンドラインの作成</a></li>
+    <li><a href="#setuppyによるライブラリのパッケージング">setup.pyによるライブラリのパッケージング</a>
+      <ul>
+        <li><a href="#配布用ソースコードの作成">配布用ソースコードの作成</a></li>
+        <li><a href="#ライブラリのインストール">ライブラリのインストール</a></li>
+      </ul>
+    </li>
+    <li><a href="#まとめ">まとめ</a></li>
+  </ul>
+</nav>
+<p>本記事ではPython 3.6.10を利用しています。</p>
+<h2 id="モジュールの作成">モジュールの作成</h2>
+<h3 id="ディレクトリ構成">ディレクトリ構成</h3>
+<pre><code>.
+├── sample_lib
+│   ├── __init__.py
+│   ├── fuga.py
+│   ├── hoge.py
+│   └── submodule
+│       ├── __init__.py
+│       ├── piyo.py
+├── sample_lib_cli
+│   └── call.py
+└── setup.py
+</code></pre><p>このライブラリでは以下の3つの単純なクラスを実装しています。</p>
+<p><code>sample_lib/fuga.py</code></p>
+<pre><code>class Fuga:
+    def __call__(self):
+        return 'Fuga'
+</code></pre><p><code>sample_lib/hoge.py</code></p>
+<pre><code>class Hoge:
+    def __call__(self):
+        return 'Hoge'
+</code></pre><p><code>sample_lib/submodule/piyo.py</code></p>
+<pre><code>class Piyo:
+    def __call__(self):
+        return 'Piyo'
+</code></pre><h3 id="パッケージ">パッケージ</h3>
+<p>Pythonのライブラリはパッケージが階層的に構成されています。
+パッケージはファイルシステムのディレクトリのような概念だと思ってください。
+<a href="https://docs.python.org/ja/3/glossary.html#term-regular-package">通常のパッケージ</a> (<code>__init__.py</code>を含むディレクトリ) がimportされると、暗黙的に<code>__init__.py</code>が実行されます。
+つまり、<code>import sample_lib</code>が実行されると、<code>sample_lib/__init__.py</code>が実行されます。</p>
+<p>例えば、 <code>sample_lib/__init__.py</code> は次のように記述されているとすると、<code>Fuga</code>と<code>Hoge</code>というクラスが<code>sample_lib</code>というパッケージの名前空間に定義されます。つまり、<code>import sample_lib</code>が実行されれば、<code>sample_lib.Fuga</code>や<code>sample_lib.Hoge</code>としてアクセスできるようになります。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sample_lib.fuga <span style="color:#f92672">import</span> Fuga
+<span style="color:#f92672">from</span> sample_lib.hoge <span style="color:#f92672">import</span> Hoge
+</code></pre></div><p>また、 <code>sample_lib/submodule/__init__.py</code> は次のように記述されているものとします。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sample_lib.submodule <span style="color:#f92672">import</span> piyo
+<span style="color:#f92672">from</span> sample_lib.submodule.piyo <span style="color:#f92672">import</span> Piyo
+</code></pre></div>
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="コマンドラインの作成">コマンドラインの作成</h2>
+<p>ライブラリを作成したら、それを<code>echo</code>や<code>ls</code>のようにコマンドラインから利用することもできます。
+コマンドラインの実装は <code>sample_lib_cli/call.py</code> に記述するものとします。
+ここでは、引数<code>--name</code>に一致するクラスの呼び出し演算子 (<code>__call__</code>) を実行するだけのコマンドラインを作成します。</p>
+<pre><code>import argparse
+
+from sample_lib import (
+    Hoge,
+    Fuga
+)
+from sample_lib.submodule import Piyo
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--name', choices=['hoge', 'fuga', 'piyo'], default='hoge')
+    args = parser.parse_args()
+
+    if args.name == 'hoge':
+        x = Hoge()
+    elif args.name == 'fuga':
+        x = Fuga()
+    elif args.name == 'piyo':
+        x = Piyo()
+
+    print(x())
+
+
+if __name__ == '__main__':
+    main()
+</code></pre><h2 id="setuppyによるライブラリのパッケージング">setup.pyによるライブラリのパッケージング</h2>
+<p>ライブラリを作成したら、<code>setup.py</code>を用意します。
+<code>setup.py</code>はライブラリをインストールしたり、配布したりするために利用します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> setuptools <span style="color:#f92672">import</span> setup
+
+install_requires <span style="color:#f92672">=</span> [
+    <span style="color:#75715e"># 必要な依存ライブラリがあれば記述</span>
+]
+
+packages <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#39;sample_lib&#39;</span>,
+    <span style="color:#e6db74">&#39;sample_lib.submodule&#39;</span>,
+    <span style="color:#e6db74">&#39;sample_lib_cli&#39;</span>,
+]
+
+console_scripts <span style="color:#f92672">=</span> [
+    <span style="color:#e6db74">&#39;sample_lib_cli=sample_lib_cli.call:main&#39;</span>,
+]
+
+
+setup(
+    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sample_lib&#39;</span>,
+    version<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0.0.0&#39;</span>,
+    packages<span style="color:#f92672">=</span>packages,
+    install_requires<span style="color:#f92672">=</span>install_requires,
+    entry_points<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;console_scripts&#39;</span>: console_scripts},
+)
+</code></pre></div><p><code>setup</code>関数の引数で以下を与えます。</p>
+<ul>
+<li><code>name</code>: このライブラリの名前</li>
+<li><code>version</code>: このライブラリのバージョン</li>
+<li><code>packages</code>: このライブラリが扱うパッケージ</li>
+<li><code>install_requires</code>: このライブラリが依存するライブラリ</li>
+<li><code>entry_points</code>: このライブラリを使ったスクリプトを生成するための辞書。<code>console_scripts</code>をkeyとして与えたものがコマンドラインとして作成されます。上記の例では、<code>sample_lib_cli</code>というコマンドラインを実行すると<code>sample_lib_cli/call.py</code>の<code>main</code>関数が実行されるように指定しています。</li>
+</ul>
+<h3 id="配布用ソースコードの作成">配布用ソースコードの作成</h3>
+<p>配布用ソースコードを作成するには以下を実行します。</p>
+<pre><code>$python setup.py sdist
+</code></pre><p>上記の実行終了後に<code>sample_lib-0.0.0.tar.gz</code>というファイルが<code>dist</code>以下に作成されます。</p>
+<h3 id="ライブラリのインストール">ライブラリのインストール</h3>
+<p>ライブラリをインストールするには以下を実行します。</p>
+<pre><code>$python setup.py install
+</code></pre><p>上記の実行終了後に、ライブラリがインストールされます。
+またコマンドラインもインストールされます。
+以下のように実行すると、<code>sample_lib_cli/call.py</code>の<code>main</code>関数が実行されます。</p>
+<pre><code>$sample_lib_cli --name hoge
+Hoge
+$sample_lib_cli --name piyo
+Piyo
+</code></pre><h2 id="まとめ">まとめ</h2>
+<p>本記事では自作したPythonライブラリをパッケージ化し、コマンドラインから利用する方法を説明しました。</p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
   
     
   
@@ -366,81 +543,11 @@ if (!doNotTrack) {
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/">
-          【Git】ブランチを作成して開発するときに使う便利な機能
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2020-04-12T14:52:38&#43;09:00">
-        
-  
-  
-  
-  
-    2020-04-12
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/git">git</a>
-    
-  
-
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <!--adsense-->
-<p>本記事では<a href="https://gist.github.com/Gab-km/3705015">GitHub Flow</a>のように機能追加やバグ修正などの度にブランチを作成して開発を進める際によく利用する機能をユースケースに分けて紹介します。本記事のキーワードは<code>stash</code>、<code>rebase</code>、<code>cherry-pick</code>です。
-これらの機能を利用することで、複数のブランチで非同期的に開発が進んでも、簡単に差分を自分のワーキングディレクトリに取り組むことができるようになります。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/Git-Icon-1788C.png"/>
-      </div>
-    </a>
-  
-</article>
-
-          
-            
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
           【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用
         </a>
-      </h1>
+      </h4>
       
   <div class="postShorten-meta post-meta">
     
@@ -472,17 +579,15 @@ if (!doNotTrack) {
 
 
     </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <p>本記事ではPythonにおいて複数の入力を列挙する関数である<code>zip</code>、<code>zip_longest</code>およびそれらの違いを紹介します。
-また、これらの関数は入力の長さが異なっていても動作するため、
-同じ長さを保証するように入力の要素を列挙する方法も紹介します。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
+
+
+
+
+
+
+
+
+
   </div>
   
     <a href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
@@ -493,8 +598,11 @@ if (!doNotTrack) {
   
 </article>
 
-          
-            
+</div>
+<br>
+
+<div class="box">
+
   
     
   
@@ -506,11 +614,11 @@ if (!doNotTrack) {
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
           【PyTorch】限られたメモリにおける大きなバッチサイズでの学習
         </a>
-      </h1>
+      </h4>
       
   <div class="postShorten-meta post-meta">
     
@@ -546,19 +654,15 @@ if (!doNotTrack) {
 
 
     </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <p>ニューラルネットワークの学習ではミニバッチ学習という複数の学習事例に対して得られる損失の総和を最小化するようにパラメータを更新します。
-バッチサイズは計算機のメモリ容量に応じて人が決める値ですが、
-BERTはバッチサイズを大きくしたほうが学習が安定しやすいという<a href="https://arxiv.org/abs/1907.11692">報告</a>があります。
-しかし、デバイスのメモリに載りきらないサイズでは学習中にメモリーエラーを起こしてしまいます。
-本記事ではPyTorchコードを使って、メモリ容量が限られた環境でも大きなバッチサイズでミニバッチ学習する方法を紹介します。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
+
+
+
+
+
+
+
+
+
   </div>
   
     <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
@@ -569,8 +673,11 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
   
 </article>
 
-          
-            
+</div>
+<br>
+
+<div class="box">
+
   
     
   
@@ -582,11 +689,11 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
           【機械学習】scikit-learnで学ぶstacking
         </a>
-      </h1>
+      </h4>
       
   <div class="postShorten-meta post-meta">
     
@@ -622,19 +729,15 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
 
 
     </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <!--adsense-->
-<p>stackingはアンサンブル学習と呼ばれる機械学習の一種で、他の機械学習に基づく複数の予測モデルの出力を入力の一部として扱い、予測モデルを構築します。
-単純なアルゴリズムであるのにもかかわらず、何かしらの分類器単体よりも高い予測精度を得やすく、予測精度を競うようなコンペにおいて良く用いられています。
-本記事ではscikit-learnのバージョン0.22で導入された<a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html">StackingClassifier</a>の使い方について紹介するとともに、学習時の挙動を紹介します。
-本記事を読むことでscikit-learnでのstackingの学習の流れを理解できます。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
+
+
+
+
+
+
+
+
+
   </div>
   
     <a href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
@@ -645,8 +748,11 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
   
 </article>
 
-          
-            
+</div>
+<br>
+
+<div class="box">
+
   
     
   
@@ -658,11 +764,11 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
           [Flask] Blueprintを使ったアプリ開発のテンプレート
         </a>
-      </h1>
+      </h4>
       
   <div class="postShorten-meta post-meta">
     
@@ -696,20 +802,15 @@ BERTはバッチサイズを大きくしたほうが学習が安定しやすい�
 
 
     </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <!--adsense-->
-<p>本記事ではPythonのWebアプリケーションフレームワークの一つである<a href="https://palletsprojects.com/p/flask/">Flask</a>のblueprintの使い方について紹介します。
-blueprintを使うことによって、アプリケーションをblueprint単位で分割できます。
-特に規模が大きなアプリケーションほど、blueprintの利用によってアプリケーションを分割することでプログラムを管理しやすくなり、得られるメリットが大きいです。
-本記事は<a href="https://github.com/Robpol86/Flask-Large-Application-Example">Flask-Large-Aplication-Example</a>を参考にして、特にblueprintに関する箇所を抽出し、簡素化して自分の理解をまとめたものです。
-Flaskのblueprintを使って初めてアプリケーションを実装する人の参考になるような入門記事です。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
+
+
+
+
+
+
+
+
+
   </div>
   
     <a href="https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/">
@@ -720,8 +821,11 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
   
 </article>
 
-          
-            
+</div>
+<br>
+
+<div class="box">
+
   
     
   
@@ -733,11 +837,11 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
   <div class="postShorten-wrap">
     
     <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
           [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
         </a>
-      </h1>
+      </h4>
       
   <div class="postShorten-meta post-meta">
     
@@ -779,21 +883,15 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 
 
     </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <!--adsense-->
-<p>単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
-古くはN-gram言語モデルが用いられました。
-最近ではより広い文脈を考慮したり、単語スパースネスの問題に対処できるニューラルネットワークに基づく言語モデル (ニューラル言語モデル) が良く用いられます。
-ニューラル言語モデルは文書分類、情報抽出、機械翻訳などの自然言語処理の様々なタスクで用いられます。</p>
-<p>本記事ではコード付きでLSTMに基づく言語モデルおよびその学習方法を説明します。
-本記事を読むことで、LSTMに基づく言語モデルの概要、学習の流れを理解できます。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
+
+
+
+
+
+
+
+
+
   </div>
   
     <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
@@ -804,27 +902,84 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
   
 </article>
 
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
           
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/" data-tooltip="【Git】ブランチを作成して開発するときに使う便利な機能">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
           
-  <div class="pagination-bar">
-    <ul class="pagination">
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
       
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
         
-        
-          <li class="pagination-next">
-            <a class="btn btn--default btn--small" href="https://tma15.github.io/page/2/">
-              <span>古い投稿</span>
-              <i class="fa fa-angle-right text-base icon-ml"></i>
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
             </a>
           </li>
         
       
-      <li class="pagination-number">page 1 of 8</li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
     </ul>
-  </div>
+  
+</div>
 
-
-        </section>
+            
+              
+            
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2020 Takuya Makino. All Rights Reserved
@@ -832,6 +987,72 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/" data-tooltip="【Git】ブランチを作成して開発するときに使う便利な機能">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F04%2F19%2Fpython%25E8%2587%25AA%25E4%25BD%259C%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%2596%25E3%2583%25A9%25E3%2583%25AA%25E3%2581%25AE%25E3%2583%2591%25E3%2583%2583%25E3%2582%25B1%25E3%2583%25BC%25E3%2582%25B8%25E3%2583%25B3%25E3%2582%25B0%25E6%2596%25B9%25E6%25B3%2595%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -911,6 +1132,10 @@ $(document).ready(function() {
 });
 </script>
 
+
+  
+    
+  
 
 
 
