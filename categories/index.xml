@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 19 Apr 2020 16:07:11 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 26 Apr 2020 10:18:59 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,36 @@
     <item>
       <title>python</title>
       <link>https://tma15.github.io/categories/python/</link>
-      <pubDate>Sun, 19 Apr 2020 16:07:11 +0900</pubDate>
+      <pubDate>Sun, 26 Apr 2020 10:18:59 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://tma15.github.io/categories/pytorch/</link>
+      <pubDate>Sun, 26 Apr 2020 10:18:59 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tpu</title>
+      <link>https://tma15.github.io/categories/tpu/</link>
+      <pubDate>Sun, 26 Apr 2020 10:18:59 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/tpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xla</title>
+      <link>https://tma15.github.io/categories/xla/</link>
+      <pubDate>Sun, 26 Apr 2020 10:18:59 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/xla/</guid>
       <description></description>
     </item>
     
@@ -35,15 +62,6 @@
       <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/machine_learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>pytorch</title>
-      <link>https://tma15.github.io/categories/pytorch/</link>
-      <pubDate>Sun, 05 Apr 2020 16:26:26 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/pytorch/</guid>
       <description></description>
     </item>
     
