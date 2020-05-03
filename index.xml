@@ -12,6 +12,18 @@
     
     
     <item>
+      <title>【PyTorch】DataLoaderのミニバッチ化の仕組み</title>
+      <link>https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/</link>
+      <pubDate>Sat, 02 May 2020 16:26:18 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/</guid>
+      <description>&lt;!--adsense--&gt;
+&lt;p&gt;PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>【PyTorch】Version1.5でTPUを利用する方法</title>
       <link>https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</link>
       <pubDate>Sun, 26 Apr 2020 10:18:59 +0900</pubDate>

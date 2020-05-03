@@ -7,52 +7,52 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="golang, nlp">
-<meta name="description" content="系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB&#43;DB PRESS plus)
-の説明が分かりやすい。理解するために実装してみた。">
+<meta name="keywords" content="python, pytorch">
+<meta name="description" content="
+PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
 
 
-<meta property="og:description" content="系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB&#43;DB PRESS plus)
-の説明が分かりやすい。理解するために実装してみた。">
+<meta property="og:description" content="
+PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="N-best解の探索">
-<meta name="twitter:title" content="N-best解の探索">
-<meta property="og:url" content="https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/">
-<meta property="twitter:url" content="https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/">
+<meta property="og:title" content="【PyTorch】DataLoaderのミニバッチ化の仕組み">
+<meta name="twitter:title" content="【PyTorch】DataLoaderのミニバッチ化の仕組み">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB&#43;DB PRESS plus)
-の説明が分かりやすい。理解するために実装してみた。">
-<meta name="twitter:description" content="系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB&#43;DB PRESS plus)
-の説明が分かりやすい。理解するために実装してみた。">
+<meta property="og:description" content="
+PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
+<meta name="twitter:description" content="
+PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
 <meta property="og:locale" content="ja">
 
   
-    <meta property="article:published_time" content="2016-01-31T19:17:31">
+    <meta property="article:published_time" content="2020-05-02T16:26:18">
   
   
-    <meta property="article:modified_time" content="2016-01-31T19:17:31">
+    <meta property="article:modified_time" content="2020-05-02T16:26:18">
   
-  
-  
-    
-      <meta property="article:section" content="golang">
-    
-      <meta property="article:section" content="nlp">
-    
   
   
     
-      <meta property="article:tag" content="golang">
+      <meta property="article:section" content="python">
     
-      <meta property="article:tag" content="nlp">
+      <meta property="article:section" content="pytorch">
+    
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+      <meta property="article:tag" content="pytorch">
     
   
 
@@ -69,6 +69,9 @@
 
 
 
+  <meta property="og:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
+
 
 
 
@@ -77,14 +80,14 @@
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
 
 
-    <title>N-best解の探索</title>
+    <title>【PyTorch】DataLoaderのミニバッチ化の仕組み</title>
 
     <link rel="icon" href="https://tma15.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/">
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
 
     
     <script type="text/javascript" async
@@ -321,19 +324,19 @@ if (!doNotTrack) {
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      N-best解の探索
+      【PyTorch】DataLoaderのミニバッチ化の仕組み
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2016-01-31T19:17:31&#43;09:00">
+      <time itemprop="datePublished" datetime="2020-05-02T16:26:18&#43;09:00">
         
   
   
   
   
-    2016-01-31
+    2020-05-02
   
 
 
@@ -347,9 +350,9 @@ if (!doNotTrack) {
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/golang">golang</a>, 
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
     
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>
     
   
 
@@ -361,43 +364,103 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>系列ラベリングなどで最適なパスを探索する方法はビタビアルゴリズムで効率的に求められる。
-上位N個のパスを探索する方法はビタビアルゴリズムと、A*アルゴリズムで効率的に求められる。
-<a href="http://www.amazon.co.jp/%E6%97%A5%E6%9C%AC%E8%AA%9E%E5%85%A5%E5%8A%9B%E3%82%92%E6%94%AF%E3%81%88%E3%82%8B%E6%8A%80%E8%A1%93-%EF%BD%9E%E5%A4%89%E3%82%8F%E3%82%8A%E7%B6%9A%E3%81%91%E3%82%8B%E3%82%B3%E3%83%B3%E3%83%94%E3%83%A5%E3%83%BC%E3%82%BF%E3%81%A8%E8%A8%80%E8%91%89%E3%81%AE%E4%B8%96%E7%95%8C-WEB-DB-PRESS-plus/dp/4774149934">日本語入力を支える技術　～変わり続けるコンピュータと言葉の世界 (WEB+DB PRESS plus)</a>
-の説明が分かりやすい。理解するために実装してみた。</p>
-<script src="https://gist.github.com/tma15/4c6f133c0d40dbd4a606.js"></script>
-<p>ラティスの構造は以下のとおり。パスの重みは上記コードを参照。</p>
-<pre><code>#0       n1 --- n3
-        /   \ /   \
-       bos   x     eos
-        \   / \   /
-#1       n2 --- n4
-</code></pre><p>ビタビアルゴリズムを適用後、バックトラックで最適なパスを選んだ場合の解と、
-ビタビアルゴリズムを適用後、A*アルゴリズムで後ろ向きに最適なパスを順に選んだ場合の1-best解が一致している。
-2-best以降もラティスの情報から、あっていることを確認。</p>
-<p>下記の###以降はこのエントリ用に付け足した文字列。</p>
-<pre><code>$go test
-Backtrack ### ビタビアルゴリズムで求めたパス
-1 ### n2を通って、
-0 ### n3を通る
-1-best: 1 ### n2を通って、
-1-best: 0 ### n3を通る
+              
 
-2-best: 1 ### n2を通って、
-2-best: 1 ### n4を通る
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
 
-3-best: 0 ### n1を通って、
-3-best: 0 ### n3を通る
 
-4-best: 0 ### n1を通って、
-4-best: 1 ### n4を通る
-</code></pre><p>goで優先度付きキューを実装するには、<a href="https://golang.org/pkg/container/heap/">heap - The Go Programming Language</a>のExample (PriorityQueue) が参考になる。</p>
-<p>少し話はそれるが、機械翻訳において、n-best解は似通ったものが選ばれてしまう問題があるので、多様性を考慮するモデルを提案している話があって、これも気になるのでメモ。</p>
-<p>Kevin Gimpel, Dhruv Batra, Chris Dyer, and Gregory Shakhnarovich. &ldquo;A Systematic Exploration of Diversity in Machine Translation&rdquo;, EMNLP, 2013. <a href="http://ttic.uchicago.edu/~gregory/papers/emnlp2013diversity.pdf">pdf</a></p>
-<h2 id="参考">参考</h2>
+<p>PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
+DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
+本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#dataset">Dataset</a>
+      <ul>
+        <li><a href="#map-style-dataset">Map-style dataset</a></li>
+        <li><a href="#iterable-style-dataset">Iterable-style dataset</a></li>
+      </ul>
+    </li>
+    <li><a href="#dataloderによるデータのミニバッチ化">Dataloderによるデータのミニバッチ化</a>
+      <ul>
+        <li><a href="#automatic-batching有効時の挙動">Automatic batching有効時の挙動</a></li>
+        <li><a href="#automatic-batching無効時の挙動">Automatic batching無効時の挙動</a></li>
+      </ul>
+    </li>
+    <li><a href="#おわり">おわり</a></li>
+  </ul>
+</nav>
+<p>DataLoaderでは以下のような引数を受け付けます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DataLoader(dataset, batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, shuffle<span style="color:#f92672">=</span>False, sampler<span style="color:#f92672">=</span>None,
+           batch_sampler<span style="color:#f92672">=</span>None, num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, collate_fn<span style="color:#f92672">=</span>None,
+           pin_memory<span style="color:#f92672">=</span>False, drop_last<span style="color:#f92672">=</span>False, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
+           worker_init_fn<span style="color:#f92672">=</span>None)
+</code></pre></div><p>本記事では主に<code>dataset</code>、<code>sampler</code>、<code>batch_sampler</code>、<code>collate_fn</code>が関連します。</p>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="dataset">Dataset</h2>
+<p><code>dataset</code>はmap-styleとiterable-styleの二種類あり、これらは利用目的に合わせて使い分けます。</p>
+<h3 id="map-style-dataset">Map-style dataset</h3>
+<p><code>__getitem__</code>と<code>__len__</code>を実装しているランダムアクセス可能なオブジェクトです。
+<code>__getitem__</code>の引数が整数ではなくても良いのでmap-styleと呼んでいます。</p>
+<h3 id="iterable-style-dataset">Iterable-style dataset</h3>
+<p><code>__iter__</code>を実装し、<code>IterableDataset</code>を継承したシーケンシャルアクセスが可能なオブジェクトです。
+map-styleのようにランダムアクセスが難しい場合（例えば、データがメモリに乗り切らない場合）に適しています。
+iterable-styleではユーザがデータの順序を実装する必要があります。</p>
+<h2 id="dataloderによるデータのミニバッチ化">Dataloderによるデータのミニバッチ化</h2>
+<p>PyTorchのDataLoaderは読み込んだデータを自動でミニバッチ化する機能が有効となっています。
+これPyTorchの<a href="https://pytorch.org/docs/stable/data.html">ドキュメント</a>ではAutomatic batchingと呼ばれています。
+この章ではAutomatic batchingが有効時と無効時での挙動の違いについて解説します。</p>
+<h3 id="automatic-batching有効時の挙動">Automatic batching有効時の挙動</h3>
+<p>DataLoaderでは個別のデータを自動でミニバッチ化できます。
+このとき、DataLoaderはそれぞれのdatasetに対して、以下のように<code>batch_sampler</code>からミニバッチを構成する<strong><font color="red">データのリスト</font></strong>を<code>collate_fn</code>へ与えます。</p>
+<p>Map-style:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
+    <span style="color:#66d9ef">yield</span> collate_fn([dataset[i] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> indices])
+</code></pre></div><p>Iterable-style:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dataset_iter <span style="color:#f92672">=</span> iter(dataset)
+<span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
+    <span style="color:#66d9ef">yield</span> collate_fn([next(dataset_iter) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> indices])
+</code></pre></div><p>デフォルトの<code>collate_fn</code>は次のような挙動となります。</p>
 <ul>
-<li><a href="http://d.hatena.ne.jp/jetbead/20160119/1453139047">ラティスのNbestを求める - Negative/Positive Thinking</a></li>
+<li>最初の次元にbatchを表す次元を追加する。</li>
+<li>NumPyのarrayやPythonの数値のlistをPyTorchのTensorに変換する。</li>
+<li>データの型はそのまま保持する。例えば、入力がdict型であれば、出力はdict型のまま、ただし、valueはTensorとして返す。</li>
 </ul>
+<h3 id="automatic-batching無効時の挙動">Automatic batching無効時の挙動</h3>
+<p>すでにバッチ化されたデータを読み込みたい、ミニバッチ学習を利用したくない、等の場合にはautomatic batchingを無効化することもできます。
+<code>batch_size</code>と<code>batch_sampler</code>がともに<code>None</code>のとき (<code>batch_sampler</code>のデフォルト値は<code>None</code>)、automatic batchingは無効化されます。
+Automatic batchingが無効化されているときは、<code>sampler</code>は<strong><font color="red">データを一つ</font></strong>サンプリングして<code>collate_fn</code>へ与えます。</p>
+<p>Map-style:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> index <span style="color:#f92672">in</span> sampler:
+    <span style="color:#66d9ef">yield</span> collate_fn(dataset[index])
+</code></pre></div><p>Iterable-style:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> iter(dataset):
+    <span style="color:#66d9ef">yield</span> collate_fn(data)
+</code></pre></div><h2 id="おわり">おわり</h2>
+<p>本記事ではPyTorchのDataLoaderにおけるミニバッチ化の仕組みについて解説しました。
+automatic batchingはデフォルトで有効になっているため、DataLoaderを使いこなすことでユーザは少ない手間で学習部分を記述できます。
+またautomatic batchingを無効にした時の挙動についても説明しました。</p>
               
 
               <br>
@@ -420,10 +483,6 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
   
     
-      
-        
-      
-    
   
 
 
@@ -434,20 +493,20 @@ Backtrack ### ビタビアルゴリズムで求めたパス
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Question Answering Using Enhanced Lexical Semantic Models (ACL2013) を読んだ
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+          【PyTorch】Version1.5でTPUを利用する方法
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-12-03T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-04-26T10:18:59&#43;09:00">
         
   
   
   
   
-    2014-12-03
+    2020-04-26
   
 
 
@@ -460,12 +519,170 @@ Backtrack ### ビタビアルゴリズムで求めたパス
   
   
     <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/xla">xla</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/tpu">tpu</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【PyTorch】限られたメモリにおける大きなバッチサイズでの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-04-05T16:26:26&#43;09:00">
+        
+  
+  
+  
+  
+    2020-04-05
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
     
       <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
     
-      <a class="category-link" href="https://tma15.github.io/categories/paper">paper</a>, 
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
     
-      <a class="category-link" href="https://tma15.github.io/categories/acl2013">acl2013</a>
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
     
   
 
@@ -484,6 +701,12 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
   </div>
   
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
 </article>
 
 </div>
@@ -492,10 +715,6 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 <div class="box">
 
   
-    
-      
-        
-      
     
   
 
@@ -507,20 +726,20 @@ Backtrack ### ビタビアルゴリズムで求めたパス
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/">
-          二つの集合に重複して現れる要素の数を数える
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+          【Python】自作ライブラリのパッケージング方法
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-11-08T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-04-19T16:07:11&#43;09:00">
         
   
   
   
   
-    2014-11-08
+    2020-04-19
   
 
 
@@ -534,7 +753,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/golang">golang</a>
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
     
   
 
@@ -553,6 +772,12 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
   </div>
   
+    <a href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/python-logo-master-v3-TM.png"/>
+      </div>
+    </a>
+  
 </article>
 
 </div>
@@ -561,10 +786,6 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 <div class="box">
 
   
-    
-      
-        
-      
     
   
 
@@ -576,20 +797,20 @@ Backtrack ### ビタビアルゴリズムで求めたパス
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">
-          Goで日本語の文書を前処理して分類器を学習するところまでやってみる
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+          【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-10-20T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-04-07T17:23:57&#43;09:00">
         
   
   
   
   
-    2014-10-20
+    2020-04-07
   
 
 
@@ -599,6 +820,14 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
     
     
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
   </div>
 
 
@@ -614,127 +843,11 @@ Backtrack ### ビタビアルゴリズムで求めたパス
 
   </div>
   
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/">
-          並列での学習アルゴリズムの追加
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2015-08-31T20:03:45&#43;09:00">
-        
-  
-  
-  
-  
-    2015-08-31
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
-          オンライン学習の実装いろいろ
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2015-07-17T23:09:00&#43;09:00">
-        
-  
-  
-  
-  
-    2015-07-17
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
+    <a href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/python-logo-master-v3-TM.png"/>
+      </div>
+    </a>
   
 </article>
 
@@ -754,9 +867,9 @@ Backtrack ### ビタビアルゴリズムで求めたパス
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">タグ</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/golang/">golang</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
 
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/pytorch/">pytorch</a>
 
                   </div>
                 
@@ -769,7 +882,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/" data-tooltip="平均化パーセプトロンの効率的な計算">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -777,7 +890,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/" data-tooltip="行列式をLU分解で求める">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【PyTorch】Version1.5でTPUを利用する方法">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -795,7 +908,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -804,7 +917,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -833,7 +946,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/" data-tooltip="平均化パーセプトロンの効率的な計算">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -841,7 +954,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/" data-tooltip="行列式をLU分解で求める">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【PyTorch】Version1.5でTPUを利用する方法">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -859,7 +972,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -868,7 +981,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -883,7 +996,7 @@ Backtrack ### ビタビアルゴリズムで求めたパス
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2016%2F01%2F31%2Fn-best%25E8%25A7%25A3%25E3%2581%25AE%25E6%258E%25A2%25E7%25B4%25A2%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F05%2F02%2Fpytorchdataloader%25E3%2581%25AE%25E3%2583%259F%25E3%2583%258B%25E3%2583%2590%25E3%2583%2583%25E3%2583%2581%25E5%258C%2596%25E3%2581%25AE%25E4%25BB%2595%25E7%25B5%2584%25E3%2581%25BF%2F">
           <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
