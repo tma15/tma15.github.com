@@ -7,52 +7,52 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="python, pytorch">
-<meta name="description" content="
-PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
-DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
-本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
+<meta name="keywords" content="machine_learning, neural_network, kaggle, nlp">
+<meta name="description" content="Kaggleの文書分類タスクにおける参加者のtipsがText Classification: All Tips and Tricks from 5 Kaggle Competitionsにまとまっていました。英語が前提になっているものの、参考になったので目を通し、概要をまとめました。
+また日本語を対象とした場合に参考になりそうな記事も挙げておきます。">
 
 
-<meta property="og:description" content="
-PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
-DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
-本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
+<meta property="og:description" content="Kaggleの文書分類タスクにおける参加者のtipsがText Classification: All Tips and Tricks from 5 Kaggle Competitionsにまとまっていました。英語が前提になっているものの、参考になったので目を通し、概要をまとめました。
+また日本語を対象とした場合に参考になりそうな記事も挙げておきます。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【PyTorch】DataLoaderのミニバッチ化の仕組み">
-<meta name="twitter:title" content="【PyTorch】DataLoaderのミニバッチ化の仕組み">
-<meta property="og:url" content="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
-<meta property="twitter:url" content="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+<meta property="og:title" content="【自然言語処理】Kaggleコンペで利用されている文書分類のtips">
+<meta name="twitter:title" content="【自然言語処理】Kaggleコンペで利用されている文書分類のtips">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="
-PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
-DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
-本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
-<meta name="twitter:description" content="
-PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
-DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
-本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。">
+<meta property="og:description" content="Kaggleの文書分類タスクにおける参加者のtipsがText Classification: All Tips and Tricks from 5 Kaggle Competitionsにまとまっていました。英語が前提になっているものの、参考になったので目を通し、概要をまとめました。
+また日本語を対象とした場合に参考になりそうな記事も挙げておきます。">
+<meta name="twitter:description" content="Kaggleの文書分類タスクにおける参加者のtipsがText Classification: All Tips and Tricks from 5 Kaggle Competitionsにまとまっていました。英語が前提になっているものの、参考になったので目を通し、概要をまとめました。
+また日本語を対象とした場合に参考になりそうな記事も挙げておきます。">
 <meta property="og:locale" content="ja">
 
   
-    <meta property="article:published_time" content="2020-05-02T16:26:18">
+    <meta property="article:published_time" content="2020-05-03T16:47:46">
   
   
-    <meta property="article:modified_time" content="2020-05-02T16:26:18">
+    <meta property="article:modified_time" content="2020-05-03T16:47:46">
   
-  
-  
-    
-      <meta property="article:section" content="python">
-    
-      <meta property="article:section" content="pytorch">
-    
   
   
     
-      <meta property="article:tag" content="python">
+      <meta property="article:section" content="machine_learning">
     
-      <meta property="article:tag" content="pytorch">
+      <meta property="article:section" content="neural_network">
+    
+      <meta property="article:section" content="kaggle">
+    
+      <meta property="article:section" content="nlp">
+    
+  
+  
+    
+      <meta property="article:tag" content="machine_learning">
+    
+      <meta property="article:tag" content="neural_network">
+    
+      <meta property="article:tag" content="kaggle">
+    
+      <meta property="article:tag" content="nlp">
     
   
 
@@ -69,8 +69,8 @@ DataLoaderを使いこなすことで、ニューラルネットワークの学�
 
 
 
-  <meta property="og:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
-  <meta property="twitter:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
+  <meta property="og:image" content="https://tma15.github.io/img/Kaggle_logo.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/Kaggle_logo.png">
 
 
 
@@ -80,14 +80,14 @@ DataLoaderを使いこなすことで、ニューラルネットワークの学�
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
 
 
-    <title>【PyTorch】DataLoaderのミニバッチ化の仕組み</title>
+    <title>【自然言語処理】Kaggleコンペで利用されている文書分類のtips</title>
 
     <link rel="icon" href="https://tma15.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
 
     
     <script type="text/javascript" async
@@ -324,19 +324,19 @@ if (!doNotTrack) {
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      【PyTorch】DataLoaderのミニバッチ化の仕組み
+      【自然言語処理】Kaggleコンペで利用されている文書分類のtips
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-05-02T16:26:18&#43;09:00">
+      <time itemprop="datePublished" datetime="2020-05-03T16:47:46&#43;09:00">
         
   
   
   
   
-    2020-05-02
+    2020-05-03
   
 
 
@@ -350,9 +350,13 @@ if (!doNotTrack) {
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
     
-      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
     
   
 
@@ -364,46 +368,27 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<ins class="adsbygoogle"
-     style="display:block; text-align:center;"
-     data-ad-layout="in-article"
-     data-ad-format="fluid"
-     data-ad-client="ca-pub-5663917297524414"
-     data-ad-slot="8357823829"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-
-<p>PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
-DataLoaderを使いこなすことで、ニューラルネットワークの学習部分を簡単に書くことができます。
-本記事ではPyTorchのDataLoaderがミニバッチを作成する仕組みについて解説します。</p>
+              <p>Kaggleの文書分類タスクにおける参加者のtipsが<a href="https://neptune.ai/blog/text-classification-tips-and-tricks-kaggle-competitions">Text Classification: All Tips and Tricks from 5 Kaggle Competitions</a>にまとまっていました。英語が前提になっているものの、参考になったので目を通し、概要をまとめました。
+また日本語を対象とした場合に参考になりそうな記事も挙げておきます。</p>
 <h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
   <ul>
-    <li><a href="#dataset">Dataset</a>
+    <li><a href="#大規模データの扱い">大規模データの扱い</a></li>
+    <li><a href="#外部データの利用">外部データの利用</a></li>
+    <li><a href="#データ拡張">データ拡張</a>
       <ul>
-        <li><a href="#map-style-dataset">Map-style dataset</a></li>
-        <li><a href="#iterable-style-dataset">Iterable-style dataset</a></li>
+        <li><a href="#データ分析">データ分析</a></li>
       </ul>
     </li>
-    <li><a href="#dataloderによるデータのミニバッチ化">Dataloderによるデータのミニバッチ化</a>
-      <ul>
-        <li><a href="#automatic-batching有効時の挙動">Automatic batching有効時の挙動</a></li>
-        <li><a href="#automatic-batching無効時の挙動">Automatic batching無効時の挙動</a></li>
-      </ul>
-    </li>
-    <li><a href="#おわり">おわり</a></li>
+    <li><a href="#前処理">前処理</a></li>
+    <li><a href="#テキストの表現">テキストの表現</a></li>
+    <li><a href="#モデル化">モデル化</a></li>
+    <li><a href="#学習時の工夫">学習時の工夫</a></li>
+    <li><a href="#評価">評価</a></li>
+    <li><a href="#実行時の消費メモリ速度改善">実行時の消費メモリ・速度改善</a></li>
+    <li><a href="#モデルのアンサブル化">モデルのアンサブル化</a></li>
+    <li><a href="#まとめ">まとめ</a></li>
   </ul>
 </nav>
-<p>DataLoaderでは以下のような引数を受け付けます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DataLoader(dataset, batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, shuffle<span style="color:#f92672">=</span>False, sampler<span style="color:#f92672">=</span>None,
-           batch_sampler<span style="color:#f92672">=</span>None, num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, collate_fn<span style="color:#f92672">=</span>None,
-           pin_memory<span style="color:#f92672">=</span>False, drop_last<span style="color:#f92672">=</span>False, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
-           worker_init_fn<span style="color:#f92672">=</span>None)
-</code></pre></div><p>本記事では主に<code>dataset</code>、<code>sampler</code>、<code>batch_sampler</code>、<code>collate_fn</code>が関連します。</p>
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -418,49 +403,123 @@ DataLoaderを使いこなすことで、ニューラルネットワークの学�
 </script>
 
 
-<h2 id="dataset">Dataset</h2>
-<p><code>dataset</code>はmap-styleとiterable-styleの二種類あり、これらは利用目的に合わせて使い分けます。</p>
-<h3 id="map-style-dataset">Map-style dataset</h3>
-<p><code>__getitem__</code>と<code>__len__</code>を実装しているランダムアクセス可能なオブジェクトです。
-<code>__getitem__</code>の引数が整数ではなくても良いのでmap-styleと呼んでいます。</p>
-<h3 id="iterable-style-dataset">Iterable-style dataset</h3>
-<p><code>__iter__</code>を実装し、<code>IterableDataset</code>を継承したシーケンシャルアクセスが可能なオブジェクトです。
-map-styleのようにランダムアクセスが難しい場合（例えば、データがメモリに乗り切らない場合）に適しています。
-iterable-styleではユーザがデータの順序を実装する必要があります。</p>
-<h2 id="dataloderによるデータのミニバッチ化">Dataloderによるデータのミニバッチ化</h2>
-<p>PyTorchのDataLoaderは読み込んだデータを自動でミニバッチ化する機能が有効となっています。
-これPyTorchの<a href="https://pytorch.org/docs/stable/data.html">ドキュメント</a>ではAutomatic batchingと呼ばれています。
-この章ではAutomatic batchingが有効時と無効時での挙動の違いについて解説します。</p>
-<h3 id="automatic-batching有効時の挙動">Automatic batching有効時の挙動</h3>
-<p>DataLoaderでは個別のデータを自動でミニバッチ化できます。
-このとき、DataLoaderはそれぞれのdatasetに対して、以下のように<code>batch_sampler</code>からミニバッチを構成する<strong><font color="red">データのリスト</font></strong>を<code>collate_fn</code>へ与えます。</p>
-<p>Map-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn([dataset[i] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> indices])
-</code></pre></div><p>Iterable-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dataset_iter <span style="color:#f92672">=</span> iter(dataset)
-<span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn([next(dataset_iter) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> indices])
-</code></pre></div><p>デフォルトの<code>collate_fn</code>は次のような挙動となります。</p>
+
+ 
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+ 
+  
+  
+  
+  
+    
+  
+    
+      
+    
+  
+
+<div class="figure right" >
+  
+    <a class="fancybox" href="https://tma15.github.io/img/Kaggle_logo.png" data-fancybox-group="">
+  
+    <img class="fig-img" src="https://tma15.github.io/img/Kaggle_logo.png" >
+  
+    </a>
+  
+  
+</div>
+
+  <div style="clear:both;"></div>
+
+<h2 id="大規模データの扱い">大規模データの扱い</h2>
+<p>普通のノートPCやKaggleカーネルでは大規模なデータを処理するのが難しくなります。
+そのような場合は以下のような工夫がされています。</p>
 <ul>
-<li>最初の次元にbatchを表す次元を追加する。</li>
-<li>NumPyのarrayやPythonの数値のlistをPyTorchのTensorに変換する。</li>
-<li>データの型はそのまま保持する。例えば、入力がdict型であれば、出力はdict型のまま、ただし、valueはTensorとして返す。</li>
+<li>データの型を変換してメモリサイズを減らす</li>
+<li>並列処理ライブラリ <a href="https://dask.org/">Dask</a> を用いた処理速度を高速化する</li>
+<li><a href="https://arrow.apache.org/docs/python/parquet.html">parquet</a>や<a href="https://github.com/wesm/feather">featuer</a>を用いてpandasのDataFrameの読み込みと書き込みを高速化する</li>
 </ul>
-<h3 id="automatic-batching無効時の挙動">Automatic batching無効時の挙動</h3>
-<p>すでにバッチ化されたデータを読み込みたい、ミニバッチ学習を利用したくない、等の場合にはautomatic batchingを無効化することもできます。
-<code>batch_size</code>と<code>batch_sampler</code>がともに<code>None</code>のとき (<code>batch_sampler</code>のデフォルト値は<code>None</code>)、automatic batchingは無効化されます。
-Automatic batchingが無効化されているときは、<code>sampler</code>は<strong><font color="red">データを一つ</font></strong>サンプリングして<code>collate_fn</code>へ与えます。</p>
-<p>Map-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> index <span style="color:#f92672">in</span> sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn(dataset[index])
-</code></pre></div><p>Iterable-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> iter(dataset):
-    <span style="color:#66d9ef">yield</span> collate_fn(data)
-</code></pre></div><h2 id="おわり">おわり</h2>
-<p>本記事ではPyTorchのDataLoaderにおけるミニバッチ化の仕組みについて解説しました。
-automatic batchingはデフォルトで有効になっているため、DataLoaderを使いこなすことでユーザは少ない手間で学習部分を記述できます。
-またautomatic batchingを無効にした時の挙動についても説明しました。</p>
+<h2 id="外部データの利用">外部データの利用</h2>
+<p>小規模なデータでは、外部データを使ってモデルを事前学習する利用するなどの方法が考えられます。
+英語の、特に質問応答タスクではSQuADなどのデータを活用したりするようです。</p>
+<p>元記事は英語を対象としているため、触れられていませんが、日本語で無料で利用できる規模の大きなデータといえばWikipediaくらいでしょうか。</p>
+<h2 id="データ拡張">データ拡張</h2>
+<p>小規模なデータに関して、学習データの数を増やす方法も考えられます。例えば以下の方法が紹介されています。</p>
+<ul>
+<li>類義語辞書があるなら、単語を置き換えて言い換えを作成する</li>
+<li>テキスト中の単語をランダムに置き換える、マスクする</li>
+<li>ラベルなしテキストに対して、モデルが高い信頼度で予測した結果を使って擬似的な学習データとする</li>
+<li>機械翻訳モデルを使って、テキストを別の言語へ翻訳し、再び英語に戻すことで、もとのテキストの言い換えを作成する方法 (逆翻訳)</li>
+</ul>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h3 id="データ分析">データ分析</h3>
+<p>上位の参加者はデータを深く分析して、得られた知見をモデル化に活用しています。
+いきなりBERTを使う、のでも良い評価値になるかもしれませんが、データの特徴をうまくモデル化できたほうが良い評価値が得られやすいということですね。
+たとえばTwitterを対象とした分類タスクであれば、ツイートの発話者がどのようなバックグラウンドをもっているかなどの分析をしています。</p>
+<h2 id="前処理">前処理</h2>
+<p>自然言語処理では前処理はより良い評価値を得るために重要で、Kaggleの好成績者は丁寧に前処理に取り組んでいます。
+ソーシャルメディアを対象とした自然言語処理タスクであれば、タイポの修正などをおこなっています。
+また、多言語タスクであれば、言語の同定も必要となります。
+事前学習済みの単語ベクトルを利用するのであれば、テキストに含まれる単語を事前学習済みのベクトルを参照できるようにする方法も紹介しています。</p>
+<p>元記事では英語が対象となっていて触れられていませんが、日本語に関しては以下の記事が参考になります。</p>
+<ul>
+<li><a href="https://qiita.com/Hironsan/items/2466fe0f344115aff177">自然言語処理における前処理の種類とその威力</a></li>
+<li><a href="https://qiita.com/chamao/items/7edaba62b120a660657e">Python3×日本語：自然言語処理の前処理まとめ</a></li>
+<li><a href="http://yukinoi.hatenablog.com/entry/2018/05/29/120000">自然言語処理の前処理・素性いろいろ</a></li>
+</ul>
+<h2 id="テキストの表現">テキストの表現</h2>
+<p>ニューラルネットワークや他の機械学習モデルへ入力する前に、テキストを何らかの表現に変換する必要があり、GloVeを始めとしたstaticなベクトル表現、BERTなどの文脈を考慮したベクトル表現が紹介されています。</p>
+<h2 id="モデル化">モデル化</h2>
+<p>タスクにあったモデルアーキテクチャの設計について触れています。
+LSTMやGRUなどのモデルがよく用いられており、また良い成績となっています。
+特にLSTMやGRUを2層にしたアーキテクチャがよく用いられているようです。
+また損失関数もタスクに合わせて設計する必要があります。</p>
+<h2 id="学習時の工夫">学習時の工夫</h2>
+<p>開発データにおける評価値の改善が見られない場合、学習率を小さくする、学習を終了する (early stopping) など、学習時の損失関数の推移をモニタリングしています。</p>
+<p>他に、一定の間隔でモデルのパラメータの平均値を取ることで、より良い評価値を出すような工夫もされています (<a href="https://pytorch.org/blog/stochastic-weight-averaging-in-pytorch/">Stochastic Weigth Averaging</a>)。</p>
+<h2 id="評価">評価</h2>
+<p>できるだけ公平なデータセットでモデルを評価するために交差検定が用いられます。
+交差検定にも様々な方法があり、それについて触れています。
+具体的には以下のような交差検定が紹介されています。</p>
+<ul>
+<li>ラベルの偏りが少なくなるような交差検定 (Stratified Kfold)</li>
+<li>未知のサンプルに対して評価ができるような交差検定 (Group Kfold)</li>
+</ul>
+<p>他にも学習データと開発データのサンプルの分布が似ているか確認する方法 (Adversarial validation) も紹介されています。</p>
+<h2 id="実行時の消費メモリ速度改善">実行時の消費メモリ・速度改善</h2>
+<p>できるだけ効率的に実験を進めるためにGPUの効率的な利用方法、単語列のtruncate (テキストに含まれる単語をすべて使うのではなく、先頭からN単語のみを用いる) などが用いられます。</p>
+<h2 id="モデルのアンサブル化">モデルのアンサブル化</h2>
+<p>更に良い評価値を得るためにモデルをアンサンブル化がよく用いられます。
+よく用いられるアンサンブルアルゴリズム (複数のモデルの予測結果の重み付き平均値を取る、スタッキングなど) について触れています。</p>
+<h2 id="まとめ">まとめ</h2>
+<p>本記事では<a href="https://neptune.ai/blog/text-classification-tips-and-tricks-kaggle-competitions">Text Classification: All Tips and Tricks from 5 Kaggle Competitions</a>にまとめられているtipsの概要を紹介するとともに、日本語を対象とした場合の前処理に関する参考記事についても触れました。</p>
               
 
               <br>
@@ -478,158 +537,6 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
               
 
 <h3>関連記事</h3>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
-          【PyTorch】Version1.5でTPUを利用する方法
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2020-04-26T10:18:59&#43;09:00">
-        
-  
-  
-  
-  
-    2020-04-26
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/xla">xla</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/tpu">tpu</a>
-    
-  
-
-  </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
-          【PyTorch】限られたメモリにおける大きなバッチサイズでの学習
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2020-04-05T16:26:26&#43;09:00">
-        
-  
-  
-  
-  
-    2020-04-05
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
-    
-  
-
-  </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
 
 <div class="box">
 
@@ -726,20 +633,20 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
-          【Python】自作ライブラリのパッケージング方法
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+          [PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-04-19T16:07:11&#43;09:00">
+      <time itemprop="datePublished" datetime="2020-03-10T16:50:53&#43;09:00">
         
   
   
   
   
-    2020-04-19
+    2020-03-10
   
 
 
@@ -753,7 +660,11 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
     
   
 
@@ -772,9 +683,9 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
 
   </div>
   
-    <a href="https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/">
+    <a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
       <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/python-logo-master-v3-TM.png"/>
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
       </div>
     </a>
   
@@ -797,20 +708,20 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
-          【Python】zip, zip_longestの違い、同じ長さの入力を前提としたzip_longestの使用
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
+          [PyTorch] Datasetの読み込みにかかるメモリ消費量を節約する
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2020-04-07T17:23:57&#43;09:00">
+      <time itemprop="datePublished" datetime="2020-03-08T16:04:11&#43;09:00">
         
   
   
   
   
-    2020-04-07
+    2020-03-08
   
 
 
@@ -824,7 +735,11 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
     
   
 
@@ -843,11 +758,159 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
 
   </div>
   
-    <a href="https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/">
+    <a href="https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/">
       <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/python-logo-master-v3-TM.png"/>
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
       </div>
     </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+          ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-09-04T18:19:54&#43;09:00">
+        
+  
+  
+  
+  
+    2019-09-04
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/acl2019">acl2019</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/paper">paper</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2019/learning-to-compress.PNG"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/">
+          Kaggle初参加記録
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2017-07-29T15:30:01&#43;09:00">
+        
+  
+  
+  
+  
+    2017-07-29
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
   
 </article>
 
@@ -867,9 +930,13 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">タグ</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
 
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/pytorch/">pytorch</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/neural_network/">neural_network</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/kaggle/">kaggle</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
 
                   </div>
                 
@@ -882,7 +949,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/" data-tooltip="【自然言語処理】Kaggleコンペで利用されている文書分類のtips">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -890,7 +957,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【PyTorch】Version1.5でTPUを利用する方法">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/" data-tooltip="【PyTorch】DataLoaderのミニバッチ化の仕組み">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -908,7 +975,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -946,7 +1013,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/" data-tooltip="【自然言語処理】Kaggleコンペで利用されている文書分類のtips">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -954,7 +1021,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【PyTorch】Version1.5でTPUを利用する方法">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/" data-tooltip="【PyTorch】DataLoaderのミニバッチ化の仕組み">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -972,7 +1039,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -996,7 +1063,7 @@ automatic batchingはデフォルトで有効になっているため、DataLoad
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F05%2F02%2Fpytorchdataloader%25E3%2581%25AE%25E3%2583%259F%25E3%2583%258B%25E3%2583%2590%25E3%2583%2583%25E3%2583%2581%25E5%258C%2596%25E3%2581%25AE%25E4%25BB%2595%25E7%25B5%2584%25E3%2581%25BF%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F05%2F03%2F%25E8%2587%25AA%25E7%2584%25B6%25E8%25A8%2580%25E8%25AA%259E%25E5%2587%25A6%25E7%2590%2586kaggle%25E3%2582%25B3%25E3%2583%25B3%25E3%2583%259A%25E3%2581%25A7%25E5%2588%25A9%25E7%2594%25A8%25E3%2581%2595%25E3%2582%258C%25E3%2581%25A6%25E3%2581%2584%25E3%2582%258B%25E6%2596%2587%25E6%259B%25B8%25E5%2588%2586%25E9%25A1%259E%25E3%2581%25AEtips%2F">
           <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
