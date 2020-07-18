@@ -6,15 +6,33 @@
     <description>Recent content in Tags on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 17 May 2020 20:40:22 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 23 May 2020 12:58:07 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>machine_learning</title>
+      <link>https://tma15.github.io/tags/machine_learning/</link>
+      <pubDate>Sat, 23 May 2020 12:58:07 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/machine_learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>neural_network</title>
+      <link>https://tma15.github.io/tags/neural_network/</link>
+      <pubDate>Sat, 23 May 2020 12:58:07 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/neural_network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>nlp</title>
       <link>https://tma15.github.io/tags/nlp/</link>
-      <pubDate>Sun, 17 May 2020 20:40:22 +0900</pubDate>
+      <pubDate>Sat, 23 May 2020 12:58:07 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/nlp/</guid>
       <description></description>
@@ -35,24 +53,6 @@
       <pubDate>Sun, 03 May 2020 16:47:46 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/kaggle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>machine_learning</title>
-      <link>https://tma15.github.io/tags/machine_learning/</link>
-      <pubDate>Sun, 03 May 2020 16:47:46 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/machine_learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>neural_network</title>
-      <link>https://tma15.github.io/tags/neural_network/</link>
-      <pubDate>Sun, 03 May 2020 16:47:46 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/neural_network/</guid>
       <description></description>
     </item>
     
