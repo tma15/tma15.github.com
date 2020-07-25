@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>scraping on Now is better than never.</title>
+    <link>https://tma15.github.io/tags/scraping/</link>
+    <description>Recent content in scraping on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sat, 25 Jul 2020 10:18:02 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/scraping/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【無料でデータ収集】Herokuで収集したツイートをスプレッドシートに蓄積する</title>
+      <link>https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;Twitterに日々投稿されるツイートを分析することで、今話題の情報など有用な知見を得ることができます。
+日々投稿されるツイートを分析するには、定期的にツイートを収集し、蓄積する基盤が必要です。
+特に個人開発においてはツイートを収集・蓄積する基盤にかかる初期費用・運用費用を可能な限り抑えたいです。
+本記事では、無料で定期的にツイートを収集、蓄積するための手順をまとめました。
+具体的には&lt;a href=&#34;https://jp.heroku.com/&#34;&gt;Heroku&lt;/a&gt;と&lt;a href=&#34;https://www.google.com/intl/ja_jp/sheets/about/&#34;&gt;スプレッドシート&lt;/a&gt;を使ってTwitterから定期的に収集したツイートを蓄積するための手順を紹介します。&lt;/p&gt;
+&lt;!--adsense--&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

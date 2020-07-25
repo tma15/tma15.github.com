@@ -6,10 +6,55 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 19 Jul 2020 13:34:44 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2020 10:18:02 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>heroku</title>
+      <link>https://tma15.github.io/categories/heroku/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/heroku/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://tma15.github.io/categories/python/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scraping</title>
+      <link>https://tma15.github.io/categories/scraping/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/scraping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spreadseet</title>
+      <link>https://tma15.github.io/categories/spreadseet/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/spreadseet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>twitter</title>
+      <link>https://tma15.github.io/categories/twitter/</link>
+      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/twitter/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>machine_learning</title>
@@ -35,15 +80,6 @@
       <pubDate>Sun, 19 Jul 2020 13:34:44 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://tma15.github.io/categories/python/</link>
-      <pubDate>Sun, 17 May 2020 20:40:22 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/python/</guid>
       <description></description>
     </item>
     
