@@ -6,10 +6,21 @@
     <description>Recent content in scraping on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 25 Jul 2020 10:18:02 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2020 08:55:14 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/scraping/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Python】Twitter APIを利用してツイートを検索（画像、いいね、リツイートの取得も）</title>
+      <link>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</link>
+      <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</guid>
+      <description>&lt;p&gt;Twitterの検索APIを利用することで、Twitterに投稿されるツイートを検索し、ツイート本文、いいね数などに加えて、ツイートに添付される画像やURLなどを取得できます。
+Twitterの検索APIを利用するにはAPIや得られるデータの仕様を把握しておく必要があります。
+本記事では、検索APIの主な仕様およびツイートに添付されている画像データやURLなどへのアクセス方法を紹介します。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【無料でデータ収集】Herokuで収集したツイートをスプレッドシートに蓄積する</title>

@@ -12,6 +12,17 @@
     
     
     <item>
+      <title>【Python】Twitter APIを利用してツイートを検索（画像、いいね、リツイートの取得も）</title>
+      <link>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</link>
+      <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</guid>
+      <description>&lt;p&gt;Twitterの検索APIを利用することで、Twitterに投稿されるツイートを検索し、ツイート本文、いいね数などに加えて、ツイートに添付される画像やURLなどを取得できます。
+Twitterの検索APIを利用するにはAPIや得られるデータの仕様を把握しておく必要があります。
+本記事では、検索APIの主な仕様およびツイートに添付されている画像データやURLなどへのアクセス方法を紹介します。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>【無料でデータ収集】Herokuで収集したツイートをスプレッドシートに蓄積する</title>
       <link>https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/</link>
       <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>

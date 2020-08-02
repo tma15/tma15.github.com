@@ -6,10 +6,37 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 25 Jul 2020 10:18:02 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 02 Aug 2020 08:55:14 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>python</title>
+      <link>https://tma15.github.io/categories/python/</link>
+      <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>scraping</title>
+      <link>https://tma15.github.io/categories/scraping/</link>
+      <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/scraping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>twitter</title>
+      <link>https://tma15.github.io/categories/twitter/</link>
+      <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/twitter/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>heroku</title>
@@ -21,38 +48,11 @@
     </item>
     
     <item>
-      <title>python</title>
-      <link>https://tma15.github.io/categories/python/</link>
-      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>scraping</title>
-      <link>https://tma15.github.io/categories/scraping/</link>
-      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/scraping/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>spreadseet</title>
       <link>https://tma15.github.io/categories/spreadseet/</link>
       <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/spreadseet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>twitter</title>
-      <link>https://tma15.github.io/categories/twitter/</link>
-      <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/twitter/</guid>
       <description></description>
     </item>
     
