@@ -6,10 +6,20 @@
     <description>Recent content in git on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 12 Apr 2020 14:52:38 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 08 Aug 2020 13:35:00 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/git/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【C&#43;&#43;】CMakeでGoogle Testをリンクできるようにする</title>
+      <link>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</link>
+      <pubDate>Sat, 08 Aug 2020 13:35:00 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;本記事ではC++の単体テストフレームワークである&lt;a href=&#34;https://github.com/google/googletest&#34;&gt;Google Test&lt;/a&gt;を、&lt;a href=&#34;https://cmake.org/&#34;&gt;CMake&lt;/a&gt;を使ってプログラムにリンクできるようにするための方法を紹介します。
+Google Testを毎回手動でダウンロードするのは面倒ですが、本記事で紹介する方法ではCMake内でGoogle Testをgit submoduleで管理できます。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【Git】ブランチを作成して開発するときに使う便利な機能</title>

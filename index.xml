@@ -12,6 +12,16 @@
     
     
     <item>
+      <title>【C&#43;&#43;】CMakeでGoogle Testをリンクできるようにする</title>
+      <link>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</link>
+      <pubDate>Sat, 08 Aug 2020 13:35:00 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;本記事ではC++の単体テストフレームワークである&lt;a href=&#34;https://github.com/google/googletest&#34;&gt;Google Test&lt;/a&gt;を、&lt;a href=&#34;https://cmake.org/&#34;&gt;CMake&lt;/a&gt;を使ってプログラムにリンクできるようにするための方法を紹介します。
+Google Testを毎回手動でダウンロードするのは面倒ですが、本記事で紹介する方法ではCMake内でGoogle Testをgit submoduleで管理できます。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>【Python】Twitter APIを利用してツイートを検索（画像、いいね、リツイートの取得も）</title>
       <link>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</link>
       <pubDate>Sun, 02 Aug 2020 08:55:14 +0900</pubDate>
