@@ -3,17 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tma15.github.io/tags/book/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/book/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/08/15/%E6%9B%B8%E8%A9%95%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3%E3%81%AF-%E5%95%86%E5%93%81%E3%82%92%E5%A4%89%E3%81%88%E3%81%9A%E3%81%AB%E5%A3%B2%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A0%E3%81%91%E3%81%A7-%E3%81%AA%E3%81%9C2%E5%80%8D%E5%A3%B2%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B/</loc>
+    <lastmod>2020-08-15T14:51:07+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/c&#43;&#43;/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/c&#43;&#43;/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
   </url>
   
@@ -44,16 +69,6 @@
   
   <url>
     <loc>https://tma15.github.io/categories/googletest/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
   </url>
   
@@ -580,11 +595,6 @@
   <url>
     <loc>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2014-05-07T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/book/</loc>
-    <lastmod>2014-02-17T00:00:00+00:00</lastmod>
   </url>
   
   <url>
