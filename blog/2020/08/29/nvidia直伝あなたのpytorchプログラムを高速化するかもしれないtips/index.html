@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="pytorch, neural_network, machine_learning">
+<meta name="description" content="本記事では画像認識系の国際会議 ECCV2020のチュートリアルでNVIDIAが発表した資料 PYTORCH PERFORMANCE TUNING GUIDE の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。">
+
+
+<meta property="og:description" content="本記事では画像認識系の国際会議 ECCV2020のチュートリアルでNVIDIAが発表した資料 PYTORCH PERFORMANCE TUNING GUIDE の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips">
+<meta name="twitter:title" content="【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本記事では画像認識系の国際会議 ECCV2020のチュートリアルでNVIDIAが発表した資料 PYTORCH PERFORMANCE TUNING GUIDE の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。">
+<meta name="twitter:description" content="本記事では画像認識系の国際会議 ECCV2020のチュートリアルでNVIDIAが発表した資料 PYTORCH PERFORMANCE TUNING GUIDE の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-08-29T13:16:11">
+  
+  
+    <meta property="article:modified_time" content="2020-08-29T13:16:11">
+  
+  
+  
+    
+      <meta property="article:section" content="pytorch">
+    
+      <meta property="article:section" content="neural_network">
+    
+      <meta property="article:section" content="machine_learning">
+    
+  
+  
+    
+      <meta property="article:tag" content="pytorch">
+    
+      <meta property="article:tag" content="neural_network">
+    
+      <meta property="article:tag" content="machine_learning">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2020/pytorch-logo.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/tma15" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/" class="sidebar-button-link" style="color:white">【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/" class="sidebar-button-link" style="color:white">【PyTorch】不要になった計算グラフを削除してメモリを節約</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/15/%E6%9B%B8%E8%A9%95%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3%E3%81%AF-%E5%95%86%E5%93%81%E3%82%92%E5%A4%89%E3%81%88%E3%81%9A%E3%81%AB%E5%A3%B2%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A0%E3%81%91%E3%81%A7-%E3%81%AA%E3%81%9C2%E5%80%8D%E5%A3%B2%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B/" class="sidebar-button-link" style="color:white">【書評】ワークマンは 商品を変えずに売り方を変えただけで なぜ2倍売れたのか</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/" class="sidebar-button-link" style="color:white">【C&#43;&#43;】CMakeでGoogle Testをリンクできるようにする</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/" class="sidebar-button-link" style="color:white">【Python】Twitter APIを利用してツイートを検索（画像、いいね、リツイートの取得も）</a></li>
+    
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-08-29T13:16:11&#43;09:00">
+        
+  
+  
+  
+  
+    2020-08-29
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本記事では画像認識系の国際会議 <a href="https://eccv2020.eu/">ECCV2020</a>のチュートリアルでNVIDIAが発表した資料 <a href="https://nvlabs.github.io/eccv2020-mixed-precision-tutorial/files/szymon_migacz-pytorch-performance-tuning-guide.pdf">PYTORCH PERFORMANCE TUNING GUIDE</a> の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#概要">概要</a></li>
+    <li><a href="#データ読み込みを非同期並列化する">データ読み込みを非同期＆並列化する</a></li>
+    <li><a href="#cudnnのautotunerを利用する">cuDNNのautotunerを利用する</a></li>
+    <li><a href="#バッチサイズを増やす">バッチサイズを増やす</a></li>
+    <li><a href="#バッチ正規化層の直前にある畳み込み層ではバイアスを使わない">バッチ正規化層の直前にある畳み込み層ではバイアスを使わない</a></li>
+    <li><a href="#modelzero_gradではなくparametergrad--noneにする">model.zero_gradではなくparameter.grad = Noneにする</a></li>
+    <li><a href="#デバッグ用の設定を無効にする">デバッグ用の設定を無効にする</a></li>
+    <li><a href="#マルチgpuではdistributeddataparallelを使う">マルチGPUではDistributedDataParallelを使う</a></li>
+    <li><a href="#マルチgpuでは各gpuの負荷を分散させる">マルチGPUでは各GPUの負荷を分散させる</a></li>
+    <li><a href="#apexのモジュールを使う">apexのモジュールを使う</a></li>
+    <li><a href="#checkpointを利用して学習時のメモリ消費を減らす">checkpointを利用して学習時のメモリ消費を減らす</a></li>
+    <li><a href="#torchjitscriptを使う">torch.jit.scriptを使う</a></li>
+    <li><a href="#おわり">おわり</a></li>
+  </ul>
+</nav>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="概要">概要</h2>
+<p>チュートリアルで紹介されている内容は以下のような特徴があります。</p>
+<ul>
+<li>単純な方法で学習を高速化できる</li>
+<li>数行の変更で済む</li>
+<li>自動混合精度学習 (Automatic Mixed Precision; AMP) と併用できる</li>
+</ul>
+<p>以降は、PyTorchのバージョンは1.6.0を想定します。</p>
+<h2 id="データ読み込みを非同期並列化する">データ読み込みを非同期＆並列化する</h2>
+<p>データの読み込みが処理速度のボトルネックになっている場合、データ読み込みの並列化によって処理の高速化が期待されます。
+PyTorchでは<code>DataLoader</code>クラスがデータ読み込みに関する処理を提供しています。
+<code>DataLoader</code>は引数の<code>num_workers</code>に0以上の値を設定することで、非同期・並列化に対応できます。</p>
+<p>また、非同期・並列化とは直接関係ありませんが、GPUを使った学習の場合、 <code>DataLoader</code>の引数に<code>pin_memory=True</code>を与えると、CPUからGPUへのデータの転送が高速化される可能性があります<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
+<h2 id="cudnnのautotunerを利用する">cuDNNのautotunerを利用する</h2>
+<p>cuDNNは畳み込み層に関して複数のアルゴリズムを実装しています。
+<code>torch.backends.cudnn.benchmark = True</code>
+とすることで、PyTorchが自動で、処理速度の観点でハードウェアに適したアルゴリズムを選択してくれます<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
+<h2 id="バッチサイズを増やす">バッチサイズを増やす</h2>
+<p>GPUのメモリに余裕がある限りはバッチサイズを大きくした方が学習の処理が高速化できます。混合精度学習を適用すれば、さらにメモリに余裕ができるので、バッチサイズをより大きくできます。</p>
+<p>また、バッチサイズを大きくしたら、学習率、warmupのステップ数、weight decayなどの調整を忘れないようにしましょう。もしくはoptimizerを大きなバッチサイズでの学習を想定したアルゴリズムである<a href="https://developer.nvidia.com/blog/pretraining-bert-with-layer-wise-adaptive-learning-rates/">LAMB</a>などに変更しましょう。</p>
+<h2 id="バッチ正規化層の直前にある畳み込み層ではバイアスを使わない">バッチ正規化層の直前にある畳み込み層ではバイアスを使わない</h2>
+<p>バッチ正規化層はバイアスを足し合わせるような処理が入っているため、バッチ正規化層の直前にある畳み込みそうではバイアス項は不要です<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>,<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>。</p>
+<p>バッチ正規化層の処理イメージ</p>
+<pre><code>y = gamma * normalized(x) + bias  # バイアス項が考慮されている
+</code></pre><h2 id="modelzero_gradではなくparametergrad--noneにする">model.zero_gradではなくparameter.grad = Noneにする</h2>
+<p><code>zero_grad()</code></p>
+<ul>
+<li>パラメータごとにmemsetを実行する (パラメータ行列の各値に0を設定する)</li>
+<li>backward実行時、<code>parameter.grad += grad</code>のように加算代入がおこなわれる</li>
+</ul>
+<p><code>grad = None</code></p>
+<ul>
+<li>memsetは実行されない</li>
+<li>backward実行時、<code>parameter.grad = grad</code>のように代入がおこなわれる</li>
+</ul>
+<p>backward実行時の挙動について、PyTorchの<a href="https://pytorch.org/docs/stable/autograd.html#default-grad-layouts">公式ドキュメント</a>に書かれているgradientの扱いについてみてると、以下のようなことが書かれています。
+<code>parameter</code>が現在のデータに対して<code>backward</code>を実行することで得られたgradientを受け取るとき、<code>parameter.grad</code>が<code>None</code>かどうかで挙動が変わります。</p>
+<ul>
+<li>Noneのとき: parameter.grad = gradとなる</li>
+<li>Noneでないとき: parameter.grad += gradになる</li>
+</ul>
+<p>またparameter.grad = Noneとすることでパフォーマンスが改善する可能性があることも言及されています。</p>
+<blockquote>
+<p>(&hellip;) is a valid alternative to model.zero_grad() or optimizer.zero_grad() that may improve performance for some networks.</p>
+</blockquote>
+<h2 id="デバッグ用の設定を無効にする">デバッグ用の設定を無効にする</h2>
+<p>プログラムのデバッグ終了後は以下のデバッグ用APIの設定を<code>False</code>にしましょう</p>
+<p>anomaly detection:</p>
+<ul>
+<li><code>torch.autograd.detect_anomaly</code></li>
+<li><code>torch.autograd.set_detect_anomaly(True)</code></li>
+</ul>
+<p>autograd profiler:</p>
+<ul>
+<li><code>torch.autograd.profiler.profile</code></li>
+</ul>
+<p>automatic NVTX ranges:</p>
+<ul>
+<li><code>torch.autograd.profiler.emit_nvtx</code></li>
+</ul>
+<p>autograd gradcheck:</p>
+<ul>
+<li><code>torch.autograd.gradcheck</code></li>
+<li><code>torch.autograd.gradgradcheck</code></li>
+</ul>
+<h2 id="マルチgpuではdistributeddataparallelを使う">マルチGPUではDistributedDataParallelを使う</h2>
+<p>DataParallelはCPU1つで複数のマルチGPUを扱います。
+そのためあるGPUにデータを転送している間、他のGPUは待ちの状態になってしましまいます。
+さらにDataParallelはシングルノードにしか対応しないという点にも注意が必要です。</p>
+<p>DistributedDataParallelはGPU１つにつきCPU１つが対応します。
+またマルチノードにも対応しているため、容易に分散学習を適用できます。</p>
+<h2 id="マルチgpuでは各gpuの負荷を分散させる">マルチGPUでは各GPUの負荷を分散させる</h2>
+<p>マルチGPUによる学習ではbackward処理の実施後、各GPUで得られた勾配を収集するために同期処理が発生します。あるGPUがほかのGPUよりも速くforward, backwardを終えると、そのGPUはほかのGPUがforward, backwardを終えるまで待ち続けてしまいます。</p>
+<p>たとえば自然言語処理では文長（たとえば単語数）が長いほど処理に時間がかかる傾向にあるため、各GPUが処理する文長はできるだけ均一にした方がGPUの負荷が均一になります。</p>
+<h2 id="apexのモジュールを使う">apexのモジュールを使う</h2>
+<p>NVIDIAが開発している<a href="https://github.com/NVIDIA/apex">apex</a> (NVIDIAが開発している混合精度学習や分散学習のためのPyTorchモジュール) を使うと処理が速くなる可能性があるので検討してみましょう。</p>
+<h2 id="checkpointを利用して学習時のメモリ消費を減らす">checkpointを利用して学習時のメモリ消費を減らす</h2>
+<p>通常の設定でforwardを実行すると、中間層における演算結果は、勾配の計算で再利用するため、すべて保持するようになっています<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup>。演算結果が容易に得られる層に関しては、演算結果を保持しないようにすることで計算グラフの消費メモリを減るので、バッチサイズを大きくすることができます（forwardを再計算するよりも、バッチサイズを大きくしたほうが高速になる可能性が高い）。</p>
+<p><strong>通常の設定での学習</strong></p>
+<ul>
+<li>forward: 各層の演算結果をすべて保持するため</li>
+<li>backward: forwardで計算した結果を再利用して勾配を計算する</li>
+</ul>
+<p><strong>checkpointを有効にした設定での学習</strong></p>
+<ul>
+<li>forward: 一部の層の演算結果だけを保持</li>
+<li>backward: 演算結果が保持されていない層に関してはforwardを再計算</li>
+</ul>
+<p>この機能は<a href="https://pytorch.org/docs/stable/checkpoint.html">torch.utils.checkpoint</a>でサポートされています。
+活性化層など、再計算のコストが低い層をcheckpointを有効にして、バッチサイズを大きくすると高速化が期待できます。</p>
+<h2 id="torchjitscriptを使う">torch.jit.scriptを使う</h2>
+<p>torch.jit.csriptはgeluなど要素ごとに必要な複数の演算を一つのCUDAカーネルで実行することでオーバーヘッドを減らすことができます。
+たとえばgeluは以下のように、xの各要素を1.41421で割って、その結果にerf関数を適用して、&hellip;と複数の計算をします。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gelu</span>(x):
+    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.5</span> <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1.0</span> <span style="color:#f92672">+</span> torch<span style="color:#f92672">.</span>erf(x <span style="color:#f92672">/</span> <span style="color:#ae81ff">1.41421</span>))
+</code></pre></div><p>torch.jit.scriptを使わない場合・使う場合で以下のような違いが出てきます<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>。</p>
+<p><strong>torch.jit.scriptを使わない場合</strong></p>
+<ul>
+<li>カーネルを起動</li>
+<li><strong>グローバルメモリからデータxを読み込む</strong></li>
+<li>x / 1.41421を計算する</li>
+<li><strong>計算結果をグローバルメモリに書き込む</strong></li>
+<li><strong>グローバルメモリからデータx / 1.41421を読み込む</strong></li>
+<li>erf(x / 1.41421)を計算する</li>
+<li><strong>計算結果をグローバルメモリに書き込む</strong></li>
+<li>&hellip;</li>
+<li><strong>計算結果をグローバルメモリに書き込む</strong></li>
+</ul>
+<p><strong>torch.jit.scriptを使う場合</strong></p>
+<ul>
+<li>カーネルを起動</li>
+<li><strong>グローバルメモリからデータxを読み込む</strong></li>
+<li>x / 1.41421を計算する</li>
+<li>erf(x / 1.41421)を計算する</li>
+<li>&hellip;</li>
+<li><strong>計算結果をグローバルメモリに書き込む</strong></li>
+</ul>
+<p>上記のようにカーネルを一つにまとめることで、メモリの読み込み、書き込みのオーバーヘッドを減らすことができます。</p>
+<h2 id="おわり">おわり</h2>
+<p>本記事ではNVIDIAがECCV2020で発表したチュートリアル資料をもとにPyTorchプログラムを高速化するための工夫を紹介しました。
+PyTorchプログラムの処理速度を改善するための機能がPyTorchに実装されており、パフォーマンスに注意が払われていることを非常に感じました。
+私のような利用する側のユーザとしては非常にありがたく、また活用していきたい工夫です。</p>
+<p>最後に、今回紹介したチュートリアルでは取り上げられなかったものの、学習時の消費メモリを削減する方法については以下で紹介しています。
+もしよければこちらも御覧ください。</p>
+<p><a href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">【PyTorch】不要になった計算グラフを削除してメモリを節約</a></p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/">https://developer.nvidia.com/blog/how-optimize-data-transfers-cuda-cc/</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://discuss.pytorch.org/t/what-does-torch-backends-cudnn-benchmark-do/5936/2">https://discuss.pytorch.org/t/what-does-torch-backends-cudnn-benchmark-do/5936/2</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://stackoverflow.com/questions/46256747/can-not-use-both-bias-and-batch-normalization-in-convolution-layers">https://stackoverflow.com/questions/46256747/can-not-use-both-bias-and-batch-normalization-in-convolution-layers</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://twitter.com/karpathy/status/1013245864570073090">https://twitter.com/karpathy/status/1013245864570073090</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5" role="doc-endnote">
+<p><a href="https://tech.preferred.jp/ja/blog/recomputation/">https://tech.preferred.jp/ja/blog/recomputation/</a> <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6" role="doc-endnote">
+<p><a href="https://stackoverflow.com/questions/53305830/cuda-how-does-kernel-fusion-improve-performance-on-memory-bound-applications-on">https://stackoverflow.com/questions/53305830/cuda-how-does-kernel-fusion-improve-performance-on-memory-bound-applications-on</a> <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【自然言語処理】Scheduled samplingによるニューラル言語モデルの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-19T13:34:44&#43;09:00">
+        
+  
+  
+  
+  
+    2020-07-19
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/07/19/scheduled-sampling.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+          【自然言語処理】Kaggleコンペで利用されている文書分類のtips
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-03T16:47:46&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-03
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/Kaggle_logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【PyTorch】限られたメモリにおける大きなバッチサイズでの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-04-05T16:26:26&#43;09:00">
+        
+  
+  
+  
+  
+    2020-04-05
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+          [PyTorch][自然言語処理] より少ないパディングでミニバッチ学習する方法
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-10T16:50:53&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-10
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/pytorch/">pytorch</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/neural_network/">neural_network</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/" data-tooltip="【PyTorch】不要になった計算グラフを削除してメモリを節約">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/" data-tooltip="【PyTorch】不要になった計算グラフを削除してメモリを節約">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F08%2F29%2Fnvidia%25E7%259B%25B4%25E4%25BC%259D%25E3%2581%2582%25E3%2581%25AA%25E3%2581%259F%25E3%2581%25AEpytorch%25E3%2583%2597%25E3%2583%25AD%25E3%2582%25B0%25E3%2583%25A9%25E3%2583%25A0%25E3%2582%2592%25E9%25AB%2598%25E9%2580%259F%25E5%258C%2596%25E3%2581%2599%25E3%2582%258B%25E3%2581%258B%25E3%2582%2582%25E3%2581%2597%25E3%2582%258C%25E3%2581%25AA%25E3%2581%2584tips%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

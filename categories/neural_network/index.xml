@@ -6,10 +6,22 @@
     <description>Recent content in neural_network on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 19 Jul 2020 13:34:44 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 29 Aug 2020 13:16:11 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/neural_network/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips</title>
+      <link>https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/</link>
+      <pubDate>Sat, 29 Aug 2020 13:16:11 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/</guid>
+      <description>&lt;p&gt;本記事では画像認識系の国際会議 &lt;a href=&#34;https://eccv2020.eu/&#34;&gt;ECCV2020&lt;/a&gt;のチュートリアルでNVIDIAが発表した資料 &lt;a href=&#34;https://nvlabs.github.io/eccv2020-mixed-precision-tutorial/files/szymon_migacz-pytorch-performance-tuning-guide.pdf&#34;&gt;PYTORCH PERFORMANCE TUNING GUIDE&lt;/a&gt; の内容をまとめるとともに、理解の助けになるような関連情報を参照します。
+PyTorchは簡単にニューラルネットワークの実装のを容易さだけでなく、処理速度にも注意を払って開発が進められています。
+プログラムにほんの少し修正を加えるだけで高速化できる可能性があります。
+本記事を読み、実践することで、手元のPyTorchプログラム (特にGPUを使った学習処理) を高速化できる可能性があります。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【自然言語処理】Scheduled samplingによるニューラル言語モデルの学習</title>
