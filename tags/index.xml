@@ -6,15 +6,24 @@
     <description>Recent content in Tags on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 29 Aug 2020 13:16:11 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 06 Sep 2020 09:46:04 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>colab</title>
+      <link>https://tma15.github.io/tags/colab/</link>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/colab/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>machine_learning</title>
       <link>https://tma15.github.io/tags/machine_learning/</link>
-      <pubDate>Sat, 29 Aug 2020 13:16:11 +0900</pubDate>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/machine_learning/</guid>
       <description></description>
@@ -23,27 +32,36 @@
     <item>
       <title>neural_network</title>
       <link>https://tma15.github.io/tags/neural_network/</link>
-      <pubDate>Sat, 29 Aug 2020 13:16:11 +0900</pubDate>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/neural_network/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>pytorch</title>
-      <link>https://tma15.github.io/tags/pytorch/</link>
-      <pubDate>Sat, 29 Aug 2020 13:16:11 +0900</pubDate>
+      <title>nlp</title>
+      <link>https://tma15.github.io/tags/nlp/</link>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
-      <guid>https://tma15.github.io/tags/pytorch/</guid>
+      <guid>https://tma15.github.io/tags/nlp/</guid>
       <description></description>
     </item>
     
     <item>
       <title>python</title>
       <link>https://tma15.github.io/tags/python/</link>
-      <pubDate>Sat, 22 Aug 2020 13:27:43 +0900</pubDate>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pytorch</title>
+      <link>https://tma15.github.io/tags/pytorch/</link>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/pytorch/</guid>
       <description></description>
     </item>
     
@@ -134,15 +152,6 @@
       <pubDate>Sat, 25 Jul 2020 10:18:02 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/spreadseet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>https://tma15.github.io/tags/nlp/</link>
-      <pubDate>Sun, 19 Jul 2020 13:34:44 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/nlp/</guid>
       <description></description>
     </item>
     

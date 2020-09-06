@@ -12,6 +12,22 @@
     
     
     <item>
+      <title>【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)</title>
+      <link>https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</link>
+      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</guid>
+      <description>&lt;p&gt;本記事では日本語を対象としたLSTMに基づく文書分類モデルをPyTorchコード付きで紹介します。
+以前、LSTMを用いた言語モデルについて紹介しました (
+&lt;a href=&#34;https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/&#34;&gt;[自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)&lt;/a&gt;
+)
+が、ニューラルネットワークを用いた自然言語処理の応用例として文書分類のほうがイメージしやすそうなので、こちらについても紹介したいと思います。
+実験にはライブドアコーパスから作成した、記事の見出しに対して9つのカテゴリのうち、どれか1つが付与されたデータを使います。
+本記事を読むことで日本語を対象に、ニューラルネットワークを活用した自然言語処理の概要を知ることができます。
+また、PyTorchで事前学習済みの単語分散表現を扱う方法も紹介しています。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips</title>
       <link>https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/</link>
       <pubDate>Sat, 29 Aug 2020 13:16:11 +0900</pubDate>
