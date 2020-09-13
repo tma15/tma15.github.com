@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>active_learning on Now is better than never.</title>
+    <link>https://tma15.github.io/tags/active_learning/</link>
+    <description>Recent content in active_learning on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 13 Sep 2020 08:57:58 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/active_learning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>【機械学習】学習データ作成作業を効率化する能動学習OSSまとめ</title>
+      <link>https://tma15.github.io/blog/2020/09/13/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%AD%A6%E7%BF%92%E3%83%87%E3%83%BC%E3%82%BF%E4%BD%9C%E6%88%90%E4%BD%9C%E6%A5%AD%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%E3%81%99%E3%82%8B%E8%83%BD%E5%8B%95%E5%AD%A6%E7%BF%92oss%E3%81%BE%E3%81%A8%E3%82%81/</link>
+      <pubDate>Sun, 13 Sep 2020 08:57:58 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/09/13/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%AD%A6%E7%BF%92%E3%83%87%E3%83%BC%E3%82%BF%E4%BD%9C%E6%88%90%E4%BD%9C%E6%A5%AD%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%E3%81%99%E3%82%8B%E8%83%BD%E5%8B%95%E5%AD%A6%E7%BF%92oss%E3%81%BE%E3%81%A8%E3%82%81/</guid>
+      <description>&lt;p&gt;本記事では機械学習モデルを効率的に構築するためのアプローチのひとつである、能動学習を利用可能なOSSについて調査し、その概要をまとめます。
+機械学習を活用するときは、モデルを構築するために必要な学習データをどのように作成するかという点を検討しなければなりません。
+コンペなどで利用されるベンチマークデータでは規模の大きな学習データが用意されていますが、自分のプロジェクトで機械学習を利用するために必要な学習データがすでに揃っているというケースはあまり多くありません。
+効率的に学習データを作成するための手法として、能動学習というものがあります。
+能動学習は、予め学習済みの機械学習モデルが予測結果に自信のない事例に対して、人の作業者にラベル付を依頼し、新しく作成された学習データでモデルを再学習するような処理の流れになります。
+やみくもに事例にラベルをつけるのではなく、現在のモデルが失敗しやすい事例に対してラベルを付与するため、効率的な学習データの構築が期待できます。
+本記事を読むことで、状況に合わせたOSSの選定に役立てられます。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
