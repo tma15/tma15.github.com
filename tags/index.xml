@@ -6,10 +6,19 @@
     <description>Recent content in Tags on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 13 Sep 2020 08:57:58 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 19 Sep 2020 12:23:28 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>book</title>
+      <link>https://tma15.github.io/tags/book/</link>
+      <pubDate>Sat, 19 Sep 2020 12:23:28 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/tags/book/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>active_learning</title>
@@ -71,15 +80,6 @@
       <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
       <guid>https://tma15.github.io/tags/pytorch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>book</title>
-      <link>https://tma15.github.io/tags/book/</link>
-      <pubDate>Sat, 15 Aug 2020 14:51:07 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/tags/book/</guid>
       <description></description>
     </item>
     
