@@ -6,10 +6,23 @@
     <description>Recent content in Posts on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 19 Sep 2020 12:23:28 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 25 Sep 2020 21:50:47 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Python】YouTube APIから動画情報を取得</title>
+      <link>https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/</link>
+      <pubDate>Fri, 25 Sep 2020 21:50:47 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/</guid>
+      <description>&lt;p&gt;本記事ではPythonで&lt;a href=&#34;https://developers.google.com/youtube/v3/docs/&#34;&gt;YouTube Data API v3&lt;/a&gt;を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣</title>

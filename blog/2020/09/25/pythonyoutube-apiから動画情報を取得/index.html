@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="python, youtube">
+<meta name="description" content="本記事ではPythonでYouTube Data API v3を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。">
+
+
+<meta property="og:description" content="本記事ではPythonでYouTube Data API v3を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Python】YouTube APIから動画情報を取得">
+<meta name="twitter:title" content="【Python】YouTube APIから動画情報を取得">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本記事ではPythonでYouTube Data API v3を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。">
+<meta name="twitter:description" content="本記事ではPythonでYouTube Data API v3を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-09-25T21:50:47">
+  
+  
+    <meta property="article:modified_time" content="2020-09-25T21:50:47">
+  
+  
+  
+    
+      <meta property="article:section" content="python">
+    
+      <meta property="article:section" content="youtube">
+    
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+      <meta property="article:tag" content="youtube">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【Python】YouTube APIから動画情報を取得</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】YouTube APIから動画情報を取得</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/13/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%AD%A6%E7%BF%92%E3%83%87%E3%83%BC%E3%82%BF%E4%BD%9C%E6%88%90%E4%BD%9C%E6%A5%AD%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%E3%81%99%E3%82%8B%E8%83%BD%E5%8B%95%E5%AD%A6%E7%BF%92oss%E3%81%BE%E3%81%A8%E3%82%81/" class="sidebar-button-link" style="color:white; list-style:none;">【機械学習】学習データ作成作業を効率化する能動学習OSSまとめ</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/" class="sidebar-button-link" style="color:white; list-style:none;">【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips</a></li>
+    
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【Python】YouTube APIから動画情報を取得
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-25T21:50:47&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-25
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/youtube">youtube</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本記事ではPythonで<a href="https://developers.google.com/youtube/v3/docs/">YouTube Data API v3</a>を介して動画を検索する方法について紹介します。
+ここ最近のYouTubeの盛り上がりによって多種多様で高品質な動画を無料で楽しむことができるようになってきました。
+これらの動画情報をプログラミングで自動的に収集し、閲覧したり分析できるようになると便利ですよね。
+そこで実際に動画情報を検索するPythonコードとともに利用例を説明します。
+本記事を読むことで、YouTube動画の検索方法、検索対象のフィルタリングに加えて、検索では省略されてしまう概要欄全文の取得方法がわかります。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#youtube-apiキーの発行">YouTube APIキーの発行</a></li>
+    <li><a href="#youtube-apiキーの確認">YouTube APIキーの確認</a></li>
+    <li><a href="#google-apiのpythonクライアントをインストール">google APIのPythonクライアントをインストール</a></li>
+    <li><a href="#キーワード検索">キーワード検索</a>
+      <ul>
+        <li><a href="#and検索or検索">AND検索、OR検索</a></li>
+        <li><a href="#動画の長さをフィルタリングする">動画の長さをフィルタリングする</a></li>
+        <li><a href="#動画の投稿日時をフィルタリングする">動画の投稿日時をフィルタリングする</a></li>
+      </ul>
+    </li>
+    <li><a href="#概要欄全文の取得">概要欄全文の取得</a></li>
+    <li><a href="#おわり">おわり</a></li>
+  </ul>
+</nav>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<p>本記事では以下の環境で動作確認しています。</p>
+<ul>
+<li>MacOS</li>
+<li>Python 3.7.3</li>
+<li>google-api-python-client 1.12.2</li>
+</ul>
+<h2 id="youtube-apiキーの発行">YouTube APIキーの発行</h2>
+<ul>
+<li><a href="https://cloud.google.com/console">https://cloud.google.com/console</a>を開く</li>
+<li>「プロジェクトを選択」で新しいプロジェクトを作成する</li>
+<li>「APIとサービス」の「ライブラリ」からYouTube Data API v3を検索する</li>
+<li>YouTube Data API v3のページでAPIを有効にする</li>
+<li>「APIとサービス」の「認証情報」からAPIキーを作成する</li>
+</ul>
+<h2 id="youtube-apiキーの確認">YouTube APIキーの確認</h2>
+<ul>
+<li><a href="https://cloud.google.com/console">https://cloud.google.com/console</a>を開く</li>
+<li>「プロジェクトを選択」でYouTube APIを利用するプロジェクトを選択する</li>
+<li>「APIとサービス」の「認証情報」からAPIキーを確認する</li>
+</ul>
+<h2 id="google-apiのpythonクライアントをインストール">google APIのPythonクライアントをインストール</h2>
+<pre><code>pip install --upgrade google-api-python-client
+</code></pre><p>これでYouTube Data API v3を利用する準備ができました。</p>
+<h2 id="キーワード検索">キーワード検索</h2>
+<p>YouTube Data APIでは動画に対するさまざまなアクションが可能です。
+その中で、今回は検索に焦点を当てます。</p>
+<p>検索ではビデオ、チャンネル、再生リストを対象にキーワードに関連する情報を収集できます。
+デフォルトではこれらすべてが検索対象ですが、特定の種類に限定して検索することも可能です。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> apiclient.discovery <span style="color:#f92672">import</span> build
+
+
+<span style="color:#75715e"># Set DEVELOPER_KEY to the API key value from the APIs &amp; auth &gt; Registered apps</span>
+<span style="color:#75715e"># tab of</span>
+<span style="color:#75715e">#   https://cloud.google.com/console</span>
+<span style="color:#75715e"># Please ensure that you have enabled the YouTube Data API for your project.</span>
+DEVELOPER_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;REPLACE_ME&#39;</span>
+YOUTUBE_API_SERVICE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;youtube&#39;</span>
+YOUTUBE_API_VERSION <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;v3&#39;</span>
+
+youtube <span style="color:#f92672">=</span> build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey<span style="color:#f92672">=</span>DEVELOPER_KEY)
+
+<span style="color:#75715e"># https://developers.google.com/youtube/v3/docs/search/list?apix=true#try-it</span>
+search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,  <span style="color:#75715e"># idも指定可能。idとsnippetの両方を対象にする場合は&#39;id,snippet&#39;と指定する。</span>
+    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
+    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, <span style="color:#75715e"># 最大で50件</span>
+    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCountも指定可能。</span>
+    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,  <span style="color:#75715e"># channel, playlistも指定可能。複数指定する場合はカンマで区切って与える。</span>
+)<span style="color:#f92672">.</span>execute()
+</code></pre></div><h3 id="and検索or検索">AND検索、OR検索</h3>
+<p>AND検索は<code>+</code>を区切り文字としてキーワードを結合します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ+肩&#39;</span>,
+    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
+    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+)<span style="color:#f92672">.</span>execute()
+</code></pre></div><p>OR検索では<code>|</code>を区切り文字としてキーワードを結合します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ|肩&#39;</span>,
+    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
+    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+)<span style="color:#f92672">.</span>execute()
+</code></pre></div><p>AND検索では肩の筋トレに関する動画が検索されますが、OR検索は筋トレもしくは肩に関する動画が対象となるので、<a href="https://www.youtube.com/watch?v=lDur3mBHXSI">香水／瑛人　MV再現 (covered by 瑛肩)</a>が検索されるような違いが出ます。</p>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h3 id="動画の長さをフィルタリングする">動画の長さをフィルタリングする</h3>
+<p>動画の長さを指定してフィルタリングするには以下のように<code>videoDuration</code>を指定します。</p>
+<pre><code>search_response = youtube.search().list(
+    part='snippet',
+    q='筋トレ',
+    maxResults=50,
+    order='viewCount',
+    type='video',
+    videoDuration='long'  # longは20分以上、mediumは4分以上20分以下、shortは4分未満の動画を検索対象とする。
+).execute()
+</code></pre><h3 id="動画の投稿日時をフィルタリングする">動画の投稿日時をフィルタリングする</h3>
+<p>動画の投稿日時を基準に動画をフィルタリングするには<code>publishedAfter</code>もしくは<code>publishedBeforer</code>を指定します。
+<code>publishedBefore</code>はその日時以前に投稿された動画、<code>publishedAfter</code>はその日時以降に投稿された動画のみを検索対象とします。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
+
+
+day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date<span style="color:#f92672">.</span>fromisoformat(<span style="color:#e6db74">&#39;2020-09-24&#39;</span>)
+day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>strftime(day, <span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">T%H:%M:%S.</span><span style="color:#e6db74">%f</span><span style="color:#e6db74">Z&#39;</span>)
+search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
+    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCount, viewCount</span>
+    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+    publishedAfter<span style="color:#f92672">=</span>day,  <span style="color:#75715e"># 2020年9月24日0時以降に投稿された動画を検索対象とする。</span>
+)<span style="color:#f92672">.</span>execute()
+</code></pre></div><p>他にも指定可能なパラメータは<a href="https://developers.google.com/youtube/v3/docs/search/list?hl=ja#usage">公式リファレンス</a>に説明があるので、自分が欲しい情報を取得できるかどうか調べたい方はご参照ください。</p>
+<h2 id="概要欄全文の取得">概要欄全文の取得</h2>
+<p>上記では検索APIを利用して動画情報を取得する方法を説明しました。</p>
+<p>しかしながら、検索APIから取得できる動画の情報の中で、概要欄は長い場合、本文が省略され、末尾が<code>...</code>で終わっていることがあります。
+そのため、概要欄全文が欲しい場合は検索APIだけでは対応できません。</p>
+<p>概要欄全文を取得するには、以下のようにvideoIdを指定して以下のように動画情報を取得する必要があります。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">video_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;VIDEO_ID&#39;</span>
+
+video_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>videos()<span style="color:#f92672">.</span>list(
+    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+    id<span style="color:#f92672">=</span>video_id,
+)<span style="color:#f92672">.</span>execute()
+</code></pre></div><p>videoIdは<code>search_response</code>の中に含まれており、<code>search_response['items'][0]['id']['videoId']</code>のように取得できます。</p>
+<p>動画を検索するコードと上記のコードを組み合わせることで概要欄全文を取得できるようになります。</p>
+<h2 id="おわり">おわり</h2>
+<p>本記事ではPythonを使ったYouTube Data APIの利用方法を紹介しました。
+AND、OR検索の他に、動画の長さや投稿日時によるフィルタリング方法を解説しました。
+また概要欄全文を取得する方法についても解説しました。</p>
+<p>本記事ではYouTubeに投稿される動画の検索を焦点に当てて紹介しましたが、他の機能は以下のページが参考になります。</p>
+<p><a href="https://github.com/youtube/api-samples/tree/master/python">https://github.com/youtube/api-samples/tree/master/python</a></p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-06T09:46:04&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-06
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/09/06/document-classification.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">
+          【PyTorch】不要になった計算グラフを削除してメモリを節約
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-08-22T13:27:43&#43;09:00">
+        
+  
+  
+  
+  
+    2020-08-22
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/">
+          【Python】Twitter APIを利用してツイートを検索（画像、いいね、リツイートの取得も）
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-08-02T08:55:14&#43;09:00">
+        
+  
+  
+  
+  
+    2020-08-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/twitter">twitter</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scraping">scraping</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/Twitter_Logo_Blue.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/">
+          【無料でデータ収集】Herokuで収集したツイートをスプレッドシートに蓄積する
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-25T10:18:02&#43;09:00">
+        
+  
+  
+  
+  
+    2020-07-25
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/heroku">heroku</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/spreadseet">spreadseet</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scraping">scraping</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/twitter">twitter</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/07/25/Heroku-Spreadsheet-Twitter.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+          【自然言語処理】公開されているデータセットを簡単に使うライブラリ (nlp) の紹介
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-17T20:40:22&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-17
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/05/books-1281581_1280.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/youtube/">youtube</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/" data-tooltip="【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/" data-tooltip="【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F09%2F25%2Fpythonyoutube-api%25E3%2581%258B%25E3%2582%2589%25E5%258B%2595%25E7%2594%25BB%25E6%2583%2585%25E5%25A0%25B1%25E3%2582%2592%25E5%258F%2596%25E5%25BE%2597%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
