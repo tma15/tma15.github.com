@@ -6,10 +6,22 @@
     <description>Recent content in paper on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 04 Sep 2019 18:19:54 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2020 09:51:17 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/paper/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【自然言語処理】 あなたのBERTに対するfine-tuningはなぜ失敗するのか 【論文紹介】</title>
+      <link>https://tma15.github.io/blog/2020/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEbert%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8Bfine-tuning%E3%81%AF%E3%81%AA%E3%81%9C%E5%A4%B1%E6%95%97%E3%81%99%E3%82%8B%E3%81%AE%E3%81%8B-%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</link>
+      <pubDate>Sat, 03 Oct 2020 09:51:17 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEbert%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8Bfine-tuning%E3%81%AF%E3%81%AA%E3%81%9C%E5%A4%B1%E6%95%97%E3%81%99%E3%82%8B%E3%81%AE%E3%81%8B-%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</guid>
+      <description>&lt;p&gt;本記事では&lt;a href=&#34;https://arxiv.org/abs/2006.04884&#34;&gt;On the Stability of Fine-tuning BERT: Misconceptions, Explanations, and Strong Baselines&lt;/a&gt;という論文を紹介します。
+この論文ではBERTのfine-tuningが安定しにくいという問題に対して、単純で良い結果が得られる方法を提案しています。
+またBERTのfine-tuningが安定しにくいという問題を細かく分析しており、参考になったのでそのあたりについてもまとめます。
+本記事を読むことでBERTを自分の問題でfine-tuningするときの施策を立てやすくなるかと思います。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>ニューラルネットの出力ベクトルを二値化して検索を高速化させる方法</title>

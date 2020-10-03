@@ -6,10 +6,37 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Fri, 25 Sep 2020 21:50:47 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 03 Oct 2020 09:51:17 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>neural_network</title>
+      <link>https://tma15.github.io/categories/neural_network/</link>
+      <pubDate>Sat, 03 Oct 2020 09:51:17 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/neural_network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nlp</title>
+      <link>https://tma15.github.io/categories/nlp/</link>
+      <pubDate>Sat, 03 Oct 2020 09:51:17 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>paper</title>
+      <link>https://tma15.github.io/categories/paper/</link>
+      <pubDate>Sat, 03 Oct 2020 09:51:17 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/paper/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>python</title>
@@ -62,24 +89,6 @@
       <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/google-colab/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>neural_network</title>
-      <link>https://tma15.github.io/categories/neural_network/</link>
-      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/neural_network/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>https://tma15.github.io/categories/nlp/</link>
-      <pubDate>Sun, 06 Sep 2020 09:46:04 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/nlp/</guid>
       <description></description>
     </item>
     
@@ -251,15 +260,6 @@
       <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/acl2019/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>paper</title>
-      <link>https://tma15.github.io/categories/paper/</link>
-      <pubDate>Wed, 04 Sep 2019 18:19:54 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/paper/</guid>
       <description></description>
     </item>
     
