@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="python, nlp, pytorch, scikit-learn">
+<meta name="description" content="本記事では文書分類に特化した自然言語処理ライブラリの開発について紹介します。
+文書分類器一つを作るにも、前処理、開発、評価といった一連のプログラム開発に加えて、ニューラルネットワークに基づくモデルとそれ以外の機械学習アルゴリズムのどちらが良いのかといった比較を検討する必要もあったりと、かかる手間は少なくありません。
+そこで、これらのプログラム開発をできるだけ簡易化するために開発した自然言語処理ライブラリを紹介します。
+本記事を読むことで簡単に文書分類器を構築するためのライブラリの利用方法を理解できます。">
+
+
+<meta property="og:description" content="本記事では文書分類に特化した自然言語処理ライブラリの開発について紹介します。
+文書分類器一つを作るにも、前処理、開発、評価といった一連のプログラム開発に加えて、ニューラルネットワークに基づくモデルとそれ以外の機械学習アルゴリズムのどちらが良いのかといった比較を検討する必要もあったりと、かかる手間は少なくありません。
+そこで、これらのプログラム開発をできるだけ簡易化するために開発した自然言語処理ライブラリを紹介します。
+本記事を読むことで簡単に文書分類器を構築するためのライブラリの利用方法を理解できます。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】">
+<meta name="twitter:title" content="【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本記事では文書分類に特化した自然言語処理ライブラリの開発について紹介します。
+文書分類器一つを作るにも、前処理、開発、評価といった一連のプログラム開発に加えて、ニューラルネットワークに基づくモデルとそれ以外の機械学習アルゴリズムのどちらが良いのかといった比較を検討する必要もあったりと、かかる手間は少なくありません。
+そこで、これらのプログラム開発をできるだけ簡易化するために開発した自然言語処理ライブラリを紹介します。
+本記事を読むことで簡単に文書分類器を構築するためのライブラリの利用方法を理解できます。">
+<meta name="twitter:description" content="本記事では文書分類に特化した自然言語処理ライブラリの開発について紹介します。
+文書分類器一つを作るにも、前処理、開発、評価といった一連のプログラム開発に加えて、ニューラルネットワークに基づくモデルとそれ以外の機械学習アルゴリズムのどちらが良いのかといった比較を検討する必要もあったりと、かかる手間は少なくありません。
+そこで、これらのプログラム開発をできるだけ簡易化するために開発した自然言語処理ライブラリを紹介します。
+本記事を読むことで簡単に文書分類器を構築するためのライブラリの利用方法を理解できます。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-10-31T10:58:05">
+  
+  
+    <meta property="article:modified_time" content="2020-10-31T10:58:05">
+  
+  
+  
+    
+      <meta property="article:section" content="python">
+    
+      <meta property="article:section" content="nlp">
+    
+      <meta property="article:section" content="pytorch">
+    
+      <meta property="article:section" content="scikit-learn">
+    
+  
+  
+    
+      <meta property="article:tag" content="python">
+    
+      <meta property="article:tag" content="nlp">
+    
+      <meta property="article:tag" content="pytorch">
+    
+      <meta property="article:tag" content="scikit-learn">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/brain-4863428_640.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/brain-4863428_640.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】シリコンバレー発 スキルの掛け算で年収が増える 複業の思考法</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEbert%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8Bfine-tuning%E3%81%AF%E3%81%AA%E3%81%9C%E5%A4%B1%E6%95%97%E3%81%99%E3%82%8B%E3%81%AE%E3%81%8B-%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】 あなたのBERTに対するfine-tuningはなぜ失敗するのか 【論文紹介】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】YouTube APIから動画情報を取得</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣</a></li>
+    
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-10-31T10:58:05&#43;09:00">
+        
+  
+  
+  
+  
+    2020-10-31
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本記事では文書分類に特化した自然言語処理ライブラリの開発について紹介します。
+文書分類器一つを作るにも、前処理、開発、評価といった一連のプログラム開発に加えて、ニューラルネットワークに基づくモデルとそれ以外の機械学習アルゴリズムのどちらが良いのかといった比較を検討する必要もあったりと、かかる手間は少なくありません。
+そこで、これらのプログラム開発をできるだけ簡易化するために開発した自然言語処理ライブラリを紹介します。
+本記事を読むことで簡単に文書分類器を構築するためのライブラリの利用方法を理解できます。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景">背景</a></li>
+    <li><a href="#開発したライブラリの紹介">開発したライブラリの紹介</a></li>
+    <li><a href="#主な使い方">主な使い方</a></li>
+    <li><a href="#おわり">おわり</a></li>
+  </ul>
+</nav>
+
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<ins class="adsbygoogle"
+     style="display:block; text-align:center;"
+     data-ad-layout="in-article"
+     data-ad-format="fluid"
+     data-ad-client="ca-pub-5663917297524414"
+     data-ad-slot="8357823829"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<h2 id="背景">背景</h2>
+<p>文書分類とは、与えられた文書に対して、事前に定義したラベル集合から適切なラベルを割り当てるような自然言語処理タスクです。
+文書に対して自動でラベルを予測できる文書分類器は、自然言語処理を活用したモデルの中でもよく実応用に利用されているものの一つではないかと思います。</p>
+<p>現在の文書分類アルゴリズムは機械学習に基づくものが主流です。
+従来からよく用いられているSupport Vector Machines (SVM) やRandom Forestなどに加えて、最近ではニューラルネットワークに基づく文書分類器も提案され、ベンチマークデータにおいて高精度な結果が得られることが報告されています。
+また、このようなアルゴリズムの高度化・多様化を支えている背景として、<a href="https://scikit-learn.org/">scikit-learn</a>や<a href="https://pytorch.org/">PyTorch</a>といった機械学習のフレームワークの発展を挙げることができます。</p>
+<p>このように機械学習フレームワークの発展、アルゴリズムの高精度化が進んできたために、高品質な文書分類モデルを構築するための土台は整備がなされています。
+しかしながら、これらの土台は依然として自然言語処理および機械学習の知識を有したプログラマがいることを前提としており、非専門家からするとまだまだ障壁があると感じられます。</p>
+<p>たとえば、少人数の会社や個人開発において文書分類モデルを構築する作業は、開発内容全体からするとわずかであるのにも関わらず、専門的な知識を要するため、高コストとなりがちです。</p>
+<p>さらに、SVMなどのアルゴリズムよりも高精度であると報告されていることが多いニューラルネットワークも、実際に適用する対象の文書分類タスクでも常にそうであるという保証はありません。
+ニューラルネットワークとそれ以外のアルゴリズムで実際にどちらが高精度なのかを比較するのも、それぞれのアルゴリズムに適したフレームワークを使ってモデルを学習するプログラムを開発する必要があるため、開発コストがかさみます。</p>
+<p>また実応用の面では、場合によっては精度だけでなく予測にかかる処理速度とのトレードオフも考えなければいけないこともあります。
+仮に高精度であっても処理速度がアプリケーションの要件を満たさなければ使いづらいですよね。</p>
+<h2 id="開発したライブラリの紹介">開発したライブラリの紹介</h2>
+<p>上記の背景を鑑みて、アルゴリズムに依存したフレームワークに特化したプログラムを書かずに文書分類モデルを構築でき、かつそれらを精度の面だけでなく予測にかかる処理速度も比較できるようになったら便利なのではないかと思い、日曜大工の一環としてライブラリの開発をはじめました。</p>
+<p><a href="https://github.com/tma15/bunruija">https://github.com/tma15/bunruija</a></p>
+<p><strong>設定ファイルとデータを用意すればモデルを用意できる</strong>:
+利用者は、前処理、モデルのハイパーパラメータを記述した設定ファイル (yaml形式) と、学習データ・開発データ・評価データを用意すれば良いように設計しました。
+実際の前処理、学習、評価部分はすべてライブラリがおこなうため、利用者はこれらの処理に対するプログラム開発が不要です。</p>
+<p><strong>ニューラルネットワークとそれ以外のアルゴリズムの比較が簡単</strong>:
+このライブラリで利用可能なアルゴリズムはSVMやRandom Forestなどのアルゴリズムに加えて、ニューラルネットワークとなっています<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
+これらのモデルの切り替えは設定ファイルでモデル名を指定するだけです。
+そのため利用者は簡単にニューラルネットワークとそれ以外のアルゴリズムを比較することができます。</p>
+<p><strong>設定ファイルを残しておけばモデルの再現が容易</strong>:
+前処理やモデルの学習部分で指定するハイパーパラメータは設定ファイルに記述されています。
+文書分類の実験を再現したい場合、どういった設定をしたか記録を残しておかなければ難しくなってしまうのですが、ハイパーパラメータは設定ファイルに残されているため、他の人は再実験が容易になります。</p>
+<h2 id="主な使い方">主な使い方</h2>
+<pre><code>bunruija-preprocess -y svm.yaml 
+bunruija-train -y svm.yaml 
+bunruija-evaluate -y svm.yaml 
+</code></pre><p>本ライブラリの利用手順は上記コマンドの3ステップからなります。
+いずれのステップでも設定ファイルをコマンド引数として与えます。</p>
+<p>たとえば<code>svm.yaml</code>を以下のような内容となっています。</p>
+<pre><code>preprocess:
+  data:
+    train: train.csv
+    dev: dev.csv
+    test: test.csv
+
+  vectorizer:
+    type: tfidf
+    args:
+      max_features: 10000
+      min_df: 3
+      ngram_range:
+        - 1
+        - 3
+
+  tokenizer:
+    type: mecab
+    args:
+      lemmatize: true
+      exclude_pos:
+        - 助詞
+        - 助動詞
+
+bin_dir: svm-model
+
+classifier:
+  type: svm
+  args:
+    verbose: false
+    C: 10.
+</code></pre><p>各ステップの入出力の概要図を以下に示します。</p>
+<br>
+
+ 
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+ 
+  
+  
+  
+  
+    
+  
+    
+      
+    
+  
+
+<div class="figure center" >
+  
+    <a class="fancybox" href="https://tma15.github.io/img/2020/10/31/bunruija-pipeline.png" title="各処理の入出力を示す概要図" data-fancybox-group="">
+  
+    <img class="fig-img" src="https://tma15.github.io/img/2020/10/31/bunruija-pipeline.png"  alt="各処理の入出力を示す概要図">
+  
+    </a>
+  
+   
+    <span class="caption">各処理の入出力を示す概要図</span>
+  
+</div>
+
+  <div style="clear:both;"></div>
+
+<p>まず、前処理によって生データを特徴ベクトルに変換した前処理済みデータに変換します。
+生データは文書とそれに対する正解ラベルが付与されたものになっています。
+特徴ベクトルは形態素解析によって得られた単語列に基づいて構築するもので、SVMであればtfidf、ニューラルネットワークであれば単語をidに変換した系列となります。
+学習データ、開発データ、評価データのそれぞれについて前処理を適用します。</p>
+<p>その後、学習処理では前処理した結果を用いて文書分類器を学習し、学習済みの文書分類器をファイルに保存します。</p>
+<p>最後に、前処理済み評価データを用いて学習済み文書分類器の精度及び予測速度を評価します。</p>
+<h2 id="おわり">おわり</h2>
+<p>本記事では文書分類に特化したPythonによる自然言語処理ライブラリを紹介しました。
+日曜大工の一環として主に週末の空いた時間に作成しているため、開発速度は遅いのですが、こうしたライブラリ開発は勉強になるので少しずつ実装を進めるとともに、これを使った応用も検討してみたいと思います。</p>
+<p>最後に、もし面白い取り組みだと思ったらstarをいただけるとモチベーション向上につながりますのでよろしくお願いします。</p>
+<p><a href="https://github.com/tma15/bunruija">https://github.com/tma15/bunruija</a></p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>ニューラルネットワークの学習ではGoogle ColabでのGPU学習にも対応しています。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-06T09:46:04&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-06
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/09/06/document-classification.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">
+          【PyTorch】不要になった計算グラフを削除してメモリを節約
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-08-22T13:27:43&#43;09:00">
+        
+  
+  
+  
+  
+    2020-08-22
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+          【自然言語処理】公開されているデータセットを簡単に使うライブラリ (nlp) の紹介
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-17T20:40:22&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-17
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/05/books-1281581_1280.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+          【PyTorch】DataLoaderのミニバッチ化の仕組み
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-02T16:26:18&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/pytorch/">pytorch</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/scikit-learn/">scikit-learn</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/" data-tooltip="【書評】シリコンバレー発 スキルの掛け算で年収が増える 複業の思考法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/" data-tooltip="【書評】シリコンバレー発 スキルの掛け算で年収が増える 複業の思考法">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F10%2F31%2F%25E8%2587%25AA%25E7%2584%25B6%25E8%25A8%2580%25E8%25AA%259E%25E5%2587%25A6%25E7%2590%2586%25E6%2596%2587%25E6%259B%25B8%25E5%2588%2586%25E9%25A1%259E%25E3%2581%25AB%25E7%2589%25B9%25E5%258C%2596%25E3%2581%2597%25E3%2581%259Fpython%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%2596%25E3%2583%25A9%25E3%2583%25AA%25E3%2582%2592%25E4%25BD%259C%25E3%2582%258A%25E5%25A7%258B%25E3%2582%2581%25E3%2581%25BE%25E3%2581%2597%25E3%2581%259F%25E3%2583%2597%25E3%2583%25AD%25E3%2582%25B0%25E3%2583%25A9%25E3%2583%25A0%25E3%2581%25BB%25E3%2581%25BC%25E4%25B8%258D%25E8%25A6%2581%25E3%2581%25A7%25E4%25BD%25BF%25E3%2581%2588%25E3%2581%25BE%25E3%2581%2599%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
