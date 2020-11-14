@@ -6,10 +6,21 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 31 Oct 2020 10:58:05 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 14 Nov 2020 15:01:41 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Python】argparseの使い方 (入門編)</title>
+      <link>https://tma15.github.io/blog/2020/11/14/pythonargparse%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9-%E5%85%A5%E9%96%80%E7%B7%A8/</link>
+      <pubDate>Sat, 14 Nov 2020 15:01:41 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2020/11/14/pythonargparse%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9-%E5%85%A5%E9%96%80%E7%B7%A8/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://docs.python.org/ja/3/library/argparse.html&#34;&gt;argparse&lt;/a&gt;はPythonプログラムを実行する際の引数を解析し、それらの引数をPythonプログラム内部で利用できるようにするためのライブラリです。
+コマンドラインから引数を受け付けるように実装することで、汎用性が高いプログラムを提供できるようになります。
+本記事ではargparseの使い方の中でもよく使う基本的な利用方法をサンプルコード付きでまとめました。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】</title>
