@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="nlp, python, scikit-learn">
+<meta name="description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
+日本語テキストを対象とする場合、日本語の形態素解析器であるMeCabのPythonラッパーが提供するTaggerを利用したオブジェクトをtokenizerと指定することがあるのではないでしょうか。
+tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
+本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
+本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。">
+
+
+<meta property="og:description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
+日本語テキストを対象とする場合、日本語の形態素解析器であるMeCabのPythonラッパーが提供するTaggerを利用したオブジェクトをtokenizerと指定することがあるのではないでしょうか。
+tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
+本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
+本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法">
+<meta name="twitter:title" content="【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
+日本語テキストを対象とする場合、日本語の形態素解析器であるMeCabのPythonラッパーが提供するTaggerを利用したオブジェクトをtokenizerと指定することがあるのではないでしょうか。
+tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
+本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
+本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。">
+<meta name="twitter:description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
+日本語テキストを対象とする場合、日本語の形態素解析器であるMeCabのPythonラッパーが提供するTaggerを利用したオブジェクトをtokenizerと指定することがあるのではないでしょうか。
+tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
+本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
+本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2020-11-22T11:28:10">
+  
+  
+    <meta property="article:modified_time" content="2020-11-22T11:28:10">
+  
+  
+  
+    
+      <meta property="article:section" content="nlp">
+    
+      <meta property="article:section" content="python">
+    
+      <meta property="article:section" content="scikit-learn">
+    
+  
+  
+    
+      <meta property="article:tag" content="nlp">
+    
+      <meta property="article:tag" content="python">
+    
+      <meta property="article:tag" content="scikit-learn">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】scikit-learnでtfidfとそれ以外の特徴量を組み合わせる</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/14/pythonargparse%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9-%E5%85%A5%E9%96%80%E7%B7%A8/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】argparseの使い方 (入門編)</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】シリコンバレー発 スキルの掛け算で年収が増える 複業の思考法</a></li>
+    
+    </ul>
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-11-22T11:28:10&#43;09:00">
+        
+  
+  
+  
+  
+    2020-11-22
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>scikit-learnの<a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer</a>ではテキストを単語分割するためのtokenizerを与えることができます。
+日本語テキストを対象とする場合、日本語の形態素解析器である<a href="https://taku910.github.io/mecab/">MeCab</a>のPythonラッパーが提供するTaggerを利用したオブジェクトをtokenizerと指定することがあるのではないでしょうか。
+tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
+本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
+本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pickleで保存するときにエラーとなるプログラム">pickleで保存するときにエラーとなるプログラム</a></li>
+    <li><a href="#pickleunpickle時の挙動を記述するための情報">pickle/unpickle時の挙動を記述するための情報</a></li>
+    <li><a href="#pickle化可能なサンプル">pickle化可能なサンプル</a></li>
+    <li><a href="#おわり">おわり</a></li>
+  </ul>
+</nav>
+<p>本記事では以下のバージョンを用いています。</p>
+<pre><code>scikit-learn==0.23.2
+mecab-python3==0.996.5
+</code></pre><h2 id="pickleで保存するときにエラーとなるプログラム">pickleで保存するときにエラーとなるプログラム</h2>
+<p>試しに<code>MeCabb.Tagger</code>を使って分かち書きをおこなうクラスを定義して、<code>TfidfVectorizer</code>の<code>tokenizer</code>に指定したうえで、<code>pickle</code>で保存してみます。
+<code>tokenizer</code>に<code>MeCab.Tagger</code>を利用したオブジェクトを指定した<code>TfidfVectorizer</code>は、<code>pickle.dump</code>で保存しようとすると以下のようなエラーが起きます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+
+<span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
+<span style="color:#f92672">import</span> MeCab
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Owakati&#39;</span>):
+        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
+        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
+
+    <span style="color:#66d9ef">def</span> __call__(self, text):
+        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
+        <span style="color:#66d9ef">return</span> ret
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    v <span style="color:#f92672">=</span> TfidfVectorizer(tokenizer<span style="color:#f92672">=</span>T())
+
+    texts <span style="color:#f92672">=</span> [
+        <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
+    ]
+
+    v<span style="color:#f92672">.</span>fit(texts)
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        pickle<span style="color:#f92672">.</span>dump(v, f)
+</code></pre></div><pre><code>Traceback (most recent call last):
+  File &quot;main.py&quot;, line 41, in &lt;module&gt;
+    pickle.dump(t, f)
+TypeError: cannot pickle 'Tagger' object
+</code></pre><p>これはMeCabのPythonラッパーはSWIGで作成されており、MeCabのTaggerはpickle化がサポートされていないためです。</p>
+<h2 id="pickleunpickle時の挙動を記述するための情報">pickle/unpickle時の挙動を記述するための情報</h2>
+<ul>
+<li><a href="https://qiita.com/s-wakaba/items/f15b4aa579c018880758">ユーザ定義クラスのpickle, unpickle処理のまとめ</a></li>
+<li><a href="https://docs.python.org/ja/3/library/pickle.html">pickle &mdash; Python オブジェクトの直列化</a></li>
+</ul>
+<p>上記を読んで、本記事で必要な情報の要点を以下にまとめます。</p>
+<ul>
+<li>pickle時には<code>__reduce_ex__</code>メソッドが呼ばれ、unpickle時に必要な情報を返す</li>
+<li><code>__reduce_ex__</code>メソッドは5つ組のタプルを返す</li>
+<li>タプルの各要素の説明
+<ul>
+<li>1つ目はunpickle時に呼び出される関数。今回は単語分割器に相当するクラスオブジェクトを作成したいので<code>func = T</code>とします。</li>
+<li>2つ目は1つ目の関数を呼び出す際に与える引数。</li>
+<li>3つ目はオブジェクトの状態 (属性など) 。unpickle時にオブジェクトの状態として読み込まれます。</li>
+<li>4つ目はdictライクなオブジェクト。pickle対象のオブジェクトが保持するデータをunpickleする際に読み込むためのものだと思いますが今回は不要なので<code>None</code>とします。</li>
+<li>5つ目はlistライクなオブジェクト。pickle対象のオブジェクトが保持するデータをunpickleする際に読み込むためのものだと思いますが今回は不要なので<code>None</code>とします。</li>
+</ul>
+</li>
+</ul>
+<h2 id="pickle化可能なサンプル">pickle化可能なサンプル</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
+
+<span style="color:#f92672">import</span> MeCab
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>):
+        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
+        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getstate__</span>(self):
+        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;option&#39;</span>: self<span style="color:#f92672">.</span>option}
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__setstate__</span>(self, state):
+        <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> state<span style="color:#f92672">.</span>items():
+            setattr(self, k, v)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getnewargs__</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>option,
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__reduce_ex__</span>(self, proto):
+        func <span style="color:#f92672">=</span> T
+        args <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getnewargs__()
+        state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getstate__()
+        listitems <span style="color:#f92672">=</span> None
+        dictitems <span style="color:#f92672">=</span> None
+        rv <span style="color:#f92672">=</span> (func, args, state, listitems, dictitems)
+        <span style="color:#66d9ef">return</span> rv
+
+    <span style="color:#66d9ef">def</span> __call__(self, text):
+        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
+        <span style="color:#66d9ef">return</span> ret
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
+
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        t <span style="color:#f92672">=</span> T(<span style="color:#e6db74">&#39;-Owakati&#39;</span>)
+        pickle<span style="color:#f92672">.</span>dump(t, f)
+        <span style="color:#66d9ef">print</span>(t(text))
+
+
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        t2 <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
+        <span style="color:#66d9ef">print</span>(t2(text))
+</code></pre></div><p>上記サンプルはpickle時に<code>Tagger</code>オブジェクトをpickleの対象から除き、unpickleする際に同じ設定で再度Taggerオブジェクトを作成するようにしています。こうすることで、pickle時にTaggerを保持している影響でエラーとなることを避けています。</p>
+<p>結果は以下のようになります。</p>
+<pre><code>すもも も もも も もも の うち
+すもも も もも も もも の うち
+</code></pre><p><code>t2 = pickle.load(f)</code>で作成したオブジェクトが、pickleで保存した<code>t</code>と同様の結果を出力していることがわかります。</p>
+<h2 id="おわり">おわり</h2>
+<p>本記事ではMeCabのTaggerオブジェクトを活用した単語分割用のクラスをpickleするための方法について紹介しました。
+正確に言うと、Taggerオブジェクトはpickle時にはpickleの対象から除き、unpickleする際に再作成しています。</p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/">
+          【自然言語処理】scikit-learnでtfidfとそれ以外の特徴量を組み合わせる
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-11-21T13:43:23&#43;09:00">
+        
+  
+  
+  
+  
+    2020-11-21
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+          【自然言語処理】文書分類に特化したPythonライブラリを作り始めました【プログラムほぼ不要で使えます】
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-10-31T10:58:05&#43;09:00">
+        
+  
+  
+  
+  
+    2020-10-31
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/brain-4863428_640.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-06T09:46:04&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-06
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/09/06/document-classification.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+          【自然言語処理】公開されているデータセットを簡単に使うライブラリ (nlp) の紹介
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-17T20:40:22&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-17
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/05/books-1281581_1280.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
+          【機械学習】scikit-learnで学ぶstacking
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-29T16:08:15&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-29
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/python/">python</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/scikit-learn/">scikit-learn</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/" data-tooltip="【自然言語処理】scikit-learnでtfidfとそれ以外の特徴量を組み合わせる">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2020 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/" data-tooltip="【自然言語処理】scikit-learnでtfidfとそれ以外の特徴量を組み合わせる">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F11%2F22%2Fpythonmecab%25E3%2581%25AEtagger%25E3%2582%25AA%25E3%2583%2596%25E3%2582%25B8%25E3%2582%25A7%25E3%2582%25AF%25E3%2583%2588%25E3%2582%2592%25E6%258C%2581%25E3%2581%25A4%25E5%258D%2598%25E8%25AA%259E%25E5%2588%2586%25E5%2589%25B2%25E5%2599%25A8%25E3%2582%2592pickle%25E3%2581%25A7%25E4%25BF%259D%25E5%25AD%2598%25E3%2581%2599%25E3%2582%258B%25E6%2596%25B9%25E6%25B3%2595%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
