@@ -7,46 +7,52 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
-<meta name="keywords" content="">
-<meta name="description" content="最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
-gonline
-パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
-golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。">
+<meta name="keywords" content="book">
+<meta name="description" content="本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介します。
+何らかの社会で生活していく上で、そこの文化は私達の行動に影響を与えます。
+そのような文化というものが、どのように構築されていくのかということに興味が出て本書を読みました。
+本書を読むことで、いくつかの事例を交えてそこから得られる教訓を知ることができます。
+これから社会の中で同僚と働く際に指針を建てなければならない人たちには役に立つ書籍だと思います。">
 
 
-<meta property="og:description" content="最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
-gonline
-パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
-golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。">
+<meta property="og:description" content="本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介します。
+何らかの社会で生活していく上で、そこの文化は私達の行動に影響を与えます。
+そのような文化というものが、どのように構築されていくのかということに興味が出て本書を読みました。
+本書を読むことで、いくつかの事例を交えてそこから得られる教訓を知ることができます。
+これから社会の中で同僚と働く際に指針を建てなければならない人たちには役に立つ書籍だと思います。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="オンライン学習の実装いろいろ">
-<meta name="twitter:title" content="オンライン学習の実装いろいろ">
-<meta property="og:url" content="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
-<meta property="twitter:url" content="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
+<meta property="og:title" content="【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる">
+<meta name="twitter:title" content="【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる">
+<meta property="og:url" content="https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/">
 <meta property="og:site_name" content="Now is better than never.">
-<meta property="og:description" content="最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
-gonline
-パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
-golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。">
-<meta name="twitter:description" content="最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
-gonline
-パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
-golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。">
+<meta property="og:description" content="本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介します。
+何らかの社会で生活していく上で、そこの文化は私達の行動に影響を与えます。
+そのような文化というものが、どのように構築されていくのかということに興味が出て本書を読みました。
+本書を読むことで、いくつかの事例を交えてそこから得られる教訓を知ることができます。
+これから社会の中で同僚と働く際に指針を建てなければならない人たちには役に立つ書籍だと思います。">
+<meta name="twitter:description" content="本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介します。
+何らかの社会で生活していく上で、そこの文化は私達の行動に影響を与えます。
+そのような文化というものが、どのように構築されていくのかということに興味が出て本書を読みました。
+本書を読むことで、いくつかの事例を交えてそこから得られる教訓を知ることができます。
+これから社会の中で同僚と働く際に指針を建てなければならない人たちには役に立つ書籍だと思います。">
 <meta property="og:locale" content="ja">
 
   
-    <meta property="article:published_time" content="2015-07-17T23:09:00">
+    <meta property="article:published_time" content="2020-12-12T14:43:37">
   
   
-    <meta property="article:modified_time" content="2015-07-17T23:09:00">
-  
+    <meta property="article:modified_time" content="2020-12-12T14:43:37">
   
   
   
     
-      <meta property="article:tag" content="golang">
+      <meta property="article:section" content="book">
     
-      <meta property="article:tag" content="machine_learning">
+  
+  
+    
+      <meta property="article:tag" content="book">
     
   
 
@@ -71,14 +77,14 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
   <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
 
 
-    <title>オンライン学習の実装いろいろ</title>
+    <title>【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる</title>
 
     <link rel="icon" href="https://tma15.github.io/favicon.png">
     
 
     
 
-    <link rel="canonical" href="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
+    <link rel="canonical" href="https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/">
 
     
     <script type="text/javascript" async
@@ -309,19 +315,19 @@ if (!doNotTrack) {
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      オンライン学習の実装いろいろ
+      【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2015-07-17T23:09:00&#43;09:00">
+      <time itemprop="datePublished" datetime="2020-12-12T14:43:37&#43;09:00">
         
   
   
   
   
-    2015-07-17
+    2020-12-12
   
 
 
@@ -331,6 +337,14 @@ if (!doNotTrack) {
 
     
     
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
+    
+  
+
   </div>
 
 
@@ -339,18 +353,57 @@ if (!doNotTrack) {
 
           <div class="post-content markdown" itemprop="articleBody">
             <div class="main-content-wrap">
-              <p>最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。
-その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。
-実装が簡単で学習が速いオンライン学習手法を実装した。</p>
-<p><a href="https://github.com/tma15/gonline">gonline</a></p>
-<p>パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。
-<a href="http://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/multiclass.html#news20">news20</a> を使って評価はしたのだけど
-<a href="http://yans.anlp.jp/symposium/2010/paper/Yans2010_No23.pdf">こちらの論文</a> と比べると精度が低めになっているので、もしかしたら
-実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。
-SCWはいつか実装する。</p>
-<p>golangらしく？<a href="https://github.com/tma15/gonline/releases">github release</a>でバイナリの配布もしている (今回初めてやってみた)。
-これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。</p>
+              <p>本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介します。
+何らかの社会で生活していく上で、そこの文化は私達の行動に影響を与えます。
+そのような文化というものが、どのように構築されていくのかということに興味が出て本書を読みました。
+本書を読むことで、いくつかの事例を交えてそこから得られる教訓を知ることができます。
+これから社会の中で同僚と働く際に指針を建てなければならない人たちには役に立つ書籍だと思います。</p>
+<div class="amazon-widget" text-align="center">
+  <a target="_blank" href="https://www.amazon.co.jp/gp/product/B086KX8LHZ/?tag=takuyamakino1-22"></a>
+  <div class="amazon-widget-img">
+    <img src="//ws-fe.amazon-adsystem.com/widgets/q?_encoding=UTF8&MarketPlace=JP&ASIN=B086KX8LHZ&ServiceVersion=20070822&ID=AsinImage&WS=1&Format=_SL350_&tag=takuyamakino1-22" />
+  </div>
+  <div class="amazon-widget-info">
+    <span class="amazon-widget-title">
+      Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる
+    </span>
+    <span class="amazon-widget-via">
+      <img src="https://www.amazon.co.jp/favicon.ico" />
+      amazon.co.jp
+    </span>
+  </div>
+</div>
 
+<h2 id="本の概要">本の概要</h2>
+<p>組織における文化の大切さに加えて、いくつかの組織文化構築の事例を挙げて文化の構築方法およびそれらの効果を紹介しています。</p>
+<p>組織に所属する人たちは、プレスリリースや業績といったことよりも、働いているときにどんな気分になったかということをいつまでも覚えています。
+このような体験はその組織の気質・気風といったものであって、仕事がうまく行かないときの判断の拠り所となり、これが積み重なることである種の目的意識が生まれると説明しています。</p>
+<p>組織に所属する人間が、トップがいないところであらゆる判断をどう決めるかが、組織の文化となります。
+嘘をついてでも利益を優先すればいいという根拠で判断を続ければ、そのような文化が生まれてしまいます。</p>
+<p>良い文化を持つ組織が成功するというわけではないという注意はしつつも、上記のように長い時間軸でみると、組織文化のおかげで困難な障害を打破できるということから、本書では文化構築を事例ベースで紹介しています。</p>
+<h2 id="要点">要点</h2>
+<p>以下で挙げる要点は、いかなる組織でも参考にするべきというわけではありません。
+自分の理想と照らし合わせて、必要と思うものを参考にするというのが良いと思います。</p>
+<ul>
+<li><strong>うまくいっていることを続ける</strong>: すべてを変えたくなることもあるがもともとの強みを新しい目的に活かすほうが良い。</li>
+<li><strong>ショッキングなルールを作る</strong>: 記憶に残らないルールでは文化も忘れ去られる。例えば1分でも遅刻したら罰金というルールが作られた場合、組織の人員は自制心が求められているということを理解する。</li>
+<li><strong>外部からリーダーシップを取り入れる</strong>: 文化を変えたいときは軋轢があるとしても外部からリーダーシップを取り入れることで文化の改革が進む。</li>
+<li><strong>何が最優先かを行動で示す</strong>: 新規ビジネスにかじを切りたいのなら、過去の貢献があろうとも既存ビジネスは切るような決断を周囲に見せなければ組織の人はどっちつかずの中途半端な状態になる。</li>
+<li><strong>言行を一致させる</strong>: 自分が言ったことは行動に移す。自分が言行一致しなければ、組織の文化も言行一致しなくなる。行動は言葉にまさる。</li>
+<li><strong>倫理観をはっきりと打ち出す</strong>: 非倫理的な行動を許容して売上を最優先させるような判断を続けると、組織がそういった文化になってしまう。判断の積み重ねによって文化が作られるので自分が優先したいことを明示する。</li>
+</ul>
+<p>まずは自分の理想というのものをよく理解し、その理想を組織全体に広めるために上記のような施策を実施するというのが大事ですね。
+また特に行動の重要さを感じます。
+自分あるいは自分の理想というのは、言葉よりも行動によって周囲に認識されることをよく理解しておきたいです。</p>
+<h2 id="おわり">おわり</h2>
+<p>本記事では「Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる」を紹介しました。
+組織における文化の大切さ、また文化の構築方法を事例を交えて紹介しています。
+各事例のストーリーを楽しみつつ、そこから私達が得られる教訓をわかりやすく学ぶことができます。</p>
+<h2 id="著者のプロフィール">著者のプロフィール</h2>
+<p>本書の著者はベン・ホロウィッツ(Ben Horowitz)氏です。Amazonから<a href="https://www.amazon.co.jp/gp/product/B086KX8LHZ/?tag=takuyamakino1-22">プロフィール</a>を引用します。</p>
+<blockquote>
+<p>ベン・ホロウィッツは次世代のテクノロジー企業のリーダーとなる起業家に投資するベンチャーキャピタル、アンドリーセン・ホロウィッツ(a16z)の共同創業者兼ゼネラル・パートナー。ニューヨーク・タイムズのベストセラー『HARD THINGS』(日経BP)の著者でもある。アンドリーセン・ホロウィッツを立ち上げる前はオプスウェア(旧ラウドクラウド)のCEO兼共同創業者を務めた。ラウドクラウドは2007年にヒューレット・パッカードから16億ドルで買収されている。カリフォルニア大学ロサンゼルス校(UCLA)でコンピューターサイエンスの修士号を取得。またコロンビア大学でコンピューターサイエンスの学士号を取得している。妻と3人の子供と共にサンフランシスコ・ベイエリアで暮らしている。</p>
+</blockquote>
               
 
               <br>
@@ -387,81 +440,20 @@ SCWはいつか実装する。</p>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/">
-          Dropoutの実装で気になって調べたこと
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/">
+          【書評】シリコンバレー発 スキルの掛け算で年収が増える 複業の思考法
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2015-02-21T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-10-11T15:06:05&#43;09:00">
         
   
   
   
   
-    2015-02-21
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-
-
-
-
-
-
-
-
-
-  </div>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/">
-          二つの集合に重複して現れる要素の数を数える
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2014-11-08T00:00:00Z">
-        
-  
-  
-  
-  
-    2014-11-08
+    2020-10-11
   
 
 
@@ -475,7 +467,9 @@ SCWはいつか実装する。</p>
   
     <span>カテゴリー</span>
     
-      <a class="category-link" href="https://tma15.github.io/categories/golang">golang</a>
+      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/career">career</a>
     
   
 
@@ -517,20 +511,20 @@ SCWはいつか実装する。</p>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">
-          Goで日本語の文書を前処理して分類器を学習するところまでやってみる
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/">
+          【書評】ジェームズ・クリアー式 複利で伸びる1つの習慣
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-10-20T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-09-19T12:23:28&#43;09:00">
         
   
   
   
   
-    2014-10-20
+    2020-09-19
   
 
 
@@ -540,6 +534,14 @@ SCWはいつか実装する。</p>
 
     
     
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
+    
+  
+
   </div>
 
 
@@ -578,20 +580,20 @@ SCWはいつか実装する。</p>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/adagrad-rda%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
-          AdaGrad&#43;RDAをGoで書いた
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/08/15/%E6%9B%B8%E8%A9%95%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3%E3%81%AF-%E5%95%86%E5%93%81%E3%82%92%E5%A4%89%E3%81%88%E3%81%9A%E3%81%AB%E5%A3%B2%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A0%E3%81%91%E3%81%A7-%E3%81%AA%E3%81%9C2%E5%80%8D%E5%A3%B2%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B/">
+          【書評】ワークマンは 商品を変えずに売り方を変えただけで なぜ2倍売れたのか
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
+      <time itemprop="datePublished" datetime="2020-08-15T14:51:07&#43;09:00">
         
   
   
   
   
-    2014-10-18
+    2020-08-15
   
 
 
@@ -601,6 +603,14 @@ SCWはいつか実装する。</p>
 
     
     
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
+    
+  
+
   </div>
 
 
@@ -639,20 +649,20 @@ SCWはいつか実装する。</p>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
-          PA-IIをGoで書いた
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/">
+          ジェフ・ベゾス 果てなき野望-アマゾンを創った無敵の奇才経営者
         </a>
       </h4>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
+      <time itemprop="datePublished" datetime="2014-02-17T00:00:00Z">
         
   
   
   
   
-    2014-10-18
+    2014-02-17
   
 
 
@@ -695,9 +705,7 @@ SCWはいつか実装する。</p>
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">タグ</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/golang/">golang</a>
-
-  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/book/">book</a>
 
                   </div>
                 
@@ -710,7 +718,7 @@ SCWはいつか実装する。</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/" data-tooltip="並列での学習アルゴリズムの追加">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -718,7 +726,7 @@ SCWはいつか実装する。</p>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2015/06/21/hugo%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F/" data-tooltip="Hugoに移行してみた">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -736,7 +744,7 @@ SCWはいつか実装する。</p>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -774,7 +782,7 @@ SCWはいつか実装する。</p>
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/" data-tooltip="並列での学習アルゴリズムの追加">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">次</span>
@@ -782,7 +790,7 @@ SCWはいつか実装する。</p>
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2015/06/21/hugo%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F/" data-tooltip="Hugoに移行してみた">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" data-tooltip="【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法">
               
                   <span class="hide-xs hide-sm text-small icon-mr">前</span>
                   <i class="fa fa-angle-right"></i>
@@ -800,7 +808,7 @@ SCWはいつか実装する。</p>
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
@@ -824,7 +832,7 @@ SCWはいつか実装する。</p>
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2015%2F07%2F17%2F%25E3%2582%25AA%25E3%2583%25B3%25E3%2583%25A9%25E3%2582%25A4%25E3%2583%25B3%25E5%25AD%25A6%25E7%25BF%2592%25E3%2581%25AE%25E5%25AE%259F%25E8%25A3%2585%25E3%2581%2584%25E3%2582%258D%25E3%2581%2584%25E3%2582%258D%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2020%2F12%2F12%2F%25E6%259B%25B8%25E8%25A9%2595who-you-are%25E3%2583%2595%25E3%2583%25BC%25E3%2583%25A6%25E3%2583%25BC%25E3%2582%25A2%25E3%2583%25BC%25E5%2590%259B%25E3%2581%25AE%25E7%259C%259F%25E3%2581%25AE%25E8%25A8%2580%25E8%2591%2589%25E3%2581%25A8%25E8%25A1%258C%25E5%258B%2595%25E3%2581%2593%25E3%2581%259D%25E3%2581%258C%25E5%259B%25B0%25E9%259B%25A3%25E3%2582%2592%25E7%2594%259F%25E3%2581%258D%25E6%258A%259C%25E3%2581%258F%25E3%2583%2581%25E3%2583%25BC%25E3%2583%25A0%25E3%2582%2592%25E3%2581%25A4%25E3%2581%258F%25E3%2582%258B%2F">
           <i class="fa fa-twitter"></i><span>Twitterで共有</span>
         </a>
       </li>
