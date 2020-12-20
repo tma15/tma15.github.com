@@ -3,6 +3,56 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tma15.github.io/categories/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/machine_learning/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/machine_learning/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/neural_network/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/neural_network/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/nlp/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/nlp/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
+    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/book/</loc>
     <lastmod>2020-12-12T14:43:37+09:00</lastmod>
   </url>
@@ -13,33 +63,8 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/categories/</loc>
-    <lastmod>2020-12-12T14:43:37+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2020-12-12T14:43:37+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
-    <lastmod>2020-12-12T14:43:37+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/</loc>
     <lastmod>2020-12-12T14:43:37+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/nlp/</loc>
-    <lastmod>2020-11-22T11:28:10+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/nlp/</loc>
-    <lastmod>2020-11-22T11:28:10+09:00</lastmod>
   </url>
   
   <url>
@@ -108,16 +133,6 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/tags/neural_network/</loc>
-    <lastmod>2020-10-03T09:51:17+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/neural_network/</loc>
-    <lastmod>2020-10-03T09:51:17+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/tags/paper/</loc>
     <lastmod>2020-10-03T09:51:17+09:00</lastmod>
   </url>
@@ -159,16 +174,6 @@
   
   <url>
     <loc>https://tma15.github.io/categories/active_learning/</loc>
-    <lastmod>2020-09-13T08:57:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/machine_learning/</loc>
-    <lastmod>2020-09-13T08:57:58+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/machine_learning/</loc>
     <lastmod>2020-09-13T08:57:58+09:00</lastmod>
   </url>
   
