@@ -4,27 +4,42 @@
   
   <url>
     <loc>https://tma15.github.io/categories/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/tags/machine_learning/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/machine_learning/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/tags/neural_network/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/neural_network/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</loc>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
   </url>
   
   <url>
@@ -34,16 +49,6 @@
   
   <url>
     <loc>https://tma15.github.io/categories/nlp/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
     <lastmod>2020-12-13T17:11:32+09:00</lastmod>
   </url>
   

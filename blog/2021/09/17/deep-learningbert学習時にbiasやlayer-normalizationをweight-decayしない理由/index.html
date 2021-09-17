@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="tech">
+<meta name="description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
+
+
+<meta property="og:description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由">
+<meta name="twitter:title" content="【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由">
+<meta property="og:url" content="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
+<meta name="twitter:description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2021-09-17T16:52:50">
+  
+  
+    <meta property="article:modified_time" content="2021-09-17T16:52:50">
+  
+  
+  
+    
+      <meta property="article:section" content="neural_network">
+    
+      <meta property="article:section" content="machine_learning">
+    
+  
+  
+    
+      <meta property="article:tag" content="neural_network">
+    
+      <meta property="article:tag" content="machine_learning">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/2020/10/03/bert.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2020/10/03/bert.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  
+    <a href="//af.moshimo.com/af/c/click?a_id=2804717&p_id=16&pc_id=16&pl_id=30626&guid=ON" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//image.moshimo.com/af-img/0003/000000030626.png" width="300" height="300" style="border:none;"></a><img src="//i.moshimo.com/af/i/impression?a_id=2804717&p_id=16&pc_id=16&pl_id=30626" width="1" height="1" style="border:none;">
+
+    <a href="//af.moshimo.com/af/c/click?a_id=2810454&p_id=3402&pc_id=8106&pl_id=48551&guid=ON" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//image.moshimo.com/af-img/2817/000000048551.jpg" width="234" height="60" style="border:none;"></a><img src="//i.moshimo.com/af/i/impression?a_id=2810454&p_id=3402&pc_id=8106&pl_id=48551" width="1" height="1" style="border:none;">
+    <br>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/" class="sidebar-button-link" style="color:white; list-style:none;">【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】scikit-learnでtfidfとそれ以外の特徴量を組み合わせる</a></li>
+    
+    </ul>
+
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-09-17T16:52:50&#43;09:00">
+        
+  
+  
+  
+  
+    2021-09-17
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>BERTの学習で用いるoptimizerでbiasや<a href="https://arxiv.org/abs/1607.06450">layer normalization</a>のパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersの<a href="https://github.com/huggingface/transformers/issues/492">issue</a>でもそのような質問がありますが、「Googleの公開しているBERTが<a href="https://github.com/google-research/bert/blob/master/optimization.py#L65">そうしている</a>から再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#bertの学習で用いられるoptimizer">BERTの学習で用いられるoptimizer</a></li>
+    <li><a href="#weight-decay">weight decay</a></li>
+    <li><a href="#weight-decayの対象外となるパラメータ">weight decayの対象外となるパラメータ</a>
+      <ul>
+        <li><a href="#bias">bias</a></li>
+        <li><a href="#layer-normalization">layer normalization</a></li>
+      </ul>
+    </li>
+    <li><a href="#おわりに">おわりに</a></li>
+  </ul>
+</nav>
+<h2 id="bertの学習で用いられるoptimizer">BERTの学習で用いられるoptimizer</h2>
+<p>GoogleのTensorFlow実装で利用されているoptimizerは下記のように記述されています。
+引数<code>exclude_from_weight_decay</code>で指定された<code>layer_norm</code>や<code>bias</code>に関するパラメータがweight decayの対象から除外されています。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  optimizer <span style="color:#f92672">=</span> AdamWeightDecayOptimizer(
+      learning_rate<span style="color:#f92672">=</span>learning_rate,
+      weight_decay_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
+      beta_1<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>,
+      beta_2<span style="color:#f92672">=</span><span style="color:#ae81ff">0.999</span>,
+      epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-6</span>,
+      exclude_from_weight_decay<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;LayerNorm&#34;</span>, <span style="color:#e6db74">&#34;layer_norm&#34;</span>, <span style="color:#e6db74">&#34;bias&#34;</span>])
+</code></pre></div><p>どういった理由でこれらのパラメータをweight decayの対象から除外しているのかを以降で解説します。</p>
+<h2 id="weight-decay">weight decay</h2>
+<p>weight decayはL2正則化のことで、モデルの過学習を抑えるために用いられます。モデルのパラメータ$\theta$に対して、ある損失関数$L(\theta)$に対してweight decayを足し合わせた関数を$E(\theta)$とします。</p>
+<p>$$
+E(\theta) = L(\theta) + \frac{C}{2} ||\theta||^2 \tag{1}
+$$</p>
+<p>ハイパーパラメータ$C$はweight decayに対する重みです。学習時は$E(\theta)$を最小化するパラメータを探索します。
+まず誤差逆伝播を用いてパラメータ$\theta$の更新に利用する勾配を以下のように求めます。</p>
+<p>$$
+\begin{eqnarray}
+\frac{\nabla E(\theta)}{\nabla \theta} &amp;=&amp; \frac{\nabla L(\theta)}{\nabla \theta} + C \theta \tag{2}
+\end{eqnarray}
+$$</p>
+<p>次に得られた勾配と学習率$\lambda$に基づいて$\theta$を更新します。</p>
+<p>$$
+\begin{eqnarray}
+\theta &amp;\leftarrow&amp; \theta - \lambda \frac{\nabla E(\theta)}{\nabla \theta} \\\<br>
+&amp;=&amp; \theta - \lambda \frac{\nabla L(\theta)}{\nabla \theta} - \lambda C \theta \\\<br>
+&amp;=&amp; - \lambda \frac{\nabla L(\theta)}{\nabla \theta} + \theta (1 - \lambda C) \tag{3}
+\end{eqnarray}
+$$</p>
+<p>次に実装について見ていきいます。
+PyTorchのAdamWの実装は<a href="https://github.com/pytorch/pytorch/blob/5ed6e4429e2a75cb3d0d573e007bc3417939e9bd/torch/optim/_functional.py#L101">こちら</a> です。weight decayに関する部分を抜粋します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">for</span> i, param <span style="color:#f92672">in</span> enumerate(params):
+        <span style="color:#75715e"># 省略</span>
+
+        <span style="color:#75715e"># Perform stepweight decay</span>
+        param<span style="color:#f92672">.</span>mul_(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> lr <span style="color:#f92672">*</span> weight_decay)
+
+        <span style="color:#75715e"># 省略。以降で勾配の項を使ってパラメータを更新する</span>
+</code></pre></div><p>これを数式で表すと以下のようになり式 (3)の第二項と一致します。ここで<code>param</code>は$\theta$、<code>lr</code>は$\lambda$、<code>weight_decay</code>は$C$と対応します。</p>
+<p>$$
+\begin{eqnarray}
+\mathbf{\theta} &amp;=&amp; \mathbf{\theta} (1 - \lambda C)
+\end{eqnarray}
+$$</p>
+<p>この式から、weight decayを適用することにより、パラメータが0に近づくことがわかります。またパラメータが0に近づくことで入力の一部の特徴量に引っ張られた予測を抑制したり、あまり重要でない特徴量を無視できるようになることで過学習を抑制することがわかります。</p>
+<h2 id="weight-decayの対象外となるパラメータ">weight decayの対象外となるパラメータ</h2>
+<p>これまでにweight decayの仕組みについて解説しました。ここからは、なぜBERTなどのモデルの学習ではbiasやlayer normalizationのパラメータがweight decayの対象外となるかを見ていきます。</p>
+<h3 id="bias">bias</h3>
+<p>biasは線形変換などで出てくるパラメータです。入力$\mathbf{x} \in \mathbb{R}^D$に対して、パラメータ$\mathbf{W} \in \mathbb{R}^{H \times D}$と$\mathbf{b} \in \mathbb{R}^H$を持つ線形変換は以下の計算をして出力$\mathbf{y} \in \mathbb{R}^H$を得ます。</p>
+<p>$$
+\mathbf{y} = \mathbf{W} \mathbf{x} + \mathbf{b} \tag{4}
+$$</p>
+<p>$\mathbf{W}$は入力$\mathbf{x}$との積をとって計算するものです。例えば$i$番目の次元の出力は$y_i = \sum_{j=1}^H W_{ij} x_j$のように掛け算の総和によって得られます。この式から$W_{ij} (1 \leq j \leq H)$の中に大きな値のものがあると、出力に大きく影響することがわかります。このことから$\mathbf{W}$の値の大きさそのものよりも他の次元との大小関係が大事なので、入力の特定の値に対して計算結果が大きく変動しないよう、値そのものは小さいほうが高い汎化性能が期待されます。</p>
+<p>$\mathbf{b}$は入力$\mathbf{x}$に依存せず、値の大きさそのものを調整する役割を担います。たとえば$\mathbf{y}$が大きな値である必要があることが期待されるとき、$\mathbf{b}$も大きな値になる必要があります。ReLUのように値が0以上かそうでないかによって出力が変わる際には値の大きさが重要になります。weight decayのたびに小さな値になるとbiasの役割を果たせません。</p>
+<h3 id="layer-normalization">layer normalization</h3>
+<p><a href="https://arxiv.org/abs/1607.06450">layer normalization</a>はデータの分布を正規化することで学習時間を減らしつつ精度改善も期待できる手法です。直前の層の出力$\mathbf{y} \in \mathbb{R}^H$に対する平均値$\mu$と標準偏差$\sigma$で正規化した結果$\mathbf{h} \in \mathbb{R}^H$を出力します。$\mathbf{g} \in \mathbb{R}^H$と$\mathbf{b} \in \mathbb{R}^H$はlayer normalizationにおける学習対象のパラメータであり、値をスケールする際に用います。</p>
+<p>$$
+\begin{eqnarray}
+\mu &amp;=&amp; \frac{1}{H} \sum_{i=1}^{H} y_i \tag{5} \\\<br>
+\sigma &amp;=&amp; \sqrt{\frac{1}{H} \sum_{i=1}^{H} (y_i - \mu)^2} \tag{6} \\\<br>
+\mathbf{h} &amp;=&amp; f(\frac{\mathbf{g}}{\sigma} \odot (\mathbf{y} - \mu) + \mathbf{b}) \tag{7}
+\end{eqnarray}
+$$</p>
+<p>layer normalizationにおける$\mathbf{g}$および$\mathbf{b}$も線形変換でのbiasと同様に値の大きさそのものを調整するために用いています。
+そのためweight decayの対象から除外します。
+layer normalizationの出力が活性化関数fへの入力となります。</p>
+<h2 id="おわりに">おわりに</h2>
+<p>本記事ではbiasやlayer normalizationのパラメータがweight decayの対象から外す理由を解説しました。
+これらのパラメータは値の大きさを調整するために用いられるものなので、正則化によって0に近づけると本来の役割を実現できなくなってしまいます。
+最後に本記事を執筆するにあたり参考にした記事を参照します。</p>
+<p><a href="https://forums.fast.ai/t/is-weight-decay-applied-to-the-bias-term/73212/6">Is weight decay applied to the bias term?</a></p>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+          【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-13T17:11:32&#43;09:00">
+        
+  
+  
+  
+  
+    2020-12-13
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/12/speed-1249610_640.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-06T09:46:04&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-06
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/09/06/document-classification.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+          【NVIDIA直伝】あなたのPyTorchプログラムを高速化するかもしれないTips
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-08-29T13:16:11&#43;09:00">
+        
+  
+  
+  
+  
+    2020-08-29
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/pytorch-logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【自然言語処理】Scheduled samplingによるニューラル言語モデルの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-19T13:34:44&#43;09:00">
+        
+  
+  
+  
+  
+    2020-07-19
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/07/19/scheduled-sampling.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+          【自然言語処理】Kaggleコンペで利用されている文書分類のtips
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-03T16:47:46&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-03
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/Kaggle_logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/neural_network/">neural_network</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" data-tooltip="【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2021 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" data-tooltip="【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2021%2F09%2F17%2Fdeep-learningbert%25E5%25AD%25A6%25E7%25BF%2592%25E6%2599%2582%25E3%2581%25ABbias%25E3%2582%2584layer-normalization%25E3%2582%2592weight-decay%25E3%2581%2597%25E3%2581%25AA%25E3%2581%2584%25E7%2590%2586%25E7%2594%25B1%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+

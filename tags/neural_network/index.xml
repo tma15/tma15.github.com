@@ -6,10 +6,19 @@
     <description>Recent content in neural_network on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 13 Dec 2020 17:11:32 +0900</lastBuildDate>
+    <lastBuildDate>Fri, 17 Sep 2021 16:52:50 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/neural_network/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由</title>
+      <link>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</link>
+      <pubDate>Fri, 17 Sep 2021 16:52:50 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</guid>
+      <description>&lt;p&gt;BERTの学習で用いるoptimizerでbiasや&lt;a href=&#34;https://arxiv.org/abs/1607.06450&#34;&gt;layer normalization&lt;/a&gt;のパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersの&lt;a href=&#34;https://github.com/huggingface/transformers/issues/492&#34;&gt;issue&lt;/a&gt;でもそのような質問がありますが、「Googleの公開しているBERTが&lt;a href=&#34;https://github.com/google-research/bert/blob/master/optimization.py#L65&#34;&gt;そうしている&lt;/a&gt;から再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】</title>
