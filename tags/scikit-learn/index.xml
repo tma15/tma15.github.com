@@ -55,8 +55,7 @@ scikit-learnで自然言語処理モデルを構築する際は、scikit-learn�
       <pubDate>Sun, 29 Mar 2020 16:08:15 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/</guid>
-      <description>&lt;!--adsense--&gt;
-&lt;p&gt;stackingはアンサンブル学習と呼ばれる機械学習の一種で、他の機械学習に基づく複数の予測モデルの出力を入力の一部として扱い、予測モデルを構築します。
+      <description>&lt;p&gt;stackingはアンサンブル学習と呼ばれる機械学習の一種で、他の機械学習に基づく複数の予測モデルの出力を入力の一部として扱い、予測モデルを構築します。
 単純なアルゴリズムであるのにもかかわらず、何かしらの分類器単体よりも高い予測精度を得やすく、予測精度を競うようなコンペにおいて良く用いられています。
 本記事ではscikit-learnのバージョン0.22で導入された&lt;a href=&#34;https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.StackingClassifier.html&#34;&gt;StackingClassifier&lt;/a&gt;の使い方について紹介するとともに、学習時の挙動を紹介します。
 本記事を読むことでscikit-learnでのstackingの学習の流れを理解できます。&lt;/p&gt;</description>
