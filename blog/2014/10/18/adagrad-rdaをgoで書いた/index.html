@@ -14,6 +14,7 @@ Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
 データを次のように作成。
 $perl -MList::Util=shuffle -e &#39;print shuffle(&lt;&gt;)&#39; &lt; ../data/news20.binary &gt; news $head -15000 news &gt; news.train $tail -4996 news &gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み(c)をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
 $./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[&#43;1]: 0.997986 (2478/2483) Prec[&#43;1]: 0.499295 (2478/4963) -- Acc: 0.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="論文はこちら。
@@ -157,6 +158,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

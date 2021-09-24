@@ -13,6 +13,7 @@
 tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで保存するとエラーが出てしまい、ファイルに書き出すことができません。
 本記事ではMeCabのTaggerオブジェクトを活用したtokenizerによってテキストを単語分割するTfidfVectorizerをpickle化するための方法を紹介します。
 本記事を読むことで独自に定義したクラスをpickleするための方法について理解できます。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
@@ -168,6 +169,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -484,7 +486,18 @@ TypeError: cannot pickle 'Tagger' object
 <h2 id="おわり">おわり</h2>
 <p>本記事ではMeCabのTaggerオブジェクトを活用した単語分割用のクラスをpickleするための方法について紹介しました。
 正確に言うと、Taggerオブジェクトはpickle時にはpickleの対象から除き、unpickleする際に再作成しています。</p>
-<p><a href="//af.moshimo.com/af/c/click?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616&amp;url=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F14919364%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fbook%2Fi%2F18584469%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7980/9784873117980.jpg?_ex=128x128" alt="" style="border: none;" /><br />Pythonではじめる機械学習 scikit-learnで学ぶ特徴量エンジニアリングと機械学習の基礎 [ Andreas C. Muller ]</a><img src="//i.moshimo.com/af/i/impression?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616" alt="" width="1" height="1" style="border: 0px;" /></p>
+<!-- START MoshimoAffiliateEasyLink -->
+<script type="text/javascript">
+(function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
+b[a]=b[a]||function(){arguments.currentScript=c.currentScript
+||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
+c.getElementById(a)||(d=c.createElement(f),d.src=g,
+d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
+(window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js?20210203","msmaflink");
+msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴量エンジニアリングと機械学習の基礎","b":"","t":"","d":"https:\/\/m.media-amazon.com","c_p":"","p":["\/images\/I\/51GQH7tZNlL._SL500_.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/4873117984","t":"amazon","r_v":""},"v":"2.1","b_l":[{"id":1,"u_tx":"Amazonで見る","u_bc":"#f79256","u_url":"https:\/\/www.amazon.co.jp\/dp\/4873117984","a_id":2804724,"p_id":170,"pl_id":27060,"pc_id":185,"s_n":"amazon","u_so":1},{"id":2,"u_tx":"楽天市場で見る","u_bc":"#f76956","u_url":"https:\/\/search.rakuten.co.jp\/search\/mall\/Python%E3%81%A7%E3%81%AF%E3%81%98%E3%82%81%E3%82%8B%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%20%E2%80%95scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%A8%E3%83%B3%E3%82%B8%E3%83%8B%E3%82%A2%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%A8%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E3%81%AE%E5%9F%BA%E7%A4%8E\/","a_id":2804718,"p_id":54,"pl_id":27059,"pc_id":54,"s_n":"rakuten","u_so":2}],"eid":"dpTLL","s":"s"});
+</script>
+<div id="msmaflink-dpTLL">リンク</div>
+<!-- MoshimoAffiliateEasyLink END -->
               
 
               <br>

@@ -13,6 +13,7 @@
 使ってみた まず、wafとmafとダウンロードする。
 $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget https://github.com/pfi/maf/raw/master/maf.py $chmod &#43;x waf 以下の様な wscript を作成。
 #!/usr/bin/python import re import json import numpy as np import maf import maflib.util def configure(conf): pass @maflib.util.rule def jsonize(task): &#34;&#34;&#34; Calculate accuracy from a format as below: Recall[-1]: 0.932965 (21934/23510) Prec[-1]: 0.849562 (21934/25818) -- Recall[&#43;1]: 0.478378 (3562/7446) Prec[&#43;1]: 0.693266 (3562/5138) &#34;&#34;&#34; out = task.parameter with open(task.inputs[0].abspath(), &#39;r&#39;) as f: num = 0 num_trues = 0 for line in f: if line.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
@@ -153,6 +154,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

@@ -12,6 +12,7 @@
 このエントリではSWIGを使ったPythonラッパーの生成をautomakeでおこなう方法を紹介する。
 例えば自然言語処理でよく使われているMeCabやCRFsuiteなどのC&#43;&#43;実装にはPythonラッパーが付属していることがある。C&#43;&#43;実装を呼び出せるPythonラッパーがあれば、計算量が多くなりやすい機械学習部分だけC&#43;&#43;で実装して、他の処理部分はPythonで手軽に書いて運用する、であるとかC&#43;&#43;には不慣れであってもPythonなら使ったことがある、というユーザにも利用してもらう、といったことができるようになる。C&#43;&#43;ではSWIGを用いて他の言語へのラッパーを生成することができ、MeCabやCRFsuiteなども、SWIGを使ってPythonラッパーを生成している。
 またSWIGによるラッパーの生成の手続きは設定が面倒であったりするため、MeCabやCRFsuiteがおこなっているような、automakeで出来るだけ簡略化する作業も調べてまとめる。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="
@@ -157,6 +158,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

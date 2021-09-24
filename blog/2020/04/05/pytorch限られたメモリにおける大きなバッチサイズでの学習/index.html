@@ -13,6 +13,7 @@
 BERTはバッチサイズを大きくしたほうが学習が安定しやすいという報告があります。
 しかし、デバイスのメモリに載りきらないサイズでは学習中にメモリーエラーを起こしてしまいます。
 本記事ではPyTorchコードを使って、メモリ容量が限られた環境でも大きなバッチサイズでミニバッチ学習する方法を紹介します。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="ニューラルネットワークの学習ではミニバッチ学習という複数の学習事例に対して得られる損失の総和を最小化するようにパラメータを更新します。
@@ -168,6 +169,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -425,7 +427,18 @@ optimizerによるパラメータ更新処理が上記実装方法に比べて�
 メモリ容量が限られた環境においては、複数のバッチにおける勾配を<code>for</code>文で計算した後にoptimizerでパラメータを更新することを紹介しました。</p>
 <p>本記事を書くにあたり参考にした記事を以下に記載します。</p>
 <p><a href="https://discuss.pytorch.org/t/why-do-we-need-to-set-the-gradients-manually-to-zero-in-pytorch/4903/20">Why do we need to set the gradients manually to zero in pytorch?</a></p>
-<p><a href="//af.moshimo.com/af/c/click?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616&amp;url=https%3A%2F%2Fitem.rakuten.co.jp%2Fbooxstore%2Fbk-4839970254%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fbooxstore%2Fi%2F12384087%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//thumbnail.image.rakuten.co.jp/@0_mall/booxstore/cabinet/00979/bk4839970254.jpg?_ex=128x128" alt="" style="border: none;" /><br />つくりながら学ぶ！PyTorchによる発展ディープラーニング／小川雄太郎【3000円以上送料無料】</a><img src="//i.moshimo.com/af/i/impression?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616" alt="" width="1" height="1" style="border: 0px;" /></p>
+<!-- START MoshimoAffiliateEasyLink -->
+<script type="text/javascript">
+(function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
+b[a]=b[a]||function(){arguments.currentScript=c.currentScript
+||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
+c.getElementById(a)||(d=c.createElement(f),d.src=g,
+d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
+(window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js?20210203","msmaflink");
+msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","d":"https:\/\/m.media-amazon.com","c_p":"","p":["\/images\/I\/51E2sYet0gL._SL500_.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B08V8HFCPZ","t":"amazon","r_v":""},"v":"2.1","b_l":[{"id":1,"u_tx":"Amazonで見る","u_bc":"#f79256","u_url":"https:\/\/www.amazon.co.jp\/dp\/B08V8HFCPZ","a_id":2804724,"p_id":170,"pl_id":27060,"pc_id":185,"s_n":"amazon","u_so":1},{"id":2,"u_tx":"楽天市場で見る","u_bc":"#f76956","u_url":"https:\/\/search.rakuten.co.jp\/search\/mall\/PyTorch%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80%20(Compass%20Books%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA)\/","a_id":2804718,"p_id":54,"pl_id":27059,"pc_id":54,"s_n":"rakuten","u_so":2}],"eid":"xFjwN","s":"s"});
+</script>
+<div id="msmaflink-xFjwN">リンク</div>
+<!-- MoshimoAffiliateEasyLink END -->
               
 
               <br>

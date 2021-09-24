@@ -11,6 +11,7 @@
 <meta name="description" content="拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
 シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。
 $wc -l news20.scale 15935 news20.scale $touch news20.scale.big $for i in 1 2 3 4 5; do cat news20.scale &gt;&gt; news20.scale.big; done $wc -l news20.scale.big 79675 news20.scale.big $time ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 4 -s ipm ./news20.scale.big ./gonline train -a arow -m model -i 10 -t ./news20.t.scale -withoutshuffle -p 272.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
@@ -147,6 +148,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

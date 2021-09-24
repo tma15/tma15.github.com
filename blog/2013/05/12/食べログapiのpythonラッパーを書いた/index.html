@@ -11,6 +11,7 @@
 <meta name="description" content="ソースコードはこちら。
 食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
 インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &#39;Your access key here.&#39; tabelog = Tabelog(key) レストラン検索 prefecture = &#39;東京&#39; station = &#39;渋谷&#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &#39;rcd:&#39;, restaurant.rcd print &#39;name:&#39;, restaurant.name print &#39;url:&#39;, restaurant.tabelogurl print &#39;mobile url:&#39;, restaurant.tabelogmobileurl print &#39;dinner price:&#39;, restaurant.dinnerprice print &#39;lunch price:&#39;, restaurant.lunchprice print &#39;total score:&#39;, restaurant.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="ソースコードはこちら。
@@ -145,6 +146,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

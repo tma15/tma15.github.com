@@ -12,6 +12,7 @@
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
  tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   &#43; 名寄せは，一番単語数が多い表現にまとめる &#43; 最大の単語数の表現が複数あればWikipediaにある表現を採用 &#43; PERSONと識別された三つの表現&#34;Gaga&#34;, &#34;Lady Gaaaga&#34;, &#34;Lady Gaga&#34;は&#34;Lady Gaga&#34;にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   &#43; tweetは，エンティティに対していろいろな表現をされる． &#43; e.g. &#34;Anne Gronloh&#34;というエンティティには&#34;Mw.,Gronloh&#34;, &#34;Anneke Kronloh&#34;, &#34;Mevrouw G&#34;など  &#43; &#34;... Alex&#39;s jokes. ...&#34;と&#34;... Alex Russo was like...&#34;という二つのtweet  &#43; NERモデルにより&#34;Alex&#34;と&#34;Alex Russo&#34;">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
@@ -151,6 +152,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

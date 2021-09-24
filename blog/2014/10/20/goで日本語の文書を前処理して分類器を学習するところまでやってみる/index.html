@@ -15,6 +15,7 @@
 ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
 $cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad&#43;RDAを使う。
@@ -163,6 +164,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

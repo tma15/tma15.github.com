@@ -9,6 +9,7 @@
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="tech">
 <meta name="description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
@@ -148,6 +149,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -425,7 +427,18 @@ layer normalizationの出力が活性化関数fへの入力となります。</p
 これらのパラメータは値の大きさを調整するために用いられるものなので、正則化によって0に近づけると本来の役割を実現できなくなってしまいます。
 最後に本記事を執筆するにあたり参考にした記事を参照します。</p>
 <p><a href="https://forums.fast.ai/t/is-weight-decay-applied-to-the-bias-term/73212/6">Is weight decay applied to the bias term?</a></p>
-<p><a href="//af.moshimo.com/af/c/click?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616&amp;url=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F16733594%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fbook%2Fi%2F20354534%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/7264/9784274227264_2.jpg?_ex=128x128" alt="" style="border: none;" /><br />BERTによる自然言語処理入門 Transformersを使った実践プログラミング [ ストックマーク株式会社 ]</a><img src="//i.moshimo.com/af/i/impression?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616" alt="" width="1" height="1" style="border: 0px;" /></p>
+<!-- START MoshimoAffiliateEasyLink -->
+<script type="text/javascript">
+(function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
+b[a]=b[a]||function(){arguments.currentScript=c.currentScript
+||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
+c.getElementById(a)||(d=c.createElement(f),d.src=g,
+d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
+(window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js?20210203","msmaflink");
+msmaflink({"n":"BERTによる自然言語処理入門 ―Transformersを使った実践プログラミング―","b":"","t":"","d":"https:\/\/m.media-amazon.com","c_p":"","p":["\/images\/I\/51joPRSmdeS._SL500_.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B098J9M4PP","t":"amazon","r_v":""},"v":"2.1","b_l":[{"id":1,"u_tx":"Amazonで見る","u_bc":"#f79256","u_url":"https:\/\/www.amazon.co.jp\/dp\/B098J9M4PP","a_id":2804724,"p_id":170,"pl_id":27060,"pc_id":185,"s_n":"amazon","u_so":1},{"id":2,"u_tx":"楽天市場で見る","u_bc":"#f76956","u_url":"https:\/\/search.rakuten.co.jp\/search\/mall\/BERT%E3%81%AB%E3%82%88%E3%82%8B%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%A5%E9%96%80%20%E2%80%95Transformers%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E5%AE%9F%E8%B7%B5%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%9F%E3%83%B3%E3%82%B0%E2%80%95\/","a_id":2804718,"p_id":54,"pl_id":27059,"pc_id":54,"s_n":"rakuten","u_so":2}],"eid":"0Pyx2","s":"s"});
+</script>
+<div id="msmaflink-0Pyx2">リンク</div>
+<!-- MoshimoAffiliateEasyLink END -->
               
 
               <br>

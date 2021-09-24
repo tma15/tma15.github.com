@@ -12,6 +12,7 @@
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
 func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="論文はこちら。
@@ -149,6 +150,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

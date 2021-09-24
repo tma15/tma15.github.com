@@ -11,6 +11,7 @@
 <meta name="description" content="Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
 解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない   &#43; e.g. MadridでManchesterとBarcelonaの試合があった &#43; Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される  アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   &#43; priorは、mentionに含まれる表現が一般的にentity e_jである確率 &#43; context similarityはmentionとentityの文脈類似度 &#43; coherenceは他のmentionのentityとの意味的な近さ  &#43; Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標   &#43; グラフの中からサブグラフを選択  &#43; サブグラフは、一つのmentionが一つのentityとエッジをもつ &#43; サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる &#43; サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  &#43; Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   &#43; サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く &#43; アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する &#43; ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除   prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい  ">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
@@ -147,6 +148,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>

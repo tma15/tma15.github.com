@@ -10,6 +10,7 @@
 <meta name="keywords" content="pytorch, python">
 <meta name="description" content="本記事ではPyTorchを使ったニューラルネットワークの学習において、不要な計算グラフを削除することでできるだけメモリを節約するための方法を紹介します。
 本記事を読むことで、少しでもGPUメモリの不足によるout of memoryエラーを減らしたり、よりバッチサイズを大きくしたりして学習を実施できるようになります。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="本記事ではPyTorchを使ったニューラルネットワークの学習において、不要な計算グラフを削除することでできるだけメモリを節約するための方法を紹介します。
@@ -152,6 +153,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
@@ -478,7 +480,18 @@ $$
 <p><a href="https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/">【PyTorch】限られたメモリにおける大きなバッチサイズでの学習</a></p>
 <p>最後に本記事を書くにあたり参考にした記事を参照します。</p>
 <p><a href="https://discuss.pytorch.org/t/calling-loss-backward-reduce-memory-usage/2735/5">Calling loss.backward() reduce memory usage?</a></p>
-<p><a href="//af.moshimo.com/af/c/click?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616&amp;url=https%3A%2F%2Fitem.rakuten.co.jp%2Fbooxstore%2Fbk-4839970254%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fbooxstore%2Fi%2F12384087%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//thumbnail.image.rakuten.co.jp/@0_mall/booxstore/cabinet/00979/bk4839970254.jpg?_ex=128x128" alt="" style="border: none;" /><br />つくりながら学ぶ！PyTorchによる発展ディープラーニング／小川雄太郎【3000円以上送料無料】</a><img src="//i.moshimo.com/af/i/impression?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616" alt="" width="1" height="1" style="border: 0px;" /></p>
+<!-- START MoshimoAffiliateEasyLink -->
+<script type="text/javascript">
+(function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
+b[a]=b[a]||function(){arguments.currentScript=c.currentScript
+||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
+c.getElementById(a)||(d=c.createElement(f),d.src=g,
+d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
+(window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js?20210203","msmaflink");
+msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","d":"https:\/\/m.media-amazon.com","c_p":"","p":["\/images\/I\/51E2sYet0gL._SL500_.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/B08V8HFCPZ","t":"amazon","r_v":""},"v":"2.1","b_l":[{"id":1,"u_tx":"Amazonで見る","u_bc":"#f79256","u_url":"https:\/\/www.amazon.co.jp\/dp\/B08V8HFCPZ","a_id":2804724,"p_id":170,"pl_id":27060,"pc_id":185,"s_n":"amazon","u_so":1},{"id":2,"u_tx":"楽天市場で見る","u_bc":"#f76956","u_url":"https:\/\/search.rakuten.co.jp\/search\/mall\/PyTorch%E5%AE%9F%E8%B7%B5%E5%85%A5%E9%96%80%20(Compass%20Books%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA)\/","a_id":2804718,"p_id":54,"pl_id":27059,"pc_id":54,"s_n":"rakuten","u_so":2}],"eid":"p0H9m","s":"s"});
+</script>
+<div id="msmaflink-p0H9m">リンク</div>
+<!-- MoshimoAffiliateEasyLink END -->
 <section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>

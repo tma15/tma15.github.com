@@ -16,6 +16,7 @@ proceeding: pdf
  Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。   &#43; つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  &#43; このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
  ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
  訓練データは真に正例の事例と、大量のラベルなしの事例からなる   &#43; ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  &#43; 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  &#43; 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある &#43; ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  E-step">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="Alexandre Davis, Adriano Veloso, Algigran S. da Silva, Wagner Meira Jr., Alberto H. F. Laender
@@ -167,6 +168,7 @@ if (!doNotTrack) {
     
     </a>
   
+
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <script>
