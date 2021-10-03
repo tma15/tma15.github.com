@@ -3,18 +3,53 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://tma15.github.io/tags/c&#43;&#43;/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/c&#43;&#43;/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/tags/machine_learning/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
   </url>
   
   <url>
     <loc>https://tma15.github.io/categories/machine_learning/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/nlp/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/nlp/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
   </url>
   
   <url>
@@ -28,28 +63,8 @@
   </url>
   
   <url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</loc>
     <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/nlp/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/nlp/</loc>
-    <lastmod>2020-12-13T17:11:32+09:00</lastmod>
   </url>
   
   <url>
@@ -215,16 +230,6 @@
   <url>
     <loc>https://tma15.github.io/blog/2020/08/15/%E6%9B%B8%E8%A9%95%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3%E3%81%AF-%E5%95%86%E5%93%81%E3%82%92%E5%A4%89%E3%81%88%E3%81%9A%E3%81%AB%E5%A3%B2%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A0%E3%81%91%E3%81%A7-%E3%81%AA%E3%81%9C2%E5%80%8D%E5%A3%B2%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B/</loc>
     <lastmod>2020-08-15T14:51:07+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/tags/c&#43;&#43;/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://tma15.github.io/categories/c&#43;&#43;/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
   </url>
   
   <url>

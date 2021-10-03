@@ -6,10 +6,26 @@
     <description>Recent content in nlp on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 13 Dec 2020 17:11:32 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 03 Oct 2021 16:15:00 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/nlp/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】</title>
+      <link>https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</link>
+      <pubDate>Sun, 03 Oct 2021 16:15:00 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</guid>
+      <description>&lt;p&gt;本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (&lt;a href=&#34;https://aclanthology.org/P05-1017.pdf&#34;&gt;Extracting Semantic Orientations of Words using Spin Model&lt;/a&gt;, ACL&amp;rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります &lt;sup id=&#34;fnref:1&#34;&gt;&lt;a href=&#34;#fn:1&#34; class=&#34;footnote-ref&#34; role=&#34;doc-noteref&#34;&gt;1&lt;/a&gt;&lt;/sup&gt;。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】</title>

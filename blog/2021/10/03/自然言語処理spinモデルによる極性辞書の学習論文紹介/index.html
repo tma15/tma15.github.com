@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="author" content="Takuya Makino">
+<meta name="keywords" content="sentiment_analysis">
+<meta name="description" content="本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (Extracting Semantic Orientations of Words using Spin Model, ACL&rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります 1。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+
+<meta property="og:description" content="本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (Extracting Semantic Orientations of Words using Spin Model, ACL&rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります 1。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】">
+<meta name="twitter:title" content="【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】">
+<meta property="og:url" content="https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+<meta property="twitter:url" content="https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+<meta property="og:site_name" content="Now is better than never.">
+<meta property="og:description" content="本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (Extracting Semantic Orientations of Words using Spin Model, ACL&rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります 1。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。">
+<meta name="twitter:description" content="本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (Extracting Semantic Orientations of Words using Spin Model, ACL&rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります 1。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。">
+<meta property="og:locale" content="ja">
+
+  
+    <meta property="article:published_time" content="2021-10-03T16:15:00">
+  
+  
+    <meta property="article:modified_time" content="2021-10-03T16:15:00">
+  
+  
+  
+    
+      <meta property="article:section" content="nlp">
+    
+      <meta property="article:section" content="machine_learning">
+    
+      <meta property="article:section" content="c&#43;&#43;">
+    
+  
+  
+    
+      <meta property="article:tag" content="nlp">
+    
+      <meta property="article:tag" content="machine_learning">
+    
+      <meta property="article:tag" content="c&#43;&#43;">
+    
+  
+
+
+<meta name="twitter:card" content="summary">
+
+  <meta name="twitter:site" content="@tma15">
+
+
+  <meta name="twitter:creator" content="@tma15">
+
+
+
+
+
+
+  <meta property="og:image" content="https://tma15.github.io/img/2021/10/spin-model.png">
+  <meta property="twitter:image" content="https://tma15.github.io/img/2021/10/spin-model.png">
+
+
+
+
+
+  <meta property="og:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+  <meta property="twitter:image" content="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=640">
+
+
+    <title>【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】</title>
+
+    <link rel="icon" href="https://tma15.github.io/favicon.png">
+    
+
+    
+
+    <link rel="canonical" href="https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+
+    
+    <script type="text/javascript" async
+          src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+          });
+    </script>
+
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+          (adsbygoogle = window.adsbygoogle || []).push({
+                  google_ad_client: "ca-pub-5663917297524414",
+                  enable_page_level_ads: true
+                });
+    </script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://tma15.github.io/css/style-twzjdbqhmnnacqs0pwwdzcdbt8yhv8giawvjqjmyfoqnvazl0dalmnhdkvp7.min.css" />
+    
+    
+      
+        <link rel="stylesheet"  href="https://tma15.github.io/css/mystyle.css">
+      
+    
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-20414370-4', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://tma15.github.io/">Now is better than never.</a>
+  </div>
+  
+    
+      <a class="header-right-picture "
+         href="https://tma15.github.io/#about">
+    
+    
+    
+      
+        <img class="header-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=90" alt="プロフィール画像" />
+      
+    
+    </a>
+  
+
+
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <script>
+           (adsbygoogle = window.adsbygoogle || []).push({
+                         google_ad_client: "ca-pub-5663917297524414",
+                         enable_page_level_ads: true
+                    });
+  </script>
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://tma15.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+        </a>
+        <h4 class="sidebar-profile-name">Takuya Makino</h4>
+        
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">ホーム</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">タグ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">アーカイブ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/about">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+      
+      <span class="sidebar-button-desc">プロフィール</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/inquiry">
+    
+      
+      
+      <span class="sidebar-button-desc">お問い合わせ</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/privacy-policy">
+    
+      
+      
+      <span class="sidebar-button-desc">プライバシーポリシー</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://tma15.github.io/index.xml">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+      
+      <span class="sidebar-button-desc">RSS</span>
+    </a>
+  </li>
+
+
+    </ul>
+  
+    <br>
+
+    <h3 style="color:white">最近の投稿</h3>
+    <ul >
+    
+    <li ><a href="https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/" class="sidebar-button-link" style="color:white; list-style:none;">【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/" class="sidebar-button-link" style="color:white; list-style:none;">【書評】Who You Are（フーユーアー）君の真の言葉と行動こそが困難を生き抜くチームをつくる</a></li>
+    
+    <li ><a href="https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/" class="sidebar-button-link" style="color:white; list-style:none;">【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法</a></li>
+    
+    </ul>
+
+
+      <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <ins class="adsbygoogle"
+      style="display:block; text-align:center;"
+      data-ad-layout="in-article"
+      data-ad-format="fluid"
+      data-ad-client="ca-pub-5663917297524414"
+      data-ad-slot="8357823829"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      【自然言語処理】spinモデルによる極性辞書の学習【論文紹介】
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2021-10-03T16:15:00&#43;09:00">
+        
+  
+  
+  
+  
+    2021-10-03
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/c&#43;&#43;">c&#43;&#43;</a>
+    
+  
+
+  </div>
+
+
+</div>
+          
+
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>本記事では
+Takamuraら
+が提案した、spinモデルを用いてWordNetから単語の極性を学習する方法 (<a href="https://aclanthology.org/P05-1017.pdf">Extracting Semantic Orientations of Words using Spin Model</a>, ACL&rsquo;05) を紹介します。
+自然言語処理ではテキストが良いことを言っているのか、悪いことを言っているのかを自動で推定する感情分析と呼ばれる研究があります。
+感情分析をおこなうために、ある単語が良いことなのか、悪いことなのかを表す極性を含む知識源を活用するアプローチがあります。
+近年ではラベル付きテキストコーパスを用意して、BERTを始めとするニューラルネットワークで分類モデルを学習するといった流れが主流ではありますが、このようなアプローチでも言語知識が活用できる余地はあります <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
+Takamuraらの論文は15年以上も前のものですが、単語の極性を獲得する論文としてよく引用されています。
+また最近ではニューラルネットワークを使わない自然言語処理に触れる機会が少なくなったため勉強のため記事にします。</p>
+<h2 id="table-of-contents">目次</h2><nav id="TableOfContents">
+  <ul>
+    <li><a href="#wordnet">WordNet</a></li>
+    <li><a href="#単語の極性の学習">単語の極性の学習</a>
+      <ul>
+        <li><a href="#語彙ネットワークの構築">語彙ネットワークの構築</a></li>
+        <li><a href="#spinモデルによる極性の学習">spinモデルによる極性の学習</a></li>
+      </ul>
+    </li>
+    <li><a href="#学習結果">学習結果</a></li>
+    <li><a href="#おわりに">おわりに</a></li>
+  </ul>
+</nav>
+<h2 id="wordnet">WordNet</h2>
+<p><a href="http://compling.hss.ntu.edu.sg/wnja/">WordNet</a>は意味辞書の一種です。同義語や、上位語・下位語といった単語の意味的な関係性が定義されています。さらに、単語の意味を説明する語釈文も定義されています。</p>
+<p>語釈文とは単語の意味を説明する文のことで例えば「良い」「悪い」という単語に対して、WordNetでは以下のような語釈文を持ちます。本来はもっと多くの語釈文を持つのですがここではいくつか挙げます。</p>
+<table>
+<thead>
+<tr>
+<th>見出し語</th>
+<th>語釈文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>良い</td>
+<td>並み外れた優秀さの</td>
+</tr>
+<tr>
+<td>良い</td>
+<td>喜びを与えるさま</td>
+</tr>
+<tr>
+<td>良い</td>
+<td>優雅であるか高潔である</td>
+</tr>
+<tr>
+<td>良い</td>
+<td>道徳的な素晴らしさについて</td>
+</tr>
+<tr>
+<td>悪い</td>
+<td>低いか劣った品質の</td>
+</tr>
+<tr>
+<td>悪い</td>
+<td>不幸なさま</td>
+</tr>
+<tr>
+<td>悪い</td>
+<td>苦しみまたは逆境に終わるさま</td>
+</tr>
+<tr>
+<td>悪い</td>
+<td>道徳的に悪い、または間違っているさま</td>
+</tr>
+</tbody>
+</table>
+<p>このようにWordNetを参照することでその単語がどういった意味を持つのかを知ることができます。</p>
+<h2 id="単語の極性の学習">単語の極性の学習</h2>
+<p>Takamuraらはspinモデルによって単語の極性を学習する方法を提案しました。極性は-1ならネガティブ、+1ならポジティブであるとします。この手法は最初に、単語間の関係を表す語彙ネットワークを構築します。次に、いくつかの単語に対して人手で極性を与えます。
+「悪い」なら-1、「良い」なら+1といった具合で単語に対して極性を付与するとします。
+その後、人手で極性が付与された単語を手がかりにに、語彙ネットワークを通して極性が付与されていない単語に対して極性を学習します。</p>
+<h3 id="語彙ネットワークの構築">語彙ネットワークの構築</h3>
+<p>まず、WordNetを用いて語彙ネットワークを構築します。
+語彙ネットワークは、単語をノード、単語間の共起をリンクとするグラフです。
+TakamuraらはWordNetの同義語、反義語の知識も利用していますがここでは語釈文を利用する場合についてのみ説明します。
+以下の図はWordNetの語釈文から語彙ネットワークを構築する例です。
+単語を単位とするため、形態素解析によって名詞、動詞、形容詞、形容動詞などの内容語を取得します。
+その後、見出し語と語釈文の単語の間にリンクを作成します。</p>
+<br>
+
+ 
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+ 
+  
+  
+  
+  
+    
+  
+    
+      
+    
+  
+
+<div class="figure right" >
+  
+    <a class="fancybox" href="https://tma15.github.io/img/2021/10/building-lexicon-network.png" title="語彙ネットワークの構築" data-fancybox-group="">
+  
+    <img class="fig-img" src="https://tma15.github.io/img/2021/10/building-lexicon-network.png"  alt="語彙ネットワークの構築">
+  
+    </a>
+  
+   
+    <span class="caption">語彙ネットワークの構築</span>
+  
+</div>
+
+  <div style="clear:both;"></div>
+
+<br>
+<p>単語$i$と単語$j$の間のリンクの重み$w_{ij}$は以下のように計算します。
+$$
+\begin{eqnarray}
+w_{ij} = \frac{1}{\sqrt{d_i d_j}} \tag{1}
+\end{eqnarray}
+$$
+$d_i$は単語$i$の次数、つまりリンクの数です。つまり$w_{i}{j}$は$i$と$j$のリンクが少ないほど大きな値になります。
+どの単語とも共起する単語はリンクの重みが小さくなるように設計されています。
+またこのリンクは見出し語と語釈文で共起する単語対に対して作成されます。
+語釈文は見出し語を別の単語で説明するテキストなので、リンクがある単語対はだいたい同じ意味であることが期待されます。</p>
+<h3 id="spinモデルによる極性の学習">spinモデルによる極性の学習</h3>
+<p>以下の図は「良い」という単語の極性を+1として与え、それとリンクを持つ単語に対して極性を伝搬しています。
+「良い」とリンクを持つ「道徳」と「素晴らしい」という単語は「良い」の極性+1が伝搬されます。
+また「道徳」は「悪い」という単語の極性も伝搬されます。
+これにより、「素晴らしい」にはポジティブな極性が伝搬される一方で、「良い」「悪い」の両単語とリンクを持つ「道徳」はニュートラルな極性になります。
+更に、ポジティブな極性を持つ「素晴らしい」とリンクを持つ「最高」にもポジティブな極性が伝搬されます。</p>
+<br>
+
+ 
+  
+  
+  
+  
+    
+      
+    
+  
+    
+      
+    
+  
+    
+  
+
+ 
+  
+  
+  
+  
+    
+  
+    
+      
+    
+  
+
+<div class="figure right" >
+  
+    <a class="fancybox" href="https://tma15.github.io/img/2021/10/spin-model.png" title="spinモデルによる極性の伝搬" data-fancybox-group="">
+  
+    <img class="fig-img" src="https://tma15.github.io/img/2021/10/spin-model.png"  alt="spinモデルによる極性の伝搬">
+  
+    </a>
+  
+   
+    <span class="caption">spinモデルによる極性の伝搬</span>
+  
+</div>
+
+  <div style="clear:both;"></div>
+
+<br>
+<p>実際の極性の更新式は以下のようになり、値が収束するまで、すべてのノードの極性を更新し続けます。</p>
+<p>$$
+\begin{eqnarray}
+\bar{x}_i^{new} &amp;=&amp; \frac{ \sum_{x_i} x_i \exp(\beta x_i \sum_j w_{ij} \bar{x}_j) }{\sum_{x_i} \exp(\beta x_i \sum_j w_{ij} \bar{x}_j)} \tag{2}
+\end{eqnarray}
+$$</p>
+<p>リンクの重み $w_{ij}$ と単語$j$の極性の平均$\bar{x}_j$の積の総和に基づいて、単語$i$の極性の平均$\bar{x}_i$を求めます。ただし$x_i \in \{-1, +1\}$です。
+$\beta$はハイパーパラメータで、値が小さいほど、リンクがつながっている単語の極性を考慮しなくなります。
+この式から、ポジティブな極性を持つ単語とリンクを持つ単語は、ポジティブな極性になることがわかります。</p>
+<p>ただし、シードとして極性$a_i$を付与した単語に関しては以下の更新式を用います。
+$\alpha$はハイパーパラメータで、値が大きいほどシードの極性から変動しないようにします。</p>
+<p>$$
+\begin{eqnarray}
+\bar{x}_i^{new} &amp;=&amp; \frac{ \sum_{x_i} x_i \exp(\beta x_i \sum_j w_{ij} \bar{x}_j - \alpha (x_i - a_i)^2) }{\sum_{x_i} \exp(\beta x_i \sum_j w_{ij} \bar{x}_j - \alpha (x_i - a_i)^2 )} \tag{3}
+\end{eqnarray}
+$$</p>
+<h2 id="学習結果">学習結果</h2>
+<p>本来であれば単語の極性が人手で付与されたデータで実験をして分類精度が出せればよいのですが、ここでは簡単のため学習結果として得られた単語の極性を眺めます。
+人手で「良い」をポジティブな単語、「悪い」をネガティブな単語として与えました。
+なんとなく、ネガティブな単語は0以下の値となり、ポジティブな単語は0以上となっているように見えます。</p>
+<pre><code>-1 悪い
+-0.0574371 ゆがみ
+-0.0403787 塗炭
+-0.0403787 悲酸
+-0.0403787 惨状
+-0.0401226 やんちゃ
+-0.0400964 すり減らす
+-0.0400964 すり減る
+-0.0400964 擦り切れる
+-0.0400964 擦切れる
+-0.0400964 磨耗
+-0.0360446 惨め
+-0.0358467 さわぐ
+-0.0358038 有徳
+-0.0351372 ゆゆしい
+-0.0350513 いとわしい
+-0.0350396 卑怯
+-0.0331313 事犯
+-0.0331313 兇行
+-0.0331313 凶行
+-0.0331313 犯行
+...
+0.025582 ワンダフル
+0.0258429 革める
+0.026739 追い抜く
+0.0267727 馨しい
+0.0268865 奮励
+0.0282495 さい先
+0.028561 淫風
+0.0288179 アップデート
+0.0288179 バージョンアップ
+0.0290066 見据える
+0.0293322 似合う
+0.0301709 郁々
+0.0301709 郁郁
+0.0301709 香しい
+0.0303047 剋
+0.0312687 好都合
+0.0315503 昌平
+0.0316 経あがる
+0.0316 経上がる
+0.0316479 体貌
+0.0319193 チューンナップ
+0.0319193 整調
+0.0334086 人聞き
+0.0334086 外聞
+0.0352537 助命
+0.0353999 白魔
+0.0355824 香ばしい
+0.03579 ヘルシー
+0.0360915 人目
+0.040364 届く
+0.0407061 寡欲
+0.0497152 おいしい
+0.0500972 かぐわしい
+0.0500972 匂やか
+0.0513105 りっぱ
+0.0522937 前途
+1 良い
+</code></pre><h2 id="おわりに">おわりに</h2>
+<p>本記事ではspinモデルによる単語の極性を学習する手法を紹介しました。
+この手法はいくつかの単語に極性を人手で付与し、それを手がかりに他の極性がついていない単語の極性を学習します。
+実際にC++で実装をして日本語WordNetで学習するところまで試しました。</p>
+<p>最後に本記事のために開発した実装を以下に記載します。</p>
+<p><a href="https://github.com/tma15/spn">https://github.com/tma15/spn</a></p>
+<!-- START MoshimoAffiliateEasyLink -->
+<script type="text/javascript">
+(function(b,c,f,g,a,d,e){b.MoshimoAffiliateObject=a;
+b[a]=b[a]||function(){arguments.currentScript=c.currentScript
+||c.scripts[c.scripts.length-2];(b[a].q=b[a].q||[]).push(arguments)};
+c.getElementById(a)||(d=c.createElement(f),d.src=g,
+d.id=a,e=c.getElementsByTagName("body")[0],e.appendChild(d))})
+(window,document,"script","//dn.msmstatic.com/site/cardlink/bundle.js?20210203","msmaflink");
+msmaflink({"n":"言語処理のための機械学習入門 (自然言語処理シリーズ)","b":"","t":"","d":"https:\/\/m.media-amazon.com","c_p":"\/images\/I","p":["\/41GqNGxTbOL._SL500_.jpg","\/31T60kPR0sL._SL500_.jpg"],"u":{"u":"https:\/\/www.amazon.co.jp\/dp\/4339027510","t":"amazon","r_v":""},"v":"2.1","b_l":[{"id":1,"u_tx":"Amazonで見る","u_bc":"#f79256","u_url":"https:\/\/www.amazon.co.jp\/dp\/4339027510","a_id":2804724,"p_id":170,"pl_id":27060,"pc_id":185,"s_n":"amazon","u_so":1},{"id":2,"u_tx":"楽天市場で見る","u_bc":"#f76956","u_url":"https:\/\/search.rakuten.co.jp\/search\/mall\/%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%81%AE%E3%81%9F%E3%82%81%E3%81%AE%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%85%A5%E9%96%80%20(%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%82%B7%E3%83%AA%E3%83%BC%E3%82%BA)\/","a_id":2804718,"p_id":54,"pl_id":27059,"pc_id":54,"s_n":"rakuten","u_so":2}],"eid":"lyVkk","s":"s"});
+</script>
+<div id="msmaflink-lyVkk">リンク</div>
+<!-- MoshimoAffiliateEasyLink END -->
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://aclanthology.org/2020.acl-main.374.pdf">https://aclanthology.org/2020.acl-main.374.pdf</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+              
+
+              <br>
+              <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+              <ins class="adsbygoogle"
+              style="display:block; text-align:center;"
+              data-ad-layout="in-article"
+              data-ad-format="fluid"
+              data-ad-client="ca-pub-5663917297524414"
+              data-ad-slot="8357823829"></ins>
+              <script>
+              (adsbygoogle = window.adsbygoogle || []).push({});
+              </script>
+    
+              
+
+<h3>関連記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+          【自然言語処理】高速なニューラル機械翻訳実装CTranslate2【論文紹介】
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-12-13T17:11:32&#43;09:00">
+        
+  
+  
+  
+  
+    2020-12-13
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/12/speed-1249610_640.jpg"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          【自然言語処理】LSTMに基づく文書分類 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-09-06T09:46:04&#43;09:00">
+        
+  
+  
+  
+  
+    2020-09-06
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/09/06/document-classification.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+          【自然言語処理】Scheduled samplingによるニューラル言語モデルの学習
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-07-19T13:34:44&#43;09:00">
+        
+  
+  
+  
+  
+    2020-07-19
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/07/19/scheduled-sampling.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+          【自然言語処理】Kaggleコンペで利用されている文書分類のtips
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-05-03T16:47:46&#43;09:00">
+        
+  
+  
+  
+  
+    2020-05-03
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/kaggle">kaggle</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/Kaggle_logo.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+          [自然言語処理] LSTMに基づく言語モデルの学習 (PyTorchコード付き)
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2020-03-15T15:24:03&#43;09:00">
+        
+  
+  
+  
+  
+    2020-03-15
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/neural_network">neural_network</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/pytorch">pytorch</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/google-colab">google-colab</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
+    
+  
+
+  </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/03/15/lstm-lm.png"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+
+
+
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">タグ</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/nlp/">nlp</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/machine_learning/">machine_learning</a>
+
+  <a class="tag tag--primary tag--small" href="https://tma15.github.io/tags/c&#43;&#43;/">c&#43;&#43;</a>
+
+                  </div>
+                
+              
+            
+            <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/" data-tooltip="【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+            
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2021 Takuya Makino. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="1">
+        <div class="post-actions-wrap">
+  
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">次</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/" data-tooltip="【Deep Learning】BERT学習時にbiasやlayer normalizationをweight decayしない理由">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">前</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+      
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  
+</div>
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="1">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Ftma15.github.io%2Fblog%2F2021%2F10%2F03%2F%25E8%2587%25AA%25E7%2584%25B6%25E8%25A8%2580%25E8%25AA%259E%25E5%2587%25A6%25E7%2590%2586spin%25E3%2583%25A2%25E3%2583%2587%25E3%2583%25AB%25E3%2581%25AB%25E3%2582%2588%25E3%2582%258B%25E6%25A5%25B5%25E6%2580%25A7%25E8%25BE%259E%25E6%259B%25B8%25E3%2581%25AE%25E5%25AD%25A6%25E7%25BF%2592%25E8%25AB%2596%25E6%2596%2587%25E7%25B4%25B9%25E4%25BB%258B%2F">
+          <i class="fa fa-twitter"></i><span>Twitterで共有</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://www.gravatar.com/avatar/dfef3d85434946d893b00f14fa3b80ed?s=110" alt="プロフィール画像" />
+    
+    <h4 id="about-card-name">Takuya Makino</h4>
+    
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        自然言語処理の研究開発に従事
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        Kanagawa, Japan
+      </div>
+    
+  </div>
+</div>
+
+    
+
+    
+  
+    
+      <div id="cover" style="background-image:url('https://tma15.github.io/images/cover.jpg');"></div>
+    
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://tma15.github.io/js/script-pcw6v3xilnxydl1vddzazdverrnn9ctynvnxgwho987mfyqkuylcb1nlt.min.js"></script>
+
+
+<script lang="javascript">
+window.onload = updateMinWidth;
+window.onresize = updateMinWidth;
+document.getElementById("sidebar").addEventListener("transitionend", updateMinWidth);
+function updateMinWidth() {
+  var sidebar = document.getElementById("sidebar");
+  var main = document.getElementById("main");
+  main.style.minWidth = "";
+  var w1 = getComputedStyle(main).getPropertyValue("min-width");
+  var w2 = getComputedStyle(sidebar).getPropertyValue("width");
+  var w3 = getComputedStyle(sidebar).getPropertyValue("left");
+  main.style.minWidth = `calc(${w1} - ${w2} - ${w3})`;
+}
+</script>
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+  
+
+
+
+
+    
+  </body>
+</html>
+
