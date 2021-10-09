@@ -17,8 +17,7 @@
       <pubDate>Wed, 11 Mar 2020 15:05:37 +0900</pubDate>
       
       <guid>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</guid>
-      <description>&lt;!--adsense--&gt;
-&lt;p&gt;Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
+      <description>&lt;p&gt;Google Colaboratory (略称: Colab) はGoogleが提供する無料の計算環境です。
 ウェブブラウザ上でコードを記述して実行できるインタラクティブな操作ができます。
 さらにGPUやTPUを無料で利用できる素晴らしい計算環境です。
 本記事ではColabを利用するための計算環境の構築手順を紹介します。

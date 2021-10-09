@@ -6,10 +6,23 @@
     <description>Recent content in cmake on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 08 Aug 2020 13:35:00 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 09 Oct 2021 13:05:41 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/cmake/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【pybind11】サブモジュールごとにファイルを分割してPythonモジュールを作成する</title>
+      <link>https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/</link>
+      <pubDate>Sat, 09 Oct 2021 13:05:41 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://pybind11.readthedocs.io/en/stable/&#34;&gt;pybind11&lt;/a&gt;を使うことでC++で書いたライブラリをPythonから利用できるようになります。
+例えばDeep LearningフレームワークのPyTorchもコア部分をC++で&lt;a href=&#34;https://github.com/pytorch/pytorch/blob/master/torch/csrc/utils/pybind.h&#34;&gt;実装&lt;/a&gt;し、pybind11を使ってPythonから利用できるようになっています。
+pybind11の公式リファレンスを読むことで基本的なことはわかったのですが、Pythonモジュールをサブモジュールごとにファイルに分割する方法がわからなかったので本記事を作成しました。
+特にプログラムが複雑になってきたときにファイルを分割してサブモジュールを作成したいことが出てくると思います。
+ベストプラクティスなのかわかりませんが、本記事が同じ疑問を持っている方の解決策になれば幸いです。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【C&#43;&#43;】CMakeでGoogle Testをリンクできるようにする</title>
