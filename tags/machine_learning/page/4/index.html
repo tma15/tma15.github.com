@@ -146,7 +146,7 @@ if (!doNotTrack) {
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
-          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、プログラミング、日々の生活について扱います。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
         
       </div>
     
@@ -260,6 +260,126 @@ if (!doNotTrack) {
         
           <section class="postShorten-group main-content-wrap">
             
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/">
+          オンライン学習の実装いろいろ
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-07-17T23:09:00&#43;09:00">
+        
+  
+  
+  
+  
+    2015-07-17
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        最近はNLPなデモをgolangで実装して人に見せることが多くなってきた。 その時に、さっと使える機械学習ライブラリが欲しかったので、勉強がてら実装した。 実装が簡単で学習が速いオンライン学習手法を実装した。
+gonline
+パーセプトロンから、Confidence WeightedやAROWまでを提供している。各アルゴリズムは多値分類が可能なように拡張している。 news20 を使って評価はしたのだけど こちらの論文 と比べると精度が低めになっているので、もしかしたら 実装が怪しいかもしれない (パラメータチューニングをしていないだけの問題かもしれない)。 SCWはいつか実装する。
+golangらしく？github releaseでバイナリの配布もしている (今回初めてやってみた)。 これを使えば、とりあえず何も考えずに分類器を学習させて予測することができる。
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/">
+          Dropoutの実装で気になって調べたこと
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2015-02-21T00:00:00Z">
+        
+  
+  
+  
+  
+    2015-02-21
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <!--adsense-->
+<p>Dropout層は学習時と予測時にforwardの処理が異なる。ここでは学習時と予測時では処理がどう異なるかは書かずに、メジャーどころのライブラリではどのように実装されているかを簡単に調べたことをメモ書き程度に書く。処理がどう異なるかに興味がある人は参考にある論文を読むと分かりやすい。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
             
               
   
@@ -446,7 +566,7 @@ $$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;=&amp; \log \{\frac{1}{\sqrt{2\
         
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2021 Takuya Makino. All Rights Reserved
+    &copy; 2022 Takuya Makino. All Rights Reserved
   </span>
 </footer>
 
@@ -463,7 +583,7 @@ $$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;=&amp; \log \{\frac{1}{\sqrt{2\
     
     <h4 id="about-card-name">Takuya Makino</h4>
     
-      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、プログラミング、日々の生活について扱います。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
     
     
       <div id="about-card-job">

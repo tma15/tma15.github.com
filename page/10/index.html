@@ -146,7 +146,7 @@ if (!doNotTrack) {
         </a>
         <h4 class="sidebar-profile-name">Takuya Makino</h4>
         
-          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
+          <h5 class="sidebar-profile-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、プログラミング、日々の生活について扱います。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</h5>
         
       </div>
     
@@ -257,6 +257,192 @@ if (!doNotTrack) {
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          PA-IIをGoで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-10-18
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        論文はこちら。
+Online Passive-Aggressive Algorithms
+ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) + 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/11/%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          パーセプトロンをGoで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-11T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-10-11
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        流行りに乗り遅れてGo言語始めました。ので、試しにパーセプトロンを書いてみました。 ソースコードはこちら。
+素性ベクトルのフォーマットは&lt;数値&gt;:&lt;数値&gt; である必要はなくて、&lt;文字列&gt;:&lt;数値&gt; でも読み込めるようにしました。 また、ラベルの値も数値である必要はなくて、例えば以下のように「food」とか、「sports」というラベルも扱えるようにしています。 多値分類もできます。
+sports soccer:1 baseball:1 food beef:1 pork:1 今回はLIBSVM Data: Classification, Regression, and Multi-labelで公開されている二値分類用データを使って動かしてみました。
+$go build $./perceptron -f=../data/a1a -m=learn -w=model -l=10 $./perceptron -f=../data/a1a.t -m=test -w=model Acc: 0.8257203773097299 -fオプションで素性ベクトルのファイルを指定して、-mオプションで学習(learn)、テスト(test)のどちらかを指定して-lオプションでループ回数(デフォルトは10)を指定して、-wオプションで学習結果を保存するファイルを指定します。 テストする時は、-mオプションでtestを指定して、-fオプションでテストデータを指定してやれば予測します。-vオプションをつけると、各事例に対する予測ラベルを出力します。
+このデータは、
+$grep &#34;^+1&#34; ../data/a1a.t|wc -l 7446 $grep &#34;^-1&#34; ../data/a1a.t|wc -l 23510 とラベルの偏りがあり、すべての事例のラベルを-1と答えたらaccuracyは0.76程度なので、一応学習できているようです。
+confusion matrixを書く元気は残っていなかったのでaccuracyしか出力しません・・・。 出力するようにしました。 (2014/09/17追記)
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/11/%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          Induced SortingをPythonで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-05-07T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-05-07
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
+  GitHubにコードを上げた (sais.py)。
+参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
+ Two Efficient Algorithms for Linear Time Suffix Array Construction  
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -531,193 +717,6 @@ $$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;=&amp; \log \{\frac{1}{\sqrt{2\
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/">
-          文書要約メモ（ACL2013）
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-09-30T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-09-30
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
-Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている   さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Diversity Maximization Under Matroid Constraints (KDD 2013)を読んだ
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-09-10T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-09-10
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        KDD 2013読み会に参加させていただきました。 せっかくなのでと思い論文を読んで発表してきた。 主催してくださった@y_benjoさん、会場を提供してくださったGunosy Inc.さん、ありがとうございます。 これまであまり外部の勉強会で発表する機会が無かったので少し緊張したけどその緊張感はとてもよい感じだった。 個人的には参加者数が多すぎず少なすぎなかったのが良かった。
-読んだ論文 Diversity Maximization Under Matroid Constraints, Zeinab Abbassi, Vahab S. Mirrokni and Mayur Thakur, KDD 2013
-proceeding (pdf)
-ニュース配信サービスがいかに小さくて多様なニュース記事を提示するかという話。 カテゴリに対してたかだかp個ずつニュース記事を選択してdiversityを最大化するのだけど、その制約をpartition matroidで表現している。 記事集合の選択にはdiversityがある程度上がるなら文書をどんどん入れ替えるgreedyなアプローチをとっているのだけど、最悪でも一番高いdiversityの1/2以上であることを保証してくれる。
-ペアワイズの距離を定義して、その総和をdiversityとしているのだけどそのペアワイズの距離が少し変わった形をしている。 これは1/2近似であることを証明する時に必要な性質をもっているため。 この式をgeneralized Jaccard distanceと呼んでいて、重み付きの要素をもつ集合間の距離を測るときに用いることができる。 今まで見たことがなかったのだけど、（この式はよくあるものなのかという質問もいただき）調べてみたら他の論文でもJaccard距離の一般的な表現として登場しているのでこの論文で定義されたものではないみたい。
-人手の評価もおこない、diversityを考慮しない場合よりもdiversityを考慮した文書集合の方が観たいと答えた人の割合が多いという結果になった。
-関数の定義が書かれていなかったり、average distanceと書いてある評価指標が距離の総和を取っているだけの式に見えたり、Googleの中の人じゃないと分からないことを書いていたり、読むときに少し障壁を感じた。
-発表資料   議論 大事なことだと思ったので発表時に頂いたコメントを自分なりにまとめた。 自分の解釈が間違っているかもしれないので、もし間違っていたらご指摘ください。
- diversityに価値があることはなんとなくわかるけど、diversityを考慮していないものと考慮したものを比べても意味ないのでは diversityを良くしたら本当にユーザにとってためになるものが提供できるのか  極論するとランダムな文書集合で満足するユーザがいるかもしれない   diversityにも色々あるし、diversityの良さは人によって違うのでは  色々なdiversityと人間の評価の相関とか調べると面白いかも    
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/">
-          Active Sampling for Entity Matching (KDD 2012)を読んだ
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-08-03T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-08-03
-  
-
-
-      </time>
-
-      
-
-    
-    
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        proceeding (pdf), slide (html), journal (pdf)
-KDD 2012の時点では元々Yahoo! Researchにいた著者らがjournalでは所属がみんなばらばらになっているので興味があって調べてみたけど、 マリッサ・メイヤーのYahoo! CEO就任は2012年7月17日、KDD 2012は2012年8月中旬、 おそらくその後にjournalを出しているのでマリッサ・メイヤーの就任は転職に影響したのだろうかという 余計な詮索をしていた。 journalのpublish dateはMarch 2010となっているけどreferenceにはそれ以降の論文もあるし、 これは2010に出たjournalではないらしくて時系列がどうなっているのか混乱した。
-概要 entity matchingでは正例に対して負例がとても多く、学習にはprecisionがしきい値以上であるような 制約を満たすようにrecallを最大化するactive learningアルゴリズムが提案されている。 ただ先行研究のアルゴリズムはlabel complexity、computational complexityともに高いので 提案手法では近似的にprecision制約付きのrecall問題を解く方法を提案してそれが先行研究 に比べて早く、しかも精度もよく学習できることを示している。
-発表資料   以下メモ。
-Convex hull algorithm  precisionの制約付きrecall最大化問題を解きたいのだけど、制約があると面倒なのでラグランジュの未定乗数法 のようにして問題から制約を取り除く。 また分類器の空間Hは次元数に対して指数的に増加するのでそこで探索するのを避けて、分類器を recall、precisionの空間に写像して、写像した空間P={(X(h), y(h)):h∈H}で探索をおこなう。 探索には二分探索を用い反復的に0-1 lossを最小化する問題をactive learningアルゴリズムによって解いている。 ここで、active learningはどんなものでも良くてblack boxとして扱うことが出来る。 Rejection sampling algorithm black boxの学習をおこなう前に呼び出されるアルゴリズム。 気持ちを理解するにはMachined Learnings: Cost-Sensitive Binary Classification and Active Learningが詳しい。 要約すると分類器の学習にはfalse positiveやfalse nagativeに対してどちらをより優先して 少なくするような重み付けをした目的関数を最適化する方法があるのだが、この重みはラベル が付いていないサンプルに関しては人間にラベルの問い合わせをおこなわないとできない (正解 が正例、 負例のどちらかがわからないとα、1-αのどちらを掛けたらよいか決められない) 。 今の状況では、active learningのアルゴリズムがラベルの問い合わせをおこなったサンプル についてのみ正解のラベルがわかっている。そこで、ラベルの問い合わせをしたサンプルのみ 正例の場合は確率α、負例の場合は確率1-αで訓練データとして扱い、そうでなければ棄却をする。 棄却されなかったサンプルの集合の期待値を計算するともとの目的関数と同じになる。
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -739,7 +738,7 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
           </li>
         
       
-      <li class="pagination-number">page 10 of 11</li>
+      <li class="pagination-number">page 10 of 12</li>
     </ul>
   </div>
 
@@ -747,7 +746,7 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
         </section>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2021 Takuya Makino. All Rights Reserved
+    &copy; 2022 Takuya Makino. All Rights Reserved
   </span>
 </footer>
 
@@ -764,7 +763,7 @@ Convex hull algorithm  precisionの制約付きrecall最大化問題を解きた
     
     <h4 id="about-card-name">Takuya Makino</h4>
     
-      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、Python、C++に関する記事が多めです。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
+      <div id="about-card-bio">自然言語処理の研究開発に従事しています。自然言語処理に関する研究から製品化に向けた開発に興味を持っています。本ブログでは自然言語処理、機械学習、プログラミング、日々の生活について扱います。詳細は<a href="https://tma15.github.io/about/">プロフィール</a>を御覧ください。</div>
     
     
       <div id="about-card-job">
