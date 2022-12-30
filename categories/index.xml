@@ -6,37 +6,10 @@
     <description>Recent content in Categories on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Thu, 29 Dec 2022 10:05:49 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 09 Oct 2021 13:05:41 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>machine_learning</title>
-      <link>https://tma15.github.io/categories/machine_learning/</link>
-      <pubDate>Thu, 29 Dec 2022 10:05:49 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/machine_learning/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>nlp</title>
-      <link>https://tma15.github.io/categories/nlp/</link>
-      <pubDate>Thu, 29 Dec 2022 10:05:49 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/nlp/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>book</title>
-      <link>https://tma15.github.io/categories/book/</link>
-      <pubDate>Fri, 15 Oct 2021 11:08:15 +0900</pubDate>
-      
-      <guid>https://tma15.github.io/categories/book/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>c&#43;&#43;</title>
@@ -84,6 +57,24 @@
     </item>
     
     <item>
+      <title>machine_learning</title>
+      <link>https://tma15.github.io/categories/machine_learning/</link>
+      <pubDate>Sun, 03 Oct 2021 16:15:00 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/machine_learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>nlp</title>
+      <link>https://tma15.github.io/categories/nlp/</link>
+      <pubDate>Sun, 03 Oct 2021 16:15:00 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>paper</title>
       <link>https://tma15.github.io/categories/paper/</link>
       <pubDate>Sun, 03 Oct 2021 16:15:00 +0900</pubDate>
@@ -98,6 +89,15 @@
       <pubDate>Fri, 17 Sep 2021 16:52:50 +0900</pubDate>
       
       <guid>https://tma15.github.io/categories/neural_network/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>book</title>
+      <link>https://tma15.github.io/categories/book/</link>
+      <pubDate>Sat, 12 Dec 2020 14:43:37 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/categories/book/</guid>
       <description></description>
     </item>
     
