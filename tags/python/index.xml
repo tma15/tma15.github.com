@@ -6,10 +6,22 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 09 Oct 2021 13:05:41 +0900</lastBuildDate>
+    <lastBuildDate>Sat, 31 Dec 2022 09:33:01 +0900</lastBuildDate>
     
 	<atom:link href="https://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>【Python】Poetryを使ったパッケージ管理</title>
+      <link>https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Sat, 31 Dec 2022 09:33:01 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/</guid>
+      <description>&lt;p&gt;以前&lt;code&gt;setup.py&lt;/code&gt;を使って自作パッケージをライブラリ化する&lt;a href=&#34;https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/&#34;&gt;記事&lt;/a&gt;を書きました。
+&lt;code&gt;setup.py&lt;/code&gt;を代替するツールに&lt;a href=&#34;https://python-poetry.org/&#34;&gt;Poetry&lt;/a&gt;というものがあります。
+Poetryを使うことでパッケージが依存するライブラリの依存関係を自動で解消してくれます。
+本記事ではPoetryの基本的な利用方法についてまとめました。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【pybind11】サブモジュールごとにファイルを分割してPythonモジュールを作成する</title>
