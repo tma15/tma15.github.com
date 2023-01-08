@@ -285,6 +285,69 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/adagrad-rda%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
+          AdaGrad&#43;RDAをGoで書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-18T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-10-18
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        論文はこちら。
+Adaptive Subgradient Methods for Online Learning and Stochastic Optimization
+ソースコードはこちら。 多値分類問題にも対応できるようにした。二値分類問題と比べてヒンジ損失が少し変わる(ので重みの更新も二値分類の場合とと少し違う)。
+データを次のように作成。
+$perl -MList::Util=shuffle -e &#39;print shuffle(&lt;&gt;)&#39; &lt; ../data/news20.binary &gt; news $head -15000 news &gt; news.train $tail -4996 news &gt; news.test 例えばこのデータは素性の値が0.04くらいなので、その平均を取ると0.01よりも小さくなるため、式(24)中の右辺の第三項が0になり、ほとんどすべての重みが0になってしまう。 正則化項の重み(c)をもう少し小さくしてやると、次の結果になった(本当は論文のように交差検定をして決めてやったほうが良いけど、人手でチューニング)。
+$./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test -m test -w model -l 1 -c 0.01 Recall[-1]: 0.011142 (28/2513) Prec[-1]: 0.848485 (28/33) -- Recall[+1]: 0.997986 (2478/2483) Prec[+1]: 0.499295 (2478/4963) -- Acc: 0.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/18/adagrad-rda%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/">
           PA-IIをGoで書いた
         </a>
@@ -645,88 +708,6 @@ WHY そのような知識源がどのように面白く、セレンディピテ�
 </article>
 
           
-            
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-      <a href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/">
-        <div class="postShorten-thumbnailimg" align="center">
-          <img alt="" itemprop="image" src="https://tma15.github.io/img/2020/scikit-learn-logo-thumb.png" height="" width=""/>
-        </div>
-      </a>
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/">
-          scikit-learnのソースコードリーディング（ナイーブベイズ分類）
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2013-11-10T00:00:00Z">
-        
-  
-  
-  
-  
-    2013-11-10
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/scikit-learn">scikit-learn</a>
-    
-  
-
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        個人的にはプログラミングの勉強は写経が一番頭に入る気がする、ということで読んでいた。
-気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
-\[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
-これのlogをとると、
-$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;=&amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\
-&amp;=&amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
-ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;=&amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\
-&amp;=&amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\
-&amp;=&amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\
-&amp;=&amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\
-&amp;=&amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -756,7 +737,7 @@ $$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;=&amp; \log \{\frac{1}{\sqrt{2\
         </section>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2022 Takuya Makino. All Rights Reserved
+    &copy; 2023 Takuya Makino. All Rights Reserved
   </span>
 </footer>
 
