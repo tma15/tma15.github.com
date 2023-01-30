@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Hugo tranquilpeak theme demo">
@@ -101,7 +101,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -286,6 +285,66 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/">
+          食べログAPIのPythonラッパーを書いた
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2013-05-12T00:00:00Z">
+        
+  
+  
+  
+  
+    2013-05-12
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        ソースコードはこちら。
+食べログAPI利用登録 まず食べログAPI サービス案内から利用登録をして access key (40桁の文字列)を入手する。
+インストール git clone https://github.com/tma15/python-tabelog.git cd python-tabelog python setup.py install 使い方 最初に from tabelog import Tabelog key = &#39;Your access key here.&#39; tabelog = Tabelog(key) レストラン検索 prefecture = &#39;東京&#39; station = &#39;渋谷&#39; restaurants = tabelog.search_restaurant(prefecture=prefecture, station=station) for restaurant in restaurants: print &#39;rcd:&#39;, restaurant.rcd print &#39;name:&#39;, restaurant.name print &#39;url:&#39;, restaurant.tabelogurl print &#39;mobile url:&#39;, restaurant.tabelogmobileurl print &#39;dinner price:&#39;, restaurant.dinnerprice print &#39;lunch price:&#39;, restaurant.lunchprice print &#39;total score:&#39;, restaurant.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/">
           Robust Disambiguation of Named Entities in Text (EMNLP 2011)
         </a>
@@ -317,7 +376,7 @@ if (!doNotTrack) {
       
         Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
-解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない   + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される  アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ  + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標   + グラフの中からサブグラフを選択  + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除   prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい  
+解いている問題 Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される アプローチ priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標 + グラフの中からサブグラフを選択 + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除 prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい 
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -378,7 +437,7 @@ proceeding: pdf
         Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
- tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   + tweetは，エンティティに対していろいろな表現をされる． + e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など  + "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet  + NERモデルにより"Alex"と"Alex Russo"
+tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう． + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる． アプローチ 固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる + tweetは，エンティティに対していろいろな表現をされる． + e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など + "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet + NERモデルにより"Alex"と"Alex Russo"がともにPERSONであることが識別できれば，NENモデルは"Alex"を"Alex Russo"に名寄せできる． + " ... she knew Burger King when .
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -440,10 +499,13 @@ proceeding: pdf
 proceeding: pdf
 解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
 課題
- Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。   + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
- Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。   + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
- ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
- 訓練データは真に正例の事例と、大量のラベルなしの事例からなる   + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  E-step
+Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう 提案手法のモチベーション 外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。 + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。 + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
+Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。 + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。 + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
+ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う 訓練データの初期状態としてありうる二つのパターン
+訓練データは真に正例の事例と、大量のラベルなしの事例からなる + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある E-step
+訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる 具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる + α^x_{min}は、事例ごとに決定されるパラメータ M-step
+分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる 分類器R
+ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。 このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。 ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。 分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。 また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。 SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。 疑問点 最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか) α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか （ある単語のパターンでは負例になりやすいとかそういうことではない？） 
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>

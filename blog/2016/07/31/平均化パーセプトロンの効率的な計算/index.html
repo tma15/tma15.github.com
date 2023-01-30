@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="machine_learning">
 <meta name="description" content="概要
@@ -141,7 +141,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -379,7 +378,7 @@ if (!doNotTrack) {
 <h2 id="パーセプトロン">パーセプトロン</h2>
 <p>パーセプトロンの学習の擬似コードは次の通り。
 学習事例を受け取り、予測ラベルが正解ラベルと一致しなかった場合に、重みベクトルを更新する。</p>
-<pre><code>w = [0, ..., 0] ### N次元
+<pre tabindex="0"><code>w = [0, ..., 0] ### N次元
 for (x_i, y_i) in D
   y = sign(dot(x_i, w))
   if y != y_i
@@ -389,7 +388,7 @@ return w
 </code></pre><h2 id="平均化パーセプトロン">平均化パーセプトロン</h2>
 <p>平均化パーセプトロンの効率的な学習の擬似コードは以下の通り。
 パーセプトロンと違うところは、更新回数を覚えておくこと、またパラメータとして<code>w_all</code>、<code>w_avg</code>が増えていること。この<code>w_avg</code>が&quot;過去の反復で学習した重みベクトルの平均&quot;となっている。</p>
-<pre><code>w = [0, ..., 0] ### N次元
+<pre tabindex="0"><code>w = [0, ..., 0] ### N次元
 w_all = [0, ..., 0] ### N次元
 t = 1 ### 更新回数
 for (x_i, y_i) in D
@@ -405,22 +404,22 @@ return w_avg
 ここで、<code>u_t</code>を<code>t</code>回目の更新における重みの更新幅とすると、各更新の重みベクトルは次のような関係にある。</p>
 <p>$$
 \begin{eqnarray}
-\mathbf{w}_1 &amp;=&amp; \mathbf{0} \\<br>
-\mathbf{w}_2 &amp;=&amp; \mathbf{w}_1 + \mathbf{u}_1\\<br>
-\mathbf{w}_3 &amp;=&amp; \mathbf{w}_2 + \mathbf{u}_2\\<br>
-\mathbf{w}_4 &amp;=&amp; \mathbf{w}_3 + \mathbf{u}_3\\<br>
+\mathbf{w}_1 &amp;=&amp; \mathbf{0} \\
+\mathbf{w}_2 &amp;=&amp; \mathbf{w}_1 + \mathbf{u}_1\\
+\mathbf{w}_3 &amp;=&amp; \mathbf{w}_2 + \mathbf{u}_2\\
+\mathbf{w}_4 &amp;=&amp; \mathbf{w}_3 + \mathbf{u}_3\\
 \end{eqnarray}
 $$</p>
 <p>このことから、例えば<code>t=4</code>のときの<code>w_avg</code>は次のように計算することができる。</p>
 <p>$$
 \begin{eqnarray}
-\mathbf{ w}_{avg} &amp;=&amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\<br>
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\<br>
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\<br>
-&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\<br>
-&amp;=&amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\<br>
-&amp;=&amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\<br>
-&amp;=&amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\<br>
+\mathbf{ w}_{avg} &amp;=&amp; \frac{(\mathbf{w}_1 + \mathbf{w}_2 + \mathbf{w}_3 + \mathbf{w}_4)}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_2 + \mathbf{u}_2) + (\mathbf{w}_3 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_2 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{w}_1 + (\mathbf{w}_1 + \mathbf{u}_1) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{w}_1 + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(\mathbf{0} + (\mathbf{0} + \mathbf{u}_1) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2) + (\mathbf{0} + \mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3))}{4} \\
+&amp;=&amp; \frac{(3 \mathbf{u}_1 + 2 \mathbf{u}_2 + \mathbf{u}_3)}{4} \\
+&amp;=&amp; \frac{4 (\mathbf{u}_1 + \mathbf{u}_2 + \mathbf{u}_3)}{4} - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4} \\
 &amp;=&amp; \mathbf{w}_4 - \frac{(\mathbf{u}_1 + 2 \mathbf{u}_2 + 3 \mathbf{u}_3)}{4}
 \end{eqnarray}
 $$</p>
@@ -757,6 +756,72 @@ $$</p>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -993,65 +1058,6 @@ $$</p>
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

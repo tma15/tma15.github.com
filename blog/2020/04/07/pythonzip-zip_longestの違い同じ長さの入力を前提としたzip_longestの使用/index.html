@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python">
 <meta name="description" content="本記事ではPythonにおいて複数の入力を列挙する関数であるzip、zip_longestおよびそれらの違いを紹介します。
@@ -128,7 +128,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -364,20 +363,20 @@ if (!doNotTrack) {
 <p>本記事ではPython 3.6.6を利用しています。</p>
 <h2 id="zipの使用例">zipの使用例</h2>
 <p><code>zip</code>は与えられたリストや文字列などのイテラブルから要素のタプルを返すイテレータを作成します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-c <span style="color:#ae81ff">3</span>
-</code></pre></div><p><code>zip</code>はイテラブルの中で最短の長さのイテレータを返す点に注意が必要です。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">1</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#ae81ff">3</span>
+</span></span></code></pre></div><p><code>zip</code>はイテラブルの中で最短の長さのイテレータを返す点に注意が必要です。
 以下の様に<code>abc</code>、<code>12</code>の二つの文字列を与えると、長さが2のイテレータを作成します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-</code></pre></div><p>Pythonの<a href="https://docs.python.org/3/library/functions.html#zip">ドキュメント</a>では<code>zip</code>に関して以下のように説明があります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><p>Pythonの<a href="https://docs.python.org/3/library/functions.html#zip">ドキュメント</a>では<code>zip</code>に関して以下のように説明があります。</p>
 <blockquote>
 <p>zip() should only be used with unequal length inputs when you don’t care about trailing, unmatched values from the longer iterables. If those values are important, use itertools.zip_longest() instead.</p>
 </blockquote>
@@ -386,22 +385,22 @@ b <span style="color:#ae81ff">2</span>
 <p><code>zip</code>と似た<code>zip_longest</code>という関数も利用できます。
 <code>zip_longest</code>は<code>zip</code>と異なり、最長のイテラブルの長さのイテレータを作成します。
 最長のイテラブル以外のものについて、長さを超えた場合の要素はデフォルトでは<code>None</code>が返ってきます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</span> itertools
-
-In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-c None
-</code></pre></div><p><code>None</code>以外の他の値を返すようにしたい場合は<code>fillvalue</code>という引数を与えます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">5</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>, fillvalue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;O&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-c O
-</code></pre></div><p>上記のように<code>itertools.zip_longest</code>では最長の入力に合わせてイテレータを作成することができます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">3</span>]: <span style="color:#f92672">import</span> itertools
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#66d9ef">None</span>
+</span></span></code></pre></div><p><code>None</code>以外の他の値を返すようにしたい場合は<code>fillvalue</code>という引数を与えます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">5</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>, fillvalue<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;O&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>c O
+</span></span></code></pre></div><p>上記のように<code>itertools.zip_longest</code>では最長の入力に合わせてイテレータを作成することができます。</p>
 <h2 id="iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する">iterablesが異なる長さの場合エラーを出すようにzip_longestを使用する</h2>
 <p>上記で紹介したように、<code>zip</code>は入力の長さが異なっていた場合に、最短の入力の長さのイテレータを作成します。
 一方で<code>itertools.zip_longest</code>は最長の入力の長さのイテレータを作成します。
@@ -410,45 +409,45 @@ c O
 単純には<code>zip_longest</code>に入力する前にすべてのイテラブルの長さが等しいことを確認すれば良いですが、
 イテレータを入力とする場合、<code>len()</code>で長さを取得できません。</p>
 <p>イテレータが入力として与えられても、長さが等しくない場合にエラーを出せるようにするために、<code>zip_longest</code>を使って以下の様な関数を作成します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> itertools
-
-In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">zip_equal</span>(<span style="color:#f92672">*</span>iterables):
-   <span style="color:#f92672">...</span>:     sentinel <span style="color:#f92672">=</span> object()
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
-   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
-   <span style="color:#f92672">...</span>:             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
-   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">yield</span> combination
-   <span style="color:#f92672">...</span>:
-</code></pre></div><p>この関数では<code>fillvalue</code>で指定した要素が<code>zip_longest</code>によって得られたタプルに含まれていた場合、エラーを出すようにしています。<code>fillvalue</code>があるということはイテラブルの長さが等しくないことを表すため、このエラーはイテラブルの長さが等しくない場合に出ます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">1</span>]: <span style="color:#f92672">import</span> itertools
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">2</span>]: <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">zip_equal</span>(<span style="color:#f92672">*</span>iterables):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     sentinel <span style="color:#f92672">=</span> object()
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:         <span style="color:#66d9ef">yield</span> combination
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span></code></pre></div><p>この関数では<code>fillvalue</code>で指定した要素が<code>zip_longest</code>によって得られたタプルに含まれていた場合、エラーを出すようにしています。<code>fillvalue</code>があるということはイテラブルの長さが等しくないことを表すため、このエラーはイテラブルの長さが等しくない場合に出ます。</p>
 <p>長さが等しい入力とそうでない入力を与えて結果を確認します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">3</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-c <span style="color:#ae81ff">3</span>
-
-In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
-   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">print</span>(x, y)
-   <span style="color:#f92672">...</span>:
-a <span style="color:#ae81ff">1</span>
-b <span style="color:#ae81ff">2</span>
-<span style="color:#f92672">---------------------------------------------------------------------------</span>
-<span style="color:#a6e22e">ValueError</span>                                Traceback (most recent call last)
-<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span><span style="color:#f92672">-</span>d2760dd8dd39<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
-<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
-<span style="color:#ae81ff">2</span>     <span style="color:#66d9ef">print</span>(x, y)
-<span style="color:#ae81ff">3</span>
-
-<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>f6da01ba3db<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> zip_equal(<span style="color:#f92672">*</span>iterables)
-<span style="color:#ae81ff">3</span>     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
-<span style="color:#ae81ff">4</span>         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
-<span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">5</span>             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
-<span style="color:#ae81ff">6</span>         <span style="color:#66d9ef">yield</span> combination
-<span style="color:#ae81ff">7</span>
-
-<span style="color:#a6e22e">ValueError</span>: iterables have different lengths
-</code></pre></div><p>同じ長さの入力を与えた場合は処理が終了し、そうでない場合はエラーを出すことができます。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>In [<span style="color:#ae81ff">3</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;123&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>c <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>In [<span style="color:#ae81ff">4</span>]: <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:     print(x, y)
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">...</span>:
+</span></span><span style="display:flex;"><span>a <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>b <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">---------------------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ValueError</span>                                Traceback (most recent call last)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span><span style="color:#f92672">-</span>d2760dd8dd39<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> (x, y) <span style="color:#f92672">in</span> zip_equal(<span style="color:#e6db74">&#39;abc&#39;</span>, <span style="color:#e6db74">&#39;12&#39;</span>):
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>     print(x, y)
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>f6da01ba3db<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> zip_equal(<span style="color:#f92672">*</span>iterables)
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>     <span style="color:#66d9ef">for</span> combination <span style="color:#f92672">in</span> itertools<span style="color:#f92672">.</span>zip_longest(<span style="color:#f92672">*</span>iterables, fillvalue<span style="color:#f92672">=</span>sentinel):
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>         <span style="color:#66d9ef">if</span> sentinel <span style="color:#f92672">in</span> combination:
+</span></span><span style="display:flex;"><span><span style="color:#f92672">----&gt;</span> <span style="color:#ae81ff">5</span>             <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;iterables have different lengths&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">6</span>         <span style="color:#66d9ef">yield</span> combination
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">7</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ValueError</span>: iterables have different lengths
+</span></span></code></pre></div><p>同じ長さの入力を与えた場合は処理が終了し、そうでない場合はエラーを出すことができます。
 この関数は必ず入力の長さが同じであることを保証したい場合におすすめの使用方法です。</p>
 <h2 id="まとめ">まとめ</h2>
 <p>本記事ではPythonにおいて複数の入力を列挙する関数である<code>zip</code>、<code>zip_longest</code>について紹介しました。
@@ -833,6 +832,72 @@ b <span style="color:#ae81ff">2</span>
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1069,65 +1134,6 @@ b <span style="color:#ae81ff">2</span>
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

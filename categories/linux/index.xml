@@ -6,11 +6,7 @@
     <description>Recent content in linux on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 16 Jan 2016 10:55:26 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 16 Jan 2016 10:55:26 +0900</lastBuildDate><atom:link href="https://tma15.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>大量のファイルをGoで高速に読み込む</title>
       <link>https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/</link>

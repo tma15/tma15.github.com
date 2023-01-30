@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, pytorch">
 <meta name="description" content="PyTorchではDataLoaderを使うことで読み込んだデータから自動でミニバッチを作成することができます。
@@ -132,7 +132,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -363,11 +362,11 @@ DataLoaderを使いこなすことで、ニューラルネットワークの学�
   </ul>
 </nav>
 <p>DataLoaderでは以下のような引数を受け付けます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">DataLoader(dataset, batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, shuffle<span style="color:#f92672">=</span>False, sampler<span style="color:#f92672">=</span>None,
-           batch_sampler<span style="color:#f92672">=</span>None, num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, collate_fn<span style="color:#f92672">=</span>None,
-           pin_memory<span style="color:#f92672">=</span>False, drop_last<span style="color:#f92672">=</span>False, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
-           worker_init_fn<span style="color:#f92672">=</span>None)
-</code></pre></div><p>本記事では主に<code>dataset</code>、<code>sampler</code>、<code>batch_sampler</code>、<code>collate_fn</code>が関連します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>DataLoader(dataset, batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, sampler<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>           batch_sampler<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, collate_fn<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
+</span></span><span style="display:flex;"><span>           pin_memory<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, drop_last<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>           worker_init_fn<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>)
+</span></span></code></pre></div><p>本記事では主に<code>dataset</code>、<code>sampler</code>、<code>batch_sampler</code>、<code>collate_fn</code>が関連します。</p>
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -397,15 +396,15 @@ iterable-styleではユーザがデータの順序を実装する必要があり
 この章ではAutomatic batchingが有効時と無効時での挙動の違いについて解説します。</p>
 <h3 id="automatic-batching有効時の挙動">Automatic batching有効時の挙動</h3>
 <p>DataLoaderでは個別のデータを自動でミニバッチ化できます。
-このとき、DataLoaderはそれぞれのdatasetに対して、以下のように<code>batch_sampler</code>からミニバッチを構成する<strong><font color="red">データのリスト</font></strong>を<code>collate_fn</code>へ与えます。</p>
+このとき、DataLoaderはそれぞれのdatasetに対して、以下のように<code>batch_sampler</code>からミニバッチを構成する**<font color="red">データのリスト</font>**を<code>collate_fn</code>へ与えます。</p>
 <p>Map-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn([dataset[i] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> indices])
-</code></pre></div><p>Iterable-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">dataset_iter <span style="color:#f92672">=</span> iter(dataset)
-<span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn([next(dataset_iter) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> indices])
-</code></pre></div><p>デフォルトの<code>collate_fn</code>は次のような挙動となります。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> collate_fn([dataset[i] <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> indices])
+</span></span></code></pre></div><p>Iterable-style:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>dataset_iter <span style="color:#f92672">=</span> iter(dataset)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> indices <span style="color:#f92672">in</span> batch_sampler:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> collate_fn([next(dataset_iter) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> indices])
+</span></span></code></pre></div><p>デフォルトの<code>collate_fn</code>は次のような挙動となります。</p>
 <ul>
 <li>最初の次元にbatchを表す次元を追加する。</li>
 <li>NumPyのarrayやPythonの数値のlistをPyTorchのTensorに変換する。</li>
@@ -414,14 +413,14 @@ iterable-styleではユーザがデータの順序を実装する必要があり
 <h3 id="automatic-batching無効時の挙動">Automatic batching無効時の挙動</h3>
 <p>すでにバッチ化されたデータを読み込みたい、ミニバッチ学習を利用したくない、等の場合にはautomatic batchingを無効化することもできます。
 <code>batch_size</code>と<code>batch_sampler</code>がともに<code>None</code>のとき (<code>batch_sampler</code>のデフォルト値は<code>None</code>)、automatic batchingは無効化されます。
-Automatic batchingが無効化されているときは、<code>sampler</code>は<strong><font color="red">データを一つ</font></strong>サンプリングして<code>collate_fn</code>へ与えます。</p>
+Automatic batchingが無効化されているときは、<code>sampler</code>は**<font color="red">データを一つ</font>**サンプリングして<code>collate_fn</code>へ与えます。</p>
 <p>Map-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> index <span style="color:#f92672">in</span> sampler:
-    <span style="color:#66d9ef">yield</span> collate_fn(dataset[index])
-</code></pre></div><p>Iterable-style:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> iter(dataset):
-    <span style="color:#66d9ef">yield</span> collate_fn(data)
-</code></pre></div><h2 id="おわり">おわり</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> index <span style="color:#f92672">in</span> sampler:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> collate_fn(dataset[index])
+</span></span></code></pre></div><p>Iterable-style:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> iter(dataset):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">yield</span> collate_fn(data)
+</span></span></code></pre></div><h2 id="おわり">おわり</h2>
 <p>本記事ではPyTorchのDataLoaderにおけるミニバッチ化の仕組みについて解説しました。
 automatic batchingはデフォルトで有効になっているため、DataLoaderを使いこなすことでユーザは少ない手間で学習部分を記述できます。
 またautomatic batchingを無効にした時の挙動についても説明しました。</p>
@@ -804,6 +803,72 @@ msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1040,65 +1105,6 @@ msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

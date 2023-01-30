@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="拙作のgonlineに並列での学習もサポートするようにした。 分散環境での学習は手間がかかりそうだったので並列での学習のみとしている。 並列での学習にはIterative Parameter Mixture (pdf)を提供している。
@@ -123,7 +123,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -328,162 +327,162 @@ if (!doNotTrack) {
 並列での学習にはIterative Parameter Mixture (<a href="http://www.cslu.ogi.edu/~bedricks/courses/cs506-pslc/articles/week3/dpercep.pdf">pdf</a>)を提供している。</p>
 <p>シングルコアで学習するよりは速いんだけど、モデルの平均を取る時のボトルネックが大きくて、学習データの量がそれほど多くない場合はあまり効果がなさそう (以下の実験では人工的に学習データを増やしている)。CPU数を増やすと、平均を計算するコストが大きくなるので単純に学習が速くなるわけではない 。平均を取るときも、二分木にして並列化をしているが O(N)がO(log N)になるくらいなので、CPUの数が少なければ平均の計算がとても速くなるわけでもない。
 CPUは、1.7 GHz Intel Core i5を利用して、4コア利用時の学習速度とシングルコア利用時の学習速度をと比較してみる。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$wc -l news20.scale
-   <span style="color:#ae81ff">15935</span> news20.scale
-$touch news20.scale.big
-$for i in <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5; <span style="color:#66d9ef">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color:#66d9ef">done</span>
-$wc -l news20.scale.big
-   <span style="color:#ae81ff">79675</span> news20.scale.big
-$time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#ae81ff">4</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
-$time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#ae81ff">1</span> -s ipm ./news20.scale.big
-./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$wc -l news20.scale
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">15935</span> news20.scale
+</span></span><span style="display:flex;"><span>$touch news20.scale.big
+</span></span><span style="display:flex;"><span>$for i in <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span> 5; <span style="color:#66d9ef">do</span> cat news20.scale &gt;&gt; news20.scale.big; <span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span>$wc -l news20.scale.big
+</span></span><span style="display:flex;"><span>   <span style="color:#ae81ff">79675</span> news20.scale.big
+</span></span><span style="display:flex;"><span>$time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#ae81ff">4</span> -s ipm ./news20.scale.big
+</span></span><span style="display:flex;"><span>./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p  272.55s user 8.83s system 181% cpu 2:34.95 total
+</span></span><span style="display:flex;"><span>$time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p <span style="color:#ae81ff">1</span> -s ipm ./news20.scale.big
+</span></span><span style="display:flex;"><span>./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> -t ./news20.t.scale -withoutshuffle -p  169.83s user 5.84s system 97% cpu 3:00.66 total</span></span></code></pre></div>
 <p>Iterative Parameter Mixtureに関するコードは以下。</p>
 <p>ipm.go</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">FitLearners</span>(<span style="color:#a6e22e">learners</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">y</span> <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">string</span>) {
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)
-	<span style="color:#a6e22e">num_data</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">x</span>)
-	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
-	<span style="color:#a6e22e">sizechunk</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">num_data</span><span style="color:#f92672">/</span><span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
-			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
-				<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sizechunk</span>
-				<span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">sizechunk</span>
-				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">num_data</span> {
-					<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">num_data</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
-				}
-				<span style="color:#a6e22e">x_j</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">x</span>)[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span>]
-				<span style="color:#a6e22e">y_j</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">y</span>)[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span>]
-				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Fit</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x_j</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">y_j</span>)
-			}
-		}(<span style="color:#a6e22e">buffer</span>)
-	}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
-	}
-	close(<span style="color:#a6e22e">buffer</span>)
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">average_two</span>(<span style="color:#a6e22e">learner1</span>, <span style="color:#a6e22e">learner2</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span> {
-	<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">GetParams</span>()
-	<span style="color:#a6e22e">num_params</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)
-	<span style="color:#a6e22e">avg_params</span> <span style="color:#f92672">:=</span> make([][][]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">num_params</span>, <span style="color:#a6e22e">num_params</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_params</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">i</span>] = make([][]<span style="color:#66d9ef">float64</span>, <span style="color:#ae81ff">10</span>)
-	}
-
-	<span style="color:#a6e22e">avg_ftdic</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewDict</span>()
-	<span style="color:#a6e22e">avg_labeldic</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewDict</span>()
-	<span style="color:#a6e22e">learners</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">LearnerInterface</span>{<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">learner2</span>}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">learner</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">learners</span> {
-		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learner</span>.<span style="color:#a6e22e">GetParams</span>()
-		<span style="color:#a6e22e">num_params</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)
-		<span style="color:#a6e22e">ftdict</span>, <span style="color:#a6e22e">labeldict</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learner</span>.<span style="color:#a6e22e">GetDics</span>()
-
-		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">p</span> &lt; <span style="color:#a6e22e">num_params</span>; <span style="color:#a6e22e">p</span><span style="color:#f92672">++</span> {
-			<span style="color:#a6e22e">param</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)[<span style="color:#a6e22e">p</span>]
-			<span style="color:#a6e22e">avg_param</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">p</span>]
-			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">yid</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">yid</span> &lt; len(<span style="color:#a6e22e">labeldict</span>.<span style="color:#a6e22e">Id2elem</span>); <span style="color:#a6e22e">yid</span><span style="color:#f92672">++</span> {
-				<span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">labeldict</span>.<span style="color:#a6e22e">Id2elem</span>[<span style="color:#a6e22e">yid</span>]
-				<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">HasElem</span>(<span style="color:#a6e22e">y</span>) {
-					<span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">AddElem</span>(<span style="color:#a6e22e">y</span>)
-				}
-				<span style="color:#a6e22e">yid_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">Elem2id</span>[<span style="color:#a6e22e">y</span>]
-				<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span>); <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">yid_avg</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-					<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span>, make([]<span style="color:#66d9ef">float64</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1000</span>))
-				}
-				<span style="color:#a6e22e">avg_param_y</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">p</span>][<span style="color:#a6e22e">yid_avg</span>]
-				<span style="color:#a6e22e">param_y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">param</span>[<span style="color:#a6e22e">yid</span>]
-
-				<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ftid</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">ftid</span> &lt; len(<span style="color:#a6e22e">param</span>[<span style="color:#a6e22e">yid</span>]); <span style="color:#a6e22e">ftid</span><span style="color:#f92672">++</span> {
-					<span style="color:#a6e22e">ft</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ftdict</span>.<span style="color:#a6e22e">Id2elem</span>[<span style="color:#a6e22e">ftid</span>]
-					<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">HasElem</span>(<span style="color:#a6e22e">ft</span>) {
-						<span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">AddElem</span>(<span style="color:#a6e22e">ft</span>)
-					}
-					<span style="color:#a6e22e">ftid_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">Elem2id</span>[<span style="color:#a6e22e">ft</span>]
-					<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>); <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">ftid_avg</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-						<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>, <span style="color:#ae81ff">0.</span>)
-					}
-					(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>)[<span style="color:#a6e22e">ftid_avg</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">param_y</span>[<span style="color:#a6e22e">ftid</span>] <span style="color:#f92672">/</span> float64(len(<span style="color:#a6e22e">learners</span>))
-
-				}
-			}
-		}
-	}
-	(<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">SetParams</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>)
-	(<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">SetDics</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_labeldic</span>)
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">learner1</span>
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners</span> []<span style="color:#a6e22e">LearnerInterface</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span> {
-	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">learners</span>)<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> { <span style="color:#75715e">/* add learner to make length of learners is even number */</span>
-		<span style="color:#a6e22e">learners</span> = append(<span style="color:#a6e22e">learners</span>, <span style="color:#a6e22e">learners</span>[len(<span style="color:#a6e22e">learners</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>])
-	}
-	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">learners</span>)
-	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
-	<span style="color:#a6e22e">results</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">num_learner</span>)
-
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
-			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
-				<span style="color:#a6e22e">l1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learners</span>[<span style="color:#a6e22e">j</span>]
-				<span style="color:#a6e22e">l2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learners</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>]
-				<span style="color:#a6e22e">l_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">average_two</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">l1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">l2</span>)
-				<span style="color:#a6e22e">results</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">l_avg</span>
-			}
-		}(<span style="color:#a6e22e">buffer</span>)
-	}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
-	}
-	close(<span style="color:#a6e22e">buffer</span>)
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
-	close(<span style="color:#a6e22e">results</span>)
-	<span style="color:#a6e22e">learners_avg</span> <span style="color:#f92672">:=</span> make([]<span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">l_avg</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">results</span> {
-		<span style="color:#a6e22e">learners_avg</span> = append(<span style="color:#a6e22e">learners_avg</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">l_avg</span>)
-	}
-
-	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">learners_avg</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
-		<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners_avg</span>[<span style="color:#ae81ff">0</span>]
-	}
-	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners_avg</span>)
-}
-
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BroadCastModel</span>(<span style="color:#a6e22e">avg_learner</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">learners</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">LearnerInterface</span>) {
-	<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_learner</span>).<span style="color:#a6e22e">GetParams</span>()
-	<span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#a6e22e">avg_labeldic</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_learner</span>).<span style="color:#a6e22e">GetDics</span>()
-	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)
-	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
-	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
-		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
-			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
-			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
-				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">SetParams</span>(<span style="color:#a6e22e">params</span>)
-				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">SetDics</span>(<span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#a6e22e">avg_labeldic</span>)
-			}
-		}(<span style="color:#a6e22e">buffer</span>)
-	}
-	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
-		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
-	}
-	close(<span style="color:#a6e22e">buffer</span>)
-	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">FitLearners</span>(<span style="color:#a6e22e">learners</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">x</span> <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">y</span> <span style="color:#f92672">*</span>[]<span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">num_data</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">x</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">sizechunk</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">num_data</span><span style="color:#f92672">/</span><span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">start</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sizechunk</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">end</span> <span style="color:#f92672">:=</span> (<span style="color:#a6e22e">j</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#a6e22e">sizechunk</span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">end</span> <span style="color:#f92672">&gt;=</span> <span style="color:#a6e22e">num_data</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">end</span> = <span style="color:#a6e22e">num_data</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">x_j</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">x</span>)[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">y_j</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">y</span>)[<span style="color:#a6e22e">start</span>:<span style="color:#a6e22e">end</span>]
+</span></span><span style="display:flex;"><span>				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Fit</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">x_j</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">y_j</span>)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	close(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">average_two</span>(<span style="color:#a6e22e">learner1</span>, <span style="color:#a6e22e">learner2</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">GetParams</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">num_params</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">avg_params</span> <span style="color:#f92672">:=</span> make([][][]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">num_params</span>, <span style="color:#a6e22e">num_params</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_params</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">i</span>] = make([][]<span style="color:#66d9ef">float64</span>, <span style="color:#ae81ff">10</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">avg_ftdic</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewDict</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">avg_labeldic</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">NewDict</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">learners</span> <span style="color:#f92672">:=</span> []<span style="color:#a6e22e">LearnerInterface</span>{<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">learner2</span>}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">learner</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">learners</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learner</span>.<span style="color:#a6e22e">GetParams</span>()
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">num_params</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ftdict</span>, <span style="color:#a6e22e">labeldict</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learner</span>.<span style="color:#a6e22e">GetDics</span>()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">p</span> &lt; <span style="color:#a6e22e">num_params</span>; <span style="color:#a6e22e">p</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">param</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">params</span>)[<span style="color:#a6e22e">p</span>]
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">avg_param</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">p</span>]
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">yid</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">yid</span> &lt; len(<span style="color:#a6e22e">labeldict</span>.<span style="color:#a6e22e">Id2elem</span>); <span style="color:#a6e22e">yid</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">labeldict</span>.<span style="color:#a6e22e">Id2elem</span>[<span style="color:#a6e22e">yid</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">HasElem</span>(<span style="color:#a6e22e">y</span>) {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">AddElem</span>(<span style="color:#a6e22e">y</span>)
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">yid_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">avg_labeldic</span>.<span style="color:#a6e22e">Elem2id</span>[<span style="color:#a6e22e">y</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span>); <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">yid_avg</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param</span>, make([]<span style="color:#66d9ef">float64</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1000</span>))
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">avg_param_y</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>[<span style="color:#a6e22e">p</span>][<span style="color:#a6e22e">yid_avg</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">param_y</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">param</span>[<span style="color:#a6e22e">yid</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">ftid</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">ftid</span> &lt; len(<span style="color:#a6e22e">param</span>[<span style="color:#a6e22e">yid</span>]); <span style="color:#a6e22e">ftid</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">ft</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ftdict</span>.<span style="color:#a6e22e">Id2elem</span>[<span style="color:#a6e22e">ftid</span>]
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">HasElem</span>(<span style="color:#a6e22e">ft</span>) {
+</span></span><span style="display:flex;"><span>						<span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">AddElem</span>(<span style="color:#a6e22e">ft</span>)
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>					<span style="color:#a6e22e">ftid_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">avg_ftdic</span>.<span style="color:#a6e22e">Elem2id</span>[<span style="color:#a6e22e">ft</span>]
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>); <span style="color:#a6e22e">i</span> <span style="color:#f92672">&lt;=</span> <span style="color:#a6e22e">ftid_avg</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>						<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span> = append(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>, <span style="color:#ae81ff">0.</span>)
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>					(<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_param_y</span>)[<span style="color:#a6e22e">ftid_avg</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">param_y</span>[<span style="color:#a6e22e">ftid</span>] <span style="color:#f92672">/</span> float64(len(<span style="color:#a6e22e">learners</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	(<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">SetParams</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_params</span>)
+</span></span><span style="display:flex;"><span>	(<span style="color:#f92672">*</span><span style="color:#a6e22e">learner1</span>).<span style="color:#a6e22e">SetDics</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">avg_labeldic</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">learner1</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners</span> []<span style="color:#a6e22e">LearnerInterface</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">learners</span>)<span style="color:#f92672">%</span><span style="color:#ae81ff">2</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> { <span style="color:#75715e">/* add learner to make length of learners is even number */</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">learners</span> = append(<span style="color:#a6e22e">learners</span>, <span style="color:#a6e22e">learners</span>[len(<span style="color:#a6e22e">learners</span>)<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>])
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#a6e22e">learners</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">results</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">num_learner</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">l1</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learners</span>[<span style="color:#a6e22e">j</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">l2</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">learners</span>[<span style="color:#a6e22e">j</span><span style="color:#f92672">+</span><span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>]
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">l_avg</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">average_two</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">l1</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">l2</span>)
+</span></span><span style="display:flex;"><span>				<span style="color:#a6e22e">results</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">l_avg</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	close(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>	close(<span style="color:#a6e22e">results</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">learners_avg</span> <span style="color:#f92672">:=</span> make([]<span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#ae81ff">0</span>, <span style="color:#a6e22e">num_learner</span><span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">l_avg</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">results</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">learners_avg</span> = append(<span style="color:#a6e22e">learners_avg</span>, <span style="color:#f92672">*</span><span style="color:#a6e22e">l_avg</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">learners_avg</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners_avg</span>[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners_avg</span>)
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">BroadCastModel</span>(<span style="color:#a6e22e">avg_learner</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">LearnerInterface</span>, <span style="color:#a6e22e">learners</span> <span style="color:#f92672">*</span>[]<span style="color:#a6e22e">LearnerInterface</span>) {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">params</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_learner</span>).<span style="color:#a6e22e">GetParams</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#a6e22e">avg_labeldic</span> <span style="color:#f92672">:=</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">avg_learner</span>).<span style="color:#a6e22e">GetDics</span>()
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">num_learner</span> <span style="color:#f92672">:=</span> len(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>, <span style="color:#a6e22e">num_learner</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">ch</span> <span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">int</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">j</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">ch</span> {
+</span></span><span style="display:flex;"><span>				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">SetParams</span>(<span style="color:#a6e22e">params</span>)
+</span></span><span style="display:flex;"><span>				(<span style="color:#f92672">*</span><span style="color:#a6e22e">learners</span>)[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">SetDics</span>(<span style="color:#a6e22e">avg_ftdic</span>, <span style="color:#a6e22e">avg_labeldic</span>)
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">0</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">num_learner</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">buffer</span> <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">i</span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	close(<span style="color:#a6e22e">buffer</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 <p>main.go
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">FitLearners</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners</span>, <span style="color:#a6e22e">x_train</span>, <span style="color:#a6e22e">y_train</span>)
-<span style="color:#a6e22e">learner_avg</span> = <span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners</span>)
-<span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">BroadCastModel</span>(<span style="color:#a6e22e">learner_avg</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners</span>)</code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">FitLearners</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners</span>, <span style="color:#a6e22e">x_train</span>, <span style="color:#a6e22e">y_train</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">learner_avg</span> = <span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">AverageModels</span>(<span style="color:#a6e22e">learners</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">gonline</span>.<span style="color:#a6e22e">BroadCastModel</span>(<span style="color:#a6e22e">learner_avg</span>, <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">learners</span>)</span></span></code></pre></div></p>
 
               
 
@@ -785,6 +784,72 @@ $time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> 
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1021,65 +1086,6 @@ $time ./gonline train -a arow -m model -i <span style="color:#ae81ff">10</span> 
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

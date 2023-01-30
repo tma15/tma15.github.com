@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, poetry">
 <meta name="description" content="以前setup.pyを使って自作パッケージをライブラリ化する記事を書きました。
@@ -136,7 +136,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -371,15 +370,15 @@ Poetryを使うことでパッケージが依存するライブラリの依存�
 </nav>
 <h2 id="環境">環境</h2>
 <p>以下のバージョンで確認しました。</p>
-<pre><code>poetry==1.3.1
+<pre tabindex="0"><code>poetry==1.3.1
 </code></pre><h2 id="poetryのインストール">Poetryのインストール</h2>
 <p><code>pip</code>を使ってインストールします。</p>
-<pre><code>pip isntall poetry
+<pre tabindex="0"><code>pip isntall poetry
 </code></pre><h2 id="新しくプロジェクトを作成する">新しくプロジェクトを作成する</h2>
 <p>Poetryをインストール後、以下のコマンドでプロジェクトを作成します。</p>
-<pre><code>poetry new my_project
+<pre tabindex="0"><code>poetry new my_project
 </code></pre><p>コマンド実行後、以下のような構成のディレクトリが作成されます。</p>
-<pre><code>tree my_project
+<pre tabindex="0"><code>tree my_project
 .
 ├── README.md
 ├── my_project
@@ -389,47 +388,47 @@ Poetryを使うことでパッケージが依存するライブラリの依存�
     └── __init__.py
 </code></pre><h2 id="pyprojecttoml">pyproject.toml</h2>
 <p>このファイルによって依存ライブラリを始めとするパッケージの情報が管理されています。</p>
-<pre><code>[tool.poetry]
-name = &quot;my-project&quot;
-version = &quot;0.1.0&quot;
-description = &quot;&quot;
-authors = [&quot;名前 &lt;メールアドレス&gt;&quot;]
-readme = &quot;README.md&quot;
-packages = [{include = &quot;my_project&quot;}]
+<pre tabindex="0"><code>[tool.poetry]
+name = &#34;my-project&#34;
+version = &#34;0.1.0&#34;
+description = &#34;&#34;
+authors = [&#34;名前 &lt;メールアドレス&gt;&#34;]
+readme = &#34;README.md&#34;
+packages = [{include = &#34;my_project&#34;}]
 
 [tool.poetry.dependencies]
-python = &quot;^3.10&quot;
+python = &#34;^3.10&#34;
 
 
 [build-system]
-requires = [&quot;poetry-core&quot;]
-build-backend = &quot;poetry.core.masonry.api&quot;
+requires = [&#34;poetry-core&#34;]
+build-backend = &#34;poetry.core.masonry.api&#34;
 </code></pre><ul>
 <li><code>tool.poetry</code>の<code>packages</code>でパッケージ対象のディレクトリ名を指定します。デフォルトではプロジェクトのルートディレクトリが指定されます。ルートディレクトリとパッケージ対象のディレクトリが異なる場合は<code>include = &quot;&lt;package_dir&gt;&quot;</code>で<code>&lt;package_dir&gt;</code>を変更します。</li>
 <li>PoetryではこのパッケージがサポートするPythonのバージョンを明示的に指定します。<code>tools.poetry.dependencies</code>の<code>python = &quot;&lt;version&gt;&quot;</code>で指定されます。<code>^3.10</code>はメジャーバージョンが<code>4</code>未満で、マイナーバージョンが<code>10</code>以上であることを意味します (<code>&gt;=3.10.0 &lt; 4.0.0</code>)。</li>
 </ul>
 <h2 id="依存ライブラリを追加する">依存ライブラリを追加する</h2>
 <p>依存ライブラリを追加するには<code>poetry add</code>コマンドを実行します。</p>
-<pre><code>poetry add &lt;dependency&gt;
+<pre tabindex="0"><code>poetry add &lt;dependency&gt;
 </code></pre><p>ユニットテスト用のライブラリなど開発者用の環境でのみ使う依存関係を追加する場合は以下のように<code>-D</code>あるいは<code>--dev</code>を追加します。</p>
-<pre><code>poetry add -D pytest
+<pre tabindex="0"><code>poetry add -D pytest
 </code></pre><p>依存ライブラリでもバージョンを指定することができます。上記のように指定しない場合、最新版が利用されます。</p>
 <h2 id="cliを作成する">CLIを作成する</h2>
 <p>まず、<code>my_project/console.py</code>というファイルを作成し、以下のような<code>run</code>関数を作成します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python:console.py" data-lang="python:console.py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
-    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>)
-</code></pre></div><p><code>pyproject.toml</code>に以下の内容を追記します。</p>
-<pre><code>[tool.poetry.scripts]
-my_project_cli = 'my_project.console:run'
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python:console.py" data-lang="python:console.py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#34;Hello&#34;</span>)
+</span></span></code></pre></div><p><code>pyproject.toml</code>に以下の内容を追記します。</p>
+<pre tabindex="0"><code>[tool.poetry.scripts]
+my_project_cli = &#39;my_project.console:run&#39;
 </code></pre><p>これにより<code>my_project_cli</code>という実行ファイルを作成し、その実行内容は<code>my_project_cli/console.py</code>で定義した<code>run</code>関数であるということを指定します。</p>
 <h2 id="仮想環境で実行する">仮想環境で実行する</h2>
-<pre><code>poetry run my_project_cli
+<pre tabindex="0"><code>poetry run my_project_cli
 </code></pre><p>あるいは以下のように実行します。</p>
-<pre><code>poetry shell
+<pre tabindex="0"><code>poetry shell
 my_project_cli
 </code></pre><h2 id="自作パッケージのインストール">自作パッケージのインストール</h2>
 <p>自作パッケージをインストールする場合は以下のコマンドを実行します。</p>
-<pre><code>poetry install
+<pre tabindex="0"><code>poetry install
 </code></pre><p>このコマンドはルートディレクトリ配下に<code>poetry.lock</code>があるかないかで挙動が変わります。</p>
 <h3 id="poetrylockがない場合">poetry.lockがない場合</h3>
 <p><code>poetry install</code>を初めて実行する場合などが該当します。
@@ -443,7 +442,7 @@ my_project_cli
 <h2 id="依存ライブラリのバージョン更新">依存ライブラリのバージョン更新</h2>
 <p><code>poetry.lock</code>によって、依存ライブラリのバージョンが固定されることを見てきました。
 依存ライブラリのバージョンを更新したい場合は以下を実行します。</p>
-<pre><code>poetry update
+<pre tabindex="0"><code>poetry update
 </code></pre><p>これにより、最新バージョンの依存ライブラリをダウンロードしつつ、<code>poetry.lock</code>に書かれたバージョンも更新します。
 ここでもまた<code>poetry.lock</code>の差分をバージョン管理ツールで反映する必要があります。</p>
 <h2 id="おわり">おわり</h2>
@@ -818,6 +817,72 @@ my_project_cli
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1054,65 +1119,6 @@ my_project_cli
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

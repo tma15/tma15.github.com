@@ -6,11 +6,7 @@
     <description>Recent content in joblib on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 06 Oct 2019 07:08:25 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/tags/joblib/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 06 Oct 2019 07:08:25 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/joblib/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Python] Joblibのキャッシュを使って同じ計算を省略する</title>
       <link>https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/</link>

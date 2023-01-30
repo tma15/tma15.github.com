@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="nlp, python, scikit-learn">
 <meta name="description" content="scikit-learnのTfidfVectorizerではテキストを単語分割するためのtokenizerを与えることができます。
@@ -144,7 +144,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -370,41 +369,41 @@ tokenizerにTaggerオブジェクトを指定したTfidfVectorizerをpickleで�
   </ul>
 </nav>
 <p>本記事では以下のバージョンを用いています。</p>
-<pre><code>scikit-learn==0.23.2
+<pre tabindex="0"><code>scikit-learn==0.23.2
 mecab-python3==0.996.5
 </code></pre><h2 id="pickleで保存するときにエラーとなるプログラム">pickleで保存するときにエラーとなるプログラム</h2>
 <p>試しに<code>MeCabb.Tagger</code>を使って分かち書きをおこなうクラスを定義して、<code>TfidfVectorizer</code>の<code>tokenizer</code>に指定したうえで、<code>pickle</code>で保存してみます。
 <code>tokenizer</code>に<code>MeCab.Tagger</code>を利用したオブジェクトを指定した<code>TfidfVectorizer</code>は、<code>pickle.dump</code>で保存しようとすると以下のようなエラーが起きます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
-
-<span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
-<span style="color:#f92672">import</span> MeCab
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
-    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Owakati&#39;</span>):
-        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
-        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
-
-    <span style="color:#66d9ef">def</span> __call__(self, text):
-        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
-        <span style="color:#66d9ef">return</span> ret
-
-
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    v <span style="color:#f92672">=</span> TfidfVectorizer(tokenizer<span style="color:#f92672">=</span>T())
-
-    texts <span style="color:#f92672">=</span> [
-        <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
-    ]
-
-    v<span style="color:#f92672">.</span>fit(texts)
-    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
-        pickle<span style="color:#f92672">.</span>dump(v, f)
-</code></pre></div><pre><code>Traceback (most recent call last):
-  File &quot;main.py&quot;, line 41, in &lt;module&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pickle
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> MeCab
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;-Owakati&#39;</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __call__(self, text):
+</span></span><span style="display:flex;"><span>        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ret
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    v <span style="color:#f92672">=</span> TfidfVectorizer(tokenizer<span style="color:#f92672">=</span>T())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    texts <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    v<span style="color:#f92672">.</span>fit(texts)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        pickle<span style="color:#f92672">.</span>dump(v, f)
+</span></span></code></pre></div><pre tabindex="0"><code>Traceback (most recent call last):
+  File &#34;main.py&#34;, line 41, in &lt;module&gt;
     pickle.dump(t, f)
-TypeError: cannot pickle 'Tagger' object
+TypeError: cannot pickle &#39;Tagger&#39; object
 </code></pre><p>これはMeCabのPythonラッパーはSWIGで作成されており、MeCabのTaggerはpickle化がサポートされていないためです。</p>
 <h2 id="pickleunpickle時の挙動を記述するための情報">pickle/unpickle時の挙動を記述するための情報</h2>
 <ul>
@@ -426,55 +425,55 @@ TypeError: cannot pickle 'Tagger' object
 </li>
 </ul>
 <h2 id="pickle化可能なサンプル">pickle化可能なサンプル</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pickle
-
-<span style="color:#f92672">import</span> MeCab
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
-    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>):
-        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
-        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getstate__</span>(self):
-        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;option&#39;</span>: self<span style="color:#f92672">.</span>option}
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__setstate__</span>(self, state):
-        <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> state<span style="color:#f92672">.</span>items():
-            setattr(self, k, v)
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getnewargs__</span>(self):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>option,
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__reduce_ex__</span>(self, proto):
-        func <span style="color:#f92672">=</span> T
-        args <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getnewargs__()
-        state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getstate__()
-        listitems <span style="color:#f92672">=</span> None
-        dictitems <span style="color:#f92672">=</span> None
-        rv <span style="color:#f92672">=</span> (func, args, state, listitems, dictitems)
-        <span style="color:#66d9ef">return</span> rv
-
-    <span style="color:#66d9ef">def</span> __call__(self, text):
-        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
-        <span style="color:#66d9ef">return</span> ret
-
-
-<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-    text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
-
-    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
-        t <span style="color:#f92672">=</span> T(<span style="color:#e6db74">&#39;-Owakati&#39;</span>)
-        pickle<span style="color:#f92672">.</span>dump(t, f)
-        <span style="color:#66d9ef">print</span>(t(text))
-
-
-    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
-        t2 <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
-        <span style="color:#66d9ef">print</span>(t2(text))
-</code></pre></div><p>上記サンプルはpickle時に<code>Tagger</code>オブジェクトをpickleの対象から除き、unpickleする際に同じ設定で再度Taggerオブジェクトを作成するようにしています。こうすることで、pickle時にTaggerを保持している影響でエラーとなることを避けています。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> pickle
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> MeCab
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, option<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>option <span style="color:#f92672">=</span> option
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(option)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getstate__</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {<span style="color:#e6db74">&#39;option&#39;</span>: self<span style="color:#f92672">.</span>option}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__setstate__</span>(self, state):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> state<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>            setattr(self, k, v)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__getnewargs__</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>option,
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__reduce_ex__</span>(self, proto):
+</span></span><span style="display:flex;"><span>        func <span style="color:#f92672">=</span> T
+</span></span><span style="display:flex;"><span>        args <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getnewargs__()
+</span></span><span style="display:flex;"><span>        state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>__getstate__()
+</span></span><span style="display:flex;"><span>        listitems <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        dictitems <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        rv <span style="color:#f92672">=</span> (func, args, state, listitems, dictitems)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> rv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __call__(self, text):
+</span></span><span style="display:flex;"><span>        ret <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>tagger<span style="color:#f92672">.</span>parse(text)<span style="color:#f92672">.</span>rstrip()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ret
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+</span></span><span style="display:flex;"><span>    text <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;すもももももももものうち&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        t <span style="color:#f92672">=</span> T(<span style="color:#e6db74">&#39;-Owakati&#39;</span>)
+</span></span><span style="display:flex;"><span>        pickle<span style="color:#f92672">.</span>dump(t, f)
+</span></span><span style="display:flex;"><span>        print(t(text))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;test.pickle&#39;</span>, <span style="color:#e6db74">&#39;rb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>        t2 <span style="color:#f92672">=</span> pickle<span style="color:#f92672">.</span>load(f)
+</span></span><span style="display:flex;"><span>        print(t2(text))
+</span></span></code></pre></div><p>上記サンプルはpickle時に<code>Tagger</code>オブジェクトをpickleの対象から除き、unpickleする際に同じ設定で再度Taggerオブジェクトを作成するようにしています。こうすることで、pickle時にTaggerを保持している影響でエラーとなることを避けています。</p>
 <p>結果は以下のようになります。</p>
-<pre><code>すもも も もも も もも の うち
+<pre tabindex="0"><code>すもも も もも も もも の うち
 すもも も もも も もも の うち
 </code></pre><p><code>t2 = pickle.load(f)</code>で作成したオブジェクトが、pickleで保存した<code>t</code>と同様の結果を出力していることがわかります。</p>
 <h2 id="おわり">おわり</h2>
@@ -865,6 +864,72 @@ msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1101,65 +1166,6 @@ msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

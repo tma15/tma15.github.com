@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, youtube">
 <meta name="description" content="本記事ではPythonでYouTube Data API v3を介して動画を検索する方法について紹介します。
@@ -140,7 +140,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -406,52 +405,52 @@ if (!doNotTrack) {
 <li>「APIとサービス」の「認証情報」からAPIキーを確認する</li>
 </ul>
 <h2 id="google-apiのpythonクライアントをインストール">google APIのPythonクライアントをインストール</h2>
-<pre><code>pip install --upgrade google-api-python-client
+<pre tabindex="0"><code>pip install --upgrade google-api-python-client
 </code></pre><p>これでYouTube Data API v3を利用する準備ができました。</p>
 <h2 id="キーワード検索">キーワード検索</h2>
 <p>YouTube Data APIでは動画に対するさまざまなアクションが可能です。
 その中で、今回は検索に焦点を当てます。</p>
 <p>検索ではビデオ、チャンネル、再生リストを対象にキーワードに関連する情報を収集できます。
 デフォルトではこれらすべてが検索対象ですが、特定の種類に限定して検索することも可能です。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> apiclient.discovery <span style="color:#f92672">import</span> build
-
-
-<span style="color:#75715e"># Set DEVELOPER_KEY to the API key value from the APIs &amp; auth &gt; Registered apps</span>
-<span style="color:#75715e"># tab of</span>
-<span style="color:#75715e">#   https://cloud.google.com/console</span>
-<span style="color:#75715e"># Please ensure that you have enabled the YouTube Data API for your project.</span>
-DEVELOPER_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;REPLACE_ME&#39;</span>
-YOUTUBE_API_SERVICE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;youtube&#39;</span>
-YOUTUBE_API_VERSION <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;v3&#39;</span>
-
-youtube <span style="color:#f92672">=</span> build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey<span style="color:#f92672">=</span>DEVELOPER_KEY)
-
-<span style="color:#75715e"># https://developers.google.com/youtube/v3/docs/search/list?apix=true#try-it</span>
-search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
-    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,  <span style="color:#75715e"># idも指定可能。idとsnippetの両方を対象にする場合は&#39;id,snippet&#39;と指定する。</span>
-    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
-    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, <span style="color:#75715e"># 最大で50件</span>
-    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCountも指定可能。</span>
-    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,  <span style="color:#75715e"># channel, playlistも指定可能。複数指定する場合はカンマで区切って与える。</span>
-)<span style="color:#f92672">.</span>execute()
-</code></pre></div><h3 id="and検索or検索">AND検索、OR検索</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> apiclient.discovery <span style="color:#f92672">import</span> build
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Set DEVELOPER_KEY to the API key value from the APIs &amp; auth &gt; Registered apps</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># tab of</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   https://cloud.google.com/console</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Please ensure that you have enabled the YouTube Data API for your project.</span>
+</span></span><span style="display:flex;"><span>DEVELOPER_KEY <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;REPLACE_ME&#39;</span>
+</span></span><span style="display:flex;"><span>YOUTUBE_API_SERVICE_NAME <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;youtube&#39;</span>
+</span></span><span style="display:flex;"><span>YOUTUBE_API_VERSION <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;v3&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>youtube <span style="color:#f92672">=</span> build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey<span style="color:#f92672">=</span>DEVELOPER_KEY)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://developers.google.com/youtube/v3/docs/search/list?apix=true#try-it</span>
+</span></span><span style="display:flex;"><span>search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+</span></span><span style="display:flex;"><span>    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,  <span style="color:#75715e"># idも指定可能。idとsnippetの両方を対象にする場合は&#39;id,snippet&#39;と指定する。</span>
+</span></span><span style="display:flex;"><span>    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
+</span></span><span style="display:flex;"><span>    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>, <span style="color:#75715e"># 最大で50件</span>
+</span></span><span style="display:flex;"><span>    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCountも指定可能。</span>
+</span></span><span style="display:flex;"><span>    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,  <span style="color:#75715e"># channel, playlistも指定可能。複数指定する場合はカンマで区切って与える。</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>execute()
+</span></span></code></pre></div><h3 id="and検索or検索">AND検索、OR検索</h3>
 <p>AND検索は<code>+</code>を区切り文字としてキーワードを結合します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
-    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
-    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ+肩&#39;</span>,
-    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
-    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
-    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
-)<span style="color:#f92672">.</span>execute()
-</code></pre></div><p>OR検索では<code>|</code>を区切り文字としてキーワードを結合します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
-    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
-    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ|肩&#39;</span>,
-    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
-    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
-    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
-)<span style="color:#f92672">.</span>execute()
-</code></pre></div><p>AND検索では肩の筋トレに関する動画が検索されますが、OR検索は筋トレもしくは肩に関する動画が対象となるので、<a href="https://www.youtube.com/watch?v=lDur3mBHXSI">香水／瑛人　MV再現 (covered by 瑛肩)</a>が検索されるような違いが出ます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+</span></span><span style="display:flex;"><span>    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+</span></span><span style="display:flex;"><span>    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ+肩&#39;</span>,
+</span></span><span style="display:flex;"><span>    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
+</span></span><span style="display:flex;"><span>    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>execute()
+</span></span></code></pre></div><p>OR検索では<code>|</code>を区切り文字としてキーワードを結合します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+</span></span><span style="display:flex;"><span>    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+</span></span><span style="display:flex;"><span>    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ|肩&#39;</span>,
+</span></span><span style="display:flex;"><span>    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,
+</span></span><span style="display:flex;"><span>    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>execute()
+</span></span></code></pre></div><p>AND検索では肩の筋トレに関する動画が検索されますが、OR検索は筋トレもしくは肩に関する動画が対象となるので、<a href="https://www.youtube.com/watch?v=lDur3mBHXSI">香水／瑛人　MV再現 (covered by 瑛肩)</a>が検索されるような違いが出ます。</p>
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -468,43 +467,43 @@ search_response <span style="color:#f92672">=</span> youtube<span style="color:#
 
 <h3 id="動画の長さをフィルタリングする">動画の長さをフィルタリングする</h3>
 <p>動画の長さを指定してフィルタリングするには以下のように<code>videoDuration</code>を指定します。</p>
-<pre><code>search_response = youtube.search().list(
-    part='snippet',
-    q='筋トレ',
+<pre tabindex="0"><code>search_response = youtube.search().list(
+    part=&#39;snippet&#39;,
+    q=&#39;筋トレ&#39;,
     maxResults=50,
-    order='viewCount',
-    type='video',
-    videoDuration='long'  # longは20分以上、mediumは4分以上20分以下、shortは4分未満の動画を検索対象とする。
+    order=&#39;viewCount&#39;,
+    type=&#39;video&#39;,
+    videoDuration=&#39;long&#39;  # longは20分以上、mediumは4分以上20分以下、shortは4分未満の動画を検索対象とする。
 ).execute()
 </code></pre><h3 id="動画の投稿日時をフィルタリングする">動画の投稿日時をフィルタリングする</h3>
 <p>動画の投稿日時を基準に動画をフィルタリングするには<code>publishedAfter</code>もしくは<code>publishedBeforer</code>を指定します。
 <code>publishedBefore</code>はその日時以前に投稿された動画、<code>publishedAfter</code>はその日時以降に投稿された動画のみを検索対象とします。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> datetime
-
-
-day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date<span style="color:#f92672">.</span>fromisoformat(<span style="color:#e6db74">&#39;2020-09-24&#39;</span>)
-day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>strftime(day, <span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">T%H:%M:%S.</span><span style="color:#e6db74">%f</span><span style="color:#e6db74">Z&#39;</span>)
-search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
-    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
-    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
-    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
-    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCount, viewCount</span>
-    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
-    publishedAfter<span style="color:#f92672">=</span>day,  <span style="color:#75715e"># 2020年9月24日0時以降に投稿された動画を検索対象とする。</span>
-)<span style="color:#f92672">.</span>execute()
-</code></pre></div><p>他にも指定可能なパラメータは<a href="https://developers.google.com/youtube/v3/docs/search/list?hl=ja#usage">公式リファレンス</a>に説明があるので、自分が欲しい情報を取得できるかどうか調べたい方はご参照ください。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> datetime
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>date<span style="color:#f92672">.</span>fromisoformat(<span style="color:#e6db74">&#39;2020-09-24&#39;</span>)
+</span></span><span style="display:flex;"><span>day <span style="color:#f92672">=</span> datetime<span style="color:#f92672">.</span>datetime<span style="color:#f92672">.</span>strftime(day, <span style="color:#e6db74">&#39;%Y-%m-</span><span style="color:#e6db74">%d</span><span style="color:#e6db74">T%H:%M:%S.</span><span style="color:#e6db74">%f</span><span style="color:#e6db74">Z&#39;</span>)
+</span></span><span style="display:flex;"><span>search_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>search()<span style="color:#f92672">.</span>list(
+</span></span><span style="display:flex;"><span>    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+</span></span><span style="display:flex;"><span>    q<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;筋トレ&#39;</span>,
+</span></span><span style="display:flex;"><span>    maxResults<span style="color:#f92672">=</span><span style="color:#ae81ff">50</span>,
+</span></span><span style="display:flex;"><span>    order<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;viewCount&#39;</span>,  <span style="color:#75715e"># date, rating, relevance, title, videoCount, viewCount</span>
+</span></span><span style="display:flex;"><span>    type<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;video&#39;</span>,
+</span></span><span style="display:flex;"><span>    publishedAfter<span style="color:#f92672">=</span>day,  <span style="color:#75715e"># 2020年9月24日0時以降に投稿された動画を検索対象とする。</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>execute()
+</span></span></code></pre></div><p>他にも指定可能なパラメータは<a href="https://developers.google.com/youtube/v3/docs/search/list?hl=ja#usage">公式リファレンス</a>に説明があるので、自分が欲しい情報を取得できるかどうか調べたい方はご参照ください。</p>
 <h2 id="概要欄全文の取得">概要欄全文の取得</h2>
 <p>上記では検索APIを利用して動画情報を取得する方法を説明しました。</p>
 <p>しかしながら、検索APIから取得できる動画の情報の中で、概要欄は長い場合、本文が省略され、末尾が<code>...</code>で終わっていることがあります。
 そのため、概要欄全文が欲しい場合は検索APIだけでは対応できません。</p>
 <p>概要欄全文を取得するには、以下のようにvideoIdを指定して以下のように動画情報を取得する必要があります。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">video_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;VIDEO_ID&#39;</span>
-
-video_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>videos()<span style="color:#f92672">.</span>list(
-    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
-    id<span style="color:#f92672">=</span>video_id,
-)<span style="color:#f92672">.</span>execute()
-</code></pre></div><p>videoIdは<code>search_response</code>の中に含まれており、<code>search_response['items'][0]['id']['videoId']</code>のように取得できます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>video_id <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;VIDEO_ID&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>video_response <span style="color:#f92672">=</span> youtube<span style="color:#f92672">.</span>videos()<span style="color:#f92672">.</span>list(
+</span></span><span style="display:flex;"><span>    part<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;snippet&#39;</span>,
+</span></span><span style="display:flex;"><span>    id<span style="color:#f92672">=</span>video_id,
+</span></span><span style="display:flex;"><span>)<span style="color:#f92672">.</span>execute()
+</span></span></code></pre></div><p>videoIdは<code>search_response</code>の中に含まれており、<code>search_response['items'][0]['id']['videoId']</code>のように取得できます。</p>
 <p>動画を検索するコードと上記のコードを組み合わせることで概要欄全文を取得できるようになります。</p>
 <h2 id="おわり">おわり</h2>
 <p>本記事ではPythonを使ったYouTube Data APIの利用方法を紹介しました。
@@ -885,6 +884,72 @@ AND、OR検索の他に、動画の長さや投稿日時によるフィルタリ
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1121,65 +1186,6 @@ AND、OR検索の他に、動画の長さや投稿日時によるフィルタリ
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

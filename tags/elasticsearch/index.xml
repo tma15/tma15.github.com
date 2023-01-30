@@ -6,11 +6,7 @@
     <description>Recent content in elasticsearch on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 08 Nov 2014 00:00:00 +0000</lastBuildDate><atom:link href="https://tma15.github.io/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>PythonでElasticsearchを使うときのメモ</title>
       <link>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</link>

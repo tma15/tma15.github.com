@@ -6,11 +6,7 @@
     <description>Recent content in math on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 23 Jan 2016 16:04:13 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 23 Jan 2016 16:04:13 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/math/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>行列式をLU分解で求める</title>
       <link>https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/</link>

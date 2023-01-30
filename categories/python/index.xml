@@ -6,10 +6,16 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 28 Jan 2023 15:51:28 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Mon, 30 Jan 2023 15:08:57 +0900</lastBuildDate><atom:link href="https://tma15.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする </title>
+      <link>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</link>
+      <pubDate>Mon, 30 Jan 2023 15:08:57 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;本記事はhuggingfaceの&lt;a href=&#34;https://huggingface.co/docs/datasets/index&#34;&gt;datasets&lt;/a&gt;を利用してサンプリングの割合を考慮しながら複数のデータセットを混ぜて扱う方法を紹介します。
+紹介する方法を知っておくと、例えば言語モデルの事前学習など、複数のテキストコーパスを組み合わせて利用する際に便利です。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>【Python】pre-commitを使ってコミット前にプログラムを自動検査する</title>
@@ -304,13 +310,8 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
 \[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
 これのlogをとると、
-$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\
-&amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
-ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\
-&amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\
-&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\
-&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\
-&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
+$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\ &amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\ &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
     </item>
     
   </channel>

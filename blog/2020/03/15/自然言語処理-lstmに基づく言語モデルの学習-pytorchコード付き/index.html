@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="neural_network, nlp, pytorch, python, google-colab, machine_learning">
 <meta name="description" content="単語の系列 (たとえば文や文書) に対して確率を割り当てるようなモデルは言語モデルと呼ばれています。
@@ -160,7 +160,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -398,56 +397,56 @@ if (!doNotTrack) {
   </ul>
 </nav>
 <p>本記事で掲載しているコードは以下のようにライブラリを利用します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> collections 
-<span style="color:#f92672">import</span> math
-<span style="color:#f92672">import</span> os
-<span style="color:#f92672">import</span> random
-<span style="color:#f92672">import</span> shutil
-<span style="color:#f92672">import</span> time
-
-<span style="color:#f92672">import</span> torch
-<span style="color:#f92672">import</span> torch.nn.functional <span style="color:#f92672">as</span> F
-</code></pre></div><p>またPyTorchは1.4.0を利用しています。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> collections 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> math
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> random
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> shutil
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> time
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch.nn.functional <span style="color:#66d9ef">as</span> F
+</span></span></code></pre></div><p>またPyTorchは1.4.0を利用しています。</p>
 <h2 id="語彙">語彙</h2>
 <p>ニューラル言語モデルを実装するにあたり、モデルが扱う単語の集合 (語彙) を扱うクラスを作成します。
 このクラスは単語を対応するindexに変換したり、その逆の処理をするために用います。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vocabulary</span>:
-    <span style="color:#66d9ef">def</span> __init__(self):
-        self<span style="color:#f92672">.</span>index2item <span style="color:#f92672">=</span> []
-        self<span style="color:#f92672">.</span>item2index <span style="color:#f92672">=</span> {}
-
-    <span style="color:#66d9ef">def</span> __len__(self):
-        <span style="color:#66d9ef">return</span> len(self<span style="color:#f92672">.</span>item2index)
-
-    <span style="color:#66d9ef">def</span> __contains__(self, item):
-        <span style="color:#66d9ef">return</span> item <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>item2index<span style="color:#f92672">.</span>keys()
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_item</span>(self, item):
-        index <span style="color:#f92672">=</span> len(self<span style="color:#f92672">.</span>item2index)
-        self<span style="color:#f92672">.</span>index2item<span style="color:#f92672">.</span>append(item)
-        self<span style="color:#f92672">.</span>item2index[item] <span style="color:#f92672">=</span> index
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_item</span>(self, index):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>index2item[index]
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_index</span>(self, item):
-        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>item2index[item]
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save</span>(self, vocab_file):
-        <span style="color:#66d9ef">with</span> open(vocab_file, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
-            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>item2index:
-                <span style="color:#66d9ef">print</span>(word, file<span style="color:#f92672">=</span>f)
-
-    <span style="color:#a6e22e">@classmethod</span>
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load</span>(cls, vocab_file):
-        vocab <span style="color:#f92672">=</span> cls()
-        <span style="color:#66d9ef">with</span> open(vocab_file) <span style="color:#66d9ef">as</span> f:
-            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-                word <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()
-                vocab<span style="color:#f92672">.</span>item2index[word] <span style="color:#f92672">=</span> len(vocab<span style="color:#f92672">.</span>item2index)
-                vocab<span style="color:#f92672">.</span>index2item<span style="color:#f92672">.</span>append(word)
-        <span style="color:#66d9ef">return</span> vocab
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Vocabulary</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>index2item <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>item2index <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __len__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> len(self<span style="color:#f92672">.</span>item2index)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __contains__(self, item):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> item <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>item2index<span style="color:#f92672">.</span>keys()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add_item</span>(self, item):
+</span></span><span style="display:flex;"><span>        index <span style="color:#f92672">=</span> len(self<span style="color:#f92672">.</span>item2index)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>index2item<span style="color:#f92672">.</span>append(item)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>item2index[item] <span style="color:#f92672">=</span> index
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_item</span>(self, index):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>index2item[index]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_index</span>(self, item):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>item2index[item]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">save</span>(self, vocab_file):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(vocab_file, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>item2index:
+</span></span><span style="display:flex;"><span>                print(word, file<span style="color:#f92672">=</span>f)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@classmethod</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load</span>(cls, vocab_file):
+</span></span><span style="display:flex;"><span>        vocab <span style="color:#f92672">=</span> cls()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(vocab_file) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+</span></span><span style="display:flex;"><span>                word <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()
+</span></span><span style="display:flex;"><span>                vocab<span style="color:#f92672">.</span>item2index[word] <span style="color:#f92672">=</span> len(vocab<span style="color:#f92672">.</span>item2index)
+</span></span><span style="display:flex;"><span>                vocab<span style="color:#f92672">.</span>index2item<span style="color:#f92672">.</span>append(word)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> vocab
+</span></span></code></pre></div>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
@@ -466,7 +465,7 @@ if (!doNotTrack) {
 生成確率は以下のように分解することができます。</p>
 <p>$$
 \begin{eqnarray}
-p(x_1,&hellip;, x_n) &amp;=&amp; p(x_1|h_1) p(x_2|h_2) p(x_3|h_3) &hellip; p(x_n|h_n) \\\<br>
+p(x_1,&hellip;, x_n) &amp;=&amp; p(x_1|h_1) p(x_2|h_2) p(x_3|h_3) &hellip; p(x_n|h_n) \\\
 &amp;=&amp; \Pi_{k=1}^{n} p(x_k|h_{k})
 \end{eqnarray}
 $$</p>
@@ -531,150 +530,150 @@ LSTMの出力に基づいて、語彙に登録されている単語数の次元�
   <div style="clear:both;"></div>
 
 <p>PyTorchで実装するのは非常に簡単で、単語列を与えて、softmax層で確率として正規化する直前の値までを計算するのは3行でかけます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LanguageModel</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
-    <span style="color:#66d9ef">def</span> __init__(
-            self,
-            vocab,
-            dim_emb<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
-            dim_hid<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
-        super()<span style="color:#f92672">.</span>__init__()
-
-        self<span style="color:#f92672">.</span>vocab <span style="color:#f92672">=</span> vocab
-        self<span style="color:#f92672">.</span>embed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Embedding(len(vocab), dim_emb)
-        self<span style="color:#f92672">.</span>rnn <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>LSTM(dim_emb, dim_hid, batch_first<span style="color:#f92672">=</span>True)
-        self<span style="color:#f92672">.</span>out <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Linear(dim_hid, len(vocab))
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x, state<span style="color:#f92672">=</span>None):
-        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embed(x)
-        x, (h, c) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>rnn(x, state)
-        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>out(x)
-        <span style="color:#66d9ef">return</span> x, (h, c)
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generate</span>(self, start<span style="color:#f92672">=</span>None, max_len<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
-        <span style="color:#66d9ef">if</span> start <span style="color:#f92672">is</span> None:
-            start <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>choice(self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>index2item)
-
-        idx <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embed<span style="color:#f92672">.</span>weight<span style="color:#f92672">.</span>new_full(
-            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>),
-            self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(start),
-            dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
-        decoded <span style="color:#f92672">=</span> [start]
-        state <span style="color:#f92672">=</span> None
-        unk <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
-        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(max_len):
-            x, state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>forward(idx, state)
-            x[:, :, unk] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>float(<span style="color:#e6db74">&#39;inf&#39;</span>)
-            idx <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>argmax(x, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
-
-            word <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_item(idx<span style="color:#f92672">.</span>item())
-            decoded<span style="color:#f92672">.</span>append(word)
-        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(decoded)
-</code></pre></div><h2 id="言語モデルの学習における処理手順">言語モデルの学習における処理手順</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LanguageModel</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(
+</span></span><span style="display:flex;"><span>            self,
+</span></span><span style="display:flex;"><span>            vocab,
+</span></span><span style="display:flex;"><span>            dim_emb<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
+</span></span><span style="display:flex;"><span>            dim_hid<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>):
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>vocab <span style="color:#f92672">=</span> vocab
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>embed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Embedding(len(vocab), dim_emb)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>rnn <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>LSTM(dim_emb, dim_hid, batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>out <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Linear(dim_hid, len(vocab))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(self, x, state<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embed(x)
+</span></span><span style="display:flex;"><span>        x, (h, c) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>rnn(x, state)
+</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>out(x)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x, (h, c)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generate</span>(self, start<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>, max_len<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> start <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>            start <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>choice(self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>index2item)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        idx <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embed<span style="color:#f92672">.</span>weight<span style="color:#f92672">.</span>new_full(
+</span></span><span style="display:flex;"><span>            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(start),
+</span></span><span style="display:flex;"><span>            dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
+</span></span><span style="display:flex;"><span>        decoded <span style="color:#f92672">=</span> [start]
+</span></span><span style="display:flex;"><span>        state <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>        unk <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(max_len):
+</span></span><span style="display:flex;"><span>            x, state <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>forward(idx, state)
+</span></span><span style="display:flex;"><span>            x[:, :, unk] <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>float(<span style="color:#e6db74">&#39;inf&#39;</span>)
+</span></span><span style="display:flex;"><span>            idx <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>argmax(x, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            word <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_item(idx<span style="color:#f92672">.</span>item())
+</span></span><span style="display:flex;"><span>            decoded<span style="color:#f92672">.</span>append(word)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(decoded)
+</span></span></code></pre></div><h2 id="言語モデルの学習における処理手順">言語モデルの学習における処理手順</h2>
 <p>ニューラルネットワークの実装よりも大変なのが実際にデータを読みこんで学習処理を実施する箇所です。</p>
 <h3 id="前処理-語彙の構築と単語をindexへ変換">前処理 (語彙の構築と単語をindexへ変換)</h3>
 <p>前処理では語彙を構築して、単語列をindexの列に変換する処理を実装します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Preprocessor</span>:
-    <span style="color:#66d9ef">def</span> __init__(
-            self,
-            data_file,
-            bin_dir<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;data-bin&#39;</span>,
-            vocab_file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;vocab&#39;</span>,
-            n_max_word<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>,
-            num_token_per_file<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000</span>,
-            force_preprocess<span style="color:#f92672">=</span>False):
-
-        self<span style="color:#f92672">.</span>data_file <span style="color:#f92672">=</span> data_file
-        self<span style="color:#f92672">.</span>vocab_file <span style="color:#f92672">=</span> vocab_file
-        self<span style="color:#f92672">.</span>n_max_word <span style="color:#f92672">=</span> n_max_word
-        self<span style="color:#f92672">.</span>num_token_per_file <span style="color:#f92672">=</span> num_token_per_file
-        self<span style="color:#f92672">.</span>bin_dir <span style="color:#f92672">=</span> bin_dir
-        self<span style="color:#f92672">.</span>force_preprocess <span style="color:#f92672">=</span> force_preprocess
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
-        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>force_preprocess:
-            vocab <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_build_vocab()
-            shutil<span style="color:#f92672">.</span>rmtree(self<span style="color:#f92672">.</span>bin_dir)
-            self<span style="color:#f92672">.</span>_binarize_text(vocab)
-
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>vocab_file):
-            vocab <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_build_vocab()
-        <span style="color:#66d9ef">else</span>:
-            vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;vocab&#39;</span>)
-
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
-            self<span style="color:#f92672">.</span>_binarize_text(vocab)
-</code></pre></div><p>語彙の構築は以下の関数で実装します。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Preprocessor</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(
+</span></span><span style="display:flex;"><span>            self,
+</span></span><span style="display:flex;"><span>            data_file,
+</span></span><span style="display:flex;"><span>            bin_dir<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;data-bin&#39;</span>,
+</span></span><span style="display:flex;"><span>            vocab_file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;vocab&#39;</span>,
+</span></span><span style="display:flex;"><span>            n_max_word<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>,
+</span></span><span style="display:flex;"><span>            num_token_per_file<span style="color:#f92672">=</span><span style="color:#ae81ff">1000000</span>,
+</span></span><span style="display:flex;"><span>            force_preprocess<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>data_file <span style="color:#f92672">=</span> data_file
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>vocab_file <span style="color:#f92672">=</span> vocab_file
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>n_max_word <span style="color:#f92672">=</span> n_max_word
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>num_token_per_file <span style="color:#f92672">=</span> num_token_per_file
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>bin_dir <span style="color:#f92672">=</span> bin_dir
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>force_preprocess <span style="color:#f92672">=</span> force_preprocess
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>force_preprocess:
+</span></span><span style="display:flex;"><span>            vocab <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_build_vocab()
+</span></span><span style="display:flex;"><span>            shutil<span style="color:#f92672">.</span>rmtree(self<span style="color:#f92672">.</span>bin_dir)
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>_binarize_text(vocab)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>vocab_file):
+</span></span><span style="display:flex;"><span>            vocab <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_build_vocab()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;vocab&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>_binarize_text(vocab)
+</span></span></code></pre></div><p>語彙の構築は以下の関数で実装します。
 パディング用の特殊単語、語彙に登録されていない単語 (未知語) を表す単語および出現頻度が高い上位の単語集合を語彙とします。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_build_vocab</span>(self):
-        counter <span style="color:#f92672">=</span> collections<span style="color:#f92672">.</span>Counter()
-        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>data_file) <span style="color:#66d9ef">as</span> f:
-            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-                words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
-                <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words:
-                    counter[word] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-
-        vocab <span style="color:#f92672">=</span> Vocabulary()
-        vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-        vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
-        <span style="color:#66d9ef">for</span> word, _ <span style="color:#f92672">in</span> counter<span style="color:#f92672">.</span>most_common(self<span style="color:#f92672">.</span>n_max_word <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>):
-            vocab<span style="color:#f92672">.</span>add_item(word)
-        vocab<span style="color:#f92672">.</span>save(self<span style="color:#f92672">.</span>vocab_file)
-        <span style="color:#66d9ef">return</span> vocab
-</code></pre></div><p>単語列をindexの列に変換する処理は以下の関数で実装します。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_build_vocab</span>(self):
+</span></span><span style="display:flex;"><span>        counter <span style="color:#f92672">=</span> collections<span style="color:#f92672">.</span>Counter()
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>data_file) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+</span></span><span style="display:flex;"><span>                words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words:
+</span></span><span style="display:flex;"><span>                    counter[word] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        vocab <span style="color:#f92672">=</span> Vocabulary()
+</span></span><span style="display:flex;"><span>        vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>        vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> word, _ <span style="color:#f92672">in</span> counter<span style="color:#f92672">.</span>most_common(self<span style="color:#f92672">.</span>n_max_word <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>):
+</span></span><span style="display:flex;"><span>            vocab<span style="color:#f92672">.</span>add_item(word)
+</span></span><span style="display:flex;"><span>        vocab<span style="color:#f92672">.</span>save(self<span style="color:#f92672">.</span>vocab_file)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> vocab
+</span></span></code></pre></div><p>単語列をindexの列に変換する処理は以下の関数で実装します。
 ある程度行数が多いデータは、分割して保存するようにします。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_binarize_text</span>(self, vocab):
-        data <span style="color:#f92672">=</span> []
-        unk <span style="color:#f92672">=</span> vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
-
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
-            os<span style="color:#f92672">.</span>makedirs(self<span style="color:#f92672">.</span>bin_dir)
-
-        num_file <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-        num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>data_file) <span style="color:#66d9ef">as</span> f:
-            lines <span style="color:#f92672">=</span> []
-            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-                lines<span style="color:#f92672">.</span>append(line)
-
-            random<span style="color:#f92672">.</span>shuffle(lines)
-
-            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> lines:
-                words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
-                indices <span style="color:#f92672">=</span> [vocab<span style="color:#f92672">.</span>get_index(word) <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> vocab
-                           <span style="color:#66d9ef">else</span> unk <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words]
-                data <span style="color:#f92672">+=</span> indices
-
-                num_token <span style="color:#f92672">+=</span> len(indices)
-                <span style="color:#66d9ef">if</span> len(data) <span style="color:#f92672">&gt;=</span> self<span style="color:#f92672">.</span>num_token_per_file:
-                    data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(data)
-                    torch<span style="color:#f92672">.</span>save(data, f<span style="color:#e6db74">&#39;{self.bin_dir}/{num_file}.pt&#39;</span>)
-                    num_file <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-                    batch <span style="color:#f92672">=</span> []
-
-        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
-            os<span style="color:#f92672">.</span>makedirs(self<span style="color:#f92672">.</span>bin_dir)
-
-        data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(data)
-        torch<span style="color:#f92672">.</span>save(data, f<span style="color:#e6db74">&#39;{self.bin_dir}/{num_file}.pt&#39;</span>)
-        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;Data size: {num_token}&#39;</span>)
-</code></pre></div><p>また保存したデータは以下のように読み込んで使います。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_binarize_text</span>(self, vocab):
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>        unk <span style="color:#f92672">=</span> vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
+</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>makedirs(self<span style="color:#f92672">.</span>bin_dir)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        num_file <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>data_file) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>            lines <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+</span></span><span style="display:flex;"><span>                lines<span style="color:#f92672">.</span>append(line)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            random<span style="color:#f92672">.</span>shuffle(lines)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> lines:
+</span></span><span style="display:flex;"><span>                words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
+</span></span><span style="display:flex;"><span>                indices <span style="color:#f92672">=</span> [vocab<span style="color:#f92672">.</span>get_index(word) <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> vocab
+</span></span><span style="display:flex;"><span>                           <span style="color:#66d9ef">else</span> unk <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words]
+</span></span><span style="display:flex;"><span>                data <span style="color:#f92672">+=</span> indices
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                num_token <span style="color:#f92672">+=</span> len(indices)
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> len(data) <span style="color:#f92672">&gt;=</span> self<span style="color:#f92672">.</span>num_token_per_file:
+</span></span><span style="display:flex;"><span>                    data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(data)
+</span></span><span style="display:flex;"><span>                    torch<span style="color:#f92672">.</span>save(data, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>bin_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>num_file<span style="color:#e6db74">}</span><span style="color:#e6db74">.pt&#39;</span>)
+</span></span><span style="display:flex;"><span>                    num_file <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>                    batch <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>exists(self<span style="color:#f92672">.</span>bin_dir):
+</span></span><span style="display:flex;"><span>            os<span style="color:#f92672">.</span>makedirs(self<span style="color:#f92672">.</span>bin_dir)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(data)
+</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>save(data, <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>self<span style="color:#f92672">.</span>bin_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">{</span>num_file<span style="color:#e6db74">}</span><span style="color:#e6db74">.pt&#39;</span>)
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Data size: </span><span style="color:#e6db74">{</span>num_token<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span></code></pre></div><p>また保存したデータは以下のように読み込んで使います。
 ここでは指定されたindexに対応するファイルのデータを読み込んで返すだけです。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dataset</span>(torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset):
-    <span style="color:#66d9ef">def</span> __init__(self, data_dir):
-        self<span style="color:#f92672">.</span>filenames <span style="color:#f92672">=</span> [os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(data_dir, p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(data_dir)]
-
-    <span style="color:#66d9ef">def</span> __len__(self):
-        <span style="color:#66d9ef">return</span> len(self<span style="color:#f92672">.</span>filenames)
-
-    <span style="color:#66d9ef">def</span> __getitem__(self, index):
-        tensor <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(self<span style="color:#f92672">.</span>filenames[index])
-        <span style="color:#66d9ef">return</span> tensor
-</code></pre></div><h3 id="学習部分-truncated-backpropagation-through-time">学習部分 (Truncated Backpropagation Through Time)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Dataset</span>(torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>Dataset):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, data_dir):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>filenames <span style="color:#f92672">=</span> [os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(data_dir, p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> os<span style="color:#f92672">.</span>listdir(data_dir)]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __len__(self):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> len(self<span style="color:#f92672">.</span>filenames)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __getitem__(self, index):
+</span></span><span style="display:flex;"><span>        tensor <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(self<span style="color:#f92672">.</span>filenames[index])
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> tensor
+</span></span></code></pre></div><h3 id="学習部分-truncated-backpropagation-through-time">学習部分 (Truncated Backpropagation Through Time)</h3>
 <p>学習時は以下のような負の対数尤度を損失関数 $L$ として得られた勾配に基づいて言語モデルのパラメータ $\theta$ を学習します。
 負の対数尤度が小さくなるほど、学習データ中の単語列に対して高い生成確率を割り当てることができます。</p>
 <p>$$
 \begin{eqnarray}
-L(\theta) &amp;=&amp; -\log p(x_1, …, x_n) \\\<br>
+L(\theta) &amp;=&amp; -\log p(x_1, …, x_n) \\\
 &amp;=&amp; - \sum_{k=1}^{n} \log p(x_k|h_{k})
 \end{eqnarray}
 $$</p>
@@ -741,149 +740,149 @@ $$</p>
 </script>
 
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
-    <span style="color:#66d9ef">return</span> batch[<span style="color:#ae81ff">0</span>]
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LanguageModelTrainer</span>:
-    <span style="color:#66d9ef">def</span> __init__(
-            self,
-            model,
-            optimizer,
-            data_dir,
-            device,
-            max_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
-            batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>,
-            log_interval<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>,
-            sequence_length<span style="color:#f92672">=</span><span style="color:#ae81ff">250</span>,
-            clip<span style="color:#f92672">=</span><span style="color:#ae81ff">0.25</span>):
-
-        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> model
-        self<span style="color:#f92672">.</span>optimizer <span style="color:#f92672">=</span> optimizer
-        self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>to(device)
-        self<span style="color:#f92672">.</span>device <span style="color:#f92672">=</span> device
-
-        self<span style="color:#f92672">.</span>max_epochs <span style="color:#f92672">=</span> max_epochs
-        self<span style="color:#f92672">.</span>batch_size <span style="color:#f92672">=</span> batch_size
-        self<span style="color:#f92672">.</span>log_interval <span style="color:#f92672">=</span> log_interval
-        self<span style="color:#f92672">.</span>clip <span style="color:#f92672">=</span> clip
-        self<span style="color:#f92672">.</span>sequence_length <span style="color:#f92672">=</span> sequence_length
-
-        self<span style="color:#f92672">.</span>dataset <span style="color:#f92672">=</span> Dataset(data_dir)
-</code></pre></div><p>TBPTTを実装しているのは以下の箇所です。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(self):
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Run trainer&#39;</span>)
-
-        pad <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-
-        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-            self<span style="color:#f92672">.</span>dataset,
-            shuffle<span style="color:#f92672">=</span>True,
-            collate_fn<span style="color:#f92672">=</span>collate_fn,
-            num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
-        start_at <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
-
-        <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>max_epochs):
-            loss_epoch <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.</span>
-            num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-            step <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-            <span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> data_loader:
-                <span style="color:#75715e"># batchfy</span>
-                num_batch <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">//</span> self<span style="color:#f92672">.</span>batch_size
-                data <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>narrow(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, num_batch <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>batch_size)
-                batch <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>view(self<span style="color:#f92672">.</span>batch_size, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-
-                state <span style="color:#f92672">=</span> None
-                <span style="color:#66d9ef">for</span> seen_batch, i <span style="color:#f92672">in</span> enumerate(range(<span style="color:#ae81ff">0</span>, batch<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">1</span>), self<span style="color:#f92672">.</span>sequence_length), start<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
-                    e <span style="color:#f92672">=</span> min(i <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>sequence_length, batch<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">1</span>))
-                    batch_i <span style="color:#f92672">=</span> batch[:, i: e]
-                    batch_i <span style="color:#f92672">=</span> batch_i<span style="color:#f92672">.</span>to(self<span style="color:#f92672">.</span>device)
-                    step <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-
-                    input_i <span style="color:#f92672">=</span> batch_i[:, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
-                    target_i <span style="color:#f92672">=</span> batch_i[:, <span style="color:#ae81ff">1</span>:]
-
-                    x, (h, c) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(input_i, state)
-
-                    vocab_size <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">2</span>)
-                    num_token_i <span style="color:#f92672">=</span> (target_i <span style="color:#f92672">!=</span> pad)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-                    loss <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>nll_loss(
-                        F<span style="color:#f92672">.</span>log_softmax(x, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>contiguous()<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, vocab_size),
-                        target_i<span style="color:#f92672">.</span>contiguous()<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
-                        reduction<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sum&#39;</span>,
-                        ignore_index<span style="color:#f92672">=</span>pad)
-
-                    self<span style="color:#f92672">.</span>optimizer<span style="color:#f92672">.</span>zero_grad()
-
-                    loss<span style="color:#f92672">.</span>div(num_token_i)<span style="color:#f92672">.</span>backward()
-
-                    torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>clip_grad_norm_(self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>parameters(), self<span style="color:#f92672">.</span>clip)
-
-                    self<span style="color:#f92672">.</span>optimizer<span style="color:#f92672">.</span>step()
-                    num_token <span style="color:#f92672">+=</span> num_token_i
-                    loss_epoch <span style="color:#f92672">+=</span> loss<span style="color:#f92672">.</span>item()
-                    
-                    h <span style="color:#f92672">=</span> h<span style="color:#f92672">.</span>clone()<span style="color:#f92672">.</span>detach()
-                    c <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>clone()<span style="color:#f92672">.</span>detach()
-                    state <span style="color:#f92672">=</span> (h, c)
-
-                    <span style="color:#66d9ef">if</span> step <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>log_interval <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-                        elapsed <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at
-                        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;epoch:{epoch} step:{step}&#39;</span>
-                              f<span style="color:#e6db74">&#39; loss:{loss_epoch/num_token:.2f}&#39;</span>
-                              f<span style="color:#e6db74">&#39; elapsed:{elapsed:.2f}&#39;</span>)
-
-            loss_epoch <span style="color:#f92672">/=</span> num_token
-            ppl <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>exp(loss_epoch)
-            elapsed <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at
-            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>)
-            <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;epoch:{epoch} loss:{loss_epoch:.2f}&#39;</span>
-                  f<span style="color:#e6db74">&#39; ppl:{ppl:.2f} elapsed:{elapsed:.2f}&#39;</span>)
-            decoded <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>generate()
-            <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;Sampled: {decoded}&#39;</span>)
-            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>)
-</code></pre></div><p>以下の関数を実装し、Google Colaboratoryで実行します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_trainer</span>(
-        train_file,
-        max_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,
-        batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
-        bin_dir<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;data-bin&#39;</span>,
-        device<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;cuda:0&#39;</span>,
-        force_preprocess<span style="color:#f92672">=</span>False):
-
-    preprocessor <span style="color:#f92672">=</span> Preprocessor(
-        train_file,
-        bin_dir<span style="color:#f92672">=</span>bin_dir,
-        force_preprocess<span style="color:#f92672">=</span>force_preprocess)
-    preprocessor<span style="color:#f92672">.</span>run()
-
-    vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;vocab&#39;</span>)
-    <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;Vocabulary size: {len(vocab)}&#39;</span>)
-    model <span style="color:#f92672">=</span> LanguageModel(vocab)
-    <span style="color:#66d9ef">print</span>(model)
-    optimizer <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>optim<span style="color:#f92672">.</span>Adam(model<span style="color:#f92672">.</span>parameters())
-
-    trainer <span style="color:#f92672">=</span> LanguageModelTrainer(
-        model,
-        optimizer,
-        bin_dir,
-        device,
-        max_epochs<span style="color:#f92672">=</span>max_epochs,
-        batch_size<span style="color:#f92672">=</span>batch_size)
-    trainer<span style="color:#f92672">.</span>train()
-</code></pre></div><p>上記のプログラムを <code>lm.py</code> に記述し、Google Driveにアップロードします。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> batch[<span style="color:#ae81ff">0</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LanguageModelTrainer</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(
+</span></span><span style="display:flex;"><span>            self,
+</span></span><span style="display:flex;"><span>            model,
+</span></span><span style="display:flex;"><span>            optimizer,
+</span></span><span style="display:flex;"><span>            data_dir,
+</span></span><span style="display:flex;"><span>            device,
+</span></span><span style="display:flex;"><span>            max_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>            batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">32</span>,
+</span></span><span style="display:flex;"><span>            log_interval<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>            sequence_length<span style="color:#f92672">=</span><span style="color:#ae81ff">250</span>,
+</span></span><span style="display:flex;"><span>            clip<span style="color:#f92672">=</span><span style="color:#ae81ff">0.25</span>):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model <span style="color:#f92672">=</span> model
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>optimizer <span style="color:#f92672">=</span> optimizer
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>to(device)
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>device <span style="color:#f92672">=</span> device
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>max_epochs <span style="color:#f92672">=</span> max_epochs
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>batch_size <span style="color:#f92672">=</span> batch_size
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>log_interval <span style="color:#f92672">=</span> log_interval
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>clip <span style="color:#f92672">=</span> clip
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>sequence_length <span style="color:#f92672">=</span> sequence_length
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>dataset <span style="color:#f92672">=</span> Dataset(data_dir)
+</span></span></code></pre></div><p>TBPTTを実装しているのは以下の箇所です。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(self):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;Run trainer&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        pad <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>dataset,
+</span></span><span style="display:flex;"><span>            shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
+</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn,
+</span></span><span style="display:flex;"><span>            num_workers<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        start_at <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>max_epochs):
+</span></span><span style="display:flex;"><span>            loss_epoch <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.</span>
+</span></span><span style="display:flex;"><span>            num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            step <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> data <span style="color:#f92672">in</span> data_loader:
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># batchfy</span>
+</span></span><span style="display:flex;"><span>                num_batch <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">0</span>) <span style="color:#f92672">//</span> self<span style="color:#f92672">.</span>batch_size
+</span></span><span style="display:flex;"><span>                data <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>narrow(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, num_batch <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>batch_size)
+</span></span><span style="display:flex;"><span>                batch <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>view(self<span style="color:#f92672">.</span>batch_size, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                state <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> seen_batch, i <span style="color:#f92672">in</span> enumerate(range(<span style="color:#ae81ff">0</span>, batch<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">1</span>), self<span style="color:#f92672">.</span>sequence_length), start<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>):
+</span></span><span style="display:flex;"><span>                    e <span style="color:#f92672">=</span> min(i <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>sequence_length, batch<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>                    batch_i <span style="color:#f92672">=</span> batch[:, i: e]
+</span></span><span style="display:flex;"><span>                    batch_i <span style="color:#f92672">=</span> batch_i<span style="color:#f92672">.</span>to(self<span style="color:#f92672">.</span>device)
+</span></span><span style="display:flex;"><span>                    step <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    input_i <span style="color:#f92672">=</span> batch_i[:, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>                    target_i <span style="color:#f92672">=</span> batch_i[:, <span style="color:#ae81ff">1</span>:]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    x, (h, c) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model(input_i, state)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    vocab_size <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>size(<span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>                    num_token_i <span style="color:#f92672">=</span> (target_i <span style="color:#f92672">!=</span> pad)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+</span></span><span style="display:flex;"><span>                    loss <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>nll_loss(
+</span></span><span style="display:flex;"><span>                        F<span style="color:#f92672">.</span>log_softmax(x, dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">.</span>contiguous()<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, vocab_size),
+</span></span><span style="display:flex;"><span>                        target_i<span style="color:#f92672">.</span>contiguous()<span style="color:#f92672">.</span>view(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
+</span></span><span style="display:flex;"><span>                        reduction<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sum&#39;</span>,
+</span></span><span style="display:flex;"><span>                        ignore_index<span style="color:#f92672">=</span>pad)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>optimizer<span style="color:#f92672">.</span>zero_grad()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    loss<span style="color:#f92672">.</span>div(num_token_i)<span style="color:#f92672">.</span>backward()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>clip_grad_norm_(self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>parameters(), self<span style="color:#f92672">.</span>clip)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    self<span style="color:#f92672">.</span>optimizer<span style="color:#f92672">.</span>step()
+</span></span><span style="display:flex;"><span>                    num_token <span style="color:#f92672">+=</span> num_token_i
+</span></span><span style="display:flex;"><span>                    loss_epoch <span style="color:#f92672">+=</span> loss<span style="color:#f92672">.</span>item()
+</span></span><span style="display:flex;"><span>                    
+</span></span><span style="display:flex;"><span>                    h <span style="color:#f92672">=</span> h<span style="color:#f92672">.</span>clone()<span style="color:#f92672">.</span>detach()
+</span></span><span style="display:flex;"><span>                    c <span style="color:#f92672">=</span> c<span style="color:#f92672">.</span>clone()<span style="color:#f92672">.</span>detach()
+</span></span><span style="display:flex;"><span>                    state <span style="color:#f92672">=</span> (h, c)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> step <span style="color:#f92672">%</span> self<span style="color:#f92672">.</span>log_interval <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                        elapsed <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at
+</span></span><span style="display:flex;"><span>                        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;epoch:</span><span style="color:#e6db74">{</span>epoch<span style="color:#e6db74">}</span><span style="color:#e6db74"> step:</span><span style="color:#e6db74">{</span>step<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39; loss:</span><span style="color:#e6db74">{</span>loss_epoch<span style="color:#f92672">/</span>num_token<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>                              <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39; elapsed:</span><span style="color:#e6db74">{</span>elapsed<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            loss_epoch <span style="color:#f92672">/=</span> num_token
+</span></span><span style="display:flex;"><span>            ppl <span style="color:#f92672">=</span> math<span style="color:#f92672">.</span>exp(loss_epoch)
+</span></span><span style="display:flex;"><span>            elapsed <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;epoch:</span><span style="color:#e6db74">{</span>epoch<span style="color:#e6db74">}</span><span style="color:#e6db74"> loss:</span><span style="color:#e6db74">{</span>loss_epoch<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39; ppl:</span><span style="color:#e6db74">{</span>ppl<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74"> elapsed:</span><span style="color:#e6db74">{</span>elapsed<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>            decoded <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>model<span style="color:#f92672">.</span>generate()
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Sampled: </span><span style="color:#e6db74">{</span>decoded<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#39;-&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">50</span>)
+</span></span></code></pre></div><p>以下の関数を実装し、Google Colaboratoryで実行します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_trainer</span>(
+</span></span><span style="display:flex;"><span>        train_file,
+</span></span><span style="display:flex;"><span>        max_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>        batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
+</span></span><span style="display:flex;"><span>        bin_dir<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;data-bin&#39;</span>,
+</span></span><span style="display:flex;"><span>        device<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;cuda:0&#39;</span>,
+</span></span><span style="display:flex;"><span>        force_preprocess<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>):
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    preprocessor <span style="color:#f92672">=</span> Preprocessor(
+</span></span><span style="display:flex;"><span>        train_file,
+</span></span><span style="display:flex;"><span>        bin_dir<span style="color:#f92672">=</span>bin_dir,
+</span></span><span style="display:flex;"><span>        force_preprocess<span style="color:#f92672">=</span>force_preprocess)
+</span></span><span style="display:flex;"><span>    preprocessor<span style="color:#f92672">.</span>run()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;vocab&#39;</span>)
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Vocabulary size: </span><span style="color:#e6db74">{</span>len(vocab)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> LanguageModel(vocab)
+</span></span><span style="display:flex;"><span>    print(model)
+</span></span><span style="display:flex;"><span>    optimizer <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>optim<span style="color:#f92672">.</span>Adam(model<span style="color:#f92672">.</span>parameters())
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    trainer <span style="color:#f92672">=</span> LanguageModelTrainer(
+</span></span><span style="display:flex;"><span>        model,
+</span></span><span style="display:flex;"><span>        optimizer,
+</span></span><span style="display:flex;"><span>        bin_dir,
+</span></span><span style="display:flex;"><span>        device,
+</span></span><span style="display:flex;"><span>        max_epochs<span style="color:#f92672">=</span>max_epochs,
+</span></span><span style="display:flex;"><span>        batch_size<span style="color:#f92672">=</span>batch_size)
+</span></span><span style="display:flex;"><span>    trainer<span style="color:#f92672">.</span>train()
+</span></span></code></pre></div><p>上記のプログラムを <code>lm.py</code> に記述し、Google Driveにアップロードします。
 ただし、ColabからGoogle Driveがマウントできていて、アップロード先は、ここではja-language-modelというフォルダとします。
 Colabのセルには以下を記述し、実行します。</p>
 <p>データのダウンロードは以下の記述を実行します。</p>
-<pre><code>!cd drive/My Drive/ja-language-model/
+<pre tabindex="0"><code>!cd drive/My Drive/ja-language-model/
 !wget https://s3-ap-northeast-1.amazonaws.com/dev.tech-sketch.jp/chakki/public/ja.text8.zip
 !unzip ja.text8.zip
 </code></pre><p>学習には以下の記述を実行します。</p>
-<pre><code>import sys; sys.path.append('drive/My Drive/ja-language-model')
+<pre tabindex="0"><code>import sys; sys.path.append(&#39;drive/My Drive/ja-language-model&#39;)
 import lm
-lm.run_trainer('drive/My Drive/ja-language-model/ja.text8')
+lm.run_trainer(&#39;drive/My Drive/ja-language-model/ja.text8&#39;)
 </code></pre><p>実行すると以下のように学習が進みます。</p>
-<pre><code>Run trainer
+<pre tabindex="0"><code>Run trainer
 epoch:0 step:200 loss:5.63 elapsed:55.05
 epoch:0 step:400 loss:5.20 elapsed:110.60
 epoch:0 step:600 loss:4.98 elapsed:166.52
@@ -1289,6 +1288,72 @@ Sampled: 事項 公卿 導い 重ねる 後 休 号 （ 明治 元年 ） に �
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1525,65 +1590,6 @@ Sampled: 事項 公卿 導い 重ねる 後 休 号 （ 明治 元年 ） に �
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

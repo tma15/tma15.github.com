@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>huggingface on Now is better than never.</title>
+    <link>https://tma15.github.io/tags/huggingface/</link>
+    <description>Recent content in huggingface on Now is better than never.</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Mon, 30 Jan 2023 15:08:57 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/huggingface/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする </title>
+      <link>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</link>
+      <pubDate>Mon, 30 Jan 2023 15:08:57 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</guid>
+      <description>&lt;p&gt;本記事はhuggingfaceの&lt;a href=&#34;https://huggingface.co/docs/datasets/index&#34;&gt;datasets&lt;/a&gt;を利用してサンプリングの割合を考慮しながら複数のデータセットを混ぜて扱う方法を紹介します。
+紹介する方法を知っておくと、例えば言語モデルの事前学習など、複数のテキストコーパスを組み合わせて利用する際に便利です。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -6,11 +6,7 @@
     <description>Recent content in diary on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 21 Jun 2015 10:44:18 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/tags/diary/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 21 Jun 2015 10:44:18 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/diary/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugoに移行してみた</title>
       <link>https://tma15.github.io/blog/2015/06/21/hugo%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F/</link>

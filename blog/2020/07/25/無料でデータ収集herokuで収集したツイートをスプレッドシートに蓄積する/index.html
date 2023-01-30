@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="heroku, spreadsheet, python, twitter, scraping">
 <meta name="description" content="Twitterに日々投稿されるツイートを分析することで、今話題の情報など有用な知見を得ることができます。
@@ -156,7 +156,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -484,45 +483,45 @@ if (!doNotTrack) {
 <h2 id="ツイートを収集しスプレッドシートへ書き込むプログラム">ツイートを収集しスプレッドシートへ書き込むプログラム</h2>
 <p>本記事では<code>Python 3.7.3</code>を用います。
 また必要なライブラリは以下のようにしてください。</p>
-<pre><code>pip install gspread==3.6.0
+<pre tabindex="0"><code>pip install gspread==3.6.0
 pip install oauth2client==4.1.3
 pip install requests==2.23.0
 pip install requests_oauthlib==1.3.0
 </code></pre><p>インストールしたライブラリは以下のようにimportします。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> gspread
-<span style="color:#f92672">from</span> oauth2client.service_account <span style="color:#f92672">import</span> ServiceAccountCredentials 
-<span style="color:#f92672">import</span> requests
-<span style="color:#f92672">from</span> requests_oauthlib <span style="color:#f92672">import</span> OAuth1Session
-</code></pre></div><p>スプレッドシートAPIおよびTwitter APIの認証部分は以下のように記述します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#75715e"># 設定ファイルの読み込み</span>
-    config <span style="color:#f92672">=</span> configparser<span style="color:#f92672">.</span>ConfigParser()
-    config<span style="color:#f92672">.</span>read(config_file)
-
-    <span style="color:#75715e"># スプレッドシートAPIの設定</span>
-    scope <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;https://spreadsheets.google.com/feeds&#39;</span>,<span style="color:#e6db74">&#39;https://www.googleapis.com/auth/drive&#39;</span>]
-
-    credentials <span style="color:#f92672">=</span> ServiceAccountCredentials<span style="color:#f92672">.</span>from_json_keyfile_name(
-        <span style="color:#e6db74">&#39;&lt;jsonファイル&gt;&#39;</span>,
-        scope)
-
-    gc <span style="color:#f92672">=</span> gspread<span style="color:#f92672">.</span>authorize(credentials)
-    spreadsheet_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;spreadsheet&#39;</span>][<span style="color:#e6db74">&#39;spreadsheet_key&#39;</span>]
-
-    worksheet <span style="color:#f92672">=</span> gc<span style="color:#f92672">.</span>open_by_key(spreadsheet_key)<span style="color:#f92672">.</span>sheet1
-
-    <span style="color:#75715e"># Twitter APIの設定</span>
-    api_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;api_key&#39;</span>]
-    api_secret_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;api_secret_key&#39;</span>]
-    access_token <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;access_token&#39;</span>]
-    access_token_secret <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;access_token_secret&#39;</span>]
-
-    client <span style="color:#f92672">=</span> OAuth1Session(
-        api_key,
-        api_secret_key,
-        access_token,
-        access_token_secret)
-</code></pre></div><p><code>config_file</code>は<code>twitter</code>、<code>spreadsheet</code>というセクションがあり、それぞれAPIの認証に必要な情報が記入されているファイル (<code>config.ini</code>) とします。</p>
-<pre><code>[twitter]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> gspread
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> oauth2client.service_account <span style="color:#f92672">import</span> ServiceAccountCredentials 
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> requests_oauthlib <span style="color:#f92672">import</span> OAuth1Session
+</span></span></code></pre></div><p>スプレッドシートAPIおよびTwitter APIの認証部分は以下のように記述します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#75715e"># 設定ファイルの読み込み</span>
+</span></span><span style="display:flex;"><span>    config <span style="color:#f92672">=</span> configparser<span style="color:#f92672">.</span>ConfigParser()
+</span></span><span style="display:flex;"><span>    config<span style="color:#f92672">.</span>read(config_file)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># スプレッドシートAPIの設定</span>
+</span></span><span style="display:flex;"><span>    scope <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;https://spreadsheets.google.com/feeds&#39;</span>,<span style="color:#e6db74">&#39;https://www.googleapis.com/auth/drive&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    credentials <span style="color:#f92672">=</span> ServiceAccountCredentials<span style="color:#f92672">.</span>from_json_keyfile_name(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;&lt;jsonファイル&gt;&#39;</span>,
+</span></span><span style="display:flex;"><span>        scope)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    gc <span style="color:#f92672">=</span> gspread<span style="color:#f92672">.</span>authorize(credentials)
+</span></span><span style="display:flex;"><span>    spreadsheet_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;spreadsheet&#39;</span>][<span style="color:#e6db74">&#39;spreadsheet_key&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    worksheet <span style="color:#f92672">=</span> gc<span style="color:#f92672">.</span>open_by_key(spreadsheet_key)<span style="color:#f92672">.</span>sheet1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Twitter APIの設定</span>
+</span></span><span style="display:flex;"><span>    api_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;api_key&#39;</span>]
+</span></span><span style="display:flex;"><span>    api_secret_key <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;api_secret_key&#39;</span>]
+</span></span><span style="display:flex;"><span>    access_token <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;access_token&#39;</span>]
+</span></span><span style="display:flex;"><span>    access_token_secret <span style="color:#f92672">=</span> config[<span style="color:#e6db74">&#39;twitter&#39;</span>][<span style="color:#e6db74">&#39;access_token_secret&#39;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    client <span style="color:#f92672">=</span> OAuth1Session(
+</span></span><span style="display:flex;"><span>        api_key,
+</span></span><span style="display:flex;"><span>        api_secret_key,
+</span></span><span style="display:flex;"><span>        access_token,
+</span></span><span style="display:flex;"><span>        access_token_secret)
+</span></span></code></pre></div><p><code>config_file</code>は<code>twitter</code>、<code>spreadsheet</code>というセクションがあり、それぞれAPIの認証に必要な情報が記入されているファイル (<code>config.ini</code>) とします。</p>
+<pre tabindex="0"><code>[twitter]
 api_key = 
 api_secret_key = 
 
@@ -534,42 +533,42 @@ access_token_secret =
 spreadsheet_key =
 </code></pre><p>また<code>&lt;jsonファイル&gt;</code>にはスプレッドシートのjson形式のAPIキーを指定します。</p>
 <p>実際の収集は以下のように記述します。ここで<code>dump</code>関数は与えられたワークシートにTwitter APIから取得したデータを書き込む関数です。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://api.twitter.com/1.1/search/tweets.json&#39;</span>
-    max_id <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
-
-    params <span style="color:#f92672">=</span> {
-        <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#e6db74">&#39;&lt;検索クエリ&gt;&#39;</span>,
-        <span style="color:#e6db74">&#39;count&#39;</span>: <span style="color:#ae81ff">100</span>,
-        <span style="color:#e6db74">&#39;max_id&#39;</span>: max_id,
-        <span style="color:#e6db74">&#39;tweet_mode&#39;</span>: <span style="color:#e6db74">&#39;extended&#39;</span>,
-        <span style="color:#e6db74">&#39;lang&#39;</span>: <span style="color:#e6db74">&#39;ja&#39;</span>,
-    }
-
-    <span style="color:#66d9ef">while</span> True:
-        <span style="color:#66d9ef">try</span>:
-            res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
-        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
-            logger<span style="color:#f92672">.</span>error(e)
-            <span style="color:#66d9ef">continue</span>
-
-        <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
-            data_i <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(res<span style="color:#f92672">.</span>text)
-
-            <span style="color:#66d9ef">if</span> len(data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
-                dump(worksheet, data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
-                min_id_i <span style="color:#f92672">=</span> min(d[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
-
-                <span style="color:#75715e"># 最新のTweetの上限を更新</span>
-                params[<span style="color:#e6db74">&#39;max_id&#39;</span>] <span style="color:#f92672">=</span> min_id_i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
-
-                max_id_i <span style="color:#f92672">=</span> max(d[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
-                <span style="color:#66d9ef">if</span> max_id_i <span style="color:#f92672">&gt;</span> max_id:
-                    <span style="color:#75715e"># 一番古いTweetの制約を更新</span>
-                    max_id <span style="color:#f92672">=</span> max_id_i
-
-        <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">429</span>:
-            <span style="color:#66d9ef">break</span>
-</code></pre></div><p><code>&lt;検索クエリ&gt;</code>には収集したい単語を指定します。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://api.twitter.com/1.1/search/tweets.json&#39;</span>
+</span></span><span style="display:flex;"><span>    max_id <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    params <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#e6db74">&#39;&lt;検索クエリ&gt;&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;count&#39;</span>: <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;max_id&#39;</span>: max_id,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;tweet_mode&#39;</span>: <span style="color:#e6db74">&#39;extended&#39;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#39;lang&#39;</span>: <span style="color:#e6db74">&#39;ja&#39;</span>,
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">Exception</span> <span style="color:#66d9ef">as</span> e:
+</span></span><span style="display:flex;"><span>            logger<span style="color:#f92672">.</span>error(e)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
+</span></span><span style="display:flex;"><span>            data_i <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(res<span style="color:#f92672">.</span>text)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> len(data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>]) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>                dump(worksheet, data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
+</span></span><span style="display:flex;"><span>                min_id_i <span style="color:#f92672">=</span> min(d[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e"># 最新のTweetの上限を更新</span>
+</span></span><span style="display:flex;"><span>                params[<span style="color:#e6db74">&#39;max_id&#39;</span>] <span style="color:#f92672">=</span> min_id_i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                max_id_i <span style="color:#f92672">=</span> max(d[<span style="color:#e6db74">&#39;id&#39;</span>] <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> data_i[<span style="color:#e6db74">&#39;statuses&#39;</span>])
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> max_id_i <span style="color:#f92672">&gt;</span> max_id:
+</span></span><span style="display:flex;"><span>                    <span style="color:#75715e"># 一番古いTweetの制約を更新</span>
+</span></span><span style="display:flex;"><span>                    max_id <span style="color:#f92672">=</span> max_id_i
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">429</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
+</span></span></code></pre></div><p><code>&lt;検索クエリ&gt;</code>には収集したい単語を指定します。
 日本語のツイートを収集したいので<code>lang</code>には<code>ja</code>を指定します。
 140字以上のツイートが省略されないように<code>tweet_mode</code>には<code>extended</code>を指定します<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
 Twitter APIの利用制限内でツイートの取得を繰り返し、制限になったらプログラムを終了します。
@@ -589,27 +588,27 @@ Twitter APIの利用制限内でツイートの取得を繰り返し、制限に
 
 
 <p><code>dump</code>関数は以下のとおりです。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dump</span>(worksheet, data):
-    dump_data <span style="color:#f92672">=</span> [[<span style="color:#e6db74">&#39;&#39;</span>, tweet[<span style="color:#e6db74">&#39;full_text&#39;</span>]] <span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> data]
-    <span style="color:#66d9ef">for</span> split <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(dump_data), <span style="color:#ae81ff">100</span>):
-        start <span style="color:#f92672">=</span> split <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>
-        end <span style="color:#f92672">=</span> min((split <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>, len(dump_data))
-        worksheet<span style="color:#f92672">.</span>insert_rows(dump_data[start: end])
-        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">100</span>)
-</code></pre></div><p>この関数ではワークシートの先頭の行に対して新しく取得したツイートの本文をB列に書込みます。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dump</span>(worksheet, data):
+</span></span><span style="display:flex;"><span>    dump_data <span style="color:#f92672">=</span> [[<span style="color:#e6db74">&#39;&#39;</span>, tweet[<span style="color:#e6db74">&#39;full_text&#39;</span>]] <span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> data]
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> split <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, len(dump_data), <span style="color:#ae81ff">100</span>):
+</span></span><span style="display:flex;"><span>        start <span style="color:#f92672">=</span> split <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>
+</span></span><span style="display:flex;"><span>        end <span style="color:#f92672">=</span> min((split <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">100</span>, len(dump_data))
+</span></span><span style="display:flex;"><span>        worksheet<span style="color:#f92672">.</span>insert_rows(dump_data[start: end])
+</span></span><span style="display:flex;"><span>        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">100</span>)
+</span></span></code></pre></div><p>この関数ではワークシートの先頭の行に対して新しく取得したツイートの本文をB列に書込みます。
 スプレッドシートはデフォルトでは100秒に100件までしか書き込めないように<a href="https://developers.google.com/analytics/devguides/reporting/core/v3/limits-quotas?hl=ja">制限</a>されているため、100件書き込んだら100秒スリープします。</p>
 <p>ローカル環境で上記プログラムを実行してスプレッドシートにツイートが書き込まれることを確認します。</p>
 <h2 id="herokuへのデプロイ">Herokuへのデプロイ</h2>
 <p>プログラムが動作することを確認したら、Herokuへデプロイします。
 上記プログラムを<code>crawler.py</code>とします。
 <code>requirements.txt</code>には以下を追記してください。</p>
-<pre><code>gspread==3.6.0
+<pre tabindex="0"><code>gspread==3.6.0
 oauth2client==4.1.3
 requests==2.23.0
 requests_oauthlib==1.3.0
 </code></pre><p>デプロイするには以下の通り実行します。</p>
-<pre><code>git add crawler.py config.ini &lt;jsonファイル&gt; requirements.txt
-git commit -m &quot;Add crawler.py&quot;
+<pre tabindex="0"><code>git add crawler.py config.ini &lt;jsonファイル&gt; requirements.txt
+git commit -m &#34;Add crawler.py&#34;
 git push heroku master
 </code></pre>
 
@@ -628,7 +627,7 @@ git push heroku master
 <h2 id="定期収集の設定">定期収集の設定</h2>
 <p>まずプログラムを定期実行するためのアドオンである、<a href="https://devcenter.heroku.com/articles/scheduler">Heroku Scheduler</a>をインストールします。
 以下のように実行します<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。</p>
-<pre><code>cd アプリのルートディレクトリ
+<pre tabindex="0"><code>cd アプリのルートディレクトリ
 heroku addons:create scheduler:standard
 </code></pre><p>次にHeroku Schedulerの設定ページに移動します。</p>
 
@@ -818,17 +817,17 @@ Run Commandには<code>python crawler.py</code>と記入します。
 <h2 id="おわり">おわり</h2>
 <p>本記事では無料でデータ収集をするための基盤を構築する方法を紹介しました。
 基盤はTwitterからツイートを取得し、スプレッドシートに書き込むプログラムをHeroku上で定期実行するものです。</p>
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p><a href="https://developer.twitter.com/en/docs/tweets/tweet-updates">https://developer.twitter.com/en/docs/tweets/tweet-updates</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1">
+<p><a href="https://developer.twitter.com/en/docs/tweets/tweet-updates">https://developer.twitter.com/en/docs/tweets/tweet-updates</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p>料金はかかりませんがアドオンの利用にはクレジットカード情報の登録が必要です。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:2">
+<p>料金はかかりませんがアドオンの利用にはクレジットカード情報の登録が必要です。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
               
 
               <br>
@@ -1186,6 +1185,72 @@ Run Commandには<code>python crawler.py</code>と記入します。
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1422,65 +1487,6 @@ Run Commandには<code>python crawler.py</code>と記入します。
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

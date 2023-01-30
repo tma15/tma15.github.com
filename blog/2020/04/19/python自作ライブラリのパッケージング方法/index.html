@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python">
 <meta name="description" content="自分で開発したPythonプログラムを再利用しやすいように、ライブラリとして整備したいことがあると思います。本記事ではPythonプログラムをライブラリ化するための手順を解説します。Pythonプログラムののモジュール化に加えて、コマンドラインを作成する方法についても触れます。">
@@ -120,7 +120,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -367,7 +366,7 @@ if (!doNotTrack) {
 <p>本記事ではPython 3.6.10を利用しています。</p>
 <h2 id="モジュールの作成">モジュールの作成</h2>
 <h3 id="ディレクトリ構成">ディレクトリ構成</h3>
-<pre><code>.
+<pre tabindex="0"><code>.
 ├── sample_lib
 │   ├── __init__.py
 │   ├── fuga.py
@@ -380,29 +379,29 @@ if (!doNotTrack) {
 └── setup.py
 </code></pre><p>このライブラリでは以下の3つの単純なクラスを実装しています。</p>
 <p><code>sample_lib/fuga.py</code></p>
-<pre><code>class Fuga:
+<pre tabindex="0"><code>class Fuga:
     def __call__(self):
-        return 'Fuga'
+        return &#39;Fuga&#39;
 </code></pre><p><code>sample_lib/hoge.py</code></p>
-<pre><code>class Hoge:
+<pre tabindex="0"><code>class Hoge:
     def __call__(self):
-        return 'Hoge'
+        return &#39;Hoge&#39;
 </code></pre><p><code>sample_lib/submodule/piyo.py</code></p>
-<pre><code>class Piyo:
+<pre tabindex="0"><code>class Piyo:
     def __call__(self):
-        return 'Piyo'
+        return &#39;Piyo&#39;
 </code></pre><h3 id="パッケージ">パッケージ</h3>
 <p>Pythonのライブラリはパッケージが階層的に構成されています。
 パッケージはファイルシステムのディレクトリのような概念だと思ってください。
 <a href="https://docs.python.org/ja/3/glossary.html#term-regular-package">通常のパッケージ</a> (<code>__init__.py</code>を含むディレクトリ) がimportされると、暗黙的に<code>__init__.py</code>が実行されます。
 つまり、<code>import sample_lib</code>が実行されると、<code>sample_lib/__init__.py</code>が実行されます。</p>
 <p>例えば、 <code>sample_lib/__init__.py</code> は次のように記述されているとすると、<code>Fuga</code>と<code>Hoge</code>というクラスが<code>sample_lib</code>というパッケージの名前空間に定義されます。つまり、<code>import sample_lib</code>が実行されれば、<code>sample_lib.Fuga</code>や<code>sample_lib.Hoge</code>としてアクセスできるようになります。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sample_lib.fuga <span style="color:#f92672">import</span> Fuga
-<span style="color:#f92672">from</span> sample_lib.hoge <span style="color:#f92672">import</span> Hoge
-</code></pre></div><p>また、 <code>sample_lib/submodule/__init__.py</code> は次のように記述されているものとします。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sample_lib.submodule <span style="color:#f92672">import</span> piyo
-<span style="color:#f92672">from</span> sample_lib.submodule.piyo <span style="color:#f92672">import</span> Piyo
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sample_lib.fuga <span style="color:#f92672">import</span> Fuga
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sample_lib.hoge <span style="color:#f92672">import</span> Hoge
+</span></span></code></pre></div><p>また、 <code>sample_lib/submodule/__init__.py</code> は次のように記述されているものとします。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sample_lib.submodule <span style="color:#f92672">import</span> piyo
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sample_lib.submodule.piyo <span style="color:#f92672">import</span> Piyo
+</span></span></code></pre></div>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
@@ -420,7 +419,7 @@ if (!doNotTrack) {
 <p>ライブラリを作成したら、それを<code>echo</code>や<code>ls</code>のようにコマンドラインから利用することもできます。
 コマンドラインの実装は <code>sample_lib_cli/call.py</code> に記述するものとします。
 ここでは、引数<code>--name</code>に一致するクラスの呼び出し演算子 (<code>__call__</code>) を実行するだけのコマンドラインを作成します。</p>
-<pre><code>import argparse
+<pre tabindex="0"><code>import argparse
 
 from sample_lib import (
     Hoge,
@@ -431,49 +430,49 @@ from sample_lib.submodule import Piyo
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--name', choices=['hoge', 'fuga', 'piyo'], default='hoge')
+    parser.add_argument(&#39;--name&#39;, choices=[&#39;hoge&#39;, &#39;fuga&#39;, &#39;piyo&#39;], default=&#39;hoge&#39;)
     args = parser.parse_args()
 
-    if args.name == 'hoge':
+    if args.name == &#39;hoge&#39;:
         x = Hoge()
-    elif args.name == 'fuga':
+    elif args.name == &#39;fuga&#39;:
         x = Fuga()
-    elif args.name == 'piyo':
+    elif args.name == &#39;piyo&#39;:
         x = Piyo()
 
     print(x())
 
 
-if __name__ == '__main__':
+if __name__ == &#39;__main__&#39;:
     main()
 </code></pre><h2 id="setuppyによるライブラリのパッケージング">setup.pyによるライブラリのパッケージング</h2>
 <p>ライブラリを作成したら、<code>setup.py</code>を用意します。
 <code>setup.py</code>はライブラリをインストールしたり、配布したりするために利用します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> setuptools <span style="color:#f92672">import</span> setup
-
-install_requires <span style="color:#f92672">=</span> [
-    <span style="color:#75715e"># 必要な依存ライブラリがあれば記述</span>
-]
-
-packages <span style="color:#f92672">=</span> [
-    <span style="color:#e6db74">&#39;sample_lib&#39;</span>,
-    <span style="color:#e6db74">&#39;sample_lib.submodule&#39;</span>,
-    <span style="color:#e6db74">&#39;sample_lib_cli&#39;</span>,
-]
-
-console_scripts <span style="color:#f92672">=</span> [
-    <span style="color:#e6db74">&#39;sample_lib_cli=sample_lib_cli.call:main&#39;</span>,
-]
-
-
-setup(
-    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sample_lib&#39;</span>,
-    version<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0.0.0&#39;</span>,
-    packages<span style="color:#f92672">=</span>packages,
-    install_requires<span style="color:#f92672">=</span>install_requires,
-    entry_points<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;console_scripts&#39;</span>: console_scripts},
-)
-</code></pre></div><p><code>setup</code>関数の引数で以下を与えます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> setuptools <span style="color:#f92672">import</span> setup
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>install_requires <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 必要な依存ライブラリがあれば記述</span>
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>packages <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;sample_lib&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;sample_lib.submodule&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;sample_lib_cli&#39;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>console_scripts <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;sample_lib_cli=sample_lib_cli.call:main&#39;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>setup(
+</span></span><span style="display:flex;"><span>    name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;sample_lib&#39;</span>,
+</span></span><span style="display:flex;"><span>    version<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0.0.0&#39;</span>,
+</span></span><span style="display:flex;"><span>    packages<span style="color:#f92672">=</span>packages,
+</span></span><span style="display:flex;"><span>    install_requires<span style="color:#f92672">=</span>install_requires,
+</span></span><span style="display:flex;"><span>    entry_points<span style="color:#f92672">=</span>{<span style="color:#e6db74">&#39;console_scripts&#39;</span>: console_scripts},
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p><code>setup</code>関数の引数で以下を与えます。</p>
 <ul>
 <li><code>name</code>: このライブラリの名前</li>
 <li><code>version</code>: このライブラリのバージョン</li>
@@ -483,15 +482,15 @@ setup(
 </ul>
 <h3 id="配布用ソースコードの作成">配布用ソースコードの作成</h3>
 <p>配布用ソースコードを作成するには以下を実行します。</p>
-<pre><code>$python setup.py sdist
+<pre tabindex="0"><code>$python setup.py sdist
 </code></pre><p>上記の実行終了後に<code>sample_lib-0.0.0.tar.gz</code>というファイルが<code>dist</code>以下に作成されます。</p>
 <h3 id="ライブラリのインストール">ライブラリのインストール</h3>
 <p>ライブラリをインストールするには以下を実行します。</p>
-<pre><code>$python setup.py install
+<pre tabindex="0"><code>$python setup.py install
 </code></pre><p>上記の実行終了後に、ライブラリがインストールされます。
 またコマンドラインもインストールされます。
 以下のように実行すると、<code>sample_lib_cli/call.py</code>の<code>main</code>関数が実行されます。</p>
-<pre><code>$sample_lib_cli --name hoge
+<pre tabindex="0"><code>$sample_lib_cli --name hoge
 Hoge
 $sample_lib_cli --name piyo
 Piyo
@@ -876,6 +875,72 @@ msmaflink({"n":"エキスパートPythonプログラミング 改訂3版 (アス
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1112,65 +1177,6 @@ msmaflink({"n":"エキスパートPythonプログラミング 改訂3版 (アス
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

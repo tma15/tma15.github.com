@@ -6,11 +6,7 @@
     <description>Recent content in golang on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 31 Jan 2016 19:17:31 +0900</lastBuildDate>
-    
-	<atom:link href="https://tma15.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 31 Jan 2016 19:17:31 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/golang/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>N-best解の探索</title>
       <link>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</link>
@@ -63,11 +59,11 @@ golangらしく？github releaseでバイナリの配布もしている (今回�
       <guid>https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/</guid>
       <description>概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
- 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
- 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &amp;hellip;以降は省略している。
-ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &amp;gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。 データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由 $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &amp;hellip;以降は省略している。
+ソースコード mecab.go (gist) text.go (gist) 動かしてみる $./text data.csv &amp;gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &amp;hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.</description>
+$cat model|grep &amp;#34;^スポーツ&amp;#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.600000 スポーツ モチベーション 0.600000 スポーツ アルゼンチン 0.</description>
     </item>
     
     <item>
@@ -93,7 +89,7 @@ $./adagrad -f news.train -m learn -w model -l 1 -c 0.01 $./adagrad -f news.test 
       <description>論文はこちら。
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
-func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) + 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.</description>
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA tau := loss / (Norm(X) + 1 / (2 * p.C)) // PA-II if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.</description>
     </item>
     
     <item>

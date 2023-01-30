@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="tech">
 <meta name="description" content="BERTの学習で用いるoptimizerでbiasやlayer normalizationのパラメータだけがweight decayの対象外となっていることについて疑問は持ったことはあるでしょうか。たとえばhuggingfaceのtransformersのissueでもそのような質問がありますが、「Googleの公開しているBERTがそうしているから再現性のために合わせた」と回答されています。ではなぜGoogleのBERT実装はそのような設定にしたのでしょうか。これらのOSSを利用されている方にも天下り的に設定している方もいらっしゃると思います。本記事ではBERTなどの学習で用いられるoptimizerのweight decayで、biasやlayer normalizationのパラメータが対象外となっている理由について解説します。">
@@ -124,7 +124,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -351,14 +350,14 @@ if (!doNotTrack) {
 <h2 id="bertの学習で用いられるoptimizer">BERTの学習で用いられるoptimizer</h2>
 <p>GoogleのTensorFlow実装で利用されているoptimizerは下記のように記述されています。
 引数<code>exclude_from_weight_decay</code>で指定された<code>layer_norm</code>や<code>bias</code>に関するパラメータがweight decayの対象から除外されています。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">  optimizer <span style="color:#f92672">=</span> AdamWeightDecayOptimizer(
-      learning_rate<span style="color:#f92672">=</span>learning_rate,
-      weight_decay_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
-      beta_1<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>,
-      beta_2<span style="color:#f92672">=</span><span style="color:#ae81ff">0.999</span>,
-      epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-6</span>,
-      exclude_from_weight_decay<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;LayerNorm&#34;</span>, <span style="color:#e6db74">&#34;layer_norm&#34;</span>, <span style="color:#e6db74">&#34;bias&#34;</span>])
-</code></pre></div><p>どういった理由でこれらのパラメータをweight decayの対象から除外しているのかを以降で解説します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>  optimizer <span style="color:#f92672">=</span> AdamWeightDecayOptimizer(
+</span></span><span style="display:flex;"><span>      learning_rate<span style="color:#f92672">=</span>learning_rate,
+</span></span><span style="display:flex;"><span>      weight_decay_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>,
+</span></span><span style="display:flex;"><span>      beta_1<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>,
+</span></span><span style="display:flex;"><span>      beta_2<span style="color:#f92672">=</span><span style="color:#ae81ff">0.999</span>,
+</span></span><span style="display:flex;"><span>      epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-6</span>,
+</span></span><span style="display:flex;"><span>      exclude_from_weight_decay<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;LayerNorm&#34;</span>, <span style="color:#e6db74">&#34;layer_norm&#34;</span>, <span style="color:#e6db74">&#34;bias&#34;</span>])
+</span></span></code></pre></div><p>どういった理由でこれらのパラメータをweight decayの対象から除外しているのかを以降で解説します。</p>
 <h2 id="weight-decay">weight decay</h2>
 <p>weight decayはL2正則化のことで、モデルの過学習を抑えるために用いられます。モデルのパラメータ$\theta$に対して、ある損失関数$L(\theta)$に対してweight decayを足し合わせた関数を$E(\theta)$とします。</p>
 <p>$$
@@ -374,21 +373,21 @@ $$</p>
 <p>次に得られた勾配と学習率$\lambda$に基づいて$\theta$を更新します。</p>
 <p>$$
 \begin{eqnarray}
-\theta &amp;\leftarrow&amp; \theta - \lambda \frac{\nabla E(\theta)}{\nabla \theta} \\\<br>
-&amp;=&amp; \theta - \lambda \frac{\nabla L(\theta)}{\nabla \theta} - \lambda C \theta \\\<br>
+\theta &amp;\leftarrow&amp; \theta - \lambda \frac{\nabla E(\theta)}{\nabla \theta} \\\
+&amp;=&amp; \theta - \lambda \frac{\nabla L(\theta)}{\nabla \theta} - \lambda C \theta \\\
 &amp;=&amp; - \lambda \frac{\nabla L(\theta)}{\nabla \theta} + \theta (1 - \lambda C) \tag{3}
 \end{eqnarray}
 $$</p>
 <p>次に実装について見ていきいます。
 PyTorchのAdamWの実装は<a href="https://github.com/pytorch/pytorch/blob/5ed6e4429e2a75cb3d0d573e007bc3417939e9bd/torch/optim/_functional.py#L101">こちら</a> です。weight decayに関する部分を抜粋します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">for</span> i, param <span style="color:#f92672">in</span> enumerate(params):
-        <span style="color:#75715e"># 省略</span>
-
-        <span style="color:#75715e"># Perform stepweight decay</span>
-        param<span style="color:#f92672">.</span>mul_(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> lr <span style="color:#f92672">*</span> weight_decay)
-
-        <span style="color:#75715e"># 省略。以降で勾配の項を使ってパラメータを更新する</span>
-</code></pre></div><p>これを数式で表すと以下のようになり式 (3)の第二項と一致します。ここで<code>param</code>は$\theta$、<code>lr</code>は$\lambda$、<code>weight_decay</code>は$C$と対応します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, param <span style="color:#f92672">in</span> enumerate(params):
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 省略</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Perform stepweight decay</span>
+</span></span><span style="display:flex;"><span>        param<span style="color:#f92672">.</span>mul_(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> lr <span style="color:#f92672">*</span> weight_decay)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 省略。以降で勾配の項を使ってパラメータを更新する</span>
+</span></span></code></pre></div><p>これを数式で表すと以下のようになり式 (3)の第二項と一致します。ここで<code>param</code>は$\theta$、<code>lr</code>は$\lambda$、<code>weight_decay</code>は$C$と対応します。</p>
 <p>$$
 \begin{eqnarray}
 \mathbf{\theta} &amp;=&amp; \mathbf{\theta} (1 - \lambda C)
@@ -408,8 +407,8 @@ $$</p>
 <p><a href="https://arxiv.org/abs/1607.06450">layer normalization</a>はデータの分布を正規化することで学習時間を減らしつつ精度改善も期待できる手法です。直前の層の出力$\mathbf{y} \in \mathbb{R}^H$に対する平均値$\mu$と標準偏差$\sigma$で正規化した結果$\mathbf{h} \in \mathbb{R}^H$を出力します。$\mathbf{g} \in \mathbb{R}^H$と$\mathbf{b} \in \mathbb{R}^H$はlayer normalizationにおける学習対象のパラメータであり、値をスケールする際に用います。</p>
 <p>$$
 \begin{eqnarray}
-\mu &amp;=&amp; \frac{1}{H} \sum_{i=1}^{H} y_i \tag{5} \\\<br>
-\sigma &amp;=&amp; \sqrt{\frac{1}{H} \sum_{i=1}^{H} (y_i - \mu)^2} \tag{6} \\\<br>
+\mu &amp;=&amp; \frac{1}{H} \sum_{i=1}^{H} y_i \tag{5} \\\
+\sigma &amp;=&amp; \sqrt{\frac{1}{H} \sum_{i=1}^{H} (y_i - \mu)^2} \tag{6} \\\
 \mathbf{h} &amp;=&amp; f(\frac{\mathbf{g}}{\sigma} \odot (\mathbf{y} - \mu) + \mathbf{b}) \tag{7}
 \end{eqnarray}
 $$</p>
@@ -810,6 +809,72 @@ msmaflink({"n":"BERTによる自然言語処理入門 ―Transformersを使っ�
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1046,65 +1111,6 @@ msmaflink({"n":"BERTによる自然言語処理入門 ―Transformersを使っ�
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

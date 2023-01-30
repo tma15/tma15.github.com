@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="git">
 <meta name="description" content="
@@ -128,7 +128,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -354,32 +353,32 @@ if (!doNotTrack) {
 特に、データがどのプログラムから作成されたかをgitのコミットで管理するところが勉強になったのだけど、gitのコマンドをよく忘れてしまうので、ここに簡単な例を書いておいて、いつでも参照できるようにしておく。</p>
 <h2 id="1-プログラムを作成コミットする">1. プログラムを作成、コミットする。</h2>
 <p>プログラム<code>calc.py</code>を作成。
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calc</span>(a, b):
-    retunr a <span style="color:#f92672">+</span> b
-
-<span style="color:#66d9ef">print</span> calc(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)</code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calc</span>(a, b):
+</span></span><span style="display:flex;"><span>    retunr a <span style="color:#f92672">+</span> b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print calc(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)</span></span></code></pre></div></p>
 <p>作ったプログラムをコミットする。
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git add -A
-git commit -m <span style="color:#e6db74">&#34;最初のコミット&#34;</span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git add -A
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;最初のコミット&#34;</span></span></span></code></pre></div></p>
 <h2 id="2-プログラムを修正コミットする">2. プログラムを修正、コミットする。</h2>
 <p>プログラム<code>calc.py</code>を修正。
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-py" data-lang="py"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calc</span>(a, b):
-    retunr a <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> b
-
-<span style="color:#66d9ef">print</span> calc(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)</code></pre></div></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git add -A
-git commit -m <span style="color:#e6db74">&#34;計算方法を修正&#34;</span>
-git log</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">calc</span>(a, b):
+</span></span><span style="display:flex;"><span>    retunr a <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print calc(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)</span></span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git add -A
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;計算方法を修正&#34;</span>
+</span></span><span style="display:flex;"><span>git log</span></span></code></pre></div>
 <p>git logの出力は以下の様な感じ。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
-...
-
-    計算方法の修正
-
-commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
-...
-
-    最初のコミット</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>commit bf852179b307e1e1f205a24b7b0cb2f9ccb9293b
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    計算方法の修正
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    最初のコミット</span></span></code></pre></div>
 
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -396,37 +395,37 @@ commit 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9
 
 <h2 id="3-プログラムを指定したコミットidの状態に戻す">3. プログラムを指定したコミットIDの状態に戻す。</h2>
 <p>以下のようにプログラムの中身を確認して、
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git show 5e63:calc.py <span style="color:#75715e">### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定</span></code></pre></div></p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e">#!/usr/bin/python
-</span><span style="color:#75715e"></span>
-def calc<span style="color:#f92672">(</span>a, b<span style="color:#f92672">)</span>:
-    <span style="color:#66d9ef">return</span> a + b
-
-    print calc<span style="color:#f92672">(</span>1, 2<span style="color:#f92672">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git show 5e63:calc.py <span style="color:#75715e">### 特定のファイルのみ見たい場合はcommit_id:/path/to/fileと指定</span></span></span></code></pre></div></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>def calc<span style="color:#f92672">(</span>a, b<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a + b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    print calc<span style="color:#f92672">(</span>1, 2<span style="color:#f92672">)</span></span></span></code></pre></div>
 <p>あるいは、以下のように差分を確認して、</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git diff HEAD:calc.py 5e63:calc.py</code></pre></div>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">diff --git a/HEAD:calc.py b/5e63:calc.py
-index e2c3e48..6ce682f <span style="color:#ae81ff">100644</span>
---- a/HEAD:calc.py
-+++ b/5e63:calc.py
-@@ -1,6 +1,6 @@
- <span style="color:#75715e">#!/usr/bin/python</span>
-
-  def calc<span style="color:#f92672">(</span>a, b<span style="color:#f92672">)</span>:
-  -    <span style="color:#66d9ef">return</span> a + <span style="color:#ae81ff">2</span> * b
-  +    <span style="color:#66d9ef">return</span> a + b
-
-   print calc<span style="color:#f92672">(</span>1, 2<span style="color:#f92672">)</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git diff HEAD:calc.py 5e63:calc.py</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>diff --git a/HEAD:calc.py b/5e63:calc.py
+</span></span><span style="display:flex;"><span>index e2c3e48..6ce682f <span style="color:#ae81ff">100644</span>
+</span></span><span style="display:flex;"><span>--- a/HEAD:calc.py
+</span></span><span style="display:flex;"><span>+++ b/5e63:calc.py
+</span></span><span style="display:flex;"><span>@@ -1,6 +1,6 @@
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">#!/usr/bin/python</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  def calc<span style="color:#f92672">(</span>a, b<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>  -    <span style="color:#66d9ef">return</span> a + <span style="color:#ae81ff">2</span> * b
+</span></span><span style="display:flex;"><span>  +    <span style="color:#66d9ef">return</span> a + b
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   print calc<span style="color:#f92672">(</span>1, 2<span style="color:#f92672">)</span></span></span></code></pre></div>
 <p>確かに自分が戻したいコミットであれば、以下のようにして戻す:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color:#75715e">### topicブランチを作成して、コミットIDが5e63...の状態に戻す。</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git checkout -b topic 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color:#75715e">### topicブランチを作成して、コミットIDが5e63...の状態に戻す。</span></span></span></code></pre></div>
 <p>ブランチを作らずにcheckoutで指定した状態に戻してプログラムを変更しても、どのブランチにもその変更が反映されない (実験的な変更を加えるのが目的なら問題ない)。
 ブランチを作らずにcheckoutして、やっぱり変更をコミットしたいという場合は、一時的なブランチを作成して、masterへ移動後、マージする。</p>
 <h3 id="ブランチを作成せずに指定したコミットidに戻した後に加えた変更を反映したい場合">ブランチを作成せずに指定したコミットIDに戻した後に、加えた変更を反映したい場合</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color:#75715e">### ブランチを作成せずに、5e63...の状態に戻る</span>
-git branch tmp <span style="color:#75715e">### 一時的なブランチtmpを作成して移動</span>
-git checkout master <span style="color:#75715e">### masterブランチへ移動</span>
-git merge tmp <span style="color:#75715e">### tmpをmasterへマージ</span>
-git branch -d tmp <span style="color:#75715e">### tmpを削除</span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git checkout 5e63ade4258dbb7b94af2cd6597c84b1f0c21fd9 <span style="color:#75715e">### ブランチを作成せずに、5e63...の状態に戻る</span>
+</span></span><span style="display:flex;"><span>git branch tmp <span style="color:#75715e">### 一時的なブランチtmpを作成して移動</span>
+</span></span><span style="display:flex;"><span>git checkout master <span style="color:#75715e">### masterブランチへ移動</span>
+</span></span><span style="display:flex;"><span>git merge tmp <span style="color:#75715e">### tmpをmasterへマージ</span>
+</span></span><span style="display:flex;"><span>git branch -d tmp <span style="color:#75715e">### tmpを削除</span></span></span></code></pre></div>
 <p>参考: <a href="http://d.hatena.ne.jp/nishiohirokazu/20110513/1305290792">gitのHEADがブランチから外れてしまう現象とその直し方 - 西尾泰和のはてなダイアリー</a></p>
               
 
@@ -446,6 +445,72 @@ git branch -d tmp <span style="color:#75715e">### tmpを削除</span></code></pr
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -697,65 +762,6 @@ git branch -d tmp <span style="color:#75715e">### tmpを削除</span></code></pr
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

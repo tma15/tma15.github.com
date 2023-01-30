@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, flask">
 <meta name="description" content="本記事ではPythonのWebアプリケーションフレームワークの一つであるFlaskのblueprintの使い方について紹介します。
@@ -140,7 +140,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -367,11 +366,11 @@ Flaskのblueprintを使って初めてアプリケーションを実装する人
 </nav>
 <h2 id="flaskのインストール">Flaskのインストール</h2>
 <p>本記事ではPython3を使います。また、Flaskは次の通りインストールします。</p>
-<pre><code>$pip install flask
+<pre tabindex="0"><code>$pip install flask
 $pip freeze|grep Flask
 Flask==1.0.2
 </code></pre><h2 id="アプリケーションのディレクトリ構成">アプリケーションのディレクトリ構成</h2>
-<pre><code>.
+<pre tabindex="0"><code>.
 ├── application.py
 ├── blueprints.py
 ├── flask_sample
@@ -386,87 +385,87 @@ Flask==1.0.2
 </code></pre><h2 id="blueprintの作成">blueprintの作成</h2>
 <p><code>blueprints.py</code> にてblueprintを作成します。
 本記事では2つのblueprintを作成します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Blueprint
-
-example1 <span style="color:#f92672">=</span> Blueprint(<span style="color:#e6db74">&#39;example1&#39;</span>, import_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;flask_sample.views.example1&#39;</span>, url_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/example1&#39;</span>)
-example2 <span style="color:#f92672">=</span> Blueprint(<span style="color:#e6db74">&#39;example2&#39;</span>, import_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;flask_sample.views.example2&#39;</span>, url_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/example2&#39;</span>)
-
-
-all_blueprints <span style="color:#f92672">=</span> (
-    example1,
-    example2
-)
-</code></pre></div><p>第一引数はblueprintの名前を指定します。 <code>import_name</code> はこのblueprintが利用するパッケージ名を指定します。 <code>url_prefix</code> にはこのblueprintのURLの接頭辞を指定します。たとえば <code>example1</code> という名前のblueprintは <code>URL:PORT/example1</code> というURLと紐付けられます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Blueprint
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>example1 <span style="color:#f92672">=</span> Blueprint(<span style="color:#e6db74">&#39;example1&#39;</span>, import_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;flask_sample.views.example1&#39;</span>, url_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/example1&#39;</span>)
+</span></span><span style="display:flex;"><span>example2 <span style="color:#f92672">=</span> Blueprint(<span style="color:#e6db74">&#39;example2&#39;</span>, import_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;flask_sample.views.example2&#39;</span>, url_prefix<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/example2&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>all_blueprints <span style="color:#f92672">=</span> (
+</span></span><span style="display:flex;"><span>    example1,
+</span></span><span style="display:flex;"><span>    example2
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>第一引数はblueprintの名前を指定します。 <code>import_name</code> はこのblueprintが利用するパッケージ名を指定します。 <code>url_prefix</code> にはこのblueprintのURLの接頭辞を指定します。たとえば <code>example1</code> という名前のblueprintは <code>URL:PORT/example1</code> というURLと紐付けられます。</p>
 <p><code>flask_sample/views/example1/__init__.py</code> および
 <code>flask_sample/views/example1/index.py</code> は以下のように記述します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> index
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> blueprints <span style="color:#f92672">import</span> example1
-
-<span style="color:#a6e22e">@example1.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;example1&#39;</span>
-
-
-<span style="color:#a6e22e">@example1.route</span>(<span style="color:#e6db74">&#39;/test&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;test of example1&#39;</span>
-</code></pre></div><p><code>flask_sample/views/example2/__init__.py</code> および
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> index
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> blueprints <span style="color:#f92672">import</span> example1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@example1.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;example1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@example1.route</span>(<span style="color:#e6db74">&#39;/test&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;test of example1&#39;</span>
+</span></span></code></pre></div><p><code>flask_sample/views/example2/__init__.py</code> および
 <code>flask_sample/views/example2/index.py</code> は以下のように記述します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> index
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> blueprints <span style="color:#f92672">import</span> example2
-
-<span style="color:#a6e22e">@example2.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;example2&#39;</span>
-
-
-<span style="color:#a6e22e">@example2.route</span>(<span style="color:#e6db74">&#39;/hoge&#39;</span>)
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>():
-    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;hoge of example2&#39;</span>
-</code></pre></div><p><code>@example1.route(URL_SUFFIX)</code> で関数をデコレートすることによって、その関数は <code>example1</code> という名前のblueprintで扱えるようになります。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> . <span style="color:#f92672">import</span> index
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> blueprints <span style="color:#f92672">import</span> example2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@example2.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;example2&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@example2.route</span>(<span style="color:#e6db74">&#39;/hoge&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;hoge of example2&#39;</span>
+</span></span></code></pre></div><p><code>@example1.route(URL_SUFFIX)</code> で関数をデコレートすることによって、その関数は <code>example1</code> という名前のblueprintで扱えるようになります。
 具体的には<code>@example1.route('/')</code>とすることによって、<code>index</code> は <code>URL:PORT/example1/</code> にアクセスした際に実行されるようになります。
 また<code>@example1.route('/test')</code>とすることによって、<code>testx</code> は <code>URL:PORT/example1/test</code> にアクセスした際に実行されるようになります。
 <code>@example2</code> も同様です。</p>
 <h2 id="blueprintの登録">blueprintの登録</h2>
 <p><code>application.py</code> にてapplicationを作成し、applicationに上記のblueprintを登録します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> importlib
-
-<span style="color:#f92672">import</span> flask
-
-<span style="color:#f92672">import</span> blueprints
-
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_app</span>():
-    app <span style="color:#f92672">=</span> flask<span style="color:#f92672">.</span>Flask(__name__)
-
-    <span style="color:#66d9ef">for</span> blueprint <span style="color:#f92672">in</span> blueprints<span style="color:#f92672">.</span>all_blueprints:
-        importlib<span style="color:#f92672">.</span>import_module(blueprint<span style="color:#f92672">.</span>import_name)
-        app<span style="color:#f92672">.</span>register_blueprint(blueprint)
-
-    <span style="color:#66d9ef">return</span> app
-</code></pre></div><p>blueprintの登録は以下の行で実行します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">for</span> blueprint <span style="color:#f92672">in</span> blueprints<span style="color:#f92672">.</span>all_blueprints:
-        importlib<span style="color:#f92672">.</span>import_module(blueprint<span style="color:#f92672">.</span>import_name)
-        app<span style="color:#f92672">.</span>register_blueprint(blueprint)
-</code></pre></div><p><code>importlib.import_module(blueprint.import_name)</code> でPythonモジュールをインポートします。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> importlib
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> flask
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> blueprints
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_app</span>():
+</span></span><span style="display:flex;"><span>    app <span style="color:#f92672">=</span> flask<span style="color:#f92672">.</span>Flask(__name__)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> blueprint <span style="color:#f92672">in</span> blueprints<span style="color:#f92672">.</span>all_blueprints:
+</span></span><span style="display:flex;"><span>        importlib<span style="color:#f92672">.</span>import_module(blueprint<span style="color:#f92672">.</span>import_name)
+</span></span><span style="display:flex;"><span>        app<span style="color:#f92672">.</span>register_blueprint(blueprint)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> app
+</span></span></code></pre></div><p>blueprintの登録は以下の行で実行します。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> blueprint <span style="color:#f92672">in</span> blueprints<span style="color:#f92672">.</span>all_blueprints:
+</span></span><span style="display:flex;"><span>        importlib<span style="color:#f92672">.</span>import_module(blueprint<span style="color:#f92672">.</span>import_name)
+</span></span><span style="display:flex;"><span>        app<span style="color:#f92672">.</span>register_blueprint(blueprint)
+</span></span></code></pre></div><p><code>importlib.import_module(blueprint.import_name)</code> でPythonモジュールをインポートします。
 これを実行しないと、blueprintが利用するPythonモジュールがインポートされず、blueprintも登録できません。
 <code>app.register_blueprint(blueprint)</code> で <code>blueprints.py</code> にて定義した <code>all_blueprints</code> のすべての要素を <code>app</code> に登録します。</p>
 <h2 id="サーバの起動">サーバの起動</h2>
 <p><code>run.py</code> を以下のように記述し、実行します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> application
-
-
-app <span style="color:#f92672">=</span> application<span style="color:#f92672">.</span>create_app()
-<span style="color:#66d9ef">print</span>(app<span style="color:#f92672">.</span>url_map)
-app<span style="color:#f92672">.</span>run()
-</code></pre></div><p>これを実行すると以下の結果が得られます。</p>
-<pre><code>$python run.py
-Map([&lt;Rule '/example1/test' (HEAD, OPTIONS, GET) -&gt; example1.test&gt;,
- &lt;Rule '/example2/hoge' (HEAD, OPTIONS, GET) -&gt; example2.test&gt;,
- &lt;Rule '/example1/' (HEAD, OPTIONS, GET) -&gt; example1.index&gt;,
- &lt;Rule '/example2/' (HEAD, OPTIONS, GET) -&gt; example2.index&gt;,
- &lt;Rule '/static/&lt;filename&gt;' (HEAD, OPTIONS, GET) -&gt; static&gt;])
- * Serving Flask app &quot;application&quot; (lazy loading)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> application
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>app <span style="color:#f92672">=</span> application<span style="color:#f92672">.</span>create_app()
+</span></span><span style="display:flex;"><span>print(app<span style="color:#f92672">.</span>url_map)
+</span></span><span style="display:flex;"><span>app<span style="color:#f92672">.</span>run()
+</span></span></code></pre></div><p>これを実行すると以下の結果が得られます。</p>
+<pre tabindex="0"><code>$python run.py
+Map([&lt;Rule &#39;/example1/test&#39; (HEAD, OPTIONS, GET) -&gt; example1.test&gt;,
+ &lt;Rule &#39;/example2/hoge&#39; (HEAD, OPTIONS, GET) -&gt; example2.test&gt;,
+ &lt;Rule &#39;/example1/&#39; (HEAD, OPTIONS, GET) -&gt; example1.index&gt;,
+ &lt;Rule &#39;/example2/&#39; (HEAD, OPTIONS, GET) -&gt; example2.index&gt;,
+ &lt;Rule &#39;/static/&lt;filename&gt;&#39; (HEAD, OPTIONS, GET) -&gt; static&gt;])
+ * Serving Flask app &#34;application&#34; (lazy loading)
  * Environment: production
    WARNING: Do not use the development server in a production environment.
    Use a production WSGI server instead.
@@ -855,6 +854,72 @@ blueprintを使うことで、アプリケーションの実装をきれいに�
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1091,65 +1156,6 @@ blueprintを使うことで、アプリケーションの実装をきれいに�
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

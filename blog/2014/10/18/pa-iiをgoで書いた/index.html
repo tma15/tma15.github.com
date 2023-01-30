@@ -5,20 +5,20 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="論文はこちら。
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
-func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="論文はこちら。
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
-func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PA-IIをGoで書いた">
 <meta name="twitter:title" content="PA-IIをGoで書いた">
@@ -28,11 +28,11 @@ func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64)
 <meta property="og:description" content="論文はこちら。
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
-func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
 <meta name="twitter:description" content="論文はこちら。
 Online Passive-Aggressive Algorithms
 ソースコードはこちら。 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。
-func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA  tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II  if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
+func (p *PassiveAggressive) Update(X map[string]float64, y string, sign float64) Weight { loss := math.Max(0, 1-sign*Dot(X, p.weight[y])) // tau := loss / Norm(X) // PA tau := loss / (Norm(X) &#43; 1 / (2 * p.C)) // PA-II if _, ok := p.weight[y]; ok == false { p.weight[y] = map[string]float64{} } for f, _ := range X { if _, ok := p.weight[y][f]; ok { p.">
 <meta property="og:locale" content="ja">
 
   
@@ -125,7 +125,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -329,23 +328,23 @@ if (!doNotTrack) {
 <p><a href="http://webee.technion.ac.il/people/koby/publications/crammer06a.pdf">Online Passive-Aggressive Algorithms</a></p>
 <p>ソースコードは<a href="https://github.com/tma15/gopa">こちら</a>。
 下の関数でおこなわれている重みの更新以外はほとんどパーセプトロンと一緒です。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PassiveAggressive</span>) <span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">X</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">sign</span> <span style="color:#66d9ef">float64</span>) <span style="color:#a6e22e">Weight</span> {
-        <span style="color:#a6e22e">loss</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">Max</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sign</span><span style="color:#f92672">*</span><span style="color:#a6e22e">Dot</span>(<span style="color:#a6e22e">X</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>]))
-        <span style="color:#75715e">//         tau := loss / Norm(X) // PA
-</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">tau</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loss</span> <span style="color:#f92672">/</span> (<span style="color:#a6e22e">Norm</span>(<span style="color:#a6e22e">X</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">C</span>)) <span style="color:#75715e">// PA-II
-</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>]; <span style="color:#a6e22e">ok</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span> {
-            <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>] = <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>{}
-        }
-
-        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">X</span> {
-                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>]; <span style="color:#a6e22e">ok</span> {
-                    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">tau</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sign</span>
-                } <span style="color:#66d9ef">else</span> {
-                    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>] = <span style="color:#a6e22e">tau</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sign</span>
-                }
-        }
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>
-}</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">p</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">PassiveAggressive</span>) <span style="color:#a6e22e">Update</span>(<span style="color:#a6e22e">X</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>, <span style="color:#a6e22e">y</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">sign</span> <span style="color:#66d9ef">float64</span>) <span style="color:#a6e22e">Weight</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">loss</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">math</span>.<span style="color:#a6e22e">Max</span>(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span><span style="color:#f92672">-</span><span style="color:#a6e22e">sign</span><span style="color:#f92672">*</span><span style="color:#a6e22e">Dot</span>(<span style="color:#a6e22e">X</span>, <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>]))
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//         tau := loss / Norm(X) // PA
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">tau</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loss</span> <span style="color:#f92672">/</span> (<span style="color:#a6e22e">Norm</span>(<span style="color:#a6e22e">X</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">/</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">C</span>)) <span style="color:#75715e">// PA-II
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>]; <span style="color:#a6e22e">ok</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>] = <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">float64</span>{}
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">_</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">X</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>]; <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>] <span style="color:#f92672">+=</span> <span style="color:#a6e22e">tau</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sign</span>
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>[<span style="color:#a6e22e">y</span>][<span style="color:#a6e22e">f</span>] = <span style="color:#a6e22e">tau</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">sign</span>
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">weight</span>
+</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
 
               
 
@@ -471,6 +470,72 @@ if (!doNotTrack) {
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -722,65 +787,6 @@ if (!doNotTrack) {
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

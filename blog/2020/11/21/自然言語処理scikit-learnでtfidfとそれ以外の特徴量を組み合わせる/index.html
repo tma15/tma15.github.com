@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, scikit-learn, nlp">
 <meta name="description" content="本記事ではscikit-learnを用いて自然言語処理モデルを構築する際に、tfidfに加えてそれ以外の特徴量を利用する方法をサンプルコード付きで紹介します。
@@ -144,7 +144,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -371,14 +370,14 @@ scikit-learnで自然言語処理モデルを構築する際は、scikit-learn�
   </ul>
 </nav>
 <p>本記事では以下のバージョンに基づいています。</p>
-<pre><code>scikit-learn==0.23.2
+<pre tabindex="0"><code>scikit-learn==0.23.2
 </code></pre><h2 id="tfidf">tfidf</h2>
 <p>tfidfは、機械学習を用いた自然言語処理や情報検索において、広く用いられているテキストの表現<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> の一つです。
 tfidfは単語<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>に対してある種の重要度を与える方法で、他のテキストにはあまり出現せず、そのテキストにはよく出現する単語はそのテキストを特徴づける単語であるという仮定に基づき、高いスコアを与えます。</p>
 <p>例えば「です」や「ます」などの単語は一つのテキストに多く出現する一方で、他のテキストにも多く出現するため、tfidfは低くなり、スポーツ関係のテキストであれば、「スコア」や「ボール」などの単語が多く出現する一方で、他のテキストにはそれほど出現するわけではないので、スポーツ関係のテキストにおいては高いtfidf値となります。</p>
 <p>scikit-learnでは<a href="https://scikit-learn.org/stable/modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html">TfidfVectorizer</a>を用いることで、学習データのテキストから頻度などの統計量を構築したり、テキストをtfidfベクトルに変換することができます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
-</code></pre></div><h2 id="tfidf以外の特徴量">tfidf以外の特徴量</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.feature_extraction.text <span style="color:#f92672">import</span> TfidfVectorizer
+</span></span></code></pre></div><h2 id="tfidf以外の特徴量">tfidf以外の特徴量</h2>
 <p>tfidfはテキストに出現する単語に対して、ある種の重要度を与える方法でした。
 テキストをスポーツや政治・経済などの予め決めたカテゴリに分類するような文書分類問題には有効な方法だと思います。
 しかし、文書分類問題には上記のようなカテゴリに分類する問題の他、例えばスパムメールの分類や、エッセイの品質の分類などもあります。
@@ -388,67 +387,66 @@ tfidfはscikit-learnのTfidfVectorizerを用いれば容易に利用できます
 そのため、scikit-learnでは提供されていない、文書の長さを特徴量として抽出するクラスを別途定義します。</p>
 <p>scikit-learnのAPIに従った独自の特徴抽出を実施するクラスを定義するには<a href="https://scikit-learn.org/stable/modules/generated/sklearn.base.TransformerMixin.html">TransformerMixin</a>を継承します。
 また定義したクラスでは<code>fit</code>メソッドおよび<code>transformer</code>メソッドを実装します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.base <span style="color:#f92672">import</span> TransformerMixin
-<span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> MinMaxScaler
-
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomVectorizer</span>(TransformerMixin):
-    <span style="color:#66d9ef">def</span> __init__(self):
-        super()<span style="color:#f92672">.</span>__init__()
-        self<span style="color:#f92672">.</span>scaler <span style="color:#f92672">=</span> MinMaxScaler()
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fit</span>(self, raw_documents, y<span style="color:#f92672">=</span>None):
-        lengths <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(raw_documents), <span style="color:#ae81ff">1</span>))
-        <span style="color:#66d9ef">for</span> doc_id, document <span style="color:#f92672">in</span> enumerate(raw_documents):
-            length <span style="color:#f92672">=</span> len(document)
-            lengths[doc_id, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> length
-        self<span style="color:#f92672">.</span>scaler<span style="color:#f92672">.</span>fit(lengths)
-        <span style="color:#66d9ef">return</span> self
-
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform</span>(self, raw_documents):
-        lengths <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(raw_documents), <span style="color:#ae81ff">1</span>))
-        <span style="color:#66d9ef">for</span> doc_id, document <span style="color:#f92672">in</span> enumerate(raw_documents):
-            length <span style="color:#f92672">=</span> len(document)
-            lengths[doc_id, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> length
-        lengths <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>scaler<span style="color:#f92672">.</span>transform(lengths)
-        <span style="color:#66d9ef">return</span> lengths
-
-</code></pre></div><h2 id="featureunion">FeatureUnion</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.base <span style="color:#f92672">import</span> TransformerMixin
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.preprocessing <span style="color:#f92672">import</span> MinMaxScaler
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CustomVectorizer</span>(TransformerMixin):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self):
+</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>scaler <span style="color:#f92672">=</span> MinMaxScaler()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fit</span>(self, raw_documents, y<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>):
+</span></span><span style="display:flex;"><span>        lengths <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(raw_documents), <span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> doc_id, document <span style="color:#f92672">in</span> enumerate(raw_documents):
+</span></span><span style="display:flex;"><span>            length <span style="color:#f92672">=</span> len(document)
+</span></span><span style="display:flex;"><span>            lengths[doc_id, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> length
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>scaler<span style="color:#f92672">.</span>fit(lengths)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> self
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transform</span>(self, raw_documents):
+</span></span><span style="display:flex;"><span>        lengths <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((len(raw_documents), <span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> doc_id, document <span style="color:#f92672">in</span> enumerate(raw_documents):
+</span></span><span style="display:flex;"><span>            length <span style="color:#f92672">=</span> len(document)
+</span></span><span style="display:flex;"><span>            lengths[doc_id, <span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> length
+</span></span><span style="display:flex;"><span>        lengths <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>scaler<span style="color:#f92672">.</span>transform(lengths)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> lengths
+</span></span></code></pre></div><h2 id="featureunion">FeatureUnion</h2>
 <p>tfidfとそれ以外の特徴量を組み合わせるには<a href="https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.FeatureUnion.html">FeatureUnion</a>を用います。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.pipeline <span style="color:#f92672">import</span> FeatureUnion
-
-
-vectorizers <span style="color:#f92672">=</span> [
-  (<span style="color:#e6db74">&#39;tfidf&#39;</span>, TfidfVectorizer()),
-  (<span style="color:#e6db74">&#39;length&#39;</span>, CustomVectorizer())
-]
-vectorizer <span style="color:#f92672">=</span> FeatureUnion(vectorizers)
-</code></pre></div><p>または<code>make_union</code>を使っても同様のことができます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> sklearn.pipeline <span style="color:#f92672">import</span> make_union
-
-vectorizer <span style="color:#f92672">=</span> FeatureUnion(
-  TfidfVectorizer(),
-  CustomVectorizer()
-)
-</code></pre></div><h2 id="利用例">利用例</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.pipeline <span style="color:#f92672">import</span> FeatureUnion
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vectorizers <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>  (<span style="color:#e6db74">&#39;tfidf&#39;</span>, TfidfVectorizer()),
+</span></span><span style="display:flex;"><span>  (<span style="color:#e6db74">&#39;length&#39;</span>, CustomVectorizer())
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>vectorizer <span style="color:#f92672">=</span> FeatureUnion(vectorizers)
+</span></span></code></pre></div><p>または<code>make_union</code>を使っても同様のことができます。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> sklearn.pipeline <span style="color:#f92672">import</span> make_union
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vectorizer <span style="color:#f92672">=</span> FeatureUnion(
+</span></span><span style="display:flex;"><span>  TfidfVectorizer(),
+</span></span><span style="display:flex;"><span>  CustomVectorizer()
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><h2 id="利用例">利用例</h2>
 <p>実際にテキストをベクトルに変換してみます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">texts <span style="color:#f92672">=</span> [
-    <span style="color:#e6db74">&#39;A short text&#39;</span>,
-    <span style="color:#e6db74">&#39;This text describes long detail&#39;</span>,
-]
-
-vectorizer <span style="color:#f92672">=</span> make_union(
-    TfidfVectorizer(),
-    CustomVectorizer()
-)
-
-x <span style="color:#f92672">=</span> vectorizer<span style="color:#f92672">.</span>fit_transform(texts)
-
-<span style="color:#66d9ef">print</span>(vectorizer<span style="color:#f92672">.</span>transformer_list[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>get_feature_names())
-<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;size of tfidf vector&#39;</span>, len(vectorizer<span style="color:#f92672">.</span>transformer_list[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>get_feature_names()))
-<span style="color:#66d9ef">print</span>(x)
-</code></pre></div><p>実行結果は以下のようになります。</p>
-<pre><code>['describes', 'detail', 'long', 'short', 'text', 'this', 'very']
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>texts <span style="color:#f92672">=</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;A short text&#39;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;This text describes long detail&#39;</span>,
+</span></span><span style="display:flex;"><span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vectorizer <span style="color:#f92672">=</span> make_union(
+</span></span><span style="display:flex;"><span>    TfidfVectorizer(),
+</span></span><span style="display:flex;"><span>    CustomVectorizer()
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> vectorizer<span style="color:#f92672">.</span>fit_transform(texts)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(vectorizer<span style="color:#f92672">.</span>transformer_list[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>get_feature_names())
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;size of tfidf vector&#39;</span>, len(vectorizer<span style="color:#f92672">.</span>transformer_list[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>get_feature_names()))
+</span></span><span style="display:flex;"><span>print(x)
+</span></span></code></pre></div><p>実行結果は以下のようになります。</p>
+<pre tabindex="0"><code>[&#39;describes&#39;, &#39;detail&#39;, &#39;long&#39;, &#39;short&#39;, &#39;text&#39;, &#39;this&#39;, &#39;very&#39;]
 size of tfidf vector 7
 (0, 3)        0.8148024746671689
 (0, 4)        0.5797386715376657
@@ -479,20 +477,20 @@ msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴
 </script>
 <div id="msmaflink-dpTLL">リンク</div>
 <!-- MoshimoAffiliateEasyLink END -->
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p>もっと具体的に言うとベクトル <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1">
+<p>もっと具体的に言うとベクトル&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2" role="doc-endnote">
-<p>scikit-learnではn個の単語の連続であるn-gramも対象とします <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:2">
+<p>scikit-learnではn個の単語の連続であるn-gramも対象とします&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3" role="doc-endnote">
-<p>テキストが長ければ高品質であるとは言えないかもしれませんが、あまりに短いテキストはエッセイとして低品質な可能性があるかもしれません <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:3">
+<p>テキストが長ければ高品質であるとは言えないかもしれませんが、あまりに短いテキストはエッセイとして低品質な可能性があるかもしれません&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
               
 
               <br>
@@ -872,6 +870,72 @@ msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1108,65 +1172,6 @@ msmaflink({"n":"Pythonではじめる機械学習 ―scikit-learnで学ぶ特徴
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

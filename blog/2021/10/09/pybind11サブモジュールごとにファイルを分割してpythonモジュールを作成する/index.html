@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="c&#43;&#43;, pybind11, git, cmake, python">
 <meta name="description" content="pybind11を使うことでC&#43;&#43;で書いたライブラリをPythonから利用できるようになります。
@@ -152,7 +152,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -391,7 +390,7 @@ pybind11の公式リファレンスを読むことで基本的なことはわか
 <h2 id="サンプルの構成">サンプルの構成</h2>
 <p>本記事では以下のような構成とします。プログラムのインストールには<a href="https://cmake.org/">CMake</a>を使います。
 本記事ではバージョン<code>3.16.3</code> で動作確認しています。</p>
-<pre><code>mymodule
+<pre tabindex="0"><code>mymodule
 ├── CMakeLists.txt
 ├── bind.cc
 ├── bind.h
@@ -403,7 +402,7 @@ pybind11の公式リファレンスを読むことで基本的なことはわか
 </code></pre><h2 id="pybind11をgit-submoduleで追加">pybind11をgit submoduleで追加</h2>
 <p>最初に準備として、C++ライブラリのトップディレクトリに移動し、gitレポジトリとします。
 その後、<code>pybind11</code>をこのライブラリのsubmoduleとして追加します。</p>
-<pre><code>cd mymodule
+<pre tabindex="0"><code>cd mymodule
 git init
 mkdir third_party
 git submodule add https://github.com/pybind/pybind11.git third_party/pybind11
@@ -412,13 +411,13 @@ git submodule add https://github.com/pybind/pybind11.git third_party/pybind11
 <p>C++側の構成としては、<code>bind.cc</code>で各サブモジュールのバインド処理を呼び出すようにして、各サブモジュールの実装である<code>mymodule1.cc</code>および<code>mymodule2.cc</code>でバインド処理を実装するようにしました。</p>
 <h3 id="サブモジュールのバインド処理の呼び出し">サブモジュールのバインド処理の呼び出し</h3>
 <p><code>bind.h</code> で<code>pybind11</code>をインクルードしサブモジュールのバインド処理を定義します。</p>
-<pre><code class="language-:c++" data-lang=":c++">#pragma once
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#pragma once
 #include &lt;pybind11/pybind11.h&gt;
 
 void bind_module1(pybind11::module &amp;m);
 void bind_module2(pybind11::module &amp;m);
 </code></pre><p><code>bind.cc</code>で<code>mymodule</code>という名前の自作モジュールを<code>PYBIND11_MODULE</code>でバインドします。バインド処理はサブモジュールのバインド処理である<code>bind_module1</code>および<code>bind_module2</code>を呼び出します。</p>
-<pre><code class="language-:c++" data-lang=":c++">#include &quot;bind.h&quot;
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#include &#34;bind.h&#34;
 
 PYBIND11_MODULE(mymodule, m) {
   bind_module1(m);
@@ -430,64 +429,64 @@ PYBIND11_MODULE(mymodule, m) {
 例えば、<code>module1.cc</code>は<code>m.def_submodule(&quot;module1&quot;)</code>とすることで、<code>mymodule</code>のサブモジュールとして<code>module1</code>を作成します。
 <code>module1</code>に対して、<code>Module1</code>クラスを定義しています。</p>
 <p><code>mymodule1.h</code></p>
-<pre><code class="language-:c++" data-lang=":c++">#pragma once
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#pragma once
 
 
 class Module1 {
 };
 </code></pre><p><code>mymodule1.cc</code></p>
-<pre><code class="language-:c++" data-lang=":c++">#include &quot;bind.h&quot;
-#include &quot;mymodule1.h&quot;
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#include &#34;bind.h&#34;
+#include &#34;mymodule1.h&#34;
 
 void bind_module1(pybind11::module &amp;m) {
-  pybind11::module module1 = m.def_submodule(&quot;module1&quot;);
+  pybind11::module module1 = m.def_submodule(&#34;module1&#34;);
 
-  pybind11::class_&lt;Module1&gt;(module1, &quot;Module1&quot;)
+  pybind11::class_&lt;Module1&gt;(module1, &#34;Module1&#34;)
     .def(pybind11::init&lt;&gt;());
 }
 </code></pre><p>本記事ではモジュールの具体的な中身を実装しないので、<code>mymodule2</code>はほぼ<code>mymodule1</code>と同じです。</p>
 <p><code>mymodule2.h</code></p>
-<pre><code class="language-:c++" data-lang=":c++">#pragma once
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#pragma once
 
 
 class Module2 {
 };
 </code></pre><p><code>mymodule2.cc</code></p>
-<pre><code class="language-:c++" data-lang=":c++">#include &quot;bind.h&quot;
-#include &quot;mymodule2.h&quot;
+<pre tabindex="0"><code class="language-:c++" data-lang=":c++">#include &#34;bind.h&#34;
+#include &#34;mymodule2.h&#34;
 
 void bind_module2(pybind11::module &amp;m) {
-  pybind11::module module2 = m.def_submodule(&quot;module2&quot;);
+  pybind11::module module2 = m.def_submodule(&#34;module2&#34;);
 
-  pybind11::class_&lt;Module2&gt;(module2, &quot;Module2&quot;)
+  pybind11::class_&lt;Module2&gt;(module2, &#34;Module2&#34;)
     .def(pybind11::init&lt;&gt;());
 }
 </code></pre><h2 id="cmakeliststxt">CMakeLists.txt</h2>
 <p>以下のようにします。ポイントは、作成した共有ライブラリをPythonで利用できるような形式として、Pythonの<code>site-packages</code>以下にインストールしている点です。</p>
-<pre><code>project(mymodule)
+<pre tabindex="0"><code>project(mymodule)
 
 find_package(PythonLibs REQUIRED)
 
 set(CMAKE_CXX_STANDARD 11)
 
 add_subdirectory(third_party/pybind11)
-message(&quot;pybind11_FOUND: ${pybind11_FOUND}&quot;)
-message(&quot;PYTHONLIBS_FOUND: ${PYTHONLIBS_FOUND}&quot;)
+message(&#34;pybind11_FOUND: ${pybind11_FOUND}&#34;)
+message(&#34;PYTHONLIBS_FOUND: ${PYTHONLIBS_FOUND}&#34;)
 
 add_library(mymodule_python SHARED bind.h bind.cc mymodule1.h mymodule1.cc mymodule2.h mymodule2.cc)
 
 target_include_directories(mymodule_python PUBLIC ${pybind11_INCLUDE_DIR} ${PYTHON_INCLUDE_DIRS})
 target_link_libraries(mymodule_python ${PYTHON_LIBRARIES})
-set_target_properties(mymodule_python PROPERTIES OUTPUT_NAME &quot;mymodule&quot;)
+set_target_properties(mymodule_python PROPERTIES OUTPUT_NAME &#34;mymodule&#34;)
 
 pybind11_extension(mymodule_python)
 pybind11_strip(mymodule_python)
 
 # Pythonのsite-package以下にインストールするためパスを取得します。
 execute_process(
-  COMMAND &quot;${PYTHON_EXECUTABLE}&quot; -c &quot;if True:
+  COMMAND &#34;${PYTHON_EXECUTABLE}&#34; -c &#34;if True:
     import site
-    print(site.getsitepackages()[0])&quot;
+    print(site.getsitepackages()[0])&#34;
   OUTPUT_VARIABLE Python_SITELIB
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
@@ -497,22 +496,22 @@ install(TARGETS mymodule_python DESTINATION ${Python_SITELIB})
 </code></pre><h2 id="利用例と実行結果">利用例と実行結果</h2>
 <p>それでは作成したライブラリを実際に利用してみます。
 まずはライブラリをインストールします。</p>
-<pre><code>mkdir build
+<pre tabindex="0"><code>mkdir build
 cd build
 cmake ..
 make
 make install
 </code></pre><p>次に以下のPythonプログラムを実行します。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> mymodule.module1 <span style="color:#f92672">import</span> Module1
-<span style="color:#f92672">from</span> mymodule.module2 <span style="color:#f92672">import</span> Module2
-
-
-<span style="color:#66d9ef">print</span>(Module1)
-<span style="color:#66d9ef">print</span>(Module2)
-</code></pre></div><p>期待した結果を得ることができました。</p>
-<pre><code>$python sample.py
-&lt;class 'mymodule.module1.Module1'&gt;
-&lt;class 'mymodule.module2.Module2'&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> mymodule.module1 <span style="color:#f92672">import</span> Module1
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> mymodule.module2 <span style="color:#f92672">import</span> Module2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(Module1)
+</span></span><span style="display:flex;"><span>print(Module2)
+</span></span></code></pre></div><p>期待した結果を得ることができました。</p>
+<pre tabindex="0"><code>$python sample.py
+&lt;class &#39;mymodule.module1.Module1&#39;&gt;
+&lt;class &#39;mymodule.module2.Module2&#39;&gt;
 </code></pre><h2 id="おわりに">おわりに</h2>
 <p>本記事ではpybind11を使ってPythonモジュールを作成する際に、サブモジュールごとにファイルを分割する方法を紹介しました。</p>
               
@@ -884,6 +883,72 @@ make install
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1120,65 +1185,6 @@ make install
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="git">
 <meta name="description" content="本記事ではGitHub Flowのように機能追加やバグ修正などの度にブランチを作成して開発を進める際によく利用する機能をユースケースに分けて紹介します。本記事のキーワードはstash、rebase、cherry-pickです。
@@ -124,7 +124,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -360,40 +359,40 @@ if (!doNotTrack) {
 <p>プログラムを編集しているときに、ブランチがmasterだったことはよくあると思います。
 その場合は <code>git stash</code> を使います。
 <code>git stash</code>を実行することで、まだステージングしておらず、ワーキングディレクトリにある差分を一時的に退避することができます。</p>
-<pre><code>git stash  # ワーキングディレクトリの内容を一時退避
+<pre tabindex="0"><code>git stash  # ワーキングディレクトリの内容を一時退避
 git branch &lt;新しいブランチ&gt;  # 新しいブランチの作成
 git checkout &lt;新しいブランチ&gt;  # 新しいブランチに移動
 git stash pop  # 一時退避していたワーキングディレクトリを新しいブランチに反映
 </code></pre><p><code>git stash pop</code>で以下のようなエラーが出たら、新しいブランチでの差分をcommitした後にサイド実行します。</p>
-<pre><code>error: Your local changes to the following files would be overwritten by merge:
+<pre tabindex="0"><code>error: Your local changes to the following files would be overwritten by merge:
 Please commit your changes or stash them before you merge.
 Aborting
 </code></pre><p>差分をまだコミットしていないなら、<code>stash</code>を使わずに<code>git checkout &lt;新しいブランチ&gt;</code> を実行するだけで良いです。</p>
 <h2 id="rebase-ブランチの開始地点を最新のmasterにしたい">(rebase) ブランチの開始地点を最新のmasterにしたい</h2>
 <p>開発用ブランチを作ったあとに、そのブランチの開始地点であったmasterブランチが進んでいたとします。
 現在のmasterブランチを改めて開発用ブランチの開始地点としたいときは <code>git rebase</code> を使います。</p>
-<pre><code>git checkout master  # masterブランチに移動
+<pre tabindex="0"><code>git checkout master  # masterブランチに移動
 git pull origin master  # リモートのmasterとの差分をローカルのmasterに反映
 git checkout &lt;開発ブランチ&gt;  # 開発ブランチに移動
 git rebase master  # 開発ブランチの開始時点をmasterにする
 </code></pre><p><code>git rebase master</code>実行後、以下のようにエラーが出た場合は、エラー中にあるファイルのコンフリクトを解消した後に<code>git add</code>や<code>git rm</code>で差分をステージングします。その後 <code>git rebase --continue</code>を実行してrebaseを完了します。</p>
-<pre><code>CONFLICT (content): Merge conflict in &lt;ファイル名&gt;
+<pre tabindex="0"><code>CONFLICT (content): Merge conflict in &lt;ファイル名&gt;
 error: Failed to merge in the changes.
 Patch failed at 0001 add &lt;ファイル名&gt;
-hint: Use 'git am --show-current-patch' to see the failed patch
+hint: Use &#39;git am --show-current-patch&#39; to see the failed patch
 Resolve all conflicts manually, mark them as resolved with
-&quot;git add/rm &lt;conflicted_files&gt;&quot;, then run &quot;git rebase --continue&quot;.
-You can instead skip this commit: run &quot;git rebase --skip&quot;.
-To abort and get back to the state before &quot;git rebase&quot;, run &quot;git rebase --abort&quot;.
+&#34;git add/rm &lt;conflicted_files&gt;&#34;, then run &#34;git rebase --continue&#34;.
+You can instead skip this commit: run &#34;git rebase --skip&#34;.
+To abort and get back to the state before &#34;git rebase&#34;, run &#34;git rebase --abort&#34;.
 </code></pre><h2 id="cherrypick-開発用ブランチの一部のコミットを別のブランチに取り込みたい">(cherrypick) 開発用ブランチの一部のコミットを別のブランチに取り込みたい</h2>
 <p>開発用ブランチでいくつか差分をコミットしていて、その一部をmasterブランチに反映させたいときは <code>git cherrypick</code> を使います。</p>
-<pre><code>git checkout &lt;差分を取り込みたいブランチ&gt;  # 差分を取り込みたいブランチに移動
+<pre tabindex="0"><code>git checkout &lt;差分を取り込みたいブランチ&gt;  # 差分を取り込みたいブランチに移動
 git cherry-pick &lt;コミットID&gt;  # 指定したコミットの内容を今いるブランチに反映
 </code></pre><p><code>git cherry-pick &lt;コミットID&gt;</code>実行後、以下のようにエラーが出た場合は、エラー中にあるファイルのコンフリクトを解消します。</p>
-<pre><code>error: could not apply &lt;コミットID&gt;... add &lt;ファイル名&gt;
+<pre tabindex="0"><code>error: could not apply &lt;コミットID&gt;... add &lt;ファイル名&gt;
 hint: after resolving the conflicts, mark the corrected paths
-hint: with 'git add &lt;paths&gt;' or 'git rm &lt;paths&gt;'
-hint: and commit the result with 'git commit'
+hint: with &#39;git add &lt;paths&gt;&#39; or &#39;git rm &lt;paths&gt;&#39;
+hint: and commit the result with &#39;git commit&#39;
 </code></pre><h2 id="まとめ">まとめ</h2>
 <p>本記事はGitを用いたソフトウェア開発において、複数のブランチを利用して開発する際に便利なGitの機能をご紹介しました。便利な機能として<code>stash</code>、<code>rebase</code>、<code>cherry-pick</code>の3つを紹介しました。</p>
               
@@ -480,6 +479,72 @@ hint: and commit the result with 'git commit'
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -731,65 +796,6 @@ hint: and commit the result with 'git commit'
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 

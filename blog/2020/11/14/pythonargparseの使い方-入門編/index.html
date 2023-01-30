@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python">
 <meta name="description" content="argparseはPythonプログラムを実行する際の引数を解析し、それらの引数をPythonプログラム内部で利用できるようにするためのライブラリです。
@@ -128,7 +128,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
     
     
   </head>
@@ -374,107 +373,107 @@ if (!doNotTrack) {
 
 
 <h2 id="パーサを作成して引数を解析する">パーサを作成して引数を解析する</h2>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> argparse
-</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(<span style="color:#e6db74">&#39;Example program&#39;</span>)
-
-<span style="color:#75715e"># この部分に後ほど引数を定義していきます</span>
-
-args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-</code></pre></div><p><code>parser.parse_args()</code>で得られた値に引数を解析した結果が格納されます。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(<span style="color:#e6db74">&#39;Example program&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># この部分に後ほど引数を定義していきます</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span></code></pre></div><p><code>parser.parse_args()</code>で得られた値に引数を解析した結果が格納されます。
 このプログラムを<code>ap.py</code>として以降説明します。</p>
 <p>このプログラムを<code>-h</code>という引数を与えて実行すると以下のようにこのプログラムの利用方法を出力できます。</p>
-<pre><code>python ap.py -h
+<pre tabindex="0"><code>python ap.py -h
 usage: Example program [-h]
 
 optional arguments:
   -h, --help  show this help message and exit
 </code></pre><h3 id="位置引数とoptional引数">位置引数とoptional引数</h3>
 <p>argpaseでは位置引数とoptional引数を扱えます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;x&#39;</span>)  <span style="color:#75715e"># 位置引数</span>
-parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>)  <span style="color:#75715e"># optional引数</span>
-</code></pre></div><p><code>parse_args()</code>が実行される際に接頭辞に<code>-</code>をつけて定義した引数はoptional引数、それ以外は位置引数として扱われます。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;x&#39;</span>)  <span style="color:#75715e"># 位置引数</span>
+</span></span><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>)  <span style="color:#75715e"># optional引数</span>
+</span></span></code></pre></div><p><code>parse_args()</code>が実行される際に接頭辞に<code>-</code>をつけて定義した引数はoptional引数、それ以外は位置引数として扱われます。
 この2つの引数を定義してプログラムを実行してみます。</p>
 <p>位置引数を定義した場合、それを与えずに実行するとエラーとなります。</p>
-<pre><code>python ap.py
+<pre tabindex="0"><code>python ap.py
 usage: Example program [-h] [-i I] x
 ap.py: error: the following arguments are required: x
 </code></pre><p>プログラムの末尾に<code>print(args)</code>を追記して実行してみます。
 位置引数とoptional引数は順番に影響しません。</p>
-<pre><code>python a.py -i aaa i
-Namespace(i='aaa', x='i')
-</code></pre><pre><code>python a.py aaa -i ooo
-Namespace(i='ooo', x='aaa')
+<pre tabindex="0"><code>python a.py -i aaa i
+Namespace(i=&#39;aaa&#39;, x=&#39;i&#39;)
+</code></pre><pre tabindex="0"><code>python a.py aaa -i ooo
+Namespace(i=&#39;ooo&#39;, x=&#39;aaa&#39;)
 </code></pre><p>位置引数を複数定義している場合は、定義した順にプログラムに与える必要があるのでご注意ください。</p>
 <h3 id="指定必須の引数を定義する">指定必須の引数を定義する</h3>
 <p>次に指定必須なoptional引数を定義してみます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>, <span style="color:#e6db74">&#39;--input&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;input&#39;</span>, type<span style="color:#f92672">=</span>int, required<span style="color:#f92672">=</span>True)
-</code></pre></div><p>ここでは<code>-i</code>もしくは<code>--input</code>で与えられる引数を定義します。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>, <span style="color:#e6db74">&#39;--input&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;input&#39;</span>, type<span style="color:#f92672">=</span>int, required<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span></code></pre></div><p>ここでは<code>-i</code>もしくは<code>--input</code>で与えられる引数を定義します。
 この引数の型は<code>int</code>で、かつ省略できないもの (<code>required=True</code>) としています。
 <code>type</code>を指定しない場合、引数は<code>str</code>型として扱われます。
 また、argsを取得した行以降で、結果を出力するprint文を実行します。</p>
-<pre><code>print(args.input)
+<pre tabindex="0"><code>print(args.input)
 </code></pre><p>引数を省略して実行すると下記のエラーが出ます。</p>
-<pre><code>python ap.py
+<pre tabindex="0"><code>python ap.py
 usage: Example program [-h] -i INPUT
 Example program: error: the following arguments are required: -i/--input
 </code></pre><p>引数に文字を与えるとintに変換できないのでエラーが出ます。</p>
-<pre><code>python ap.py --input a
+<pre tabindex="0"><code>python ap.py --input a
 usage: Example program [-h] -i INPUT
-Example program: error: argument -i/--input: invalid int value: 'a'
+Example program: error: argument -i/--input: invalid int value: &#39;a&#39;
 </code></pre><p>引数に数値を与えると結果が出力され正常終了します。<code>python ap.py -i 5</code>としても同じ結果が得られます。</p>
-<pre><code>python ap.py --input 5
+<pre tabindex="0"><code>python ap.py --input 5
 5
 </code></pre><h3 id="省略可能な引数を定義する">省略可能な引数を定義する</h3>
 <p>今度は省略可能な引数を定義してみます。引数を省略可能とする場合、<code>default</code>を定義しておくと使いやすいです。例えば以下のように<code>default=3</code>と定義しておきます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>, <span style="color:#e6db74">&#39;--input&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;input&#39;</span>, type<span style="color:#f92672">=</span>int, default<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
-</code></pre></div><p>引数を与えずに実行すると、デフォルト値が代入され、出力されます。</p>
-<pre><code>python ap.py
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;-i&#39;</span>, <span style="color:#e6db74">&#39;--input&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;input&#39;</span>, type<span style="color:#f92672">=</span>int, default<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>)
+</span></span></code></pre></div><p>引数を与えずに実行すると、デフォルト値が代入され、出力されます。</p>
+<pre tabindex="0"><code>python ap.py
 3
 </code></pre><p><code>default</code>を定義しない場合、<code>None</code>が代入されます。</p>
 <h2 id="リストを引数として扱う">リストを引数として扱う</h2>
 <p>ある引数についてリスト形式で値を与えたい場合、<code>nargs</code>を用います。</p>
 <h3 id="nargs">nargs</h3>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> argparse
-
-
-parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(<span style="color:#e6db74">&#39;Example program&#39;</span>)
-parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, nargs<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;list of fruits&#39;</span>, required<span style="color:#f92672">=</span>True)
-args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-
-<span style="color:#66d9ef">print</span>(args<span style="color:#f92672">.</span>fruits)
-</code></pre></div><pre><code>python ap.py --fruits apple banana orange
-['apple', 'banana', 'orange']
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser(<span style="color:#e6db74">&#39;Example program&#39;</span>)
+</span></span><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, nargs<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;+&#39;</span>, help<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;list of fruits&#39;</span>, required<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(args<span style="color:#f92672">.</span>fruits)
+</span></span></code></pre></div><pre tabindex="0"><code>python ap.py --fruits apple banana orange
+[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]
 </code></pre><p><code>nargs</code>は<code>+</code>以外にも指定することができます<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。</p>
 <h3 id="append">append</h3>
 <p>また以下のようにすることでも複数の値をリストとして与えることができます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#parser.add_argument(&#39;--fruits&#39;, nargs=&#39;+&#39;, help=&#39;list of fruits&#39;, required=True)</span>
-parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;append&#39;</span>)
-args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-<span style="color:#66d9ef">print</span>(args<span style="color:#f92672">.</span>fruits)
-</code></pre></div><pre><code>python ap.py --fruits apple --fruits banana --fruits orange
-['apple', 'banana', 'orange']
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#parser.add_argument(&#39;--fruits&#39;, nargs=&#39;+&#39;, help=&#39;list of fruits&#39;, required=True)</span>
+</span></span><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;append&#39;</span>)
+</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>print(args<span style="color:#f92672">.</span>fruits)
+</span></span></code></pre></div><pre tabindex="0"><code>python ap.py --fruits apple --fruits banana --fruits orange
+[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]
 </code></pre><h2 id="選択肢の中から選ぶ引数を扱う">選択肢の中から選ぶ引数を扱う</h2>
 <p>引数として与える値の候補が事前にわかっている場合は、<code>choices</code>を定義することで、未知の値に対してエラーを出すことができます。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, choices<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;apple&#39;</span>, <span style="color:#e6db74">&#39;banana&#39;</span>, <span style="color:#e6db74">&#39;orange&#39;</span>], required<span style="color:#f92672">=</span>True)
-args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-<span style="color:#66d9ef">print</span>(args<span style="color:#f92672">.</span>fruits)
-</code></pre></div><p>選択肢にあるものを指定した場合:</p>
-<pre><code>python ap.py --fruits apple
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--fruits&#39;</span>, choices<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;apple&#39;</span>, <span style="color:#e6db74">&#39;banana&#39;</span>, <span style="color:#e6db74">&#39;orange&#39;</span>], required<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>print(args<span style="color:#f92672">.</span>fruits)
+</span></span></code></pre></div><p>選択肢にあるものを指定した場合:</p>
+<pre tabindex="0"><code>python ap.py --fruits apple
 apple
 </code></pre><p>選択肢にないものを指定した場合:</p>
-<pre><code>python ap.py --fruits pine
+<pre tabindex="0"><code>python ap.py --fruits pine
 usage: Example program [-h] --fruits {apple,banana,orange}
-Example program: error: argument --fruits: invalid choice: 'pine' (choose from 'apple', 'banana', 'orange')
+Example program: error: argument --fruits: invalid choice: &#39;pine&#39; (choose from &#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;)
 </code></pre><h2 id="フラグを指定する引数を扱う">フラグを指定する引数を扱う</h2>
 <p>プログラムに与える引数で真偽値を扱いたい場合、<code>action</code>を使います。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--with-something&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>)
-args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-<span style="color:#66d9ef">print</span>(args<span style="color:#f92672">.</span>with_something)
-</code></pre></div><p><code>action=store_true``とすると、その引数を与えると</code>True`を格納することになります。</p>
-<pre><code>python ap.py --with-something
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--with-something&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>)
+</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+</span></span><span style="display:flex;"><span>print(args<span style="color:#f92672">.</span>with_something)
+</span></span></code></pre></div><p><code>action=store_true``とすると、その引数を与えると</code>True`を格納することになります。</p>
+<pre tabindex="0"><code>python ap.py --with-something
 True
 </code></pre><p>その引数を与えなければ<code>False</code>が格納されます。</p>
-<pre><code>python ap.py
+<pre tabindex="0"><code>python ap.py
 False
 </code></pre><p>また<code>action='store_false</code>とすれば<code>False</code>が格納されます。</p>
 <h2 id="おわり">おわり</h2>
@@ -491,14 +490,14 @@ msmaflink({"n":"エキスパートPythonプログラミング 改訂3版 (アス
 </script>
 <div id="msmaflink-u2siL">リンク</div>
 <!-- MoshimoAffiliateEasyLink END -->
-<section class="footnotes" role="doc-endnotes">
+<div class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1" role="doc-endnote">
-<p><a href="https://docs.python.org/ja/3/library/argparse.html#nargs">https://docs.python.org/ja/3/library/argparse.html#nargs</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1">
+<p><a href="https://docs.python.org/ja/3/library/argparse.html#nargs">https://docs.python.org/ja/3/library/argparse.html#nargs</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</section>
+</div>
               
 
               <br>
@@ -870,6 +869,72 @@ msmaflink({"n":"エキスパートPythonプログラミング 改訂3版 (アス
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+          【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-01-30T15:08:57&#43;09:00">
+        
+  
+  
+  
+  
+    2023-01-30
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/">
           【Python】pre-commitを使ってコミット前にプログラムを自動検査する
         </a>
@@ -1106,65 +1171,6 @@ msmaflink({"n":"エキスパートPythonプログラミング 改訂3版 (アス
         <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-      
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/">
-          【書評】マッキンゼーが解き明かす 生き残るためのDX
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-15T11:08:15&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-15
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/book">book</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
   
 </article>
 
