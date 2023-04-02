@@ -6,7 +6,11 @@
     <description>Recent content in unit_test on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sat, 08 Aug 2020 13:35:00 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/unit_test/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 08 Aug 2020 13:35:00 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/unit_test/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>【C&#43;&#43;】CMakeでGoogle Testをリンクできるようにする</title>
       <link>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</link>

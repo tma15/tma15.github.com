@@ -6,7 +6,23 @@
     <description>Recent content in huggingface on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 30 Jan 2023 15:08:57 +0900</lastBuildDate><atom:link href="https://tma15.github.io/categories/huggingface/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Apr 2023 12:10:39 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/categories/huggingface/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>transformersのAutoModelで独自クラスを使う</title>
+      <link>https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/</link>
+      <pubDate>Sun, 02 Apr 2023 12:10:39 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/</guid>
+      <description>&lt;p&gt;本記事ではhuggingfaceの&lt;a href=&#34;https://huggingface.co/docs/transformers/index&#34;&gt;transformers&lt;/a&gt;の&lt;a href=&#34;https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/auto#transformers.AutoModel&#34;&gt;AutoModel&lt;/a&gt;を使って独自クラスを利用する方法を紹介します。
+transformersはAutoModelによって、事前学習済みモデルがどのモデルの実装なのかを意識せずに利用できます。
+たとえばモデルのアーキテクチャや事前学習済みのパラメータを変えて実験をするプログラムははモデル名を&lt;code&gt;model_name_or_path&lt;/code&gt;とした場合 &lt;code&gt;model = AutoModel.from_pretrained(model_name_or_path)&lt;/code&gt; とだけ記述すれば事前学習済みパラメータで初期化されたモデルを読み込めます。
+この&lt;code&gt;AutoModel&lt;/code&gt;で独自クラスを利用できればtransformersで実装されている他のモデルと同様に利用が容易になります。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする </title>
       <link>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</link>

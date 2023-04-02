@@ -6,7 +6,11 @@
     <description>Recent content in scikit-learn on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Sun, 22 Nov 2020 11:28:10 +0900</lastBuildDate><atom:link href="https://tma15.github.io/categories/scikit-learn/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 22 Nov 2020 11:28:10 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/categories/scikit-learn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>【Python】MeCabのTaggerオブジェクトを持つ単語分割器をpickleで保存する方法</title>
       <link>https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</link>
@@ -67,8 +71,13 @@ scikit-learnで自然言語処理モデルを構築する際は、scikit-learn�
 気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
 \[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
 これのlogをとると、
-$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\ &amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
-ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\ &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
+$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\
+&amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\
+&amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
     </item>
     
   </channel>

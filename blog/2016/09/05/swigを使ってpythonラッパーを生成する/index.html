@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="c&#43;&#43;, swig">
 <meta name="description" content="
@@ -133,6 +133,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -386,12 +387,12 @@ if (!doNotTrack) {
 <h2 id="swigのインターフェースファイルを作成する">SWIGのインターフェースファイルを作成する</h2>
 <p>インターフェースファイルはSWIGへの入力になる。</p>
 <p>インターフェースファイル (例: onlineml.swigcxx) を以下のようにする:</p>
-<pre tabindex="0"><code>%module onlineml
+<pre><code>%module onlineml
 
-%include &#34;std_pair.i&#34;
-%include &#34;std_string.i&#34;
-%include &#34;std_map.i&#34;
-%include &#34;std_vector.i&#34;
+%include &quot;std_pair.i&quot;
+%include &quot;std_string.i&quot;
+%include &quot;std_map.i&quot;
+%include &quot;std_vector.i&quot;
 
 %{
 #define SWIG_FILE_WITH_INIT
@@ -418,7 +419,7 @@ if (!doNotTrack) {
 <li><code>%{...%}</code>は生成されるラッパーにそのままコピーされる (<a href="http://www.swig.org/Doc3.0/SWIG.html#SWIG_nn3">Input format</a>)。</li>
 </ul>
 <p>生成されるラッパーファイル (例: onlineml_wrap.cxx) の中には以下の様な記述ができる:</p>
-<pre tabindex="0"><code>#define SWIG_FILE_WITH_INIT
+<pre><code>#define SWIG_FILE_WITH_INIT
 #include &lt;onlineml/learner/learner.h&gt;
 #include &lt;onlineml/learner/perceptron.h&gt;
 #include &lt;onlineml/learner/averaged_perceptron.h&gt;
@@ -443,26 +444,26 @@ if (!doNotTrack) {
 <p>setup スクリプトは、Distutils を使ってモジュールをビルドし、配布し、インストールする際の全ての動作の中心になります。 setup スクリプトの主な目的は、モジュール配布物について Distutils に伝え、モジュール配布を操作するための様々なコマンドを正しく動作させることにあります。</p>
 </blockquote>
 <p>次のようにする:</p>
-<pre tabindex="0"><code>#!/usr/bin/env python
+<pre><code>#!/usr/bin/env python
 from distutils.core import setup, Extension
 
-module = Extension(&#39;_onlineml&#39;,
-    sources=[&#39;onlineml_wrap.cxx&#39;],
-    extra_compile_args=[&#34;-O3&#34;],
-    language=&#34;c++&#34;,
+module = Extension('_onlineml',
+    sources=['onlineml_wrap.cxx'],
+    extra_compile_args=[&quot;-O3&quot;],
+    language=&quot;c++&quot;,
 )
 
 setup(
-    name = &#39;onlineml&#39;,
-    version = &#34;0.1&#34;,
-    author      = &#34;Takuya Makino&#34;,
-    description = &#34;&#34;&#34;online machine learning algorithms&#34;&#34;&#34;,
+    name = 'onlineml',
+    version = &quot;0.1&quot;,
+    author      = &quot;Takuya Makino&quot;,
+    description = &quot;&quot;&quot;online machine learning algorithms&quot;&quot;&quot;,
     ext_modules = [module],
-    py_modules = [&#39;onlineml&#39;],
+    py_modules = ['onlineml'],
     )
 </code></pre><h2 id="makefileamを作成する">Makefile.amを作成する</h2>
 <p>プロジェクトを以下のディレクトリ構成とする:</p>
-<pre tabindex="0"><code>onlineml
+<pre><code>onlineml
 ├── Makefile.am
 ├── configure.ac
 ├── onlineml
@@ -478,7 +479,7 @@ setup(
     ├── sample.py
     └── setup.py
 </code></pre><p><code>confiugre</code>時に、<code>--prefix</code>でインストール場所を指定した場合を想定する。<code>onlineml/Makefile.am</code>のswigに関わる部分は以下のようにする:</p>
-<pre tabindex="0"><code>SUBDIRS = swig
+<pre><code>SUBDIRS = swig
 python:
         cd swig &amp;&amp; \
         swig -c++ -I../ -python onlineml.swigcxx &amp;&amp; \
@@ -487,13 +488,13 @@ python:
         python setup.install &amp;&amp; \
         cd -
 </code></pre><p>また<code>make dist</code>で生成されるパッケージにswigも含まれるように、<code>onlineml/swig/Makefile.am</code>中で以下のように<code>EXTRA_DIST</code>に配布したいスクリプトを含める:</p>
-<pre tabindex="0"><code>EXTRA_DIST = \
+<pre><code>EXTRA_DIST = \
              onlineml.swigcxx \
              sample.py \
              setup.py
 </code></pre><h2 id="インストールする">インストールする</h2>
 <p>以上のことを準備すれば、あとは以下のとおりに実行するだけでよい:</p>
-<pre tabindex="0"><code>./configure
+<pre><code>./configure
 make
 make install
 make python
@@ -516,6 +517,72 @@ make python
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -767,70 +834,6 @@ make python
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Hugo tranquilpeak theme demo">
@@ -101,6 +101,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -287,6 +288,70 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/">
+          Goで日本語の文書を前処理して分類器を学習するところまでやってみる
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2014-10-20T00:00:00Z">
+        
+  
+  
+  
+  
+    2014-10-20
+  
+
+
+      </time>
+
+      
+
+    
+    
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad+RDAを使う。
+ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+$./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/">
           エッセイ Towards the Machine Comprehension of Text のメモ
         </a>
@@ -318,8 +383,8 @@ if (!doNotTrack) {
       
         エッセイの一部をメモ。
 主張をまとめると「自然言語の機械的な理解には、大規模なデータ、性能の良い機械学習も重要だけど、言語の構造をしっかり考えることも大事」。
-Introduction Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&ldquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&quot;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである How To Measure Progress 複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った 7歳の子供が読めるレベルのフィクションの短いストーリー Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&quot;の&quot;それ&quot;は何を指しているか？ クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる 語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える 正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする 興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
-意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである モジュラ性はシステムを効率的に反応できるようにするべきである エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006) システムは質問可能であるべきである 任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである 最近の研究では 論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い 興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.
+Introduction  Machine Comprehension of Text (MCT) (テキストの機械的理解) は人工知能のゴールである このゴールを達成したかどうかを確かめるために、研究者はよくチューリングテストを思い浮かべるが、Levesque (2013)が指摘するように、これは機械を知的に向かわせる、というよりは人間の知能を下げるほうに作業者を差し向けてしまう  ※ チューリングテストとは、ある人間から見て、二人の対話のどちらが人間かどうか判別するテスト   Levesqueはまた、チューリングテストよりも、世界知識を必要とするような選択肢が複数ある問題のほうが適しているとも主張している このエッセイでは、MCTは、&ldquo;ネイティブスピーカーの大半が正しく答えられる質問に対して機械が答えた回答が、ネイティブスピーカーが納得できるものであり、かつ関連していない情報を含んでいなければ、その機械はテキストを理解しているもの&quot;とする (つまり質問応答) このエッセイのゴールは、テキストの機械的理解という問題に何が必要なのかを観察することである  How To Measure Progress  複数の選択肢がある質問応答のデータセットをクラウドソーシングを利用して作った  7歳の子供が読めるレベルのフィクションの短いストーリー   Winograd Schema Test proposal (Levesque, 2013) は、質問と回答のペアは世界知識を要求するように注意深く設計されているので、生成には専門知識を要する質問を使うことを提案している  &ldquo;それは紙で出来ているので、ボールはテーブルから落ちた&quot;の&quot;それ&quot;は何を指しているか？   クラウドソーシングなのでスケーラビリティもある 進捗が早ければ、問題の難易度を上げることもできる  語彙数を現状の8000から増やす ノンフィクションなストーリーを混ぜる タスクの定義を変える  正解が1つ以上、あるいは正解が1つもない問題など 回答の根拠を出力するようにする     興味深いことは、ランダムな回答をするベースラインでは25%が正しい回答を得られる一方で、単純な単語ベースな手法が60%で、最近のモダンな含意認識システムを使っても60%くらいであることである  Desiderata and some Recent Work machine comprehensionに必要なものは、興味深い未解決な問題と通じている
+ 意味の表現は二つの意味でスケーラブルであるべきである、すなわち (1) 複数ソースのノイジーなデータから教師なし学習で学習できて、 (2) 任意のドメインの問題に適用できるべきである モデルが巨大で複雑になっても、推論はリアリタイムでおこなえるべきである 構築、デバッグの簡易化のためにシステムはモジュール化すべきである  モジュラ性はシステムを効率的に反応できるようにするべきである   エラーが起きた時に、何故それが起きたか理解可能にするために、各モジュールは解釈可能であるべきであり、同様にモジュールの構成も解釈可能であるべきである システムは単調的に修正可能であるべきである: 起きたエラーに対して、別のエラーを引き起こさずに、どのようにモデルを修正すればよいかが明白であるべきである システムは意味表現に対して論理的推論をおこなえるべきである  システムの入力のテキストの意味表現とシステムの世界モデルを組み合わせることで論理的な結論をだせるべきである もろさを避けるため、また根拠を正しく結合するために、論理的思考は確率的であるべきなようである (Richardson and Domingos, 2006)   システムは質問可能であるべきである  任意の仮説に関して、真であるかどうか (の確率) を断言することができること 私達はなぜその断言ができるか理解することができるべきである    最近の研究では  論理形式を文に対してタグ付けするなど、意味のモデル化はアノテーションコストがとても高い  興味深い代替手段としては、質問-回答のペアから論理形式を帰納するアノテーションがより低いものがある (Liang et al.
       
       <p>
         <a href="https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -378,7 +443,7 @@ Introduction Machine Comprehension of Text (MCT) (テキストの機械的理解
     <div class="postShorten-excerpt" itemprop="articleBody">
       
         acl anthologyよりロングペーパーとして 採択された論文の中からSummarizationをタイトルに含む論文を探して概要だけを読んだときのメモ。
-Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要 複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると 提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。 Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要 Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要 Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す Subtree Extractive Summarization via Submodular Maximization (P13-1101.pdf) 概要 @Pnnc205jさんの論文 Towards Robust Abstractive Multi-Document Summarization: A Caseframe Analysis of Centrality and Domain (P13-1121.
+Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task Learning (P13-1020.pdf) 概要  複数文書要約のための文選択、文圧縮を同時におこなうモデルを使った双対分解を提案。 先行研究のIneger Linear Programmingに基づいた手法と比べると  提案手法はソルバーを必要としない 提案手法は有意に速い 提案手法は簡潔さ・情報の豊富さ・文法のきれいさが優れている   さらに既存の抽出型要約、文圧縮の要約データを活用したマルチタスク学習を提案する TAC2008のデータで実験をおこなって今までで一番高いROUGE値となった。  Using Supervised Bigram-based ILP for Extractive Summarization (P13-1099.pdf) 概要  Integer Linear Programmingによる抽出型文書要約において、bigramの重みを教師有り学習により推定する regression modelによってbigramが参照要約の中でどれくらいの頻度で出現するかを推定。 学習では、参照要約中での真の頻度との距離が最小になるように学習をする 選択されるbigramの重みの総和が最大になるように文選択をおこなうような定式化をしている 提案手法は既存のILPな手法と比べてTACのデータにおいて良い性能であることと、TACのbestだったシステムとの比較結果を示す  Summarization Through Submodularity and Dispersion (P13-1100.pdf) 概要  Linらのサブモジュラな手法を一般化することにより新たな最適化手法を提案する 提案手法では要約にとって欲しい情報はサブモジュラ関数と非サブモジュラ関数の総和で表される。この関数をdispersionと呼ぶ 非サブモジュラ関数は要約の冗長性を除くために文同士の様々な似ていなさの度合いを図るために使う 三つのdispersion関数を使って、全部の場合で貪欲法を使っても最適解が得られることを示す DUC 2004とニュース記事に対するユーザのコメントを使って実験 サブモジュラ関数だけを使ったモデルよりも良い性能であることを示す  Subtree Extractive Summarization via Submodular Maximization (P13-1101.
       
       <p>
         <a href="https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -438,7 +503,7 @@ Fast and Robust Compressive Summarization with Dual Decomposition and Multi-Task
       
         Johannes Hoffart, Mohamed Amir Yosef, Ilaria Bordino, Hagen Furstenau, Manfred Pinkal, Marc Spaniol, Bilyana Taneva, Stefan Thater, Gerhard Weikum
 proceeding: pdf
-解いている問題 Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される アプローチ priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標 + グラフの中からサブグラフを選択 + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除 prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい 
+解いている問題  Named entity disambiguationをする Collective disambiguationは、意味的に似た文脈に現れるentityを含むmentionがあるときにはうまくいく mentionが短かったり、あまり関連しないトピックについてのものだとうまくいかない   + e.g. MadridでManchesterとBarcelonaの試合があった + Madridは本当はLOCATIONだけど、ORGANIZATIONと判定される  アプローチ  priorとcontext similarityとcoherenceの3つの要素の線形結合からなる関数をもとに、重み付きエッジからなるグラフをつくる   + priorは、mentionに含まれる表現が一般的にentity e_jである確率 + context similarityはmentionとentityの文脈類似度 + coherenceは他のmentionのentityとの意味的な近さ  + Wikipediaの二つの記事にともにリンクを張っている記事の数をもとにした指標   + グラフの中からサブグラフを選択  + サブグラフは、一つのmentionが一つのentityとエッジをもつ + サブグラフは、ノードに貼られたエッジの重みの総和(weigted degree)の最小値を最大化するようにつくる + サブグラフに含まれるエッジの重みの総和を最大化するシンプルな戦略は支配的なentityがあるとうまくいかない  + Michael Jordanみたいな支配的なentityがあるとlong tailに位置するentity disambiguationがうまくいかない   + サブグラフの選択は、NP困難なので近似的なアルゴリズムをつかって問題を解く + アルゴリズムは反復的にweighted degreeが小さなentity nodeを削除する + ただし、必ずすべてのmentionがいずれかのentityとエッジを一つ持つようにする  こうすると準最適な解に陥ることがあるので前処理でmentionとの距離が遠いentityは削除   prior, context similarity, coherenceの3つの要素をうまいこと使ってrobustなモデルになっているらしい  
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -499,7 +564,7 @@ proceeding: pdf
         Xiaohua Liu, Ming Zhou, Furu Wei, Zhongyang Fu, Xiangyang Zhou
 proceeding: pdf
 解いている問題 tweet (英語のtweetに限定) の集合が与えられたときに
-tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう． + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる． アプローチ 固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる + tweetは，エンティティに対していろいろな表現をされる． + e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など + "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet + NERモデルにより"Alex"と"Alex Russo"がともにPERSONであることが識別できれば，NENモデルは"Alex"を"Alex Russo"に名寄せできる． + " ... she knew Burger King when .
+ tweetに対して固有表現を指しているテキストを同定し，あらかじめ決められたラベル {PERSON, ORGANIZATION, PRODUCT, LOCATION} を割り当てる． これらの同定されたテキストに対して名寄せをおこなう．   + 名寄せは，一番単語数が多い表現にまとめる + 最大の単語数の表現が複数あればWikipediaにある表現を採用 + PERSONと識別された三つの表現"Gaga", "Lady Gaaaga", "Lady Gaga"は"Lady Gaga"にまとめる．  アプローチ  固有表現認識 (NER) モデルの学習の際に，固有表現の名寄せ (NEN) モデルの学習も同時に行うことでお互いの精度を上げる   + tweetは，エンティティに対していろいろな表現をされる． + e.g. "Anne Gronloh"というエンティティには"Mw.,Gronloh", "Anneke Kronloh", "Mevrouw G"など  + "... Alex's jokes. ..."と"... Alex Russo was like..."という二つのtweet  + NERモデルにより"Alex"と"Alex Russo"
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>
@@ -561,13 +626,10 @@ tweetに対して固有表現を指しているテキストを同定し，あら
 proceeding: pdf
 解いている問題 名詞nを含む短いテキストが、あるエンティティeのことを指しているか、指していないかを当てる二値分類問題。
 課題
-Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう 提案手法のモチベーション 外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。 + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。 + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
-Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。 + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。 + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
-ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う 訓練データの初期状態としてありうる二つのパターン
-訓練データは真に正例の事例と、大量のラベルなしの事例からなる + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある E-step
-訓練データ中のすべての事例に、{正例、負例}のそれぞれの場合で閾値以上、あるいは以下であった場合に正例あるいは負例を割り当てる 具体的には事例xが負例である確率α(x, -)が閾値α^x_{min}と等しいかそれより小さければ、xは正例となり、大きければ負例となる + α^x_{min}は、事例ごとに決定されるパラメータ M-step
-分類器Rを更新、訓練データのすべての事例に負例である確率α(x, -)を割り当てる 分類器R
-ある単語の集合が正例に現れやすいか、負例に現れやすいかを学習する。 このルール（単語の集合）の信頼性を、頻度をもとに計算して、事例が負である確率を、集めたルールの集合の重み付きの投票のような感じで計算する。 ラベルのtransitでは、ラベル付きデータから、ランダムに正例をいくつか抜き出して、残りをラベルなしのデータとみなしている。 分類器の更新は、すべての事例のlabel transitionを終えてから行うよりも、各事例のlabel transitionを終えるごとに行うほうがいい結果だった。 また、label transition operationは負例を正例にする操作に加え、正例を負例にする操作もできるようにしたほうがいい結果だった。 SVMの代わりにLazy Associative Classifiersの変種を使うことで、速度がかなり早くなった。 疑問点 最初に選ぶ少数の正例によって精度がどれくらい変わるのだろうと思った (できあがるモデルがどれくらい初期値に依存するのか) α^x_{min}は、正例と負例のバランスがよくなるように決定しているが、正例と負例のバランスはちょうどいいという仮定は直感にあっているのか （ある単語のパターンでは負例になりやすいとかそういうことではない？） 
+ Twitterのようなmicro-blogのテキストは単語の数が少なく、暗号のように書かれていることもあるため、固有表現を認識することが難しい テキストの単語の数の少なさから、エンティティの周辺に共通して現れる文脈から特徴を学習することが難しい テキストが次々と流れてくるため、テキストを処理するために外部知識を参照していると処理が間に合わない テキストが次々とやってきて、テキストの傾向も変わるのでモデルがすぐにデータに合わなくなってしまう  提案手法のモチベーション  外部知識を参照している余裕がないなら、ストリーム中の（ラベルなしの）大量のテキストから得られる情報を使う。 ラベルなしのテキストを負例として学習すると、負例の多さからモデルが過学習をおこし、大量のfalse-negativeが出てしまうおそれがある。   + 正例を作ることは比較的簡単だが、負例を作るのはコストがかかる。  + なので、EMアルゴリズムを使って二値分類器を反復的に洗練させるのがこの論文のアイディア。 + 具体的には、ラベルなしの事例が負例である確率を計算してラベル付きデータとして訓練データを増やす。 + このラベル付きの事例は各ステップでラベルを変更することができる。 + どの事例がどちらのラベルになるかは、最終的には収束して、観測データに最もフィットしたラベルに落ち着くことが期待される。 曖昧性解消のアプローチ （良くない）シンプルな正例の作り方の例
+ Twitter中である会社と関連したアカウントあり、このアカウントのプロフィールに書かれたメッセージは、その会社名を含むメッセージである可能性がある。 こんな感じで正例を集める方法が考えられるが、このやり方はfalse-positiveがないことを保証していない。   + つまり、本当はその会社のことを言及したメッセージではないのに、そのアカウントのメッセージなので正例とみなされていまう可能性がある。  + このようにして作成された訓練データを用いて学習したモデルの性能はそんなに上がることが期待できない。 ラベルなしの事例の信頼性を上げて、訓練データとして扱うことでモデルの性能を上げる
+ ラベルなしの事例を扱うコストは、人手のアノテーションでラベル付きの事例を作成するコストより低い。 具体的には、EMアルゴリズムを使う  訓練データの初期状態としてありうる二つのパターン
+ 訓練データは真に正例の事例と、大量のラベルなしの事例からなる   + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  + 訓練データはおそらく正例の事例と、大量のラベルなしの事例からなる  + 正例は真に正例という保証はないので、false-positiveな事例を含む可能性がある + ラベルなしのデータは最初、負例とみなされるのでfalse-negativeな事例を含む可能性がある  E-step
       
       <p>
         <a href="https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/" class="postShorten-excerpt_link link">続きを読む</a>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="概要 mafというツールが便利そうだったのでメモ。 評価のために必要なめんどくさい処理が簡略化されそうな気がする。 実験結果の管理などがヘタなので、mafを使ってちょっとでもうまくなりたい。 まだ調べ始めたばかりなので、以降で出てくるコードよりももっとうまい書き方があると思う。
@@ -129,6 +129,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -336,134 +337,134 @@ if (!doNotTrack) {
 <p>今回は色々とパラメータを変えて学習した分類器を評価する例で進める。</p>
 <h2 id="使ってみた">使ってみた</h2>
 <p>まず、wafとmafとダウンロードする。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$cd /path/to/project/
-</span></span><span style="display:flex;"><span>$wget https://github.com/pfi/maf/raw/master/waf
-</span></span><span style="display:flex;"><span>$wget https://github.com/pfi/maf/raw/master/maf.py
-</span></span><span style="display:flex;"><span>$chmod +x waf</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cd /path/to/project/
+$wget https://github.com/pfi/maf/raw/master/waf
+$wget https://github.com/pfi/maf/raw/master/maf.py
+$chmod +x waf</code></pre></div>
 <p>以下の様な <a href="https://gist.github.com/tma15/1d7bd594d5be774ca6e9">wscript</a> を作成。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> json
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> maf
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> maflib.util
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(conf):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@maflib.util.rule</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">jsonize</span>(task):
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;&#34;&#34; Calculate accuracy from a format as below:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Recall[-1]: 0.932965 (21934/23510)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Prec[-1]: 0.849562 (21934/25818)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        --
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Recall[+1]: 0.478378 (3562/7446)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Prec[+1]: 0.693266 (3562/5138)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
-</span></span><span style="display:flex;"><span>    out <span style="color:#f92672">=</span> task<span style="color:#f92672">.</span>parameter
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        num_trues <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> line<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;Prec&#34;</span>):
-</span></span><span style="display:flex;"><span>                sp <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split()
-</span></span><span style="display:flex;"><span>                nums <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;(\d+)/(\d+)&#34;</span>, sp[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">.</span>groups()
-</span></span><span style="display:flex;"><span>                num_trues <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">0</span>])
-</span></span><span style="display:flex;"><span>                num <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">1</span>])
-</span></span><span style="display:flex;"><span>        out[<span style="color:#e6db74">&#34;accuracy&#34;</span>] <span style="color:#f92672">=</span> num_trues <span style="color:#f92672">/</span> float(num)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        json<span style="color:#f92672">.</span>dump(out, f)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@maflib.util.rule</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_alg</span>(task):
-</span></span><span style="display:flex;"><span>    out <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> task<span style="color:#f92672">.</span>inputs:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(i<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>            out<span style="color:#f92672">.</span>append(json<span style="color:#f92672">.</span>load(f))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        json<span style="color:#f92672">.</span>dump(out, f)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_param</span>():
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@maflib.util.aggregator</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">body</span>(values, outpath, parameter):
-</span></span><span style="display:flex;"><span>        out <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> values:
-</span></span><span style="display:flex;"><span>            out<span style="color:#f92672">.</span>append(value)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(out)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build</span>(exp):
-</span></span><span style="display:flex;"><span>    traindata<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;a1a&#39;</span>
-</span></span><span style="display:flex;"><span>    train <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&#39;</span>
-</span></span><span style="display:flex;"><span>    test <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    NUM_FOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span>traindata,
-</span></span><span style="display:flex;"><span>        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train dev&#34;</span>,
-</span></span><span style="display:flex;"><span>        parameters<span style="color:#f92672">=</span>[{<span style="color:#e6db74">&#34;fold&#34;</span>: i} <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(NUM_FOLD)],
-</span></span><span style="display:flex;"><span>        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>segment_by_line(NUM_FOLD, <span style="color:#e6db74">&#39;fold&#39;</span>))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train&#34;</span>,
-</span></span><span style="display:flex;"><span>        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model&#34;</span>,
-</span></span><span style="display:flex;"><span>        parameters<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>util<span style="color:#f92672">.</span>product({
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;a&#34;</span>: [<span style="color:#e6db74">&#34;perceptron&#34;</span>, <span style="color:#e6db74">&#34;pa2&#34;</span>, <span style="color:#e6db74">&#34;adagrad&#34;</span>],
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;c&#34;</span>: np<span style="color:#f92672">.</span>power(<span style="color:#ae81ff">10.</span>, np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">12</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64)),
-</span></span><span style="display:flex;"><span>            }),
-</span></span><span style="display:flex;"><span>        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -a $</span><span style="color:#e6db74">{a}</span><span style="color:#e6db74"> -m ${TGT[0].abspath()} ${SRC[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> train)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model dev&#34;</span>,
-</span></span><span style="display:flex;"><span>        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
-</span></span><span style="display:flex;"><span>        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -m ${SRC[0].abspath()} ${SRC[1].abspath()} &gt; ${TGT[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> test)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
-</span></span><span style="display:flex;"><span>            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
-</span></span><span style="display:flex;"><span>            rule<span style="color:#f92672">=</span>jsonize) <span style="color:#75715e">### パラメータごとのaccuracyをjson形式で出力</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
-</span></span><span style="display:flex;"><span>        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
-</span></span><span style="display:flex;"><span>        for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>],
-</span></span><span style="display:flex;"><span>        rule<span style="color:#f92672">=</span>aggregate_by_param()) <span style="color:#75715e">### パラメータ毎にaccuracyを集約する</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
-</span></span><span style="display:flex;"><span>        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
-</span></span><span style="display:flex;"><span>        aggregate_by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;fold&#34;</span>],
-</span></span><span style="display:flex;"><span>        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>average) <span style="color:#75715e">### パラメータ毎の平均を計算</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
-</span></span><span style="display:flex;"><span>            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>, 
-</span></span><span style="display:flex;"><span>            for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>],
-</span></span><span style="display:flex;"><span>            rule<span style="color:#f92672">=</span>aggregate_by_alg) <span style="color:#75715e">## アルゴリズム毎に集約</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>,
-</span></span><span style="display:flex;"><span>            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;max_acc&#34;</span>,
-</span></span><span style="display:flex;"><span>            aggregate_by <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;fold&#34;</span>],
-</span></span><span style="display:flex;"><span>            rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>max(<span style="color:#e6db74">&#34;accuracy&#34;</span>))</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python</span>
+<span style="color:#f92672">import</span> re
+<span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> maf
+<span style="color:#f92672">import</span> maflib.util
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure</span>(conf):
+    <span style="color:#66d9ef">pass</span>
+
+<span style="color:#a6e22e">@maflib.util.rule</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">jsonize</span>(task):
+    <span style="color:#e6db74">&#34;&#34;&#34; Calculate accuracy from a format as below:
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        Recall[-1]: 0.932965 (21934/23510)
+</span><span style="color:#e6db74">        Prec[-1]: 0.849562 (21934/25818)
+</span><span style="color:#e6db74">        --
+</span><span style="color:#e6db74">        Recall[+1]: 0.478378 (3562/7446)
+</span><span style="color:#e6db74">        Prec[+1]: 0.693266 (3562/5138)
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    out <span style="color:#f92672">=</span> task<span style="color:#f92672">.</span>parameter
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>inputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        num_trues <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+            <span style="color:#66d9ef">if</span> line<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;Prec&#34;</span>):
+                sp <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split()
+                nums <span style="color:#f92672">=</span> re<span style="color:#f92672">.</span>search(<span style="color:#e6db74">&#34;(\d+)/(\d+)&#34;</span>, sp[<span style="color:#ae81ff">2</span>])<span style="color:#f92672">.</span>groups()
+                num_trues <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">0</span>])
+                num <span style="color:#f92672">+=</span> int(nums[<span style="color:#ae81ff">1</span>])
+        out[<span style="color:#e6db74">&#34;accuracy&#34;</span>] <span style="color:#f92672">=</span> num_trues <span style="color:#f92672">/</span> float(num)
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        json<span style="color:#f92672">.</span>dump(out, f)
+
+<span style="color:#a6e22e">@maflib.util.rule</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_alg</span>(task):
+    out <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> task<span style="color:#f92672">.</span>inputs:
+        <span style="color:#66d9ef">with</span> open(i<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+            out<span style="color:#f92672">.</span>append(json<span style="color:#f92672">.</span>load(f))
+    <span style="color:#66d9ef">with</span> open(task<span style="color:#f92672">.</span>outputs[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>abspath(), <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        json<span style="color:#f92672">.</span>dump(out, f)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">aggregate_by_param</span>():
+    <span style="color:#a6e22e">@maflib.util.aggregator</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">body</span>(values, outpath, parameter):
+        out <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> value <span style="color:#f92672">in</span> values:
+            out<span style="color:#f92672">.</span>append(value)
+        <span style="color:#66d9ef">return</span> json<span style="color:#f92672">.</span>dumps(out)
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build</span>(exp):
+    traindata<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;a1a&#39;</span>
+    train <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline train&#39;</span>
+    test <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;~/go/src/github.com/tma15/gonline/gonline/gonline test&#39;</span>
+
+    NUM_FOLD <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+    exp(source<span style="color:#f92672">=</span>traindata,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train dev&#34;</span>,
+        parameters<span style="color:#f92672">=</span>[{<span style="color:#e6db74">&#34;fold&#34;</span>: i} <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> xrange(NUM_FOLD)],
+        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>segment_by_line(NUM_FOLD, <span style="color:#e6db74">&#39;fold&#39;</span>))
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;train&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model&#34;</span>,
+        parameters<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>util<span style="color:#f92672">.</span>product({
+            <span style="color:#e6db74">&#34;a&#34;</span>: [<span style="color:#e6db74">&#34;perceptron&#34;</span>, <span style="color:#e6db74">&#34;pa2&#34;</span>, <span style="color:#e6db74">&#34;adagrad&#34;</span>],
+            <span style="color:#e6db74">&#34;c&#34;</span>: np<span style="color:#f92672">.</span>power(<span style="color:#ae81ff">10.</span>, np<span style="color:#f92672">.</span>arange(<span style="color:#f92672">-</span><span style="color:#ae81ff">12</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">5</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64)),
+            }),
+        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -a ${a} -m ${TGT[0].abspath()} ${SRC[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> train)
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;model dev&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
+        rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> -m ${SRC[0].abspath()} ${SRC[1].abspath()} &gt; ${TGT[0].abspath()}&#34;</span> <span style="color:#f92672">%</span> test)
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;dev_result&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
+            rule<span style="color:#f92672">=</span>jsonize) <span style="color:#75715e">### パラメータごとのaccuracyをjson形式で出力</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracy&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
+        for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>, <span style="color:#e6db74">&#34;c&#34;</span>],
+        rule<span style="color:#f92672">=</span>aggregate_by_param()) <span style="color:#75715e">### パラメータ毎にaccuracyを集約する</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accuracies_by_param&#34;</span>,
+        target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
+        aggregate_by<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;fold&#34;</span>],
+        rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>average) <span style="color:#75715e">### パラメータ毎の平均を計算</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;avg_acc&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>, 
+            for_each<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;a&#34;</span>],
+            rule<span style="color:#f92672">=</span>aggregate_by_alg) <span style="color:#75715e">## アルゴリズム毎に集約</span>
+
+    exp(source<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;for_each_alg&#34;</span>,
+            target<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;max_acc&#34;</span>,
+            aggregate_by <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;fold&#34;</span>],
+            rule<span style="color:#f92672">=</span>maflib<span style="color:#f92672">.</span>rules<span style="color:#f92672">.</span>max(<span style="color:#e6db74">&#34;accuracy&#34;</span>))</code></pre></div>
 <p>次のように実行。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ./waf configure
-</span></span><span style="display:flex;"><span>Setting top to                           : /Users/makino/code/mafexp
-</span></span><span style="display:flex;"><span>Setting out to                           : /Users/makino/code/mafexp/build
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;configure&#39;</span> finished successfully <span style="color:#f92672">(</span>0.004s<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>$./waf
-</span></span><span style="display:flex;"><span>Waf: Entering directory <span style="color:#e6db74">`</span>/Users/makino/code/mafexp/build<span style="color:#e6db74">&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  2/240] 0-train,0-dev: a1a -&gt; build/train/0-train build/dev/0-dev
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  3/240] 1-train,1-dev: a1a -&gt; build/train/1-train build/dev/1-dev
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  3/240] 2-train,2-dev: a1a -&gt; build/train/2-train build/dev/2-dev
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  7/240] 19-model: build/train/1-train -&gt; build/model/19-model
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  7/240] 18-model: build/train/1-train -&gt; build/model/18-model
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[  7/240] 22-model: build/train/1-train -&gt; build/model/22-model
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">...
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&gt; build/max_acc/87-max_acc
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Waf: Leaving directory `/Users/makino/code/mafexp/build&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;build&#39;</span> finished successfully <span style="color:#f92672">(</span>3.450s<span style="color:#f92672">)</span></span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ./waf configure
+Setting top to                           : /Users/makino/code/mafexp
+Setting out to                           : /Users/makino/code/mafexp/build
+<span style="color:#e6db74">&#39;configure&#39;</span> finished successfully <span style="color:#f92672">(</span>0.004s<span style="color:#f92672">)</span>
+$./waf
+Waf: Entering directory <span style="color:#e6db74">`</span>/Users/makino/code/mafexp/build<span style="color:#e6db74">&#39;
+</span><span style="color:#e6db74">[  2/240] 0-train,0-dev: a1a -&gt; build/train/0-train build/dev/0-dev
+</span><span style="color:#e6db74">[  3/240] 1-train,1-dev: a1a -&gt; build/train/1-train build/dev/1-dev
+</span><span style="color:#e6db74">[  3/240] 2-train,2-dev: a1a -&gt; build/train/2-train build/dev/2-dev
+</span><span style="color:#e6db74">[  7/240] 19-model: build/train/1-train -&gt; build/model/19-model
+</span><span style="color:#e6db74">[  7/240] 18-model: build/train/1-train -&gt; build/model/18-model
+</span><span style="color:#e6db74">[  7/240] 22-model: build/train/1-train -&gt; build/model/22-model
+</span><span style="color:#e6db74">...
+</span><span style="color:#e6db74">[240/240] 87-max_acc: build/for_each_alg/87-for_each_alg -&gt; build/max_acc/87-max_acc
+</span><span style="color:#e6db74">Waf: Leaving directory `/Users/makino/code/mafexp/build&#39;</span>
+<span style="color:#e6db74">&#39;build&#39;</span> finished successfully <span style="color:#f92672">(</span>3.450s<span style="color:#f92672">)</span></code></pre></div>
 <h2 id="他に">他に</h2>
 <p>出力のidは、 ./build/.maf_id_table.tsvで対応付けられている。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$cat ./build/.maf_id_table.tsv
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 0<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 1<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 2<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: 1, <span style="color:#e6db74">&#39;c&#39;</span>: 9.9999999999999998e-13<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">4</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: 1, <span style="color:#e6db74">&#39;c&#39;</span>: 9.9999999999999994e-12<span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>...</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cat ./build/.maf_id_table.tsv
+<span style="color:#ae81ff">0</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 0<span style="color:#f92672">}</span>
+<span style="color:#ae81ff">1</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 1<span style="color:#f92672">}</span>
+<span style="color:#ae81ff">2</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;fold&#39;</span>: 2<span style="color:#f92672">}</span>
+<span style="color:#ae81ff">3</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: 1, <span style="color:#e6db74">&#39;c&#39;</span>: 9.9999999999999998e-13<span style="color:#f92672">}</span>
+<span style="color:#ae81ff">4</span>       <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#e6db74">&#39;perceptron&#39;</span>, <span style="color:#e6db74">&#39;fold&#39;</span>: 1, <span style="color:#e6db74">&#39;c&#39;</span>: 9.9999999999999994e-12<span style="color:#f92672">}</span>
+...</code></pre></div>
 <p>また、結果を集約するときなどは、<a href="http://pfi.github.io/maf/usage.html#json">JSON形式でデータを扱う必要がある</a> ので、分類器の出力をJSON形式に加工する関数を作らなければならない。
 GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サンプルコード</a> が参考になる。</p>
 <h2 id="参考">参考</h2>
@@ -663,6 +664,72 @@ GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サン�
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -914,70 +981,6 @@ GitHubにある <a href="https://github.com/pfi/maf/tree/master/samples">サン�
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

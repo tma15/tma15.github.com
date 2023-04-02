@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="linux">
 <meta name="description" content="ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転を読んで、なるほど、と思ったのでGoで実装してみる。">
@@ -117,6 +117,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -326,51 +327,51 @@ if (!doNotTrack) {
             <div class="main-content-wrap">
               <p><a href="http://d.hatena.ne.jp/tkng/20090727/1248652900">ディレクトリの中にある大量の小さなファイルを高速に読み込む方法 - 射撃しつつ前転</a>を読んで、なるほど、と思ったのでGoで実装してみる。</p>
 <p>io/ioutilにある<a href="https://golang.org/pkg/io/ioutil/#ReadDir">ReadDir</a>はディレクトリ内にあるエントリを名前順にソートしているので、inode順にソートするような関数を自前で作る。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">byInode</span> []<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Len</span>() <span style="color:#66d9ef">int</span> { <span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">this</span>) }
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Less</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fstat_i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Sys</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Stat_t</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">fstat_j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Sys</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Stat_t</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fstat_i</span>.<span style="color:#a6e22e">Ino</span> &lt; <span style="color:#a6e22e">fstat_j</span>.<span style="color:#a6e22e">Ino</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Swap</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) { <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>] }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">MyReadDir</span>(<span style="color:#a6e22e">dirname</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">dirname</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Readdir</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">list</span>, <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">MyReadDirSortByInode</span>(<span style="color:#a6e22e">dirname</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>, <span style="color:#66d9ef">error</span>) {
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">dirname</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Readdir</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Sort</span>(<span style="color:#a6e22e">byInode</span>(<span style="color:#a6e22e">list</span>))
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#a6e22e">list</span>, <span style="color:#66d9ef">nil</span>
-</span></span><span style="display:flex;"><span>}</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">byInode</span> []<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Len</span>() <span style="color:#66d9ef">int</span> { <span style="color:#66d9ef">return</span> len(<span style="color:#a6e22e">this</span>) }
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Less</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) <span style="color:#66d9ef">bool</span> {
+    <span style="color:#a6e22e">fstat_i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>].<span style="color:#a6e22e">Sys</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Stat_t</span>)
+    <span style="color:#a6e22e">fstat_j</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>].<span style="color:#a6e22e">Sys</span>().(<span style="color:#f92672">*</span><span style="color:#a6e22e">syscall</span>.<span style="color:#a6e22e">Stat_t</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fstat_i</span>.<span style="color:#a6e22e">Ino</span> &lt; <span style="color:#a6e22e">fstat_j</span>.<span style="color:#a6e22e">Ino</span>
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">this</span> <span style="color:#a6e22e">byInode</span>) <span style="color:#a6e22e">Swap</span>(<span style="color:#a6e22e">i</span>, <span style="color:#a6e22e">j</span> <span style="color:#66d9ef">int</span>) { <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>], <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>] = <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">j</span>], <span style="color:#a6e22e">this</span>[<span style="color:#a6e22e">i</span>] }
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">MyReadDir</span>(<span style="color:#a6e22e">dirname</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">dirname</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Readdir</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">list</span>, <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">MyReadDirSortByInode</span>(<span style="color:#a6e22e">dirname</span> <span style="color:#66d9ef">string</span>) ([]<span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">FileInfo</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">f</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Open</span>(<span style="color:#a6e22e">dirname</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#a6e22e">list</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Readdir</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+    <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">Close</span>()
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#a6e22e">sort</span>.<span style="color:#a6e22e">Sort</span>(<span style="color:#a6e22e">byInode</span>(<span style="color:#a6e22e">list</span>))
+<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">list</span>, <span style="color:#66d9ef">nil</span>
+}</code></pre></div>
 <p>ファイル数10,000、平均ファイルサイズ112KBに対して、上記のMyReadDirと、io/ioutilのReadDirを比較すると、次のようになった。
 ファイルシステムはext4を使用している。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>time go run dirdump.go dir <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>go run dirdump.go large <span style="color:#ae81ff">1</span>  4.07s user 4.54s system 19% cpu 43.450 total
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span>time go run dirdump.go dir <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>go run dirdump.go large <span style="color:#ae81ff">2</span>  5.85s user 8.98s system 4% cpu 4:58.27 total</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+time go run dirdump.go dir <span style="color:#ae81ff">1</span>
+go run dirdump.go large <span style="color:#ae81ff">1</span>  4.07s user 4.54s system 19% cpu 43.450 total
+
+sudo sysctl -w vm.drop_caches<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span>
+time go run dirdump.go dir <span style="color:#ae81ff">2</span>
+go run dirdump.go large <span style="color:#ae81ff">2</span>  5.85s user 8.98s system 4% cpu 4:58.27 total</code></pre></div>
 <p>ソースコードは<a href="https://gist.github.com/tma15/78146f0762e8c12571e0">gist</a>にアップロードした。
 上記のコマンドは、dirというディレクトリに入っているファイルの数と、行数の合計値を数える。1と指定すると、inode順に、2と指定するとソートをしない。</p>
 <p>ext4でも、ソートしないよりも、inode順にソートするほうが高速にファイルを読み込めそうである。</p>
@@ -455,6 +456,72 @@ if (!doNotTrack) {
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -706,70 +773,6 @@ if (!doNotTrack) {
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

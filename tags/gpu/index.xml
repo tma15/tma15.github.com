@@ -6,7 +6,11 @@
     <description>Recent content in gpu on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Wed, 11 Mar 2020 15:05:37 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/gpu/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Mar 2020 15:05:37 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/gpu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
     <item>
       <title>[Colab] Googleの無料GPU環境を使うための準備</title>
       <link>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</link>

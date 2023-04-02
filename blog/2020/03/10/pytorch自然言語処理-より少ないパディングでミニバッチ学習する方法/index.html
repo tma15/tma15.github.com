@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="pytorch, nlp, machine_learning">
 <meta name="description" content="ニューラルネットワークの学習には、複数の事例 (たとえば単語の系列) に対して並列に損失関数を計算し、得られた勾配に基づいてパラメータを更新するミニバッチ学習が用いられます。自然言語処理において、ミニバッチ学習時は単語の系列を同じ長さにそろえて処理します。これはニューラルネットワーク内での計算において、データが密行列として扱われることが多いためです。
@@ -140,6 +140,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -374,12 +375,12 @@ if (!doNotTrack) {
 このとき、パディングは、ミニバッチ内の各単語系列に対して、最長の単語系列長になるように、単語系列の末尾に疑似的な単語 (ここでは<code>0</code>) を追加してミニバッチ内のすべての単語系列が同じ長さとなるようにします。
 最長の単語系列長は <code>5</code> なので、 <code>[1, 2]</code> に対して、 <code>0</code> を3つ末尾に追加します。
 PyTorchで実装するとたとえば以下のように記述できます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> torch
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]), torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>])]
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(x, batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span></code></pre></div><p>得られる結果は以下の通りです。</p>
-<pre tabindex="0"><code>tensor([[1, 2, 3, 4, 5],
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> torch
+
+x <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]), torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>])]
+x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(x, batch_first<span style="color:#f92672">=</span>True)
+</code></pre></div><p>得られる結果は以下の通りです。</p>
+<pre><code>tensor([[1, 2, 3, 4, 5],
         [1, 2, 0, 0, 0]])
 </code></pre><h2 id="ミニバッチ学習">ミニバッチ学習</h2>
 <p>ニューラルネットワークを学習する際は、学習データから指定した数だけ事例を選択し、選択した事例集合に対してパディングを適用します。
@@ -388,33 +389,33 @@ PyTorchで実装するとたとえば以下のように記述できます。</p>
 この方法の問題のひとつは選択された事例の単語系列長のばらつきが大きいと、パディングによって追加される単語が多くなり、計算にかかる時間が多くなるということです。</p>
 <p>まず、良く用いられる無作為に事例を選択することでミニバッチを作成する方法と、できるだけパディングによって追加する単語を減らす作成方法を紹介します。</p>
 <p>以降では5つの事例に対してバッチサイズ2でミニバッチを作成することを考えます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>data <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]),
-</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]),
-</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]),
-</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]),
-</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>])]
-</span></span></code></pre></div><p>またパディングを適用する関数を以下の様に定義しておきます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
-</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(batch, batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x
-</span></span></code></pre></div><h3 id="無作為に事例を選択してミニバッチを作成">無作為に事例を選択してミニバッチを作成</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+
+data <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]),
+        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]),
+        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]),
+        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]),
+        torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>])]
+</code></pre></div><p>またパディングを適用する関数を以下の様に定義しておきます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
+    x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(batch, batch_first<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">return</span> x
+</code></pre></div><h3 id="無作為に事例を選択してミニバッチを作成">無作為に事例を選択してミニバッチを作成</h3>
 <p>無作為に事例を選択してミニバッチを作成する方法は以下の様に実装できます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>    data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>            data,
-</span></span><span style="display:flex;"><span>            batch_size<span style="color:#f92672">=</span>batch_size,
-</span></span><span style="display:flex;"><span>            shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>):
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;Epoch:&#39;</span>, epoch)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
-</span></span><span style="display:flex;"><span>            print(batch)
-</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#39;---&#39;</span>)
-</span></span></code></pre></div><p>結果は以下の通りです。</p>
-<pre tabindex="0"><code>Epoch: 0
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+            data,
+            batch_size<span style="color:#f92672">=</span>batch_size,
+            shuffle<span style="color:#f92672">=</span>True,
+            collate_fn<span style="color:#f92672">=</span>collate_fn)
+
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Epoch:&#39;</span>, epoch)
+
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
+            <span style="color:#66d9ef">print</span>(batch)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;---&#39;</span>)
+</code></pre></div><p>結果は以下の通りです。</p>
+<pre><code>Epoch: 0
 tensor([[1, 2, 3, 4, 5, 6, 0, 0],
         [1, 2, 3, 4, 5, 6, 7, 8]])
 ---
@@ -448,45 +449,45 @@ tensor([[1, 2, 3, 4, 5, 6]])
 
 <h3 id="系列の長さでソートしてミニバッチを作成">系列の長さでソートしてミニバッチを作成</h3>
 <p>次に単語系列長が近い事例でミニバッチを作成する方法は次の様に実装できます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_batch_sampler</span>(data, batch_size):
-</span></span><span style="display:flex;"><span>    indices <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>arange(len(data))<span style="color:#f92672">.</span>tolist()
-</span></span><span style="display:flex;"><span>    sorted_indices <span style="color:#f92672">=</span> sorted(indices, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> idx: len(data[idx]))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    batch_indices <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>        start <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-</span></span><span style="display:flex;"><span>            batch_indices<span style="color:#f92672">.</span>append(sorted_indices[start: end])
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> end <span style="color:#f92672">&gt;=</span> len(data):
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            start <span style="color:#f92672">=</span> end
-</span></span><span style="display:flex;"><span>            end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> batch_indices
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">length_sorted_data_loader</span>(data, batch_size):
-</span></span><span style="display:flex;"><span>    batch_sampler <span style="color:#f92672">=</span> create_batch_sampler(data, batch_size)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>):
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">&#39;Epoch:&#39;</span>, epoch)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        random<span style="color:#f92672">.</span>shuffle(batch_sampler)
-</span></span><span style="display:flex;"><span>        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>            data,
-</span></span><span style="display:flex;"><span>            batch_sampler<span style="color:#f92672">=</span>batch_sampler,
-</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
-</span></span><span style="display:flex;"><span>            print(batch)
-</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">&#39;---&#39;</span>)
-</span></span></code></pre></div><p>無作為に事例を選択する方法とは異なり、まず事例を単語系列長でデータのインデックスをソートし、ソートされたインデックスに対して、先頭から順にミニバッチサイズだけ事例を選択し、 <code>batch_sampler</code> を <code>create_batch_sampler</code> から作成します。 <code>batch_sampler</code> は各エポックの最初に無作為に並び替えて <code>torch.utils.data.DataLoader</code> の引数に渡されます。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_batch_sampler</span>(data, batch_size):
+    indices <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>arange(len(data))<span style="color:#f92672">.</span>tolist()
+    sorted_indices <span style="color:#f92672">=</span> sorted(indices, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> idx: len(data[idx]))
+
+    batch_indices <span style="color:#f92672">=</span> []
+        start <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
+        <span style="color:#66d9ef">while</span> True:
+            batch_indices<span style="color:#f92672">.</span>append(sorted_indices[start: end])
+
+            <span style="color:#66d9ef">if</span> end <span style="color:#f92672">&gt;=</span> len(data):
+                <span style="color:#66d9ef">break</span>
+
+            start <span style="color:#f92672">=</span> end
+            end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
+
+    <span style="color:#66d9ef">return</span> batch_indices
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">length_sorted_data_loader</span>(data, batch_size):
+    batch_sampler <span style="color:#f92672">=</span> create_batch_sampler(data, batch_size)
+
+    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">2</span>):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Epoch:&#39;</span>, epoch)
+
+        random<span style="color:#f92672">.</span>shuffle(batch_sampler)
+        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+            data,
+            batch_sampler<span style="color:#f92672">=</span>batch_sampler,
+            collate_fn<span style="color:#f92672">=</span>collate_fn)
+
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
+            <span style="color:#66d9ef">print</span>(batch)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;---&#39;</span>)
+</code></pre></div><p>無作為に事例を選択する方法とは異なり、まず事例を単語系列長でデータのインデックスをソートし、ソートされたインデックスに対して、先頭から順にミニバッチサイズだけ事例を選択し、 <code>batch_sampler</code> を <code>create_batch_sampler</code> から作成します。 <code>batch_sampler</code> は各エポックの最初に無作為に並び替えて <code>torch.utils.data.DataLoader</code> の引数に渡されます。</p>
 <p>結果は以下の様になります。</p>
-<pre tabindex="0"><code>Epoch: 0
+<pre><code>Epoch: 0
 tensor([[1, 2, 3, 4, 5, 6, 7, 8]])
 ---
 tensor([[1, 2, 3, 4, 5, 0],
@@ -508,88 +509,88 @@ tensor([[1, 2, 3, 4, 5, 6, 7, 8]])
 単語系列長が近い事例でミニバッチを作成するため、無作為に事例を選択する方法と比較して、<code>0</code>の数が少なくなる傾向にあることが分かります。</p>
 <h2 id="パディングの数を比較">パディングの数を比較</h2>
 <p>本来ならGPU上でのニューラルネットワークの学習時間を計測すべきですが、簡単のため、パディングの数にどれくらい差が出るか比較してみます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> random
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> torch
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
-</span></span><span style="display:flex;"><span>    x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(batch, batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_batch_sampler</span>(data, batch_size):
-</span></span><span style="display:flex;"><span>    indices <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>arange(len(data))<span style="color:#f92672">.</span>tolist()
-</span></span><span style="display:flex;"><span>    sorted_indices <span style="color:#f92672">=</span> sorted(indices, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> idx: len(data[idx]))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    batch_indices <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    start <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        batch_indices<span style="color:#f92672">.</span>append(sorted_indices[start: end])
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> end <span style="color:#f92672">&gt;=</span> len(data):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        start <span style="color:#f92672">=</span> end
-</span></span><span style="display:flex;"><span>        end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> batch_indices
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">length_sorted_data_loader</span>(data, batch_size):
-</span></span><span style="display:flex;"><span>    batch_sampler <span style="color:#f92672">=</span> create_batch_sampler(data, batch_size)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
-</span></span><span style="display:flex;"><span>        random<span style="color:#f92672">.</span>shuffle(batch_sampler)
-</span></span><span style="display:flex;"><span>        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>            data,
-</span></span><span style="display:flex;"><span>            batch_sampler<span style="color:#f92672">=</span>batch_sampler,
-</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
-</span></span><span style="display:flex;"><span>            num_token <span style="color:#f92672">+=</span> (batch <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>            num_pad <span style="color:#f92672">+=</span> batch<span style="color:#f92672">.</span>eq(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;num_token&#39;</span>, num_token, <span style="color:#e6db74">&#39;num_pad&#39;</span>, num_pad)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">random_sample_data_loader</span>(data, batch_size):
-</span></span><span style="display:flex;"><span>    data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>        data,
-</span></span><span style="display:flex;"><span>        batch_size<span style="color:#f92672">=</span>batch_size,
-</span></span><span style="display:flex;"><span>        shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>        collate_fn<span style="color:#f92672">=</span>collate_fn)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
-</span></span><span style="display:flex;"><span>            num_token <span style="color:#f92672">+=</span> (batch <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>            num_pad <span style="color:#f92672">+=</span> batch<span style="color:#f92672">.</span>eq(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;num_token&#39;</span>, num_token, <span style="color:#e6db74">&#39;num_pad&#39;</span>, num_pad)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-</span></span><span style="display:flex;"><span>    batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]),
-</span></span><span style="display:flex;"><span>            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]),
-</span></span><span style="display:flex;"><span>            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]),
-</span></span><span style="display:flex;"><span>            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]),
-</span></span><span style="display:flex;"><span>            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>])]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Random sample&#39;</span>)
-</span></span><span style="display:flex;"><span>    random_sample_data_loader(data, batch_size)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Length sorted&#39;</span>)
-</span></span><span style="display:flex;"><span>    length_sorted_data_loader(data, batch_size)
-</span></span></code></pre></div><p>結果は以下の様になります。</p>
-<pre tabindex="0"><code>Random sample
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> random
+
+<span style="color:#f92672">import</span> numpy
+<span style="color:#f92672">import</span> torch
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(batch):
+    x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(batch, batch_first<span style="color:#f92672">=</span>True)
+    <span style="color:#66d9ef">return</span> x
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_batch_sampler</span>(data, batch_size):
+    indices <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>arange(len(data))<span style="color:#f92672">.</span>tolist()
+    sorted_indices <span style="color:#f92672">=</span> sorted(indices, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> idx: len(data[idx]))
+
+    batch_indices <span style="color:#f92672">=</span> []
+    start <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
+    <span style="color:#66d9ef">while</span> True:
+
+        batch_indices<span style="color:#f92672">.</span>append(sorted_indices[start: end])
+
+        <span style="color:#66d9ef">if</span> end <span style="color:#f92672">&gt;=</span> len(data):
+            <span style="color:#66d9ef">break</span>
+
+        start <span style="color:#f92672">=</span> end
+        end <span style="color:#f92672">=</span> min(start <span style="color:#f92672">+</span> batch_size, len(data))
+
+    <span style="color:#66d9ef">return</span> batch_indices
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">length_sorted_data_loader</span>(data, batch_size):
+    batch_sampler <span style="color:#f92672">=</span> create_batch_sampler(data, batch_size)
+
+    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
+        random<span style="color:#f92672">.</span>shuffle(batch_sampler)
+        data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+            data,
+            batch_sampler<span style="color:#f92672">=</span>batch_sampler,
+            collate_fn<span style="color:#f92672">=</span>collate_fn)
+
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
+            num_token <span style="color:#f92672">+=</span> (batch <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+            num_pad <span style="color:#f92672">+=</span> batch<span style="color:#f92672">.</span>eq(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;num_token&#39;</span>, num_token, <span style="color:#e6db74">&#39;num_pad&#39;</span>, num_pad)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">random_sample_data_loader</span>(data, batch_size):
+    data_loader <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+        data,
+        batch_size<span style="color:#f92672">=</span>batch_size,
+        shuffle<span style="color:#f92672">=</span>True,
+        collate_fn<span style="color:#f92672">=</span>collate_fn)
+
+    num_token <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    num_pad <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>):
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> data_loader:
+            num_token <span style="color:#f92672">+=</span> (batch <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+            num_pad <span style="color:#f92672">+=</span> batch<span style="color:#f92672">.</span>eq(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;num_token&#39;</span>, num_token, <span style="color:#e6db74">&#39;num_pad&#39;</span>, num_pad)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    batch_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+
+    data <span style="color:#f92672">=</span> [torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]),
+            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]),
+            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]),
+            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]),
+            torch<span style="color:#f92672">.</span>tensor([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>])]
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Random sample&#39;</span>)
+    random_sample_data_loader(data, batch_size)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Length sorted&#39;</span>)
+    length_sorted_data_loader(data, batch_size)
+</code></pre></div><p>結果は以下の様になります。</p>
+<pre><code>Random sample
 num_token 2500 num_pad 580
 Length sorted
 num_token 2500 num_pad 300
@@ -962,6 +963,72 @@ msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1198,70 +1265,6 @@ msmaflink({"n":"PyTorch実践入門 (Compass Booksシリーズ)","b":"","t":"","
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="nlp, python, pytorch, neural_network, machine_learning, google-colab">
 <meta name="description" content="本記事では日本語を対象としたLSTMに基づく文書分類モデルをPyTorchコード付きで紹介します。
@@ -168,6 +168,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -486,309 +487,309 @@ if (!doNotTrack) {
 <p>上記の図をPyTorchで実装したものが以下になります。
 LSTMは学習時に<a href="https://arxiv.org/pdf/1708.02182.pdf">Weight drop</a> を適用しています。
 Weight dropに関するモジュールは<a href="https://pytorchnlp.readthedocs.io/en/latest/index.html">PyTorch-NLP</a>を参考にしています。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_weight_drop</span>(module, weights, dropout):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> name_w <span style="color:#f92672">in</span> weights:
-</span></span><span style="display:flex;"><span>        w <span style="color:#f92672">=</span> getattr(module, name_w)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> module<span style="color:#f92672">.</span>_parameters[name_w]
-</span></span><span style="display:flex;"><span>        module<span style="color:#f92672">.</span>register_parameter(name_w <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_raw&#39;</span>, torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Parameter(w))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    original_module_forward <span style="color:#f92672">=</span> module<span style="color:#f92672">.</span>forward
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> name_w <span style="color:#f92672">in</span> weights:
-</span></span><span style="display:flex;"><span>            raw_w <span style="color:#f92672">=</span> getattr(module, name_w <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_raw&#39;</span>)
-</span></span><span style="display:flex;"><span>            w <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>functional<span style="color:#f92672">.</span>dropout(raw_w, p<span style="color:#f92672">=</span>dropout, training<span style="color:#f92672">=</span>module<span style="color:#f92672">.</span>training)
-</span></span><span style="display:flex;"><span>            setattr(module, name_w, w)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> original_module_forward(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    setattr(module, <span style="color:#e6db74">&#39;forward&#39;</span>, forward)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeightDrop</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, module, weights, dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>):
-</span></span><span style="display:flex;"><span>        super(WeightDrop, self)<span style="color:#f92672">.</span>__init__()
-</span></span><span style="display:flex;"><span>        _weight_drop(module, weights, dropout)
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>forward <span style="color:#f92672">=</span> module<span style="color:#f92672">.</span>forward
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeightDropLSTM</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>LSTM):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, <span style="color:#f92672">*</span>args, weight_dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>, weight_names_to_drop<span style="color:#f92672">=</span>[], <span style="color:#f92672">**</span>kwargs):
-</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
-</span></span><span style="display:flex;"><span>        _weight_drop(self, weight_names_to_drop, weight_dropout)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loss_fn</span>(model, batch):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> F<span style="color:#f92672">.</span>nll_loss(
-</span></span><span style="display:flex;"><span>        torch<span style="color:#f92672">.</span>log_softmax(model(batch), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>        batch[<span style="color:#e6db74">&#39;label&#39;</span>]
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Classifier</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(
-</span></span><span style="display:flex;"><span>        self,
-</span></span><span style="display:flex;"><span>        feature_vocab,
-</span></span><span style="display:flex;"><span>        category_vocab,
-</span></span><span style="display:flex;"><span>        embedding_size<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
-</span></span><span style="display:flex;"><span>        embedding_path<span style="color:#f92672">=</span><span style="color:#66d9ef">None</span>,
-</span></span><span style="display:flex;"><span>        hidden_size<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>,
-</span></span><span style="display:flex;"><span>        num_layers<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
-</span></span><span style="display:flex;"><span>        weight_dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">**</span>kwargs,
-</span></span><span style="display:flex;"><span>    ):
-</span></span><span style="display:flex;"><span>        super()<span style="color:#f92672">.</span>__init__()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>feature_vocab <span style="color:#f92672">=</span> feature_vocab
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>category_vocab <span style="color:#f92672">=</span> category_vocab
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>embedding_size <span style="color:#f92672">=</span> embedding_size
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>hidden_size <span style="color:#f92672">=</span> hidden_size
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>embedding <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Embedding(
-</span></span><span style="display:flex;"><span>            len(feature_vocab),
-</span></span><span style="display:flex;"><span>            embedding_size,
-</span></span><span style="display:flex;"><span>            padding_idx<span style="color:#f92672">=</span>feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>key_vector <span style="color:#f92672">=</span> <span style="color:#66d9ef">None</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> embedding_path:
-</span></span><span style="display:flex;"><span>            self<span style="color:#f92672">.</span>key_vector <span style="color:#f92672">=</span> gensim<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>KeyedVectors<span style="color:#f92672">.</span>load(
-</span></span><span style="display:flex;"><span>                embedding_path,
-</span></span><span style="display:flex;"><span>                mmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>,
-</span></span><span style="display:flex;"><span>            )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>num_layers <span style="color:#f92672">=</span> num_layers
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>weight_names_to_drop <span style="color:#f92672">=</span> [
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;weight_hh_l</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>num_layers)
-</span></span><span style="display:flex;"><span>        ]
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>weight_names_to_drop <span style="color:#f92672">=</span> [
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;weight_hh_l</span><span style="color:#e6db74">{</span>i<span style="color:#e6db74">}</span><span style="color:#e6db74">_reverse&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>num_layers)
-</span></span><span style="display:flex;"><span>        ]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>bidirectional <span style="color:#f92672">=</span> <span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>lstm <span style="color:#f92672">=</span> WeightDropLSTM(
-</span></span><span style="display:flex;"><span>            input_size<span style="color:#f92672">=</span>embedding_size  self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>vector_size <span style="color:#66d9ef">if</span> embedding_path
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> embedding_size,
-</span></span><span style="display:flex;"><span>            hidden_size<span style="color:#f92672">=</span>hidden_size,
-</span></span><span style="display:flex;"><span>            num_layers<span style="color:#f92672">=</span>num_layers,
-</span></span><span style="display:flex;"><span>            bidirectional<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>bidirectional,
-</span></span><span style="display:flex;"><span>            weight_dropout<span style="color:#f92672">=</span>weight_dropout,
-</span></span><span style="display:flex;"><span>            weight_names_to_drop<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>weight_names_to_drop,
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>out <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Linear(
-</span></span><span style="display:flex;"><span>            <span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> hidden_size,
-</span></span><span style="display:flex;"><span>            len(category_vocab),
-</span></span><span style="display:flex;"><span>            bias<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">static_embeedding</span>(self, inputs):
-</span></span><span style="display:flex;"><span>        bsz <span style="color:#f92672">=</span> len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])
-</span></span><span style="display:flex;"><span>        seq_len <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch_idx <span style="color:#f92672">in</span> range(len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])):
-</span></span><span style="display:flex;"><span>            seq_len <span style="color:#f92672">=</span> max(seq_len, len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>][batch_idx]))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        embed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros((bsz, seq_len, self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>vector_size))
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch_idx <span style="color:#f92672">in</span> range(len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> t, word <span style="color:#f92672">in</span> enumerate(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>][batch_idx]):
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>key_vector:
-</span></span><span style="display:flex;"><span>                    embed[batch_idx, t, :] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(
-</span></span><span style="display:flex;"><span>                        np<span style="color:#f92672">.</span>array(self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>get_vector(word))
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> embed
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_state_dict</span>(self, state_dict):
-</span></span><span style="display:flex;"><span>        state_dict <span style="color:#f92672">=</span> super()<span style="color:#f92672">.</span>load_state_dict(state_dict, strict<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> state_dict
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __call__(self, inputs):
-</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> inputs[<span style="color:#e6db74">&#39;words&#39;</span>]
-</span></span><span style="display:flex;"><span>        bsz, seq_len <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>size()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        lengths <span style="color:#f92672">=</span> (x <span style="color:#f92672">!=</span> self<span style="color:#f92672">.</span>feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>))<span style="color:#f92672">.</span>sum(dim<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (bsz, seq_len, embedding_size)</span>
-</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embedding(x)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>key_vector:
-</span></span><span style="display:flex;"><span>            static_x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>static_embeedding(inputs)<span style="color:#f92672">.</span>to(inputs[<span style="color:#e6db74">&#39;words&#39;</span>]<span style="color:#f92672">.</span>device)
-</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat([x, static_x], dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        packed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pack_padded_sequence(
-</span></span><span style="display:flex;"><span>            x,
-</span></span><span style="display:flex;"><span>            lengths,
-</span></span><span style="display:flex;"><span>            batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>            enforce_sorted<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        rnn_out, (ht, ct) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>lstm(packed)
-</span></span><span style="display:flex;"><span>        ht <span style="color:#f92672">=</span> ht<span style="color:#f92672">.</span>view(self<span style="color:#f92672">.</span>num_layers, <span style="color:#ae81ff">2</span>, bsz, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        ht <span style="color:#f92672">=</span> ht[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># (2, bsz, hidden_size)</span>
-</span></span><span style="display:flex;"><span>        ht <span style="color:#f92672">=</span> (
-</span></span><span style="display:flex;"><span>            ht<span style="color:#f92672">.</span>transpose(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># (bsz, 2, hidden_size)</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span>contiguous()
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (bsz, seq_len, 2 * hidden_size)</span>
-</span></span><span style="display:flex;"><span>        x, _ <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_packed_sequence(rnn_out, batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (bsz, 1, 2 * hidden_size)</span>
-</span></span><span style="display:flex;"><span>        h_max <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>adaptive_max_pool2d(
-</span></span><span style="display:flex;"><span>            x<span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">1</span>, seq_len, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
-</span></span><span style="display:flex;"><span>        )<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>        h_avg <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>adaptive_avg_pool2d(
-</span></span><span style="display:flex;"><span>            x<span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">1</span>, seq_len, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
-</span></span><span style="display:flex;"><span>            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
-</span></span><span style="display:flex;"><span>        )<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (bsz, 4 * 2 * hidden_size)</span>
-</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat([x[:, <span style="color:#ae81ff">0</span>], ht, h_max<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>), h_avg<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)], dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># (bsz, category_size)</span>
-</span></span><span style="display:flex;"><span>        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>out(x)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> x
-</span></span></code></pre></div><h2 id="データ前処理">データ前処理</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_weight_drop</span>(module, weights, dropout):
+    <span style="color:#66d9ef">for</span> name_w <span style="color:#f92672">in</span> weights:
+        w <span style="color:#f92672">=</span> getattr(module, name_w)
+        <span style="color:#66d9ef">del</span> module<span style="color:#f92672">.</span>_parameters[name_w]
+        module<span style="color:#f92672">.</span>register_parameter(name_w <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_raw&#39;</span>, torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Parameter(w))
+
+    original_module_forward <span style="color:#f92672">=</span> module<span style="color:#f92672">.</span>forward
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">for</span> name_w <span style="color:#f92672">in</span> weights:
+            raw_w <span style="color:#f92672">=</span> getattr(module, name_w <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;_raw&#39;</span>)
+            w <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>functional<span style="color:#f92672">.</span>dropout(raw_w, p<span style="color:#f92672">=</span>dropout, training<span style="color:#f92672">=</span>module<span style="color:#f92672">.</span>training)
+            setattr(module, name_w, w)
+
+        <span style="color:#66d9ef">return</span> original_module_forward(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+
+    setattr(module, <span style="color:#e6db74">&#39;forward&#39;</span>, forward)
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeightDrop</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
+    <span style="color:#66d9ef">def</span> __init__(self, module, weights, dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>):
+        super(WeightDrop, self)<span style="color:#f92672">.</span>__init__()
+        _weight_drop(module, weights, dropout)
+        self<span style="color:#f92672">.</span>forward <span style="color:#f92672">=</span> module<span style="color:#f92672">.</span>forward
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WeightDropLSTM</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>LSTM):
+    <span style="color:#66d9ef">def</span> __init__(self, <span style="color:#f92672">*</span>args, weight_dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0</span>, weight_names_to_drop<span style="color:#f92672">=</span>[], <span style="color:#f92672">**</span>kwargs):
+        super()<span style="color:#f92672">.</span>__init__(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        _weight_drop(self, weight_names_to_drop, weight_dropout)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">loss_fn</span>(model, batch):
+    <span style="color:#66d9ef">return</span> F<span style="color:#f92672">.</span>nll_loss(
+        torch<span style="color:#f92672">.</span>log_softmax(model(batch), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>),
+        batch[<span style="color:#e6db74">&#39;label&#39;</span>]
+    )
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Classifier</span>(torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Module):
+    <span style="color:#66d9ef">def</span> __init__(
+        self,
+        feature_vocab,
+        category_vocab,
+        embedding_size<span style="color:#f92672">=</span><span style="color:#ae81ff">128</span>,
+        embedding_path<span style="color:#f92672">=</span>None,
+        hidden_size<span style="color:#f92672">=</span><span style="color:#ae81ff">256</span>,
+        num_layers<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>,
+        weight_dropout<span style="color:#f92672">=</span><span style="color:#ae81ff">0.1</span>,
+        <span style="color:#f92672">**</span>kwargs,
+    ):
+        super()<span style="color:#f92672">.</span>__init__()
+
+        self<span style="color:#f92672">.</span>feature_vocab <span style="color:#f92672">=</span> feature_vocab
+        self<span style="color:#f92672">.</span>category_vocab <span style="color:#f92672">=</span> category_vocab
+
+        self<span style="color:#f92672">.</span>embedding_size <span style="color:#f92672">=</span> embedding_size
+        self<span style="color:#f92672">.</span>hidden_size <span style="color:#f92672">=</span> hidden_size
+
+        self<span style="color:#f92672">.</span>embedding <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Embedding(
+            len(feature_vocab),
+            embedding_size,
+            padding_idx<span style="color:#f92672">=</span>feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+        )
+
+        self<span style="color:#f92672">.</span>key_vector <span style="color:#f92672">=</span> None
+        <span style="color:#66d9ef">if</span> embedding_path:
+            self<span style="color:#f92672">.</span>key_vector <span style="color:#f92672">=</span> gensim<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>KeyedVectors<span style="color:#f92672">.</span>load(
+                embedding_path,
+                mmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>,
+            )
+
+        self<span style="color:#f92672">.</span>num_layers <span style="color:#f92672">=</span> num_layers
+        self<span style="color:#f92672">.</span>weight_names_to_drop <span style="color:#f92672">=</span> [
+            f<span style="color:#e6db74">&#39;weight_hh_l{i}&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>num_layers)
+        ]
+        self<span style="color:#f92672">.</span>weight_names_to_drop <span style="color:#f92672">=</span> [
+            f<span style="color:#e6db74">&#39;weight_hh_l{i}_reverse&#39;</span> <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(self<span style="color:#f92672">.</span>num_layers)
+        ]
+
+        self<span style="color:#f92672">.</span>bidirectional <span style="color:#f92672">=</span> True
+        self<span style="color:#f92672">.</span>lstm <span style="color:#f92672">=</span> WeightDropLSTM(
+            input_size<span style="color:#f92672">=</span>embedding_size  self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>vector_size <span style="color:#66d9ef">if</span> embedding_path
+                <span style="color:#66d9ef">else</span> embedding_size,
+            hidden_size<span style="color:#f92672">=</span>hidden_size,
+            num_layers<span style="color:#f92672">=</span>num_layers,
+            bidirectional<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>bidirectional,
+            weight_dropout<span style="color:#f92672">=</span>weight_dropout,
+            weight_names_to_drop<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>weight_names_to_drop,
+        )
+
+        self<span style="color:#f92672">.</span>out <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>Linear(
+            <span style="color:#ae81ff">8</span> <span style="color:#f92672">*</span> hidden_size,
+            len(category_vocab),
+            bias<span style="color:#f92672">=</span>True)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">static_embeedding</span>(self, inputs):
+        bsz <span style="color:#f92672">=</span> len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])
+        seq_len <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> batch_idx <span style="color:#f92672">in</span> range(len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])):
+            seq_len <span style="color:#f92672">=</span> max(seq_len, len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>][batch_idx]))
+
+        embed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>zeros((bsz, seq_len, self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>vector_size))
+        <span style="color:#66d9ef">for</span> batch_idx <span style="color:#f92672">in</span> range(len(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>])):
+            <span style="color:#66d9ef">for</span> t, word <span style="color:#f92672">in</span> enumerate(inputs[<span style="color:#e6db74">&#39;raw_words&#39;</span>][batch_idx]):
+                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>key_vector:
+                    embed[batch_idx, t, :] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>from_numpy(
+                        np<span style="color:#f92672">.</span>array(self<span style="color:#f92672">.</span>key_vector<span style="color:#f92672">.</span>get_vector(word))
+                    )
+        <span style="color:#66d9ef">return</span> embed
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_state_dict</span>(self, state_dict):
+        state_dict <span style="color:#f92672">=</span> super()<span style="color:#f92672">.</span>load_state_dict(state_dict, strict<span style="color:#f92672">=</span>False)
+        <span style="color:#66d9ef">return</span> state_dict
+
+    <span style="color:#66d9ef">def</span> __call__(self, inputs):
+        x <span style="color:#f92672">=</span> inputs[<span style="color:#e6db74">&#39;words&#39;</span>]
+        bsz, seq_len <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>size()
+
+        lengths <span style="color:#f92672">=</span> (x <span style="color:#f92672">!=</span> self<span style="color:#f92672">.</span>feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>))<span style="color:#f92672">.</span>sum(dim<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+
+        <span style="color:#75715e"># (bsz, seq_len, embedding_size)</span>
+        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>embedding(x)
+
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>key_vector:
+            static_x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>static_embeedding(inputs)<span style="color:#f92672">.</span>to(inputs[<span style="color:#e6db74">&#39;words&#39;</span>]<span style="color:#f92672">.</span>device)
+            x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat([x, static_x], dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+
+        packed <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pack_padded_sequence(
+            x,
+            lengths,
+            batch_first<span style="color:#f92672">=</span>True,
+            enforce_sorted<span style="color:#f92672">=</span>False
+
+        rnn_out, (ht, ct) <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>lstm(packed)
+        ht <span style="color:#f92672">=</span> ht<span style="color:#f92672">.</span>view(self<span style="color:#f92672">.</span>num_layers, <span style="color:#ae81ff">2</span>, bsz, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+
+        ht <span style="color:#f92672">=</span> ht[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># (2, bsz, hidden_size)</span>
+        ht <span style="color:#f92672">=</span> (
+            ht<span style="color:#f92672">.</span>transpose(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># (bsz, 2, hidden_size)</span>
+            <span style="color:#f92672">.</span>contiguous()
+            <span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
+        )
+
+        <span style="color:#75715e"># (bsz, seq_len, 2 * hidden_size)</span>
+        x, _ <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_packed_sequence(rnn_out, batch_first<span style="color:#f92672">=</span>True)
+
+        <span style="color:#75715e"># (bsz, 1, 2 * hidden_size)</span>
+        h_max <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>adaptive_max_pool2d(
+            x<span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">1</span>, seq_len, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
+            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
+        )<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)
+        h_avg <span style="color:#f92672">=</span> F<span style="color:#f92672">.</span>adaptive_avg_pool2d(
+            x<span style="color:#f92672">.</span>view(bsz, <span style="color:#ae81ff">1</span>, seq_len, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>),
+            (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> self<span style="color:#f92672">.</span>hidden_size)
+        )<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)
+
+        <span style="color:#75715e"># (bsz, 4 * 2 * hidden_size)</span>
+        x <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>cat([x[:, <span style="color:#ae81ff">0</span>], ht, h_max<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>), h_avg<span style="color:#f92672">.</span>squeeze(<span style="color:#ae81ff">1</span>)], dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+
+        <span style="color:#75715e"># (bsz, category_size)</span>
+        x <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>out(x)
+        <span style="color:#66d9ef">return</span> x
+</code></pre></div><h2 id="データ前処理">データ前処理</h2>
 <p>この章ではライブドアコーパスを対象とした前処理部分を紹介します。
 今回は、記事の見出しを入力としてその記事のカテゴリを予測したいため、<code>read_data</code>関数から見出しとカテゴリに相当する情報を取得します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read_data</span>(data_dir):
-</span></span><span style="display:flex;"><span>    files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>data_dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/*/*.txt&#39;</span>)
-</span></span><span style="display:flex;"><span>    categories <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    titles <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> fname <span style="color:#f92672">in</span> files:
-</span></span><span style="display:flex;"><span>        elems <span style="color:#f92672">=</span> fname<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)
-</span></span><span style="display:flex;"><span>        category <span style="color:#f92672">=</span> elems[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># ディレクトリ名をカテゴリとして取得</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">with</span> open(fname) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>            next(f)
-</span></span><span style="display:flex;"><span>            next(f)
-</span></span><span style="display:flex;"><span>            title <span style="color:#f92672">=</span> next(f)<span style="color:#f92672">.</span>rstrip()  <span style="color:#75715e"># ファイルの3行目をタイトルとして取得</span>
-</span></span><span style="display:flex;"><span>        categories<span style="color:#f92672">.</span>append(category)
-</span></span><span style="display:flex;"><span>        titles<span style="color:#f92672">.</span>append(title)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;#Files:&#39;</span>, len(titles))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> categories, titles
-</span></span></code></pre></div><p>次にカテゴリと見出しを学習データ、テストデータに分割します。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read_data</span>(data_dir):
+    files <span style="color:#f92672">=</span> glob<span style="color:#f92672">.</span>glob(f<span style="color:#e6db74">&#39;{data_dir}/*/*.txt&#39;</span>)
+    categories <span style="color:#f92672">=</span> []
+    titles <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> fname <span style="color:#f92672">in</span> files:
+        elems <span style="color:#f92672">=</span> fname<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;/&#39;</span>)
+        category <span style="color:#f92672">=</span> elems[<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># ディレクトリ名をカテゴリとして取得</span>
+        <span style="color:#66d9ef">with</span> open(fname) <span style="color:#66d9ef">as</span> f:
+            next(f)
+            next(f)
+            title <span style="color:#f92672">=</span> next(f)<span style="color:#f92672">.</span>rstrip()  <span style="color:#75715e"># ファイルの3行目をタイトルとして取得</span>
+        categories<span style="color:#f92672">.</span>append(category)
+        titles<span style="color:#f92672">.</span>append(title)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;#Files:&#39;</span>, len(titles))
+    <span style="color:#66d9ef">return</span> categories, titles
+</code></pre></div><p>次にカテゴリと見出しを学習データ、テストデータに分割します。
 その後、これらのデータに対して前処理を適用し、得られた前処理結果を保存します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>(args, categories, titles):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習データとテストデータに分割</span>
-</span></span><span style="display:flex;"><span>    categories_train, categories_test, titles_train, titles_test <span style="color:#f92672">=</span> train_test_split(
-</span></span><span style="display:flex;"><span>        categories,
-</span></span><span style="display:flex;"><span>        titles,
-</span></span><span style="display:flex;"><span>        random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>,
-</span></span><span style="display:flex;"><span>        stratify<span style="color:#f92672">=</span>categories,
-</span></span><span style="display:flex;"><span>    )
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習データとテストデータの分布を表示</span>
-</span></span><span style="display:flex;"><span>    dist <span style="color:#f92672">=</span> Counter(categories_train)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Training&#39;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sorted(dist<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>], reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
-</span></span><span style="display:flex;"><span>        print(v, k)
-</span></span><span style="display:flex;"><span>    print()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    dist <span style="color:#f92672">=</span> Counter(categories_test)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Test&#39;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sorted(dist<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>], reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
-</span></span><span style="display:flex;"><span>        print(v, k)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># カテゴリや単語をidに変換するクラスの作成</span>
-</span></span><span style="display:flex;"><span>    category_vocab <span style="color:#f92672">=</span> Vocabulary()
-</span></span><span style="display:flex;"><span>    feature_vocab <span style="color:#f92672">=</span> Vocabulary()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;/s&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Create vocabularies</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> category <span style="color:#f92672">in</span> categories_train:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> category <span style="color:#f92672">in</span> category_vocab:
-</span></span><span style="display:flex;"><span>            category_vocab<span style="color:#f92672">.</span>add_item(category)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(<span style="color:#e6db74">&#39;-Owakati&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習データを単語分割し、単語の頻度を取得</span>
-</span></span><span style="display:flex;"><span>    word_freq <span style="color:#f92672">=</span> Counter()
-</span></span><span style="display:flex;"><span>    titles_tokenized_train <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> title <span style="color:#f92672">in</span> titles_train:
-</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> tagger<span style="color:#f92672">.</span>parse(title)<span style="color:#f92672">.</span>rstrip()
-</span></span><span style="display:flex;"><span>        words <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>split()
-</span></span><span style="display:flex;"><span>        word_freq<span style="color:#f92672">.</span>update(words)
-</span></span><span style="display:flex;"><span>        titles_tokenized_train<span style="color:#f92672">.</span>append(words)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 単語の頻度上位vocab_size件をvocabularyに追加</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> word, freq <span style="color:#f92672">in</span> sorted(
-</span></span><span style="display:flex;"><span>        word_freq<span style="color:#f92672">.</span>most_common(args<span style="color:#f92672">.</span>vocab_size),
-</span></span><span style="display:flex;"><span>        key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>],
-</span></span><span style="display:flex;"><span>        reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>
-</span></span><span style="display:flex;"><span>    ):
-</span></span><span style="display:flex;"><span>        feature_vocab<span style="color:#f92672">.</span>add_item(word)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    unk <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_idx_data</span>(cs, ts):
-</span></span><span style="display:flex;"><span>        y <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>        X <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> category <span style="color:#f92672">in</span> cs:
-</span></span><span style="display:flex;"><span>            y_i <span style="color:#f92672">=</span> category_vocab<span style="color:#f92672">.</span>get_index(category)
-</span></span><span style="display:flex;"><span>            y<span style="color:#f92672">.</span>append(y_i)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> title_tokenized <span style="color:#f92672">in</span> ts:
-</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> title_tokenized:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> feature_vocab:
-</span></span><span style="display:flex;"><span>                    word_idx <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(word)
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                    word_idx <span style="color:#f92672">=</span> unk
-</span></span><span style="display:flex;"><span>                x<span style="color:#f92672">.</span>append(word_idx)
-</span></span><span style="display:flex;"><span>            X<span style="color:#f92672">.</span>append(x)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">assert</span> len(y) <span style="color:#f92672">==</span> len(X), <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>len(y)<span style="color:#e6db74">}</span><span style="color:#e6db74"> != </span><span style="color:#e6db74">{</span>len(x)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> y, X
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習データの単語やカテゴリ情報をidに変換する</span>
-</span></span><span style="display:flex;"><span>    y_train, X_train <span style="color:#f92672">=</span> create_idx_data(categories_train, titles_tokenized_train)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># テストデータの単語やカテゴリ情報をidに変換する</span>
-</span></span><span style="display:flex;"><span>    titles_tokenized_test <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> title <span style="color:#f92672">in</span> titles_test:
-</span></span><span style="display:flex;"><span>        result <span style="color:#f92672">=</span> tagger<span style="color:#f92672">.</span>parse(title)<span style="color:#f92672">.</span>rstrip()
-</span></span><span style="display:flex;"><span>        words <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>split()
-</span></span><span style="display:flex;"><span>        titles_tokenized_test<span style="color:#f92672">.</span>append(words)
-</span></span><span style="display:flex;"><span>    y_test, X_test <span style="color:#f92672">=</span> create_idx_data(categories_test, titles_tokenized_test)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;#Train:&#39;</span>, len(y_train), <span style="color:#e6db74">&#39;#Test:&#39;</span>, len(y_test))
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 単語およびカテゴリをIDに変換する・またその逆をおこなうオブジェクトを保存する</span>
-</span></span><span style="display:flex;"><span>    category_vocab<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>    feature_vocab<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>embedding_path:
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 事前学習済み単語ベクトルが記述されたテキスト形式のファイルを読み込み、バイナリ形式で保存する</span>
-</span></span><span style="display:flex;"><span>        kv <span style="color:#f92672">=</span> gensim<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>KeyedVectors<span style="color:#f92672">.</span>load_word2vec_format(args<span style="color:#f92672">.</span>embedding_path)
-</span></span><span style="display:flex;"><span>        kv<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;embedding.bin&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習データおよびテストデータを保存する</span>
-</span></span><span style="display:flex;"><span>    torch<span style="color:#f92672">.</span>save([
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;label&#39;</span>: y,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;words&#39;</span>: torch<span style="color:#f92672">.</span>tensor(x, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long),
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;raw_words&#39;</span>: z,
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> y, x, z <span style="color:#f92672">in</span> zip(y_train, X_train, titles_tokenized_train)
-</span></span><span style="display:flex;"><span>    ], <span style="color:#e6db74">&#39;train.pt&#39;</span>)
-</span></span><span style="display:flex;"><span>    torch<span style="color:#f92672">.</span>save([
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;label&#39;</span>: y,
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;words&#39;</span>: torch<span style="color:#f92672">.</span>tensor(x, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long),
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#39;raw_words&#39;</span>: z,
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> y, x, z <span style="color:#f92672">in</span> zip(y_test, X_test, titles_tokenized_test)
-</span></span><span style="display:flex;"><span>    ], <span style="color:#e6db74">&#39;test.pt&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">preprocess</span>(args):
-</span></span><span style="display:flex;"><span>    categories, titles <span style="color:#f92672">=</span> read_data(args<span style="color:#f92672">.</span>data_dir)
-</span></span><span style="display:flex;"><span>    create_dataset(args, categories, titles)
-</span></span></code></pre></div><p><code>preprocess</code>関数を実行すると以下のような表示が得られます。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_dataset</span>(args, categories, titles):
+    <span style="color:#75715e"># 学習データとテストデータに分割</span>
+    categories_train, categories_test, titles_train, titles_test <span style="color:#f92672">=</span> train_test_split(
+        categories,
+        titles,
+        random_state<span style="color:#f92672">=</span><span style="color:#ae81ff">42</span>,
+        stratify<span style="color:#f92672">=</span>categories,
+    )
+
+    <span style="color:#75715e"># 学習データとテストデータの分布を表示</span>
+    dist <span style="color:#f92672">=</span> Counter(categories_train)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Training&#39;</span>)
+    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sorted(dist<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>], reverse<span style="color:#f92672">=</span>True):
+        <span style="color:#66d9ef">print</span>(v, k)
+    <span style="color:#66d9ef">print</span>()
+
+    dist <span style="color:#f92672">=</span> Counter(categories_test)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Test&#39;</span>)
+    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sorted(dist<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>], reverse<span style="color:#f92672">=</span>True):
+        <span style="color:#66d9ef">print</span>(v, k)
+
+    <span style="color:#75715e"># カテゴリや単語をidに変換するクラスの作成</span>
+    category_vocab <span style="color:#f92672">=</span> Vocabulary()
+    feature_vocab <span style="color:#f92672">=</span> Vocabulary()
+
+    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;s&gt;&#39;</span>)
+    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;/s&gt;&#39;</span>)
+    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
+    feature_vocab<span style="color:#f92672">.</span>add_item(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+
+    <span style="color:#75715e"># Create vocabularies</span>
+    <span style="color:#66d9ef">for</span> category <span style="color:#f92672">in</span> categories_train:
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> category <span style="color:#f92672">in</span> category_vocab:
+            category_vocab<span style="color:#f92672">.</span>add_item(category)
+
+    tagger <span style="color:#f92672">=</span> MeCab<span style="color:#f92672">.</span>Tagger(<span style="color:#e6db74">&#39;-Owakati&#39;</span>)
+
+    <span style="color:#75715e"># 学習データを単語分割し、単語の頻度を取得</span>
+    word_freq <span style="color:#f92672">=</span> Counter()
+    titles_tokenized_train <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> title <span style="color:#f92672">in</span> titles_train:
+        result <span style="color:#f92672">=</span> tagger<span style="color:#f92672">.</span>parse(title)<span style="color:#f92672">.</span>rstrip()
+        words <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>split()
+        word_freq<span style="color:#f92672">.</span>update(words)
+        titles_tokenized_train<span style="color:#f92672">.</span>append(words)
+
+    <span style="color:#75715e"># 単語の頻度上位vocab_size件をvocabularyに追加</span>
+    <span style="color:#66d9ef">for</span> word, freq <span style="color:#f92672">in</span> sorted(
+        word_freq<span style="color:#f92672">.</span>most_common(args<span style="color:#f92672">.</span>vocab_size),
+        key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: x[<span style="color:#ae81ff">1</span>],
+        reverse<span style="color:#f92672">=</span>True
+    ):
+        feature_vocab<span style="color:#f92672">.</span>add_item(word)
+
+    unk <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;unk&gt;&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_idx_data</span>(cs, ts):
+        y <span style="color:#f92672">=</span> []
+        X <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> category <span style="color:#f92672">in</span> cs:
+            y_i <span style="color:#f92672">=</span> category_vocab<span style="color:#f92672">.</span>get_index(category)
+            y<span style="color:#f92672">.</span>append(y_i)
+
+        <span style="color:#66d9ef">for</span> title_tokenized <span style="color:#f92672">in</span> ts:
+            x <span style="color:#f92672">=</span> []
+            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> title_tokenized:
+                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> feature_vocab:
+                    word_idx <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(word)
+                <span style="color:#66d9ef">else</span>:
+                    word_idx <span style="color:#f92672">=</span> unk
+                x<span style="color:#f92672">.</span>append(word_idx)
+            X<span style="color:#f92672">.</span>append(x)
+        <span style="color:#66d9ef">assert</span> len(y) <span style="color:#f92672">==</span> len(X), f<span style="color:#e6db74">&#39;{len(y)} != {len(x)}&#39;</span>
+        <span style="color:#66d9ef">return</span> y, X
+
+    <span style="color:#75715e"># 学習データの単語やカテゴリ情報をidに変換する</span>
+    y_train, X_train <span style="color:#f92672">=</span> create_idx_data(categories_train, titles_tokenized_train)
+
+    <span style="color:#75715e"># テストデータの単語やカテゴリ情報をidに変換する</span>
+    titles_tokenized_test <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> title <span style="color:#f92672">in</span> titles_test:
+        result <span style="color:#f92672">=</span> tagger<span style="color:#f92672">.</span>parse(title)<span style="color:#f92672">.</span>rstrip()
+        words <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>split()
+        titles_tokenized_test<span style="color:#f92672">.</span>append(words)
+    y_test, X_test <span style="color:#f92672">=</span> create_idx_data(categories_test, titles_tokenized_test)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;#Train:&#39;</span>, len(y_train), <span style="color:#e6db74">&#39;#Test:&#39;</span>, len(y_test))
+
+    <span style="color:#75715e"># 単語およびカテゴリをIDに変換する・またその逆をおこなうオブジェクトを保存する</span>
+    category_vocab<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
+    feature_vocab<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
+
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>embedding_path:
+        <span style="color:#75715e"># 事前学習済み単語ベクトルが記述されたテキスト形式のファイルを読み込み、バイナリ形式で保存する</span>
+        kv <span style="color:#f92672">=</span> gensim<span style="color:#f92672">.</span>models<span style="color:#f92672">.</span>KeyedVectors<span style="color:#f92672">.</span>load_word2vec_format(args<span style="color:#f92672">.</span>embedding_path)
+        kv<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#39;embedding.bin&#39;</span>)
+
+    <span style="color:#75715e"># 学習データおよびテストデータを保存する</span>
+    torch<span style="color:#f92672">.</span>save([
+        {
+            <span style="color:#e6db74">&#39;label&#39;</span>: y,
+            <span style="color:#e6db74">&#39;words&#39;</span>: torch<span style="color:#f92672">.</span>tensor(x, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long),
+            <span style="color:#e6db74">&#39;raw_words&#39;</span>: z,
+        }
+        <span style="color:#66d9ef">for</span> y, x, z <span style="color:#f92672">in</span> zip(y_train, X_train, titles_tokenized_train)
+    ], <span style="color:#e6db74">&#39;train.pt&#39;</span>)
+    torch<span style="color:#f92672">.</span>save([
+        {
+            <span style="color:#e6db74">&#39;label&#39;</span>: y,
+            <span style="color:#e6db74">&#39;words&#39;</span>: torch<span style="color:#f92672">.</span>tensor(x, dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long),
+            <span style="color:#e6db74">&#39;raw_words&#39;</span>: z,
+        }
+        <span style="color:#66d9ef">for</span> y, x, z <span style="color:#f92672">in</span> zip(y_test, X_test, titles_tokenized_test)
+    ], <span style="color:#e6db74">&#39;test.pt&#39;</span>)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">preprocess</span>(args):
+    categories, titles <span style="color:#f92672">=</span> read_data(args<span style="color:#f92672">.</span>data_dir)
+    create_dataset(args, categories, titles)
+</code></pre></div><p><code>preprocess</code>関数を実行すると以下のような表示が得られます。
 事前学習済みの分散表現は<a href="https://github.com/singletongue/WikiEntVec">singletongue / WikiEntVec</a>で公開されている300次元のものを利用しました。</p>
-<pre tabindex="0"><code>
+<pre><code>
 #Files: 7376
 Training
 676 sports-watch
@@ -815,98 +816,98 @@ Test
 </code></pre><h2 id="モデル学習">モデル学習</h2>
 <p>前処理でデータを作成したら、実際に文書分類モデルを学習します。
 学習には以下の<code>train</code>関数を用います。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(pad):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_collate_fn</span>(samples):
-</span></span><span style="display:flex;"><span>        batch <span style="color:#f92672">=</span> {}
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> sample <span style="color:#f92672">in</span> sorted(samples, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: len(x[<span style="color:#e6db74">&#39;words&#39;</span>]), reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>):
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sample<span style="color:#f92672">.</span>items():
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> k <span style="color:#f92672">in</span> batch:
-</span></span><span style="display:flex;"><span>                    batch[k] <span style="color:#f92672">=</span> [v]
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                    batch[k]<span style="color:#f92672">.</span>append(v)
-</span></span><span style="display:flex;"><span>        batch[<span style="color:#e6db74">&#39;label&#39;</span>] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(batch[<span style="color:#e6db74">&#39;label&#39;</span>], dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
-</span></span><span style="display:flex;"><span>        batch[<span style="color:#e6db74">&#39;words&#39;</span>] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(
-</span></span><span style="display:flex;"><span>            batch[<span style="color:#e6db74">&#39;words&#39;</span>],
-</span></span><span style="display:flex;"><span>            batch_first<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>            padding_value<span style="color:#f92672">=</span>pad
-</span></span><span style="display:flex;"><span>        )
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> batch
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> _collate_fn
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">move_to_cuda</span>(batch, gpu):
-</span></span><span style="display:flex;"><span>    batch[<span style="color:#e6db74">&#39;label&#39;</span>] <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;label&#39;</span>]<span style="color:#f92672">.</span>cuda(gpu)
-</span></span><span style="display:flex;"><span>    batch[<span style="color:#e6db74">&#39;words&#39;</span>] <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;words&#39;</span>]<span style="color:#f92672">.</span>cuda(gpu)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> batch
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(args):
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習時に用いたハイパーパラメータ情報を予測時に使うために保存</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(args<span style="color:#f92672">.</span>param_file, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        param <span style="color:#f92672">=</span> vars(args)
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">del</span> param[<span style="color:#e6db74">&#39;handler&#39;</span>]
-</span></span><span style="display:flex;"><span>        json<span style="color:#f92672">.</span>dump(param, f, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 単語およびカテゴリをIDに変換するオブジェクトを読み込む</span>
-</span></span><span style="display:flex;"><span>    feature_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>    category_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 前処理で作成した学習データを読み込む</span>
-</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;train.pt&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    pad <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>Classifier(
-</span></span><span style="display:flex;"><span>        feature_vocab,
-</span></span><span style="display:flex;"><span>        category_vocab,
-</span></span><span style="display:flex;"><span>        embedding_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>embedding_size,
-</span></span><span style="display:flex;"><span>        embedding_path<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>embedding_path,
-</span></span><span style="display:flex;"><span>        hidden_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>hidden_size,
-</span></span><span style="display:flex;"><span>        num_layers<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>num_layers,
-</span></span><span style="display:flex;"><span>        weight_dropout<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>weight_dropout)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>        model<span style="color:#f92672">.</span>cuda(args<span style="color:#f92672">.</span>gpu)
-</span></span><span style="display:flex;"><span>    print(model)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    optimizer <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>optim<span style="color:#f92672">.</span>AdamW(model<span style="color:#f92672">.</span>parameters())
-</span></span><span style="display:flex;"><span>    print(optimizer)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>train()
-</span></span><span style="display:flex;"><span>    optimizer<span style="color:#f92672">.</span>zero_grad()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(args<span style="color:#f92672">.</span>max_epochs):
-</span></span><span style="display:flex;"><span>        loss_epoch <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.</span>
-</span></span><span style="display:flex;"><span>        step <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>            data,
-</span></span><span style="display:flex;"><span>            batch_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>batch_size,
-</span></span><span style="display:flex;"><span>            shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>,
-</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn(pad),
-</span></span><span style="display:flex;"><span>        ):
-</span></span><span style="display:flex;"><span>            optimizer<span style="color:#f92672">.</span>zero_grad()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>                batch <span style="color:#f92672">=</span> move_to_cuda(batch, args<span style="color:#f92672">.</span>gpu)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            loss <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>loss_fn(model, batch)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            loss<span style="color:#f92672">.</span>backward()
-</span></span><span style="display:flex;"><span>            loss_epoch <span style="color:#f92672">+=</span> loss<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">del</span> loss
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>clip_grad_norm_(model<span style="color:#f92672">.</span>parameters(), args<span style="color:#f92672">.</span>clip)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            optimizer<span style="color:#f92672">.</span>step()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            step <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;epoch:</span><span style="color:#e6db74">{</span>epoch<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#e6db74">}</span><span style="color:#e6db74">: loss:</span><span style="color:#e6db74">{</span>loss_epoch<span style="color:#e6db74">:</span><span style="color:#e6db74">.5f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習した文書分類モデルを保存</span>
-</span></span><span style="display:flex;"><span>    torch<span style="color:#f92672">.</span>save(model<span style="color:#f92672">.</span>state_dict(), args<span style="color:#f92672">.</span>model)
-</span></span></code></pre></div><p><code>del loss</code>の説明は以下の記事を御覧ください。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">collate_fn</span>(pad):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_collate_fn</span>(samples):
+        batch <span style="color:#f92672">=</span> {}
+        <span style="color:#66d9ef">for</span> sample <span style="color:#f92672">in</span> sorted(samples, key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> x: len(x[<span style="color:#e6db74">&#39;words&#39;</span>]), reverse<span style="color:#f92672">=</span>True):
+            <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> sample<span style="color:#f92672">.</span>items():
+                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> k <span style="color:#f92672">in</span> batch:
+                    batch[k] <span style="color:#f92672">=</span> [v]
+                <span style="color:#66d9ef">else</span>:
+                    batch[k]<span style="color:#f92672">.</span>append(v)
+        batch[<span style="color:#e6db74">&#39;label&#39;</span>] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>tensor(batch[<span style="color:#e6db74">&#39;label&#39;</span>], dtype<span style="color:#f92672">=</span>torch<span style="color:#f92672">.</span>long)
+        batch[<span style="color:#e6db74">&#39;words&#39;</span>] <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>rnn<span style="color:#f92672">.</span>pad_sequence(
+            batch[<span style="color:#e6db74">&#39;words&#39;</span>],
+            batch_first<span style="color:#f92672">=</span>True,
+            padding_value<span style="color:#f92672">=</span>pad
+        )
+        <span style="color:#66d9ef">return</span> batch
+    <span style="color:#66d9ef">return</span> _collate_fn
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">move_to_cuda</span>(batch, gpu):
+    batch[<span style="color:#e6db74">&#39;label&#39;</span>] <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;label&#39;</span>]<span style="color:#f92672">.</span>cuda(gpu)
+    batch[<span style="color:#e6db74">&#39;words&#39;</span>] <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;words&#39;</span>]<span style="color:#f92672">.</span>cuda(gpu)
+    <span style="color:#66d9ef">return</span> batch
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(args):
+    <span style="color:#75715e"># 学習時に用いたハイパーパラメータ情報を予測時に使うために保存</span>
+    <span style="color:#66d9ef">with</span> open(args<span style="color:#f92672">.</span>param_file, <span style="color:#e6db74">&#39;w&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        param <span style="color:#f92672">=</span> vars(args)
+        <span style="color:#66d9ef">del</span> param[<span style="color:#e6db74">&#39;handler&#39;</span>]
+        json<span style="color:#f92672">.</span>dump(param, f, indent<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>)
+
+    <span style="color:#75715e"># 単語およびカテゴリをIDに変換するオブジェクトを読み込む</span>
+    feature_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
+    category_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
+
+    <span style="color:#75715e"># 前処理で作成した学習データを読み込む</span>
+    data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;train.pt&#39;</span>)
+
+    pad <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+
+    model <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>Classifier(
+        feature_vocab,
+        category_vocab,
+        embedding_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>embedding_size,
+        embedding_path<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>embedding_path,
+        hidden_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>hidden_size,
+        num_layers<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>num_layers,
+        weight_dropout<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>weight_dropout)
+
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+        model<span style="color:#f92672">.</span>cuda(args<span style="color:#f92672">.</span>gpu)
+    <span style="color:#66d9ef">print</span>(model)
+
+    optimizer <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>optim<span style="color:#f92672">.</span>AdamW(model<span style="color:#f92672">.</span>parameters())
+    <span style="color:#66d9ef">print</span>(optimizer)
+
+    model<span style="color:#f92672">.</span>train()
+    optimizer<span style="color:#f92672">.</span>zero_grad()
+
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(args<span style="color:#f92672">.</span>max_epochs):
+        loss_epoch <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.</span>
+        step <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+            data,
+            batch_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>batch_size,
+            shuffle<span style="color:#f92672">=</span>True,
+            collate_fn<span style="color:#f92672">=</span>collate_fn(pad),
+        ):
+            optimizer<span style="color:#f92672">.</span>zero_grad()
+
+            <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+                batch <span style="color:#f92672">=</span> move_to_cuda(batch, args<span style="color:#f92672">.</span>gpu)
+
+            loss <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>loss_fn(model, batch)
+
+            loss<span style="color:#f92672">.</span>backward()
+            loss_epoch <span style="color:#f92672">+=</span> loss<span style="color:#f92672">.</span>item()
+            <span style="color:#66d9ef">del</span> loss
+
+            torch<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>clip_grad_norm_(model<span style="color:#f92672">.</span>parameters(), args<span style="color:#f92672">.</span>clip)
+
+            optimizer<span style="color:#f92672">.</span>step()
+
+            step <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;epoch:{epoch+1}: loss:{loss_epoch:.5f}&#39;</span>)
+    <span style="color:#75715e"># 学習した文書分類モデルを保存</span>
+    torch<span style="color:#f92672">.</span>save(model<span style="color:#f92672">.</span>state_dict(), args<span style="color:#f92672">.</span>model)
+</code></pre></div><p><code>del loss</code>の説明は以下の記事を御覧ください。</p>
 <p><a href="https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/">【PyTorch】不要になった計算グラフを削除してメモリを節約</a></p>
 <p>上記を実行すると以下のような結果が得られます。</p>
-<pre tabindex="0"><code>Classifier(
+<pre><code>Classifier(
   (embedding): Embedding(13086, 50, padding_idx=3)
   (lstm): WeightDropLSTM(350, 100, bidirectional=True)
   (out): Linear(in_features=800, out_features=9, bias=True)
@@ -929,62 +930,62 @@ Google Colabがわからない方、利用するための準備がわからな�
 <p><a href="https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/">[Colab] Googleの無料GPU環境を使うための準備</a></p>
 <h2 id="評価">評価</h2>
 <p>最後に学習済み文書分類モデルをテストデータを使って評価します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">evaluate</span>(args):
-</span></span><span style="display:flex;"><span>    feature_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>    category_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習時に保存したハイパーパラメータを読み込む</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(args<span style="color:#f92672">.</span>param_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        params <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    model <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>Classifier(
-</span></span><span style="display:flex;"><span>        feature_vocab,
-</span></span><span style="display:flex;"><span>        category_vocab,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">**</span>params)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 学習済みパラメータを読み込む</span>
-</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>load_state_dict(torch<span style="color:#f92672">.</span>load(args<span style="color:#f92672">.</span>model))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>        model <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>cuda(args<span style="color:#f92672">.</span>gpu)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 前処理で作成したテストデータを読み込む</span>
-</span></span><span style="display:flex;"><span>    test_data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;test.pt&#39;</span>)
-</span></span><span style="display:flex;"><span>    predictions <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    targets <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    model<span style="color:#f92672">.</span>eval()
-</span></span><span style="display:flex;"><span>    pad <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
-</span></span><span style="display:flex;"><span>    match <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> torch<span style="color:#f92672">.</span>no_grad():
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
-</span></span><span style="display:flex;"><span>            test_data,
-</span></span><span style="display:flex;"><span>            batch_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>batch_size,
-</span></span><span style="display:flex;"><span>            shuffle<span style="color:#f92672">=</span><span style="color:#66d9ef">False</span>,
-</span></span><span style="display:flex;"><span>            collate_fn<span style="color:#f92672">=</span>collate_fn(pad),
-</span></span><span style="display:flex;"><span>        ):
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
-</span></span><span style="display:flex;"><span>                batch <span style="color:#f92672">=</span> move_to_cuda(batch, args<span style="color:#f92672">.</span>gpu)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            pred <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>argmax(model(batch), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span>            target <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;label&#39;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            match <span style="color:#f92672">+=</span> (pred <span style="color:#f92672">==</span> target)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            predictions<span style="color:#f92672">.</span>extend(pred<span style="color:#f92672">.</span>tolist())
-</span></span><span style="display:flex;"><span>            targets<span style="color:#f92672">.</span>extend(target<span style="color:#f92672">.</span>tolist())
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    acc <span style="color:#f92672">=</span> match <span style="color:#f92672">/</span> len(targets)
-</span></span><span style="display:flex;"><span>    prec, rec, fscore, _ <span style="color:#f92672">=</span> precision_recall_fscore_support(predictions, targets)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Acc&#39;</span>, acc)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;===&#39;</span>)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Category&#39;</span>, <span style="color:#e6db74">&#39;Precision&#39;</span>, <span style="color:#e6db74">&#39;Recall&#39;</span>, <span style="color:#e6db74">&#39;Fscore&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#39;</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> idx <span style="color:#f92672">in</span> range(len(category_vocab)):
-</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>category_vocab<span style="color:#f92672">.</span>get_item(idx)<span style="color:#e6db74">}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#39;</span>
-</span></span><span style="display:flex;"><span>              <span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prec[idx]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>rec[idx]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>fscore[idx]<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
-</span></span><span style="display:flex;"><span>    prec, rec, fscore, _ <span style="color:#f92672">=</span> precision_recall_fscore_support(predictions, targets, average<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;micro&#39;</span>)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Total</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>prec<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>rec<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{</span>fscore<span style="color:#e6db74">:</span><span style="color:#e6db74">.2f</span><span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
-</span></span></code></pre></div><p>以下のような結果が得られました。</p>
-<pre tabindex="0"><code>Acc 0.8432754880694143
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">evaluate</span>(args):
+    feature_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;feature.dict&#39;</span>)
+    category_vocab <span style="color:#f92672">=</span> Vocabulary<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;category.dict&#39;</span>)
+
+    <span style="color:#75715e"># 学習時に保存したハイパーパラメータを読み込む</span>
+    <span style="color:#66d9ef">with</span> open(args<span style="color:#f92672">.</span>param_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        params <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
+
+    model <span style="color:#f92672">=</span> net<span style="color:#f92672">.</span>Classifier(
+        feature_vocab,
+        category_vocab,
+        <span style="color:#f92672">**</span>params)
+
+    <span style="color:#75715e"># 学習済みパラメータを読み込む</span>
+    model<span style="color:#f92672">.</span>load_state_dict(torch<span style="color:#f92672">.</span>load(args<span style="color:#f92672">.</span>model))
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+        model <span style="color:#f92672">=</span> model<span style="color:#f92672">.</span>cuda(args<span style="color:#f92672">.</span>gpu)
+
+    <span style="color:#75715e"># 前処理で作成したテストデータを読み込む</span>
+    test_data <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>load(<span style="color:#e6db74">&#39;test.pt&#39;</span>)
+    predictions <span style="color:#f92672">=</span> []
+    targets <span style="color:#f92672">=</span> []
+    model<span style="color:#f92672">.</span>eval()
+    pad <span style="color:#f92672">=</span> feature_vocab<span style="color:#f92672">.</span>get_index(<span style="color:#e6db74">&#39;&lt;pad&gt;&#39;</span>)
+    match <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">with</span> torch<span style="color:#f92672">.</span>no_grad():
+        <span style="color:#66d9ef">for</span> batch <span style="color:#f92672">in</span> torch<span style="color:#f92672">.</span>utils<span style="color:#f92672">.</span>data<span style="color:#f92672">.</span>DataLoader(
+            test_data,
+            batch_size<span style="color:#f92672">=</span>args<span style="color:#f92672">.</span>batch_size,
+            shuffle<span style="color:#f92672">=</span>False,
+            collate_fn<span style="color:#f92672">=</span>collate_fn(pad),
+        ):
+
+            <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>gpu <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>:
+                batch <span style="color:#f92672">=</span> move_to_cuda(batch, args<span style="color:#f92672">.</span>gpu)
+
+            pred <span style="color:#f92672">=</span> torch<span style="color:#f92672">.</span>argmax(model(batch), dim<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+            target <span style="color:#f92672">=</span> batch[<span style="color:#e6db74">&#39;label&#39;</span>]
+
+            match <span style="color:#f92672">+=</span> (pred <span style="color:#f92672">==</span> target)<span style="color:#f92672">.</span>sum()<span style="color:#f92672">.</span>item()
+
+            predictions<span style="color:#f92672">.</span>extend(pred<span style="color:#f92672">.</span>tolist())
+            targets<span style="color:#f92672">.</span>extend(target<span style="color:#f92672">.</span>tolist())
+
+    acc <span style="color:#f92672">=</span> match <span style="color:#f92672">/</span> len(targets)
+    prec, rec, fscore, _ <span style="color:#f92672">=</span> precision_recall_fscore_support(predictions, targets)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Acc&#39;</span>, acc)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;===&#39;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Category&#39;</span>, <span style="color:#e6db74">&#39;Precision&#39;</span>, <span style="color:#e6db74">&#39;Recall&#39;</span>, <span style="color:#e6db74">&#39;Fscore&#39;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#39;</span>)
+    <span style="color:#66d9ef">for</span> idx <span style="color:#f92672">in</span> range(len(category_vocab)):
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;{category_vocab.get_item(idx)}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">&#39;</span>
+              f<span style="color:#e6db74">&#39;{prec[idx]:.2f}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{rec[idx]:.2f}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{fscore[idx]:.2f}&#39;</span>)
+    prec, rec, fscore, _ <span style="color:#f92672">=</span> precision_recall_fscore_support(predictions, targets, average<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;micro&#39;</span>)
+    <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;Total</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{prec:.2f}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{rec:.2f}</span><span style="color:#ae81ff">\t</span><span style="color:#e6db74">{fscore:.2f}&#39;</span>)
+</code></pre></div><p>以下のような結果が得られました。</p>
+<pre><code>Acc 0.8432754880694143
 ===
 Category	Precision	Recall	Fscore
 kaden-channel	0.93	0.92	0.93
@@ -1016,20 +1017,20 @@ msmaflink({"n":"PyTorch自然言語処理プログラミング word2vec／LSTM�
 </script>
 <div id="msmaflink-NNN6z">リンク</div>
 <!-- MoshimoAffiliateEasyLink END -->
-<div class="footnotes" role="doc-endnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1">
-<p>BiLSTMは文の先頭から末尾に処理するLSTMと末尾から先頭に処理するLSTMの2つからなります。先頭の単語の隠れ状態は、2つのLSTMの隠れ状態の結合です。片方の隠れ状態は末尾から計算した文脈情報が含まれているため、文の情報を含んでいると考えられます。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1" role="doc-endnote">
+<p>BiLSTMは文の先頭から末尾に処理するLSTMと末尾から先頭に処理するLSTMの2つからなります。先頭の単語の隠れ状態は、2つのLSTMの隠れ状態の結合です。片方の隠れ状態は末尾から計算した文脈情報が含まれているため、文の情報を含んでいると考えられます。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2">
-<p>LSTM部分については<a href="https://arxiv.org/pdf/1801.06146.pdf">Universal Language Model Fine-tuning for Text Classification</a>を参考にしました。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:2" role="doc-endnote">
+<p>LSTM部分については<a href="https://arxiv.org/pdf/1801.06146.pdf">Universal Language Model Fine-tuning for Text Classification</a>を参考にしました。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3">
-<p>事前学習済み分散表現を使わないと、F値は72%程度でした。このことから事前学習済み分散表現を活用して未知語を減らすことが分類精度に寄与しているといえます。またプーリングを使わない場合ではF値は殆ど変わりませんでした。これは、分類対象が見出しであり、比較的単語数が少ないテキストであったため、分類精度にあまり寄与しなかった可能性があります。またweight dropも分類精度にあまり影響しませんでした。こちらも対象とするテキストが比較的短かったことが影響するかもしれません。&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:3" role="doc-endnote">
+<p>事前学習済み分散表現を使わないと、F値は72%程度でした。このことから事前学習済み分散表現を活用して未知語を減らすことが分類精度に寄与しているといえます。またプーリングを使わない場合ではF値は殆ど変わりませんでした。これは、分類対象が見出しであり、比較的単語数が少ないテキストであったため、分類精度にあまり寄与しなかった可能性があります。またweight dropも分類精度にあまり影響しませんでした。こちらも対象とするテキストが比較的短かったことが影響するかもしれません。 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</div>
+</section>
               
 
               <br>
@@ -1405,6 +1406,72 @@ msmaflink({"n":"PyTorch自然言語処理プログラミング word2vec／LSTM�
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1641,70 +1708,6 @@ msmaflink({"n":"PyTorch自然言語処理プログラミング word2vec／LSTM�
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

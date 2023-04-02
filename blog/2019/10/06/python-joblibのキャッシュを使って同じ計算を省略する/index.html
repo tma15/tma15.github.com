@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="本エントリではPythonのJoblibがもつキャッシュ機能によって同じ計算を省略し、処理を高速化するための方法を説明する。このエントリを読むことで、関数をキャッシュ可能にする方法、numpyのarrayをメモリーマップを使って読み込む方法、参照を使ってデータにアクセスする方法がわかる。">
@@ -124,6 +124,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -378,317 +379,317 @@ if (!doNotTrack) {
 今回は特徴の一つであるキャッシュ機能について説明する。</p>
 <h3 id="1-計算結果のキャッシュが可能">1. 計算結果のキャッシュが可能</h3>
 <p>JoblibではPythonの関数をメモ化することができる。例えば以下のように <code>numpy.square</code> 関数をメモ化すると、同一の入力に対して再び計算せず、キャッシュした計算結果を返す。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> cachedir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cache_dir_goes_here&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> mem <span style="color:#f92672">=</span> Memory(cachedir)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> numpy
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vander(numpy<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">3</span>))<span style="color:#f92672">.</span>astype(numpy<span style="color:#f92672">.</span>float)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> square <span style="color:#f92672">=</span> mem<span style="color:#f92672">.</span>cache(numpy<span style="color:#f92672">.</span>square)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> square(a)                                   
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span>[Memory] Calling square<span style="color:#f92672">...</span>
-</span></span><span style="display:flex;"><span>square(array([[<span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">4.</span>, <span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">1.</span>]]))
-</span></span><span style="display:flex;"><span>___________________________________________________________square <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.</span><span style="color:#f92672">..</span>s, <span style="color:#ae81ff">0.0</span>min
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> c <span style="color:#f92672">=</span> square(a)  <span style="color:#75715e"># この関数呼び出しでは実際の計算はおこなわれない</span>
-</span></span></code></pre></div><h3 id="2-並列化が容易">2. 並列化が容易</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
+<span style="color:#f92672">&gt;&gt;&gt;</span> cachedir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cache_dir_goes_here&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> mem <span style="color:#f92672">=</span> Memory(cachedir)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> numpy
+<span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vander(numpy<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">3</span>))<span style="color:#f92672">.</span>astype(numpy<span style="color:#f92672">.</span>float)
+<span style="color:#f92672">&gt;&gt;&gt;</span> square <span style="color:#f92672">=</span> mem<span style="color:#f92672">.</span>cache(numpy<span style="color:#f92672">.</span>square)
+<span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> square(a)                                   
+________________________________________________________________________________
+[Memory] Calling square<span style="color:#f92672">...</span>
+square(array([[<span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">1.</span>],
+       [<span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>],
+       [<span style="color:#ae81ff">4.</span>, <span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">1.</span>]]))
+___________________________________________________________square <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.</span><span style="color:#f92672">..</span>s, <span style="color:#ae81ff">0.0</span>min
+
+<span style="color:#f92672">&gt;&gt;&gt;</span> c <span style="color:#f92672">=</span> square(a)  <span style="color:#75715e"># この関数呼び出しでは実際の計算はおこなわれない</span>
+</code></pre></div><h3 id="2-並列化が容易">2. 並列化が容易</h3>
 <p>Joblibでは並列化処理を簡潔に記述できる。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Parallel, delayed
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> sqrt
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> Parallel(n_jobs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)(delayed(sqrt)(i<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>))
-</span></span><span style="display:flex;"><span>[<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">3.0</span>, <span style="color:#ae81ff">4.0</span>, <span style="color:#ae81ff">5.0</span>, <span style="color:#ae81ff">6.0</span>, <span style="color:#ae81ff">7.0</span>, <span style="color:#ae81ff">8.0</span>, <span style="color:#ae81ff">9.0</span>]
-</span></span></code></pre></div><h3 id="3-高速高圧縮な永続化">3. 高速、高圧縮な永続化</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Parallel, delayed
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> sqrt
+<span style="color:#f92672">&gt;&gt;&gt;</span> Parallel(n_jobs<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)(delayed(sqrt)(i<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span>) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>))
+[<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">1.0</span>, <span style="color:#ae81ff">2.0</span>, <span style="color:#ae81ff">3.0</span>, <span style="color:#ae81ff">4.0</span>, <span style="color:#ae81ff">5.0</span>, <span style="color:#ae81ff">6.0</span>, <span style="color:#ae81ff">7.0</span>, <span style="color:#ae81ff">8.0</span>, <span style="color:#ae81ff">9.0</span>]
+</code></pre></div><h3 id="3-高速高圧縮な永続化">3. 高速、高圧縮な永続化</h3>
 <p>Joblibは大規模なデータでも効率的に永続化でき、pickleを代替として利用できる。</p>
 <h2 id="環境">環境</h2>
 <p>OSはmacOS Mojave バージョン10.14.16である。他の環境は次の通り。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>❯❯❯ python --version
-</span></span><span style="display:flex;"><span>Python 3.7.3
-</span></span><span style="display:flex;"><span>❯❯❯ pip freeze|grep joblib
-</span></span><span style="display:flex;"><span>joblib<span style="color:#f92672">==</span>0.13.2
-</span></span><span style="display:flex;"><span>❯❯❯ pip freeze|grep numpy
-</span></span><span style="display:flex;"><span>numpy<span style="color:#f92672">==</span>1.16.2
-</span></span></code></pre></div><h2 id="joblibのインストール">Joblibのインストール</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>pip install joblib
-</span></span></code></pre></div><h2 id="memoryを使って計算結果をキャッシュする">Memoryを使って計算結果をキャッシュする</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">❯❯❯ python --version
+Python 3.7.3
+❯❯❯ pip freeze|grep joblib
+joblib<span style="color:#f92672">==</span>0.13.2
+❯❯❯ pip freeze|grep numpy
+numpy<span style="color:#f92672">==</span>1.16.2
+</code></pre></div><h2 id="joblibのインストール">Joblibのインストール</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pip install joblib
+</code></pre></div><h2 id="memoryを使って計算結果をキャッシュする">Memoryを使って計算結果をキャッシュする</h2>
 <h3 id="キャッシュの簡単な例">キャッシュの簡単な例</h3>
 <p>キャッシュ結果を保存するディレクトリを指定して <code>Memory</code> クラスのインスタンスを作成する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> cachedir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cache_location_directory&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> memory <span style="color:#f92672">=</span> Memory(cachedir, verbose<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
-</span></span></code></pre></div><p>次に計算結果をキャッシュしたい関数をこの <code>memory</code> でデコレートする。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span>     print(<span style="color:#e6db74">&#39;Running f(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">)&#39;</span> <span style="color:#f92672">%</span> x)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> x
-</span></span></code></pre></div><p>このキャッシュ可能した関数に対して同じ入力を与えて呼び出すと、二度目の呼び出しでは、実際の計算を避けることができる。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> print(f(<span style="color:#ae81ff">1</span>))
-</span></span><span style="display:flex;"><span>Running f(<span style="color:#ae81ff">1</span>)
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> print(f(<span style="color:#ae81ff">1</span>))
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>
-</span></span></code></pre></div><p>今まで与えられていない入力に対しては、実際に計算して結果を返す。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> print(f(<span style="color:#ae81ff">2</span>))
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> Running f(<span style="color:#ae81ff">2</span>)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#ae81ff">2</span>
-</span></span></code></pre></div><h3 id="numpyのデータを扱う関数をキャッシュ可能にする">NumPyのデータを扱う関数をキャッシュ可能にする</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
+<span style="color:#f92672">&gt;&gt;&gt;</span> cachedir <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cache_location_directory&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> memory <span style="color:#f92672">=</span> Memory(cachedir, verbose<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)
+</code></pre></div><p>次に計算結果をキャッシュしたい関数をこの <code>memory</code> でデコレートする。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(x):
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Running f(</span><span style="color:#e6db74">%s</span><span style="color:#e6db74">)&#39;</span> <span style="color:#f92672">%</span> x)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> x
+</code></pre></div><p>このキャッシュ可能した関数に対して同じ入力を与えて呼び出すと、二度目の呼び出しでは、実際の計算を避けることができる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(f(<span style="color:#ae81ff">1</span>))
+Running f(<span style="color:#ae81ff">1</span>)
+<span style="color:#ae81ff">1</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(f(<span style="color:#ae81ff">1</span>))
+<span style="color:#ae81ff">1</span>
+</code></pre></div><p>今まで与えられていない入力に対しては、実際に計算して結果を返す。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(f(<span style="color:#ae81ff">2</span>))
+<span style="color:#f92672">&gt;&gt;&gt;</span> Running f(<span style="color:#ae81ff">2</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#ae81ff">2</span>
+</code></pre></div><h3 id="numpyのデータを扱う関数をキャッシュ可能にする">NumPyのデータを扱う関数をキャッシュ可能にする</h3>
 <p><code>Memory</code> を実装したもともとの動機はnumpyのarrayを扱う処理をキャッシュ可能にしたかったためとのこと。
 <code>Memory</code> は与えられた入力に対して過去に計算をしているかどうかを確かめるために、高速な<a href="https://developer.mozilla.org/ja/docs/Glossary/Cryptographic_hash_function">暗号学的ハッシュ関数</a> を利用している。</p>
 <p>例えば、ある値を受け取り、numpyのarrayを出力する関数と、numpyのarrayを受け取って計算をおこなう関数を2つ定義する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">g</span>(x):
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>     print(<span style="color:#e6db74">&#39;A long-running calculation, with parameter </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> x)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>hamming(x)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>(x):
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>     print(<span style="color:#e6db74">&#39;A second long-running calculation, using g(x)&#39;</span>)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>vander(x)
-</span></span></code></pre></div><p>以下のように関数 <code>h</code> が関数 <code>g</code> の結果をもとに2回呼び出されても、2回めの呼び出しでは実際の計算はおこなわれない。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> g(<span style="color:#ae81ff">3</span>) <span style="color:#75715e"># 1回目のg呼び出し</span>
-</span></span><span style="display:flex;"><span>A long<span style="color:#f92672">-</span>running calculation, <span style="color:#66d9ef">with</span> parameter <span style="color:#ae81ff">3</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> a
-</span></span><span style="display:flex;"><span>array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">1.</span>  , <span style="color:#ae81ff">0.08</span>])
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> g(<span style="color:#ae81ff">3</span>)  <span style="color:#75715e"># 2回目のg呼び出し</span>
-</span></span><span style="display:flex;"><span>array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">1.</span>  , <span style="color:#ae81ff">0.08</span>])
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> h(a)  <span style="color:#75715e"># 1回目のh呼び出し</span>
-</span></span><span style="display:flex;"><span>A second long<span style="color:#f92672">-</span>running calculation, using g(x)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b2 <span style="color:#f92672">=</span> h(a)  <span style="color:#75715e"># 2回目のh呼び出し</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> b2
-</span></span><span style="display:flex;"><span>array([[<span style="color:#ae81ff">0.0064</span>, <span style="color:#ae81ff">0.08</span>  , <span style="color:#ae81ff">1.</span>    ],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">1.</span>    , <span style="color:#ae81ff">1.</span>    , <span style="color:#ae81ff">1.</span>    ],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">0.0064</span>, <span style="color:#ae81ff">0.08</span>  , <span style="color:#ae81ff">1.</span>    ]])
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> np<span style="color:#f92672">.</span>allclose(b, b2)
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">True</span>
-</span></span></code></pre></div><h3 id="メモリーマップを使った高速なキャッシュの参照">メモリーマップを使った高速なキャッシュの参照</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
+<span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">g</span>(x):
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;A long-running calculation, with parameter </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> x)
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>hamming(x)
+
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#a6e22e">@memory.cache</span>
+<span style="color:#f92672">...</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">h</span>(x):
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;A second long-running calculation, using g(x)&#39;</span>)
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> np<span style="color:#f92672">.</span>vander(x)
+</code></pre></div><p>以下のように関数 <code>h</code> が関数 <code>g</code> の結果をもとに2回呼び出されても、2回めの呼び出しでは実際の計算はおこなわれない。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> g(<span style="color:#ae81ff">3</span>) <span style="color:#75715e"># 1回目のg呼び出し</span>
+A long<span style="color:#f92672">-</span>running calculation, <span style="color:#66d9ef">with</span> parameter <span style="color:#ae81ff">3</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> a
+array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">1.</span>  , <span style="color:#ae81ff">0.08</span>])
+<span style="color:#f92672">&gt;&gt;&gt;</span> g(<span style="color:#ae81ff">3</span>)  <span style="color:#75715e"># 2回目のg呼び出し</span>
+array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">1.</span>  , <span style="color:#ae81ff">0.08</span>])
+<span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> h(a)  <span style="color:#75715e"># 1回目のh呼び出し</span>
+A second long<span style="color:#f92672">-</span>running calculation, using g(x)
+<span style="color:#f92672">&gt;&gt;&gt;</span> b2 <span style="color:#f92672">=</span> h(a)  <span style="color:#75715e"># 2回目のh呼び出し</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> b2
+array([[<span style="color:#ae81ff">0.0064</span>, <span style="color:#ae81ff">0.08</span>  , <span style="color:#ae81ff">1.</span>    ],
+       [<span style="color:#ae81ff">1.</span>    , <span style="color:#ae81ff">1.</span>    , <span style="color:#ae81ff">1.</span>    ],
+       [<span style="color:#ae81ff">0.0064</span>, <span style="color:#ae81ff">0.08</span>  , <span style="color:#ae81ff">1.</span>    ]])
+<span style="color:#f92672">&gt;&gt;&gt;</span> np<span style="color:#f92672">.</span>allclose(b, b2)
+True
+</code></pre></div><h3 id="メモリーマップを使った高速なキャッシュの参照">メモリーマップを使った高速なキャッシュの参照</h3>
 <p>メモリーマップを使うことでnumpyのarrayをキャッシュからの読み込みを高速化することができる。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> cachedir2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cachedir2_location&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> memory2 <span style="color:#f92672">=</span> Memory(cachedir2, mmap_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)  <span style="color:#75715e"># メモリーマップを読み込みモードで利用</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> square <span style="color:#f92672">=</span> memory2<span style="color:#f92672">.</span>cache(np<span style="color:#f92672">.</span>square)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vander(np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">3</span>))<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> square(a)
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span>[Memory] Calling square<span style="color:#f92672">...</span>
-</span></span><span style="display:flex;"><span>square(array([[<span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>       [<span style="color:#ae81ff">4.</span>, <span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">1.</span>]]))
-</span></span><span style="display:flex;"><span>___________________________________________________________square <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.0</span>s, <span style="color:#ae81ff">0.0</span>min
-</span></span><span style="display:flex;"><span>memmap([[ <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>        [ <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>        [<span style="color:#ae81ff">16.</span>,  <span style="color:#ae81ff">4.</span>,  <span style="color:#ae81ff">1.</span>]])
-</span></span></code></pre></div><p>関数 <code>square</code> が同じ入力で呼び出されると、メモリーマップを使ってディスクから読み込んで計算結果を返す。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> res <span style="color:#f92672">=</span> square(a)
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> print(repr(res))
-</span></span><span style="display:flex;"><span>memmap([[ <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>        [ <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>],
-</span></span><span style="display:flex;"><span>        [<span style="color:#ae81ff">16.</span>,  <span style="color:#ae81ff">4.</span>,  <span style="color:#ae81ff">1.</span>]])
-</span></span></code></pre></div><p><code>mmap_mode</code> については<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html">numpy.load</a>を参照してほしい。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> cachedir2 <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;your_cachedir2_location&#39;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> memory2 <span style="color:#f92672">=</span> Memory(cachedir2, mmap_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)  <span style="color:#75715e"># メモリーマップを読み込みモードで利用</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> square <span style="color:#f92672">=</span> memory2<span style="color:#f92672">.</span>cache(np<span style="color:#f92672">.</span>square)
+<span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>vander(np<span style="color:#f92672">.</span>arange(<span style="color:#ae81ff">3</span>))<span style="color:#f92672">.</span>astype(np<span style="color:#f92672">.</span>float)
+<span style="color:#f92672">&gt;&gt;&gt;</span> square(a)
+________________________________________________________________________________
+[Memory] Calling square<span style="color:#f92672">...</span>
+square(array([[<span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">0.</span>, <span style="color:#ae81ff">1.</span>],
+       [<span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>, <span style="color:#ae81ff">1.</span>],
+       [<span style="color:#ae81ff">4.</span>, <span style="color:#ae81ff">2.</span>, <span style="color:#ae81ff">1.</span>]]))
+___________________________________________________________square <span style="color:#f92672">-</span> <span style="color:#ae81ff">0.0</span>s, <span style="color:#ae81ff">0.0</span>min
+memmap([[ <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">1.</span>],
+        [ <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>],
+        [<span style="color:#ae81ff">16.</span>,  <span style="color:#ae81ff">4.</span>,  <span style="color:#ae81ff">1.</span>]])
+</code></pre></div><p>関数 <code>square</code> が同じ入力で呼び出されると、メモリーマップを使ってディスクから読み込んで計算結果を返す。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> res <span style="color:#f92672">=</span> square(a)
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(repr(res))
+memmap([[ <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">0.</span>,  <span style="color:#ae81ff">1.</span>],
+        [ <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>,  <span style="color:#ae81ff">1.</span>],
+        [<span style="color:#ae81ff">16.</span>,  <span style="color:#ae81ff">4.</span>,  <span style="color:#ae81ff">1.</span>]])
+</code></pre></div><p><code>mmap_mode</code> については<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.load.html">numpy.load</a>を参照してほしい。</p>
 <h3 id="キャッシュされた結果の参照を取得する">キャッシュされた結果の参照を取得する。</h3>
 <p>計算結果そのものではなく、参照を取得することもできる。
 参照を取得したい場合は、メモ化した関数に対して <code>call_and_shelve</code> を呼び出す。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> result <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>call_and_shelve(<span style="color:#ae81ff">4</span>)
-</span></span><span style="display:flex;"><span>A long<span style="color:#f92672">-</span>running calculation, <span style="color:#66d9ef">with</span> parameter <span style="color:#ae81ff">4</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> result  
-</span></span><span style="display:flex;"><span>MemorizedResult(location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span>, func<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...g...&#34;</span>, args_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span>)
-</span></span></code></pre></div><p>関数 <code>g</code> の計算結果はディスク上に保存され、メモリからは削除される。計算結果を取得するには <code>get</code> 関数を利用する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>get()
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">0.77</span>, <span style="color:#ae81ff">0.77</span>, <span style="color:#ae81ff">0.08</span>])
-</span></span></code></pre></div><p>このキャッシュを削除するには <code>clear</code> 関数を利用する。これにより、ディスクからそのキャッシュが削除されるため、再び <code>get</code> 関数を利用しても <code>KeyError</code> となる。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>clear()
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>get()  
-</span></span><span style="display:flex;"><span>Traceback (most recent call last):
-</span></span><span style="display:flex;"><span><span style="color:#f92672">...</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">KeyError</span>: <span style="color:#e6db74">&#39;Non-existing cache value (may have been cleared).</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">File ... does not exist&#39;</span>
-</span></span></code></pre></div><h2 id="joblibを使ってテキストを単語のidに変換する処理を高速化する">Joblibを使ってテキストを単語のIDに変換する処理を高速化する</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> result <span style="color:#f92672">=</span> g<span style="color:#f92672">.</span>call_and_shelve(<span style="color:#ae81ff">4</span>)
+A long<span style="color:#f92672">-</span>running calculation, <span style="color:#66d9ef">with</span> parameter <span style="color:#ae81ff">4</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> result  
+MemorizedResult(location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span>, func<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...g...&#34;</span>, args_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;...&#34;</span>)
+</code></pre></div><p>関数 <code>g</code> の計算結果はディスク上に保存され、メモリからは削除される。計算結果を取得するには <code>get</code> 関数を利用する。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>get()
+<span style="color:#f92672">&gt;&gt;&gt;</span> array([<span style="color:#ae81ff">0.08</span>, <span style="color:#ae81ff">0.77</span>, <span style="color:#ae81ff">0.77</span>, <span style="color:#ae81ff">0.08</span>])
+</code></pre></div><p>このキャッシュを削除するには <code>clear</code> 関数を利用する。これにより、ディスクからそのキャッシュが削除されるため、再び <code>get</code> 関数を利用しても <code>KeyError</code> となる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>clear()
+<span style="color:#f92672">&gt;&gt;&gt;</span> result<span style="color:#f92672">.</span>get()  
+Traceback (most recent call last):
+<span style="color:#f92672">...</span>
+<span style="color:#a6e22e">KeyError</span>: <span style="color:#e6db74">&#39;Non-existing cache value (may have been cleared).</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">File ... does not exist&#39;</span>
+</code></pre></div><h2 id="joblibを使ってテキストを単語のidに変換する処理を高速化する">Joblibを使ってテキストを単語のIDに変換する処理を高速化する</h2>
 <p>ニューラルネットワークを使った自然言語処理では、事前にテキストに出現する単語を一意な整数へ変換することが一般的である。この処理はテキストの量が多くなるほど時間がかかるものの、毎回計算結果は同じである。この処理をJoblibでキャッシュすることで、2回目の計算を高速化できるか試してみる。</p>
 <p>データは次の通り取得する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/vocab-2016-09-10.txt
-</span></span><span style="display:flex;"><span>wget http://www.statmt.org/lm-benchmark/1-billion-word-language-modeling-benchmark-r13output.tar.gz
-</span></span><span style="display:flex;"><span>tar zxvf 1-billion-word-language-modeling-benchmark-r13output.tar.gz
-</span></span></code></pre></div><p>中身はそれぞれ以下の通りである。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>❯❯❯ head ~/data/vocab-2016-09-10.txt
-</span></span><span style="display:flex;"><span>&lt;/S&gt;
-</span></span><span style="display:flex;"><span>&lt;S&gt;
-</span></span><span style="display:flex;"><span>&lt;UNK&gt;
-</span></span><span style="display:flex;"><span>the
-</span></span><span style="display:flex;"><span>,
-</span></span><span style="display:flex;"><span>.
-</span></span><span style="display:flex;"><span>to
-</span></span><span style="display:flex;"><span>of
-</span></span><span style="display:flex;"><span>and
-</span></span><span style="display:flex;"><span>a
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>❯❯❯ head ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100
-</span></span><span style="display:flex;"><span>The U.S. Centers <span style="color:#66d9ef">for</span> Disease Control and Prevention initially advised school systems to close <span style="color:#66d9ef">if</span> outbreaks occurred , <span style="color:#66d9ef">then</span> reversed itself , saying the apparent mildness of the virus meant most schools and day care centers should stay open , even <span style="color:#66d9ef">if</span> they had confirmed cases of swine flu .
-</span></span><span style="display:flex;"><span>When Ms. Winfrey invited Suzanne Somers to share her controversial views about bio-identical hormone treatment on her syndicated show in <span style="color:#ae81ff">2009</span> , it won Ms. Winfrey a rare dollop of unflattering press , including a Newsweek cover story titled <span style="color:#e6db74">&#34; Crazy Talk : Oprah , Wacky Cures &amp; You . &#34;</span>
-</span></span><span style="display:flex;"><span>Elk calling -- a skill that hunters perfected long ago to lure game with the promise of a little romance -- is now its own sport .
-</span></span><span style="display:flex;"><span>Don <span style="color:#e6db74">&#39;t !
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Fish , ranked 98th in the world , fired 22 aces en route to a 6-3 , 6-7 ( 5 / 7 ) , 7-6 ( 7 / 4 ) win over seventh-seeded Argentinian David Nalbandian .
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Why does everything have to become such a big issue ?
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">AMMAN ( Reuters ) - King Abdullah of Jordan will meet U.S. President Barack Obama in Washington on April 21 to lobby on behalf of Arab states for a stronger U.S. role in Middle East peacemaking , palace officials said on Sunday .
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">To help keep traffic flowing the Congestion Charge will remain in operation through-out the strike and TfL will be suspending road works on major London roads wherever possible .
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">If no candidate wins an absolute majority , there will be a runoff between the top two contenders , most likely in mid-October .
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Authorities previously served search warrants at Murray &#39;</span>s Las Vegas home and his businesses in Las Vegas and Houston .
-</span></span></code></pre></div><p>次にテキストに出現する単語を一意な整数に変換し、文単位でnumpyのarrayに変換するプログラムを用意する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>memory <span style="color:#f92672">=</span> Memory(<span style="color:#e6db74">&#39;cache_dir&#39;</span>, mmap_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@memory.cache</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_vocab</span>(vocab_file):
-</span></span><span style="display:flex;"><span>    item2index <span style="color:#f92672">=</span> {}
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(vocab_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-</span></span><span style="display:flex;"><span>            item <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()
-</span></span><span style="display:flex;"><span>            item2index[item] <span style="color:#f92672">=</span> len(item2index)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> item2index
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@memory.cache</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(data_file, item2index, is_reference):
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> is_reference:
-</span></span><span style="display:flex;"><span>        item2index <span style="color:#f92672">=</span> item2index<span style="color:#f92672">.</span>get()
-</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>    unk <span style="color:#f92672">=</span> item2index[<span style="color:#e6db74">&#39;&lt;UNK&gt;&#39;</span>]
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">with</span> open(data_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
-</span></span><span style="display:flex;"><span>            words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
-</span></span><span style="display:flex;"><span>            indices <span style="color:#f92672">=</span> []
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words:
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> item2index:
-</span></span><span style="display:flex;"><span>                    indices<span style="color:#f92672">.</span>append(item2index[word])
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>                    indices<span style="color:#f92672">.</span>append(unk)
-</span></span><span style="display:flex;"><span>            data<span style="color:#f92672">.</span>append(np<span style="color:#f92672">.</span>array(indices, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>int32))
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> unk
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main_with_reference</span>(args):
-</span></span><span style="display:flex;"><span>    start_at1 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
-</span></span><span style="display:flex;"><span>    item2index <span style="color:#f92672">=</span> load_vocab<span style="color:#f92672">.</span>call_and_shelve(args<span style="color:#f92672">.</span>vocab_file)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Elapsed time of load_vocab&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at1)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    start_at2 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
-</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> convert(args<span style="color:#f92672">.</span>data_file, item2index, args<span style="color:#f92672">.</span>with_reference)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Elapsed time of convert&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at2)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main_without_reference</span>(args):
-</span></span><span style="display:flex;"><span>    start_at1 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
-</span></span><span style="display:flex;"><span>    item2index <span style="color:#f92672">=</span> load_vocab(args<span style="color:#f92672">.</span>vocab_file)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Elapsed of load_vocab&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at1)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    start_at2 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
-</span></span><span style="display:flex;"><span>    data <span style="color:#f92672">=</span> convert(args<span style="color:#f92672">.</span>data_file, item2index, args<span style="color:#f92672">.</span>with_reference)
-</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;Elapsed time of convert&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at2)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> time
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">import</span> argparse
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    ap <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
-</span></span><span style="display:flex;"><span>    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--vocab_file&#39;</span>)
-</span></span><span style="display:flex;"><span>    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--data_file&#39;</span>)
-</span></span><span style="display:flex;"><span>    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--with_reference&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>)
-</span></span><span style="display:flex;"><span>    args <span style="color:#f92672">=</span> ap<span style="color:#f92672">.</span>parse_args()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>with_reference:
-</span></span><span style="display:flex;"><span>        main_with_reference(args)
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>:
-</span></span><span style="display:flex;"><span>        main_without_reference(args)
-</span></span></code></pre></div><p>参照を使った場合、使わない場合に対してそれぞれ2回同じ関数を呼び出し、処理時間を計測した。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">wget https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/vocab-2016-09-10.txt
+wget http://www.statmt.org/lm-benchmark/1-billion-word-language-modeling-benchmark-r13output.tar.gz
+tar zxvf 1-billion-word-language-modeling-benchmark-r13output.tar.gz
+</code></pre></div><p>中身はそれぞれ以下の通りである。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">❯❯❯ head ~/data/vocab-2016-09-10.txt
+&lt;/S&gt;
+&lt;S&gt;
+&lt;UNK&gt;
+the
+,
+.
+to
+of
+and
+a
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">❯❯❯ head ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100
+The U.S. Centers <span style="color:#66d9ef">for</span> Disease Control and Prevention initially advised school systems to close <span style="color:#66d9ef">if</span> outbreaks occurred , <span style="color:#66d9ef">then</span> reversed itself , saying the apparent mildness of the virus meant most schools and day care centers should stay open , even <span style="color:#66d9ef">if</span> they had confirmed cases of swine flu .
+When Ms. Winfrey invited Suzanne Somers to share her controversial views about bio-identical hormone treatment on her syndicated show in <span style="color:#ae81ff">2009</span> , it won Ms. Winfrey a rare dollop of unflattering press , including a Newsweek cover story titled <span style="color:#e6db74">&#34; Crazy Talk : Oprah , Wacky Cures &amp; You . &#34;</span>
+Elk calling -- a skill that hunters perfected long ago to lure game with the promise of a little romance -- is now its own sport .
+Don <span style="color:#e6db74">&#39;t !
+</span><span style="color:#e6db74">Fish , ranked 98th in the world , fired 22 aces en route to a 6-3 , 6-7 ( 5 / 7 ) , 7-6 ( 7 / 4 ) win over seventh-seeded Argentinian David Nalbandian .
+</span><span style="color:#e6db74">Why does everything have to become such a big issue ?
+</span><span style="color:#e6db74">AMMAN ( Reuters ) - King Abdullah of Jordan will meet U.S. President Barack Obama in Washington on April 21 to lobby on behalf of Arab states for a stronger U.S. role in Middle East peacemaking , palace officials said on Sunday .
+</span><span style="color:#e6db74">To help keep traffic flowing the Congestion Charge will remain in operation through-out the strike and TfL will be suspending road works on major London roads wherever possible .
+</span><span style="color:#e6db74">If no candidate wins an absolute majority , there will be a runoff between the top two contenders , most likely in mid-October .
+</span><span style="color:#e6db74">Authorities previously served search warrants at Murray &#39;</span>s Las Vegas home and his businesses in Las Vegas and Houston .
+</code></pre></div><p>次にテキストに出現する単語を一意な整数に変換し、文単位でnumpyのarrayに変換するプログラムを用意する。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> joblib <span style="color:#f92672">import</span> Memory
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+
+
+memory <span style="color:#f92672">=</span> Memory(<span style="color:#e6db74">&#39;cache_dir&#39;</span>, mmap_mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>)
+
+
+<span style="color:#a6e22e">@memory.cache</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_vocab</span>(vocab_file):
+    item2index <span style="color:#f92672">=</span> {}
+    <span style="color:#66d9ef">with</span> open(vocab_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+            item <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()
+            item2index[item] <span style="color:#f92672">=</span> len(item2index)
+    <span style="color:#66d9ef">return</span> item2index
+
+
+<span style="color:#a6e22e">@memory.cache</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(data_file, item2index, is_reference):
+    <span style="color:#66d9ef">if</span> is_reference:
+        item2index <span style="color:#f92672">=</span> item2index<span style="color:#f92672">.</span>get()
+    data <span style="color:#f92672">=</span> []
+    unk <span style="color:#f92672">=</span> item2index[<span style="color:#e6db74">&#39;&lt;UNK&gt;&#39;</span>]
+    <span style="color:#66d9ef">with</span> open(data_file, <span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#66d9ef">as</span> f:
+        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+            words <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>strip()<span style="color:#f92672">.</span>split()
+            indices <span style="color:#f92672">=</span> []
+            <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> words:
+                <span style="color:#66d9ef">if</span> word <span style="color:#f92672">in</span> item2index:
+                    indices<span style="color:#f92672">.</span>append(item2index[word])
+                <span style="color:#66d9ef">else</span>:
+                    indices<span style="color:#f92672">.</span>append(unk)
+            data<span style="color:#f92672">.</span>append(np<span style="color:#f92672">.</span>array(indices, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>int32))
+    <span style="color:#66d9ef">return</span> unk
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main_with_reference</span>(args):
+    start_at1 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+    item2index <span style="color:#f92672">=</span> load_vocab<span style="color:#f92672">.</span>call_and_shelve(args<span style="color:#f92672">.</span>vocab_file)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Elapsed time of load_vocab&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at1)
+
+    start_at2 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+    data <span style="color:#f92672">=</span> convert(args<span style="color:#f92672">.</span>data_file, item2index, args<span style="color:#f92672">.</span>with_reference)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Elapsed time of convert&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at2)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main_without_reference</span>(args):
+    start_at1 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+    item2index <span style="color:#f92672">=</span> load_vocab(args<span style="color:#f92672">.</span>vocab_file)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Elapsed of load_vocab&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at1)
+
+    start_at2 <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+    data <span style="color:#f92672">=</span> convert(args<span style="color:#f92672">.</span>data_file, item2index, args<span style="color:#f92672">.</span>with_reference)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Elapsed time of convert&#39;</span>, time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start_at2)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#f92672">import</span> time
+    <span style="color:#f92672">import</span> argparse
+
+    ap <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
+    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--vocab_file&#39;</span>)
+    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--data_file&#39;</span>)
+    ap<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#39;--with_reference&#39;</span>, action<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;store_true&#39;</span>)
+    args <span style="color:#f92672">=</span> ap<span style="color:#f92672">.</span>parse_args()
+
+    <span style="color:#66d9ef">if</span> args<span style="color:#f92672">.</span>with_reference:
+        main_with_reference(args)
+    <span style="color:#66d9ef">else</span>:
+        main_without_reference(args)
+</code></pre></div><p>参照を使った場合、使わない場合に対してそれぞれ2回同じ関数を呼び出し、処理時間を計測した。
 まずは参照を使う場合について計測した結果は次のとおりである。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>❯❯❯ <span style="color:#66d9ef">for</span> i in <span style="color:#ae81ff">0</span> 1; <span style="color:#66d9ef">do</span> echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100 --with_reference; <span style="color:#66d9ef">done</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__.load_vocab...
-</span></span><span style="display:flex;"><span>load_vocab<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/vocab-2016-09-10.txt&#39;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>_______________________________________________________load_vocab - 5.8s, 0.1min
-</span></span><span style="display:flex;"><span>Elapsed time of load_vocab 8.896415948867798
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__.convert...
-</span></span><span style="display:flex;"><span>convert<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100&#39;</span>,
-</span></span><span style="display:flex;"><span>MemorizedResult<span style="color:#f92672">(</span>location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cache_dir/joblib&#34;</span>, func<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;__main__/load_vocab&#34;</span>, args_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;6bc0fc840982639b22ef42d2a0bbffa9&#34;</span><span style="color:#f92672">)</span>,
-</span></span><span style="display:flex;"><span>True<span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>__________________________________________________________convert - 6.2s, 0.1min
-</span></span><span style="display:flex;"><span>Elapsed time of convert 6.167249917984009
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>Elapsed time of load_vocab 0.005745887756347656
-</span></span><span style="display:flex;"><span>Elapsed time of convert 0.0015680789947509766
-</span></span></code></pre></div><p>1回目の <code>load_vocab</code> が約8.90秒、 <code>convert</code> が約6.17秒かかっているのに対して、2回目ではそれぞれ0.0057秒、0.0016秒となっていることがわかる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">❯❯❯ <span style="color:#66d9ef">for</span> i in <span style="color:#ae81ff">0</span> 1; <span style="color:#66d9ef">do</span> echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100 --with_reference; <span style="color:#66d9ef">done</span>
+<span style="color:#ae81ff">0</span>
+________________________________________________________________________________
+<span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__.load_vocab...
+load_vocab<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/vocab-2016-09-10.txt&#39;</span><span style="color:#f92672">)</span>
+_______________________________________________________load_vocab - 5.8s, 0.1min
+Elapsed time of load_vocab 8.896415948867798
+________________________________________________________________________________
+<span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__.convert...
+convert<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100&#39;</span>,
+MemorizedResult<span style="color:#f92672">(</span>location<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;cache_dir/joblib&#34;</span>, func<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;__main__/load_vocab&#34;</span>, args_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;6bc0fc840982639b22ef42d2a0bbffa9&#34;</span><span style="color:#f92672">)</span>,
+True<span style="color:#f92672">)</span>
+__________________________________________________________convert - 6.2s, 0.1min
+Elapsed time of convert 6.167249917984009
+<span style="color:#ae81ff">1</span>
+Elapsed time of load_vocab 0.005745887756347656
+Elapsed time of convert 0.0015680789947509766
+</code></pre></div><p>1回目の <code>load_vocab</code> が約8.90秒、 <code>convert</code> が約6.17秒かかっているのに対して、2回目ではそれぞれ0.0057秒、0.0016秒となっていることがわかる。</p>
 <p>次に参照を使わない場合について計測する。
 事前に、上記の結果を保存しているディレクトリを削除する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>❯❯❯ rm -rf cache_dir
-</span></span></code></pre></div><p>結果は次のとおりである。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#ae81ff">0</span> 1; <span style="color:#66d9ef">do</span> echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100; <span style="color:#66d9ef">done</span>
-</span></span><span style="display:flex;"><span><span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__-run.load_vocab...
-</span></span><span style="display:flex;"><span>load_vocab<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/vocab-2016-09-10.txt&#39;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>_______________________________________________________load_vocab - 5.7s, 0.1min
-</span></span><span style="display:flex;"><span>Elapsed of load_vocab 8.70986008644104
-</span></span><span style="display:flex;"><span>________________________________________________________________________________
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__-run.convert...
-</span></span><span style="display:flex;"><span>convert<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100&#39;</span>,
-</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;!&#39;</span>: 278,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;&#34;&#39;</span>: 11,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;#&#39;</span>: 5520,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;$&#39;</span>: 56,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;%&#39;</span>: 202,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;&amp;&#39;</span>: 323,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;&#34;</span>: 77,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;A&#34;</span>: 31666,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ALBA&#34;</span>: 643448,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ALENE&#34;</span>: 268317,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ALL&#34;</span>: 643449,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ALOFA&#34;</span>: 182060,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;AMICO&#34;</span>: 552405,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;AMPEZZO&#34;</span>: 218449,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;AN&#34;</span>: 185156,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ANANA&#34;</span>: 243173,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;ANDRATX&#34;</span>: 643450,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;AQUILA&#34;</span>: 61890,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;AYIN&#34;</span>: 268318,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abate&#34;</span>: 407514,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abbaye&#34;</span>: 290027,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abbe&#34;</span>: 407515,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abbraccio&#34;</span>: 354852,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abbé&#34;</span>: 443501,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abernon&#34;</span>: 643451,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abitot&#34;</span>: 334983,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abo&#34;</span>: 490004,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Aboville&#34;</span>: 552406,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abreu&#34;</span>: 643452,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abruzzo&#34;</span>: 213291,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Absence&#34;</span>: 643453,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Absinthe&#34;</span>: 643454,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Absolu&#34;</span>: 643455,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Abym&#34;</span>: 643456,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Academie&#34;</span>: 378535,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Académie&#34;</span>: 552407,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;Acampo&#34;</span>: 125839,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;&#39;A...,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">False)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">run.py:53: UserWarning: Persisting input arguments took 5.06s to run.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">If this happens often in your code, it can cause performance problems
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">(results will be correct in all cases).
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">The reason for this is probably some large input arguments for a wrapped
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> function (e.g. large strings).
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">THIS IS A JOBLIB ISSUE. If you can, kindly provide the joblib&#39;s team with an
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> example so that they can fix the problem.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  data = convert(args.data_file, item2index, args.with_reference)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">_________________________________________________________convert - 17.1s, 0.3min
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Elapsed time of convert 26.944008827209473
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">1
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Elapsed of load_vocab 3.030667781829834
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Elapsed time of convert 4.847580909729004
-</span></span></span></code></pre></div><p>1回目の <code>load_vocab</code> が約8.71秒、 <code>convert</code> が約26.94秒かかっているのに対して、2回目ではそれぞれ3.03秒、4.85秒となっていることがわかる。
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">❯❯❯ rm -rf cache_dir
+</code></pre></div><p>結果は次のとおりである。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#66d9ef">for</span> i in <span style="color:#ae81ff">0</span> 1; <span style="color:#66d9ef">do</span> echo $i; python run.py --vocab_file ~/data/vocab-2016-09-10.txt --data_file ~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100; <span style="color:#66d9ef">done</span>
+<span style="color:#ae81ff">0</span>
+________________________________________________________________________________
+<span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__-run.load_vocab...
+load_vocab<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/vocab-2016-09-10.txt&#39;</span><span style="color:#f92672">)</span>
+_______________________________________________________load_vocab - 5.7s, 0.1min
+Elapsed of load_vocab 8.70986008644104
+________________________________________________________________________________
+<span style="color:#f92672">[</span>Memory<span style="color:#f92672">]</span> Calling __main__-run.convert...
+convert<span style="color:#f92672">(</span><span style="color:#e6db74">&#39;~/data/1-billion-word-language-modeling-benchmark-r13output/training-monolingual.tokenized.shuffled/news.en-00001-of-00100&#39;</span>,
+<span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;!&#39;</span>: 278,
+  <span style="color:#e6db74">&#39;&#34;&#39;</span>: 11,
+  <span style="color:#e6db74">&#39;#&#39;</span>: 5520,
+  <span style="color:#e6db74">&#39;$&#39;</span>: 56,
+  <span style="color:#e6db74">&#39;%&#39;</span>: 202,
+  <span style="color:#e6db74">&#39;&amp;&#39;</span>: 323,
+  <span style="color:#e6db74">&#34;&#39;&#34;</span>: 77,
+  <span style="color:#e6db74">&#34;&#39;A&#34;</span>: 31666,
+  <span style="color:#e6db74">&#34;&#39;ALBA&#34;</span>: 643448,
+  <span style="color:#e6db74">&#34;&#39;ALENE&#34;</span>: 268317,
+  <span style="color:#e6db74">&#34;&#39;ALL&#34;</span>: 643449,
+  <span style="color:#e6db74">&#34;&#39;ALOFA&#34;</span>: 182060,
+  <span style="color:#e6db74">&#34;&#39;AMICO&#34;</span>: 552405,
+  <span style="color:#e6db74">&#34;&#39;AMPEZZO&#34;</span>: 218449,
+  <span style="color:#e6db74">&#34;&#39;AN&#34;</span>: 185156,
+  <span style="color:#e6db74">&#34;&#39;ANANA&#34;</span>: 243173,
+  <span style="color:#e6db74">&#34;&#39;ANDRATX&#34;</span>: 643450,
+  <span style="color:#e6db74">&#34;&#39;AQUILA&#34;</span>: 61890,
+  <span style="color:#e6db74">&#34;&#39;AYIN&#34;</span>: 268318,
+  <span style="color:#e6db74">&#34;&#39;Abate&#34;</span>: 407514,
+  <span style="color:#e6db74">&#34;&#39;Abbaye&#34;</span>: 290027,
+  <span style="color:#e6db74">&#34;&#39;Abbe&#34;</span>: 407515,
+  <span style="color:#e6db74">&#34;&#39;Abbraccio&#34;</span>: 354852,
+  <span style="color:#e6db74">&#34;&#39;Abbé&#34;</span>: 443501,
+  <span style="color:#e6db74">&#34;&#39;Abernon&#34;</span>: 643451,
+  <span style="color:#e6db74">&#34;&#39;Abitot&#34;</span>: 334983,
+  <span style="color:#e6db74">&#34;&#39;Abo&#34;</span>: 490004,
+  <span style="color:#e6db74">&#34;&#39;Aboville&#34;</span>: 552406,
+  <span style="color:#e6db74">&#34;&#39;Abreu&#34;</span>: 643452,
+  <span style="color:#e6db74">&#34;&#39;Abruzzo&#34;</span>: 213291,
+  <span style="color:#e6db74">&#34;&#39;Absence&#34;</span>: 643453,
+  <span style="color:#e6db74">&#34;&#39;Absinthe&#34;</span>: 643454,
+  <span style="color:#e6db74">&#34;&#39;Absolu&#34;</span>: 643455,
+  <span style="color:#e6db74">&#34;&#39;Abym&#34;</span>: 643456,
+  <span style="color:#e6db74">&#34;&#39;Academie&#34;</span>: 378535,
+  <span style="color:#e6db74">&#34;&#39;Académie&#34;</span>: 552407,
+  <span style="color:#e6db74">&#34;&#39;Acampo&#34;</span>: 125839,
+  <span style="color:#e6db74">&#34;&#39;A...,
+</span><span style="color:#e6db74">False)
+</span><span style="color:#e6db74">run.py:53: UserWarning: Persisting input arguments took 5.06s to run.
+</span><span style="color:#e6db74">If this happens often in your code, it can cause performance problems
+</span><span style="color:#e6db74">(results will be correct in all cases).
+</span><span style="color:#e6db74">The reason for this is probably some large input arguments for a wrapped
+</span><span style="color:#e6db74"> function (e.g. large strings).
+</span><span style="color:#e6db74">THIS IS A JOBLIB ISSUE. If you can, kindly provide the joblib&#39;s team with an
+</span><span style="color:#e6db74"> example so that they can fix the problem.
+</span><span style="color:#e6db74">  data = convert(args.data_file, item2index, args.with_reference)
+</span><span style="color:#e6db74">_________________________________________________________convert - 17.1s, 0.3min
+</span><span style="color:#e6db74">Elapsed time of convert 26.944008827209473
+</span><span style="color:#e6db74">1
+</span><span style="color:#e6db74">Elapsed of load_vocab 3.030667781829834
+</span><span style="color:#e6db74">Elapsed time of convert 4.847580909729004
+</span></code></pre></div><p>1回目の <code>load_vocab</code> が約8.71秒、 <code>convert</code> が約26.94秒かかっているのに対して、2回目ではそれぞれ3.03秒、4.85秒となっていることがわかる。
 大きな入力を与えた場合、速度が低下するような警告が出ている。</p>
 <p>結果をまとめると次のとおりである。</p>
 <table>
@@ -1060,6 +1061,72 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1296,70 +1363,6 @@ if (!doNotTrack) {
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

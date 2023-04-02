@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="chatgpt">
 <meta name="description" content="ChatGPTによる出力テキストが多くの人の期待を超え、驚愕しています。
@@ -132,6 +132,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -555,16 +556,16 @@ Imitation Learningは好ましいテキストのみしか学習に利用でき�
 しかしながら、質に基づいて順序付けされたテキスト集合のデータを用意するのはコストがかかります。
 そこでそのようなデータの数が少量でもできるだけ高精度化するため、選好モデルの事前学習を考えます。</p>
 <p>選好モデルの事前学習を新しく考え、以下のようなパイプラインで選好モデルを学習しています。</p>
-<pre tabindex="0"><code>言語モデルの事前学習 -&gt; 選好モデルの事前学習 (Preference Model Pre-training; PMP) -&gt; 選好モデルのfine-tuning
+<pre><code>言語モデルの事前学習 -&gt; 選好モデルの事前学習 (Preference Model Pre-training; PMP) -&gt; 選好モデルのfine-tuning
 </code></pre><h4 id="事前学習データは二値化したものを用意する">事前学習データは二値化したものを用意する</h4>
 <p>データにはStackExchange, Reddit, Wikipediaを利用します。またそれらを混合したもの(Mix) も利用します。
 これらのデータから、まず何らかの基準で順序付けされたペアデータを作成します。</p>
 <p>後ほど説明しますが、事前学習は順序を学習するよりも、二値を学習するほうが後段タスクでの頑健性が上がります。
 そのため、<code>A &gt; B</code>という順序付きペアに対して、以下のように二種類のデータに変換します。</p>
-<pre tabindex="0"><code>GOOD:A &gt; BAD:A
+<pre><code>GOOD:A &gt; BAD:A
 BAD:B &gt; GOOD:B
 </code></pre><p>たとえばStackExchangeでは質問 (<code>QUESTION</code>) に対してよりvote数の大きい回答 (<code>ANSWER</code>) がより良い回答として利用され次のように二値化されます。</p>
-<pre tabindex="0"><code>GOOD:QUESTION:質問本文:ANSWER:vote数が大きい回答 &gt; BAD:QUESTION:質問本文:ANSWER:vote数が大きい回答
+<pre><code>GOOD:QUESTION:質問本文:ANSWER:vote数が大きい回答 &gt; BAD:QUESTION:質問本文:ANSWER:vote数が大きい回答
 BAD:QUESTION:質問本文:ANSWER:vote数が小さい回答 &gt; GOOD:QUESTION:質問本文:ANSWER:vote数が小さい回答
 </code></pre><h4 id="pmpではranked-preference-modelingよりもbinary-discriminationのほうが良い">PMPではRanked Preference ModelingよりもBinary Discriminationのほうが良い</h4>
 
@@ -671,29 +672,29 @@ BAD:QUESTION:質問本文:ANSWER:vote数が小さい回答 &gt; GOOD:QUESTION:�
 <p>事前学習データとしてはRedditを利用し、Learn to Summarize (記事に対して複数の要約がありより良い要約を選ぶ問題) およびHellaSwag (一般常識に関する多肢選択問題) で評価をしています。
 これら2つのデータは評価データにモデルが自動生成したテキストを含むため、ある程度の改善が見られています。</p>
 <p>一方で、評価データにモデルが自動生成したデータを含まない場合は、人-モデルからなる事前学習データを用いても、そうでなくても結果はあまり変わらなかったようです<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup>。</p>
-<div class="footnotes" role="doc-endnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1">
-<p>実例は見つけられませんでしたが4600トークンからなるようです。&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1" role="doc-endnote">
+<p>実例は見つけられませんでしたが4600トークンからなるようです。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2">
-<p>実際に強化学習に用いているというよりは強化学習に用いる前に高精度な報酬モデルを構築するのがこの論文で取り組んでいることです。&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:2" role="doc-endnote">
+<p>実際に強化学習に用いているというよりは強化学習に用いる前に高精度な報酬モデルを構築するのがこの論文で取り組んでいることです。 <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3">
-<p>同じモデルで二値問題、順序付き問題の両方に対応できるようにするため、実際にはRanked Preference Modelingと同様に順序づきデータのように変換します。文脈<code>C</code>と二値のラベル <code>{A, B}</code>があるとすると、<code>C:A &gt; C:B</code>としてデータを表現します。<code>:</code>は結合を表します。&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:3" role="doc-endnote">
+<p>同じモデルで二値問題、順序付き問題の両方に対応できるようにするため、実際にはRanked Preference Modelingと同様に順序づきデータのように変換します。文脈<code>C</code>と二値のラベル <code>{A, B}</code>があるとすると、<code>C:A &gt; C:B</code>としてデータを表現します。<code>:</code>は結合を表します。 <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:4">
-<p>end of contextを表す特殊トークン&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:4" role="doc-endnote">
+<p>end of contextを表す特殊トークン <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:5">
-<p>詳細は論文[1]のAppendix Cにあります。簡単に言うと、順序にノイズを (強弱を変えて) 与えてシャッフルしたデータと、良い・悪いとざっくりと分けて作成した二値データを使ってモデルを学習し、もとの順序を正しく予測できるかを評価し、二値データの方がノイズを強く与えたデータよりも高い精度を示すことを確認しています。&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:5" role="doc-endnote">
+<p>詳細は論文[1]のAppendix Cにあります。簡単に言うと、順序にノイズを (強弱を変えて) 与えてシャッフルしたデータと、良い・悪いとざっくりと分けて作成した二値データを使ってモデルを学習し、もとの順序を正しく予測できるかを評価し、二値データの方がノイズを強く与えたデータよりも高い精度を示すことを確認しています。 <a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:6">
-<p>Figure 36を参照&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:6" role="doc-endnote">
+<p>Figure 36を参照 <a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</div>
+</section>
               
 
               <br>
@@ -1073,6 +1074,72 @@ BAD:QUESTION:質問本文:ANSWER:vote数が小さい回答 &gt; GOOD:QUESTION:�
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1309,70 +1376,6 @@ BAD:QUESTION:質問本文:ANSWER:vote数が小さい回答 &gt; GOOD:QUESTION:�
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

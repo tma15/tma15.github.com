@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="nlp, python">
 <meta name="description" content="huggingfaceから自然言語処理でベンチマークによく用いられるデータセット (数は本記事公開時点で98) を容易に利用するためのライブラリ nlp が公開されました。
@@ -128,6 +128,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -367,33 +368,33 @@ if (!doNotTrack) {
 <p>Tensorflowでは<a href="https://www.tensorflow.org/datasets?hl=ja">Tensorflow Datasets</a>というデータのエコシステムがありますが、データの形式がTensorflowを前提としています。
 一方で、nlpではフレームワークに依らない形式でデータを扱えるのと、評価関数も提供している点が主な違いです。</p>
 <h2 id="インストール">インストール</h2>
-<pre tabindex="0"><code>pip install nlp
+<pre><code>pip install nlp
 </code></pre><h2 id="主な利用方法">主な利用方法</h2>
 <p>データはキャッシュされていなければ、ダウンロードされます。
 その後、<a href="https://arrow.apache.org/docs/python/">pyarrow</a>を使ってディスクから直接メモリに読み込めるような形式で保存されます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> nlp
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Print all the available datasets</span>
-</span></span><span style="display:flex;"><span>print(dataset<span style="color:#f92672">.</span>id <span style="color:#66d9ef">for</span> dataset <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>list_datasets())
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Load a dataset and print the first examples in the training set</span>
-</span></span><span style="display:flex;"><span>squad_dataset <span style="color:#f92672">=</span> nlp<span style="color:#f92672">.</span>load_dataset(<span style="color:#e6db74">&#39;squad&#39;</span>)
-</span></span></code></pre></div><pre tabindex="0"><code>Downloading: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5.00k/5.00k [00:00&lt;00:00, 250kB/s]
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> nlp
+
+<span style="color:#75715e"># Print all the available datasets</span>
+<span style="color:#66d9ef">print</span>(dataset<span style="color:#f92672">.</span>id <span style="color:#66d9ef">for</span> dataset <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>list_datasets())
+
+<span style="color:#75715e"># Load a dataset and print the first examples in the training set</span>
+squad_dataset <span style="color:#f92672">=</span> nlp<span style="color:#f92672">.</span>load_dataset(<span style="color:#e6db74">&#39;squad&#39;</span>)
+</code></pre></div><pre><code>Downloading: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 5.00k/5.00k [00:00&lt;00:00, 250kB/s]
 Downloading: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 2.24k/2.24k [00:00&lt;00:00, 587kB/s]
 Downloading and preparing dataset squad/plain_text (download: 33.51 MiB, generated: 85.75 MiB, total: 119.27 MiB) to /Users/takuya/.cache/huggingface/datasets/squad/plain_text/1.0.0...
 Downloading: 30.3MB [00:00, 48.3MB/s]
 Downloading: 4.85MB [00:00, 21.0MB/s]
 Dataset squad downloaded and prepared to /Users/takuya/.cache/huggingface/datasets/squad/plain_text/1.0.0. Subsequent calls will reuse this data.
 </code></pre><p>引数のsplitはデフォルトではallになっており、学習データ、開発データ、評価データのすべて (データごとに用意されているすべて) を返します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(squad_dataset<span style="color:#f92672">.</span>keys())
-</span></span></code></pre></div><pre tabindex="0"><code>dict_keys([&#39;train&#39;, &#39;validation&#39;])
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(squad_dataset<span style="color:#f92672">.</span>keys())
+</code></pre></div><pre><code>dict_keys(['train', 'validation'])
 </code></pre><p>具体的なデータは以下のように取得します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>print(squad_dataset[<span style="color:#e6db74">&#39;train&#39;</span>][<span style="color:#ae81ff">0</span>])
-</span></span></code></pre></div><pre tabindex="0"><code>{&#39;id&#39;: &#39;5733be284776f41900661182&#39;, &#39;title&#39;: &#39;University_of_Notre_Dame&#39;, &#39;context&#39;: &#39;Architecturally, the school has a Catholic character. Atop the Main Building\&#39;s gold dome is a golden statue of the Virgin Mary. Immediately in front of the Main Building and facing it, is a copper statue of Christ with arms upraised with the legend &#34;Venite Ad Me Omnes&#34;. Next to the Main Building is the Basilica of the Sacred Heart. Immediately behind the basilica is the Grotto, a Marian place of prayer and reflection. It is a replica of the grotto at Lourdes, France where the Virgin Mary reputedly appeared to Saint Bernadette Soubirous in 1858. At the end of the main drive (and in a direct line that connects through 3 statues and the Gold Dome), is a simple, modern stone statue of Mary.&#39;, &#39;question&#39;: &#39;To whom did the Virgin Mary allegedly appear in 1858 in Lourdes France?&#39;, &#39;answers&#39;: {&#39;text&#39;: [&#39;Saint Bernadette Soubirous&#39;], &#39;answer_start&#39;: [515]}}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">print</span>(squad_dataset[<span style="color:#e6db74">&#39;train&#39;</span>][<span style="color:#ae81ff">0</span>])
+</code></pre></div><pre><code>{'id': '5733be284776f41900661182', 'title': 'University_of_Notre_Dame', 'context': 'Architecturally, the school has a Catholic character. Atop the Main Building\'s gold dome is a golden statue of the Virgin Mary. Immediately in front of the Main Building and facing it, is a copper statue of Christ with arms upraised with the legend &quot;Venite Ad Me Omnes&quot;. Next to the Main Building is the Basilica of the Sacred Heart. Immediately behind the basilica is the Grotto, a Marian place of prayer and reflection. It is a replica of the grotto at Lourdes, France where the Virgin Mary reputedly appeared to Saint Bernadette Soubirous in 1858. At the end of the main drive (and in a direct line that connects through 3 statues and the Gold Dome), is a simple, modern stone statue of Mary.', 'question': 'To whom did the Virgin Mary allegedly appear in 1858 in Lourdes France?', 'answers': {'text': ['Saint Bernadette Soubirous'], 'answer_start': [515]}}
 </code></pre><p>利用可能なデータは以下のようにして列挙できます。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> dataset <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>list_datasets():
-</span></span><span style="display:flex;"><span>    print(dataset<span style="color:#f92672">.</span>id)
-</span></span></code></pre></div><pre tabindex="0"><code>aeslc
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> dataset <span style="color:#f92672">in</span> nlp<span style="color:#f92672">.</span>list_datasets():
+    <span style="color:#66d9ef">print</span>(dataset<span style="color:#f92672">.</span>id)
+</code></pre></div><pre><code>aeslc
 ai2_arc
 anli
 billsum
@@ -802,6 +803,72 @@ nlpという名前は他のライブラリでも使われる可能性があり�
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1038,70 +1105,6 @@ nlpという名前は他のライブラリでも使われる可能性があり�
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

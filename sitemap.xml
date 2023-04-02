@@ -1,508 +1,849 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://tma15.github.io/categories/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/huggingface/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/huggingface/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/nlp/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/nlp/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/post/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/python/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/categories/python/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/tags/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/</loc>
+    <lastmod>2023-04-02T12:10:39+09:00</lastmod>
+  </url>
+  
   <url>
     <loc>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</loc>
     <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/categories/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/tags/huggingface/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/categories/huggingface/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/tags/nlp/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/categories/nlp/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/post/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/tags/python/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/categories/python/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/tags/</loc>
-    <lastmod>2023-01-30T15:08:57+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/</loc>
-    <lastmod>2023-01-28T15:51:28+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/git/</loc>
     <lastmod>2023-01-28T15:51:28+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/git/</loc>
     <lastmod>2023-01-28T15:51:28+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/pre-commit/</loc>
     <lastmod>2023-01-28T15:51:28+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/pre-commit/</loc>
     <lastmod>2023-01-28T15:51:28+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2023/01/28/pythonpre-commit%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%89%8D%E3%81%AB%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E8%87%AA%E5%8B%95%E6%A4%9C%E6%9F%BB%E3%81%99%E3%82%8B/</loc>
+    <lastmod>2023-01-28T15:51:28+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2023/01/08/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E3%83%95%E3%83%AA%E3%83%BC%E3%81%A7%E4%BD%BF%E3%81%88%E3%82%8B%E5%A4%A7%E8%A6%8F%E6%A8%A1%E3%81%AA%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%B3%E3%83%BC%E3%83%91%E3%82%B9/</loc>
     <lastmod>2023-01-08T15:31:24+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2022-12-31T09:33:01+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/poetry/</loc>
     <lastmod>2022-12-31T09:33:01+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/poetry/</loc>
     <lastmod>2022-12-31T09:33:01+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
-    <lastmod>2022-12-29T10:05:49+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/</loc>
+    <lastmod>2022-12-31T09:33:01+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/machine_learning/</loc>
     <lastmod>2022-12-29T10:05:49+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/machine_learning/</loc>
     <lastmod>2022-12-29T10:05:49+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/</loc>
-    <lastmod>2021-10-15T11:08:15+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
+    <lastmod>2022-12-29T10:05:49+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/book/</loc>
     <lastmod>2021-10-15T11:08:15+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/book/</loc>
     <lastmod>2021-10-15T11:08:15+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/</loc>
-    <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/</loc>
+    <lastmod>2021-10-15T11:08:15+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/c&#43;&#43;/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/c&#43;&#43;/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/cmake/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/cmake/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/pybind11/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/pybind11/</loc>
     <lastmod>2021-10-09T13:05:41+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
-    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/</loc>
+    <lastmod>2021-10-09T13:05:41+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/paper/</loc>
     <lastmod>2021-10-03T16:15:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/paper/</loc>
     <lastmod>2021-10-03T16:15:00+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</loc>
-    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86spin%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AB%E3%82%88%E3%82%8B%E6%A5%B5%E6%80%A7%E8%BE%9E%E6%9B%B8%E3%81%AE%E5%AD%A6%E7%BF%92%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
+    <lastmod>2021-10-03T16:15:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/neural_network/</loc>
     <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/neural_network/</loc>
     <lastmod>2021-09-17T16:52:50+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2021/09/17/deep-learningbert%E5%AD%A6%E7%BF%92%E6%99%82%E3%81%ABbias%E3%82%84layer-normalization%E3%82%92weight-decay%E3%81%97%E3%81%AA%E3%81%84%E7%90%86%E7%94%B1/</loc>
+    <lastmod>2021-09-17T16:52:50+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/12/13/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E9%AB%98%E9%80%9F%E3%81%AA%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E6%A9%9F%E6%A2%B0%E7%BF%BB%E8%A8%B3%E5%AE%9F%E8%A3%85ctranslate2%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
     <lastmod>2020-12-13T17:11:32+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/12/12/%E6%9B%B8%E8%A9%95who-you-are%E3%83%95%E3%83%BC%E3%83%A6%E3%83%BC%E3%82%A2%E3%83%BC%E5%90%9B%E3%81%AE%E7%9C%9F%E3%81%AE%E8%A8%80%E8%91%89%E3%81%A8%E8%A1%8C%E5%8B%95%E3%81%93%E3%81%9D%E3%81%8C%E5%9B%B0%E9%9B%A3%E3%82%92%E7%94%9F%E3%81%8D%E6%8A%9C%E3%81%8F%E3%83%81%E3%83%BC%E3%83%A0%E3%82%92%E3%81%A4%E3%81%8F%E3%82%8B/</loc>
     <lastmod>2020-12-12T14:43:37+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2020-11-22T11:28:10+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/scikit-learn/</loc>
     <lastmod>2020-11-22T11:28:10+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/scikit-learn/</loc>
     <lastmod>2020-11-22T11:28:10+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/11/22/pythonmecab%E3%81%AEtagger%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88%E3%82%92%E6%8C%81%E3%81%A4%E5%8D%98%E8%AA%9E%E5%88%86%E5%89%B2%E5%99%A8%E3%82%92pickle%E3%81%A7%E4%BF%9D%E5%AD%98%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2020-11-22T11:28:10+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/11/21/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scikit-learn%E3%81%A7tfidf%E3%81%A8%E3%81%9D%E3%82%8C%E4%BB%A5%E5%A4%96%E3%81%AE%E7%89%B9%E5%BE%B4%E9%87%8F%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%82%8B/</loc>
     <lastmod>2020-11-21T13:43:23+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/11/14/pythonargparse%E3%81%AE%E4%BD%BF%E3%81%84%E6%96%B9-%E5%85%A5%E9%96%80%E7%B7%A8/</loc>
     <lastmod>2020-11-14T15:01:41+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/</loc>
-    <lastmod>2020-10-31T10:58:05+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/pytorch/</loc>
     <lastmod>2020-10-31T10:58:05+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/pytorch/</loc>
     <lastmod>2020-10-31T10:58:05+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/</loc>
-    <lastmod>2020-10-11T15:06:05+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/10/31/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AB%E7%89%B9%E5%8C%96%E3%81%97%E3%81%9Fpython%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%82%92%E4%BD%9C%E3%82%8A%E5%A7%8B%E3%82%81%E3%81%BE%E3%81%97%E3%81%9F%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%81%BB%E3%81%BC%E4%B8%8D%E8%A6%81%E3%81%A7%E4%BD%BF%E3%81%88%E3%81%BE%E3%81%99/</loc>
+    <lastmod>2020-10-31T10:58:05+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/career/</loc>
     <lastmod>2020-10-11T15:06:05+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/career/</loc>
     <lastmod>2020-10-11T15:06:05+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/10/11/%E6%9B%B8%E8%A9%95%E3%82%B7%E3%83%AA%E3%82%B3%E3%83%B3%E3%83%90%E3%83%AC%E3%83%BC%E7%99%BA-%E3%82%B9%E3%82%AD%E3%83%AB%E3%81%AE%E6%8E%9B%E3%81%91%E7%AE%97%E3%81%A7%E5%B9%B4%E5%8F%8E%E3%81%8C%E5%A2%97%E3%81%88%E3%82%8B-%E8%A4%87%E6%A5%AD%E3%81%AE%E6%80%9D%E8%80%83%E6%B3%95/</loc>
+    <lastmod>2020-10-11T15:06:05+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/10/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEbert%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8Bfine-tuning%E3%81%AF%E3%81%AA%E3%81%9C%E5%A4%B1%E6%95%97%E3%81%99%E3%82%8B%E3%81%AE%E3%81%8B-%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/</loc>
     <lastmod>2020-10-03T09:51:17+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/</loc>
-    <lastmod>2020-09-25T21:50:47+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/youtube/</loc>
     <lastmod>2020-09-25T21:50:47+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/youtube/</loc>
     <lastmod>2020-09-25T21:50:47+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/09/25/pythonyoutube-api%E3%81%8B%E3%82%89%E5%8B%95%E7%94%BB%E6%83%85%E5%A0%B1%E3%82%92%E5%8F%96%E5%BE%97/</loc>
+    <lastmod>2020-09-25T21:50:47+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/09/19/%E6%9B%B8%E8%A9%95%E3%82%B8%E3%82%A7%E3%83%BC%E3%83%A0%E3%82%BA%E3%82%AF%E3%83%AA%E3%82%A2%E3%83%BC%E5%BC%8F-%E8%A4%87%E5%88%A9%E3%81%A7%E4%BC%B8%E3%81%B3%E3%82%8B1%E3%81%A4%E3%81%AE%E7%BF%92%E6%85%A3/</loc>
     <lastmod>2020-09-19T12:23:28+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/09/13/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%AD%A6%E7%BF%92%E3%83%87%E3%83%BC%E3%82%BF%E4%BD%9C%E6%88%90%E4%BD%9C%E6%A5%AD%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%E3%81%99%E3%82%8B%E8%83%BD%E5%8B%95%E5%AD%A6%E7%BF%92oss%E3%81%BE%E3%81%A8%E3%82%81/</loc>
-    <lastmod>2020-09-13T08:57:58+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/active_learning/</loc>
     <lastmod>2020-09-13T08:57:58+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/active_learning/</loc>
     <lastmod>2020-09-13T08:57:58+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</loc>
-    <lastmod>2020-09-06T09:46:04+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/09/13/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92%E5%AD%A6%E7%BF%92%E3%83%87%E3%83%BC%E3%82%BF%E4%BD%9C%E6%88%90%E4%BD%9C%E6%A5%AD%E3%82%92%E5%8A%B9%E7%8E%87%E5%8C%96%E3%81%99%E3%82%8B%E8%83%BD%E5%8B%95%E5%AD%A6%E7%BF%92oss%E3%81%BE%E3%81%A8%E3%82%81/</loc>
+    <lastmod>2020-09-13T08:57:58+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/google-colab/</loc>
     <lastmod>2020-09-06T09:46:04+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/google-colab/</loc>
     <lastmod>2020-09-06T09:46:04+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/09/06/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</loc>
+    <lastmod>2020-09-06T09:46:04+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/08/29/nvidia%E7%9B%B4%E4%BC%9D%E3%81%82%E3%81%AA%E3%81%9F%E3%81%AEpytorch%E3%83%97%E3%83%AD%E3%82%B0%E3%83%A9%E3%83%A0%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%99%E3%82%8B%E3%81%8B%E3%82%82%E3%81%97%E3%82%8C%E3%81%AA%E3%81%84tips/</loc>
     <lastmod>2020-08-29T13:16:11+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/08/22/pytorch%E4%B8%8D%E8%A6%81%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%9F%E8%A8%88%E7%AE%97%E3%82%B0%E3%83%A9%E3%83%95%E3%82%92%E5%89%8A%E9%99%A4%E3%81%97%E3%81%A6%E3%83%A1%E3%83%A2%E3%83%AA%E3%82%92%E7%AF%80%E7%B4%84/</loc>
     <lastmod>2020-08-22T13:27:43+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/08/15/%E6%9B%B8%E8%A9%95%E3%83%AF%E3%83%BC%E3%82%AF%E3%83%9E%E3%83%B3%E3%81%AF-%E5%95%86%E5%93%81%E3%82%92%E5%A4%89%E3%81%88%E3%81%9A%E3%81%AB%E5%A3%B2%E3%82%8A%E6%96%B9%E3%82%92%E5%A4%89%E3%81%88%E3%81%9F%E3%81%A0%E3%81%91%E3%81%A7-%E3%81%AA%E3%81%9C2%E5%80%8D%E5%A3%B2%E3%82%8C%E3%81%9F%E3%81%AE%E3%81%8B/</loc>
     <lastmod>2020-08-15T14:51:07+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</loc>
-    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/googletest/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/googletest/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/unit_test/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/unit_test/</loc>
     <lastmod>2020-08-08T13:35:00+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</loc>
-    <lastmod>2020-08-02T08:55:14+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/08/08/c-cmake%E3%81%A7google-test%E3%82%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%A7%E3%81%8D%E3%82%8B%E3%82%88%E3%81%86%E3%81%AB%E3%81%99%E3%82%8B/</loc>
+    <lastmod>2020-08-08T13:35:00+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/scraping/</loc>
     <lastmod>2020-08-02T08:55:14+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/scraping/</loc>
     <lastmod>2020-08-02T08:55:14+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/twitter/</loc>
     <lastmod>2020-08-02T08:55:14+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/twitter/</loc>
     <lastmod>2020-08-02T08:55:14+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/</loc>
-    <lastmod>2020-07-25T10:18:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/08/02/pythontwitter-api%E3%82%92%E5%88%A9%E7%94%A8%E3%81%97%E3%81%A6%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E6%A4%9C%E7%B4%A2%E7%94%BB%E5%83%8F%E3%81%84%E3%81%84%E3%81%AD%E3%83%AA%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%81%AE%E5%8F%96%E5%BE%97%E3%82%82/</loc>
+    <lastmod>2020-08-02T08:55:14+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/heroku/</loc>
     <lastmod>2020-07-25T10:18:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/heroku/</loc>
     <lastmod>2020-07-25T10:18:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/spreadsheet/</loc>
     <lastmod>2020-07-25T10:18:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/spreadsheet/</loc>
     <lastmod>2020-07-25T10:18:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/</loc>
+    <lastmod>2020-07-25T10:18:02+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/07/19/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86scheduled-sampling%E3%81%AB%E3%82%88%E3%82%8B%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92/</loc>
     <lastmod>2020-07-19T13:34:44+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/05/17/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86%E5%85%AC%E9%96%8B%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B0%A1%E5%8D%98%E3%81%AB%E4%BD%BF%E3%81%86%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA-nlp-%E3%81%AE%E7%B4%B9%E4%BB%8B/</loc>
     <lastmod>2020-05-17T20:40:22+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/</loc>
-    <lastmod>2020-05-03T16:47:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/kaggle/</loc>
     <lastmod>2020-05-03T16:47:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/kaggle/</loc>
     <lastmod>2020-05-03T16:47:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/05/03/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86kaggle%E3%82%B3%E3%83%B3%E3%83%9A%E3%81%A7%E5%88%A9%E7%94%A8%E3%81%95%E3%82%8C%E3%81%A6%E3%81%84%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E3%81%AEtips/</loc>
+    <lastmod>2020-05-03T16:47:46+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/05/02/pytorchdataloader%E3%81%AE%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%8C%96%E3%81%AE%E4%BB%95%E7%B5%84%E3%81%BF/</loc>
     <lastmod>2020-05-02T16:26:18+09:00</lastmod>
-  </url><url>
-    <loc>https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2020-04-26T10:18:59+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/tpu/</loc>
     <lastmod>2020-04-26T10:18:59+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/tpu/</loc>
     <lastmod>2020-04-26T10:18:59+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/xla/</loc>
     <lastmod>2020-04-26T10:18:59+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/xla/</loc>
     <lastmod>2020-04-26T10:18:59+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/blog/2020/04/26/pytorchversion1.5%E3%81%A7tpu%E3%82%92%E5%88%A9%E7%94%A8%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2020-04-26T10:18:59+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/04/19/python%E8%87%AA%E4%BD%9C%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%81%AE%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E3%83%B3%E3%82%B0%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2020-04-19T16:07:11+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/04/12/git%E3%83%96%E3%83%A9%E3%83%B3%E3%83%81%E3%82%92%E4%BD%9C%E6%88%90%E3%81%97%E3%81%A6%E9%96%8B%E7%99%BA%E3%81%99%E3%82%8B%E3%81%A8%E3%81%8D%E3%81%AB%E4%BD%BF%E3%81%86%E4%BE%BF%E5%88%A9%E3%81%AA%E6%A9%9F%E8%83%BD/</loc>
     <lastmod>2020-04-12T14:52:38+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/04/07/pythonzip-zip_longest%E3%81%AE%E9%81%95%E3%81%84%E5%90%8C%E3%81%98%E9%95%B7%E3%81%95%E3%81%AE%E5%85%A5%E5%8A%9B%E3%82%92%E5%89%8D%E6%8F%90%E3%81%A8%E3%81%97%E3%81%9Fzip_longest%E3%81%AE%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2020-04-07T17:23:57+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/04/05/pytorch%E9%99%90%E3%82%89%E3%82%8C%E3%81%9F%E3%83%A1%E3%83%A2%E3%83%AA%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E5%A4%A7%E3%81%8D%E3%81%AA%E3%83%90%E3%83%83%E3%83%81%E3%82%B5%E3%82%A4%E3%82%BA%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92/</loc>
     <lastmod>2020-04-05T16:26:26+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/29/%E6%A9%9F%E6%A2%B0%E5%AD%A6%E7%BF%92scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6stacking/</loc>
     <lastmod>2020-03-29T16:08:15+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/22/flask-blueprint%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%82%A2%E3%83%97%E3%83%AA%E9%96%8B%E7%99%BA%E3%81%AE%E3%83%86%E3%83%B3%E3%83%97%E3%83%AC%E3%83%BC%E3%83%88/</loc>
     <lastmod>2020-03-22T15:39:12+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/flask/</loc>
     <lastmod>2020-03-22T15:39:12+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/flask/</loc>
     <lastmod>2020-03-22T15:39:12+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/15/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-lstm%E3%81%AB%E5%9F%BA%E3%81%A5%E3%81%8F%E8%A8%80%E8%AA%9E%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E5%AD%A6%E7%BF%92-pytorch%E3%82%B3%E3%83%BC%E3%83%89%E4%BB%98%E3%81%8D/</loc>
     <lastmod>2020-03-15T15:24:03+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/11/colab-google%E3%81%AE%E7%84%A1%E6%96%99gpu%E7%92%B0%E5%A2%83%E3%82%92%E4%BD%BF%E3%81%86%E3%81%9F%E3%82%81%E3%81%AE%E6%BA%96%E5%82%99/</loc>
     <lastmod>2020-03-11T15:05:37+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/gpu/</loc>
     <lastmod>2020-03-11T15:05:37+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/gpu/</loc>
     <lastmod>2020-03-11T15:05:37+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/10/pytorch%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86-%E3%82%88%E3%82%8A%E5%B0%91%E3%81%AA%E3%81%84%E3%83%91%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%81%A7%E3%83%9F%E3%83%8B%E3%83%90%E3%83%83%E3%83%81%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2020-03-10T16:50:53+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/08/pytorch-dataset%E3%81%AE%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%81%BF%E3%81%AB%E3%81%8B%E3%81%8B%E3%82%8B%E3%83%A1%E3%83%A2%E3%83%AA%E6%B6%88%E8%B2%BB%E9%87%8F%E3%82%92%E7%AF%80%E7%B4%84%E3%81%99%E3%82%8B/</loc>
     <lastmod>2020-03-08T16:04:11+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2020/03/03/python-scikit-learn%E3%81%A7%E5%AD%A6%E3%81%B6%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AB%E3%82%88%E3%82%8B%E6%96%87%E6%9B%B8%E5%88%86%E9%A1%9E%E5%85%A5%E9%96%80/</loc>
     <lastmod>2020-03-03T09:54:42+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/about/</loc>
     <lastmod>2021-02-12T11:21:20+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
+    <loc>https://tma15.github.io/</loc>
+    <lastmod>2021-02-12T11:21:20+09:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2019/10/06/python-joblib%E3%81%AE%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E5%90%8C%E3%81%98%E8%A8%88%E7%AE%97%E3%82%92%E7%9C%81%E7%95%A5%E3%81%99%E3%82%8B/</loc>
     <lastmod>2019-10-06T07:08:25+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/joblib/</loc>
     <lastmod>2019-10-06T07:08:25+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/joblib/</loc>
     <lastmod>2019-10-06T07:08:25+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/inquiry/</loc>
     <lastmod>2019-09-20T14:24:20+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/privacy-policy/</loc>
     <lastmod>2019-09-20T13:52:20+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/acl2019/</loc>
     <lastmod>2019-09-04T18:19:54+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/acl2019/</loc>
     <lastmod>2019-09-04T18:19:54+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2019/09/04/%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%A9%E3%83%AB%E3%83%8D%E3%83%83%E3%83%88%E3%81%AE%E5%87%BA%E5%8A%9B%E3%83%99%E3%82%AF%E3%83%88%E3%83%AB%E3%82%92%E4%BA%8C%E5%80%A4%E5%8C%96%E3%81%97%E3%81%A6%E6%A4%9C%E7%B4%A2%E3%82%92%E9%AB%98%E9%80%9F%E5%8C%96%E3%81%95%E3%81%9B%E3%82%8B%E6%96%B9%E6%B3%95/</loc>
     <lastmod>2019-09-04T18:19:54+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2017/07/29/kaggle%E5%88%9D%E5%8F%82%E5%8A%A0%E8%A8%98%E9%8C%B2/</loc>
     <lastmod>2017-07-29T15:30:01+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2017/05/06/%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E3%82%A6%E3%82%A3%E3%83%BC%E3%82%AF%E3%81%AE%E7%A9%BA%E3%81%8D%E6%99%82%E9%96%93%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6%E3%83%80%E3%83%96%E3%83%AB%E9%85%8D%E5%88%97%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%9F/</loc>
     <lastmod>2017-05-06T13:09:55+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/swig/</loc>
     <lastmod>2016-09-05T19:28:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/swig/</loc>
     <lastmod>2016-09-05T19:28:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/09/05/swig%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%A6python%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E7%94%9F%E6%88%90%E3%81%99%E3%82%8B/</loc>
     <lastmod>2016-09-05T19:28:46+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/09/04/early-update%E3%81%AF%E5%8F%8E%E6%9D%9F%E3%81%8C%E4%BF%9D%E8%A8%BC%E3%81%95%E3%82%8C%E3%82%8B/</loc>
     <lastmod>2016-09-04T11:00:13+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/08/28/adaboost%E3%81%8B%E3%82%89large-margin-distribution-machine%E3%81%AE%E6%B5%81%E3%82%8C/</loc>
     <lastmod>2016-08-28T18:59:58+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/07/31/%E5%B9%B3%E5%9D%87%E5%8C%96%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%81%AE%E5%8A%B9%E7%8E%87%E7%9A%84%E3%81%AA%E8%A8%88%E7%AE%97/</loc>
     <lastmod>2016-07-31T10:13:38+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/golang/</loc>
     <lastmod>2016-01-31T19:17:31+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/golang/</loc>
     <lastmod>2016-01-31T19:17:31+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/01/31/n-best%E8%A7%A3%E3%81%AE%E6%8E%A2%E7%B4%A2/</loc>
     <lastmod>2016-01-31T19:17:31+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/math/</loc>
     <lastmod>2016-01-23T16:04:13+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/math/</loc>
     <lastmod>2016-01-23T16:04:13+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/01/23/%E8%A1%8C%E5%88%97%E5%BC%8F%E3%82%92lu%E5%88%86%E8%A7%A3%E3%81%A7%E6%B1%82%E3%82%81%E3%82%8B/</loc>
     <lastmod>2016-01-23T16:04:13+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/linux/</loc>
     <lastmod>2016-01-16T10:55:26+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/linux/</loc>
     <lastmod>2016-01-16T10:55:26+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2016/01/16/%E5%A4%A7%E9%87%8F%E3%81%AE%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92go%E3%81%A7%E9%AB%98%E9%80%9F%E3%81%AB%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80/</loc>
     <lastmod>2016-01-16T10:55:26+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/12/29/grep%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AE%E9%87%8D%E8%A4%87%E3%82%92%E8%AA%BF%E3%81%B9%E3%82%89%E3%82%8C%E3%82%8B/</loc>
     <lastmod>2015-12-29T15:20:02+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/12/20/git%E3%81%A7%E6%8C%87%E5%AE%9A%E3%81%97%E3%81%9F%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88id%E3%81%AE%E7%8A%B6%E6%85%8B%E3%81%AB%E6%88%BB%E3%81%99/</loc>
     <lastmod>2015-12-20T07:57:41+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/links/</loc>
     <lastmod>2015-11-29T09:19:21+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/08/31/%E4%B8%A6%E5%88%97%E3%81%A7%E3%81%AE%E5%AD%A6%E7%BF%92%E3%82%A2%E3%83%AB%E3%82%B4%E3%83%AA%E3%82%BA%E3%83%A0%E3%81%AE%E8%BF%BD%E5%8A%A0/</loc>
     <lastmod>2015-08-31T20:03:45+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/07/17/%E3%82%AA%E3%83%B3%E3%83%A9%E3%82%A4%E3%83%B3%E5%AD%A6%E7%BF%92%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%84%E3%82%8D%E3%81%84%E3%82%8D/</loc>
     <lastmod>2015-07-17T23:09:00+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/diary/</loc>
     <lastmod>2015-06-21T10:44:18+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/06/21/hugo%E3%81%AB%E7%A7%BB%E8%A1%8C%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F/</loc>
     <lastmod>2015-06-21T10:44:18+09:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2015/02/21/dropout%E3%81%AE%E5%AE%9F%E8%A3%85%E3%81%A7%E6%B0%97%E3%81%AB%E3%81%AA%E3%81%A3%E3%81%A6%E8%AA%BF%E3%81%B9%E3%81%9F%E3%81%93%E3%81%A8/</loc>
     <lastmod>2015-02-21T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/acl2013/</loc>
     <lastmod>2014-12-03T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/acl2013/</loc>
     <lastmod>2014-12-03T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/12/03/question-answering-using-enhanced-lexical-semantic-models-acl2013-%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</loc>
     <lastmod>2014-12-03T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/tags/elasticsearch/</loc>
     <lastmod>2019-10-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/categories/elasticsearch/</loc>
     <lastmod>2019-10-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/11/08/python%E3%81%A7elasticsearch%E3%82%92%E4%BD%BF%E3%81%86%E3%81%A8%E3%81%8D%E3%81%AE%E3%83%A1%E3%83%A2/</loc>
     <lastmod>2019-10-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/11/08/%E4%BA%8C%E3%81%A4%E3%81%AE%E9%9B%86%E5%90%88%E3%81%AB%E9%87%8D%E8%A4%87%E3%81%97%E3%81%A6%E7%8F%BE%E3%82%8C%E3%82%8B%E8%A6%81%E7%B4%A0%E3%81%AE%E6%95%B0%E3%82%92%E6%95%B0%E3%81%88%E3%82%8B/</loc>
     <lastmod>2014-11-08T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/11/03/maf%E3%81%8C%E4%BE%BF%E5%88%A9%E3%81%9D%E3%81%86/</loc>
     <lastmod>2014-11-03T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/10/20/go%E3%81%A7%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%81%AE%E6%96%87%E6%9B%B8%E3%82%92%E5%89%8D%E5%87%A6%E7%90%86%E3%81%97%E3%81%A6%E5%88%86%E9%A1%9E%E5%99%A8%E3%82%92%E5%AD%A6%E7%BF%92%E3%81%99%E3%82%8B%E3%81%A8%E3%81%93%E3%82%8D%E3%81%BE%E3%81%A7%E3%82%84%E3%81%A3%E3%81%A6%E3%81%BF%E3%82%8B/</loc>
     <lastmod>2014-10-20T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/10/18/adagrad-rda%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2014-10-18T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/10/18/pa-ii%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2014-10-18T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/10/11/%E3%83%91%E3%83%BC%E3%82%BB%E3%83%97%E3%83%88%E3%83%AD%E3%83%B3%E3%82%92go%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2014-10-11T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2014-05-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2014/02/17/%E3%82%B8%E3%82%A7%E3%83%95%E3%83%99%E3%82%BE%E3%82%B9-%E6%9E%9C%E3%81%A6%E3%81%AA%E3%81%8D%E9%87%8E%E6%9C%9B-%E3%82%A2%E3%83%9E%E3%82%BE%E3%83%B3%E3%82%92%E5%89%B5%E3%81%A3%E3%81%9F%E7%84%A1%E6%95%B5%E3%81%AE%E5%A5%87%E6%89%8D%E7%B5%8C%E5%96%B6%E8%80%85/</loc>
     <lastmod>2014-02-17T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/12/27/%E3%82%A8%E3%83%83%E3%82%BB%E3%82%A4-towards-the-machine-comprehension-of-text-%E3%81%AE%E3%83%A1%E3%83%A2/</loc>
     <lastmod>2013-12-27T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/12/14/penguins-in-sweaters-or-serendipitous-entity-search-on-user-generated-content-cikm2013%E3%83%A1%E3%83%A2/</loc>
     <lastmod>2013-12-14T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/11/10/scikit-learn%E3%81%AE%E3%82%BD%E3%83%BC%E3%82%B9%E3%82%B3%E3%83%BC%E3%83%89%E3%83%AA%E3%83%BC%E3%83%87%E3%82%A3%E3%83%B3%E3%82%B0%E3%83%8A%E3%82%A4%E3%83%BC%E3%83%96%E3%83%99%E3%82%A4%E3%82%BA%E5%88%86%E9%A1%9E/</loc>
     <lastmod>2013-11-10T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/09/30/%E6%96%87%E6%9B%B8%E8%A6%81%E7%B4%84%E3%83%A1%E3%83%A2acl2013/</loc>
     <lastmod>2013-09-30T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/09/10/diversity-maximization-under-matroid-constraints-kdd-2013%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</loc>
     <lastmod>2013-09-10T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/08/03/active-sampling-for-entity-matching-kdd-2012%E3%82%92%E8%AA%AD%E3%82%93%E3%81%A0/</loc>
     <lastmod>2013-08-03T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/07/07/it-takes-a-long-time-to-become-young./</loc>
     <lastmod>2013-07-07T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/05/12/%E9%A3%9F%E3%81%B9%E3%83%AD%E3%82%B0api%E3%81%AEpython%E3%83%A9%E3%83%83%E3%83%91%E3%83%BC%E3%82%92%E6%9B%B8%E3%81%84%E3%81%9F/</loc>
     <lastmod>2013-05-12T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/02/16/robust-disambiguation-of-named-entities-in-text-emnlp-2011/</loc>
     <lastmod>2013-02-16T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/02/06/joint-inference-of-named-entity-recognition-and-normalization-for-tweets-acl-2012/</loc>
     <lastmod>2013-02-06T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2013/02/01/named-entity-disambiguation-in-streaming-data-acl-2012/</loc>
     <lastmod>2013-02-01T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/blog/2012/12/15/practical-machine-learning-tricks/</loc>
     <lastmod>2020-03-12T00:00:00+00:00</lastmod>
-  </url><url>
+  </url>
+  
+  <url>
     <loc>https://tma15.github.io/archives/</loc>
   </url>
+  
 </urlset>

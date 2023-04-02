@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="pre-commit, python, git">
 <meta name="description" content="本記事ではpre-commitを使ってコミット前にPythonプログラムを自動検査する方法を紹介します。
@@ -136,6 +136,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -362,24 +363,24 @@ if (!doNotTrack) {
 Poetryについては以下の記事をご参照ください。</p>
 <p><a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">【Python】Poetryを使ったパッケージ管理</a></p>
 <p>また本記事で利用するツールのバージョンは下記のとおりです。</p>
-<pre tabindex="0"><code>Python==3.10.6
+<pre><code>Python==3.10.6
 pre-commit==3.0.1
 poetry==1.3.1
 </code></pre><h2 id="プロジェクトの作成">プロジェクトの作成</h2>
 <p>まずはじめにプロジェクトのディレクトリを作成し、GitおよびPoetryで管理するようにします。</p>
-<pre tabindex="0"><code>mkdir precommit_test
+<pre><code>mkdir precommit_test
 cd precommit_test
 git init
 poetry init
 </code></pre><h2 id="インストール">インストール</h2>
 <p>次にpre-commitをインストールします。開発者用のツールなので<code>-D</code>オプションを付けます。</p>
-<pre tabindex="0"><code>poetry add -D pre-commit
+<pre><code>poetry add -D pre-commit
 poetry run pre-commit install
 </code></pre><h2 id="設定ファイルの作成">設定ファイルの作成</h2>
 <p>以下のようにして設定ファイルを作成します。</p>
-<pre tabindex="0"><code>poetry run pre-commit sample-config &gt; .pre-commit-config.yaml
+<pre><code>poetry run pre-commit sample-config &gt; .pre-commit-config.yaml
 </code></pre><p>内容は以下のようになります。</p>
-<pre tabindex="0"><code># See https://pre-commit.com for more information
+<pre><code># See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 repos:
 -   repo: https://github.com/pre-commit/pre-commit-hooks
@@ -396,11 +397,11 @@ repos:
 <li>flake8: フォーマットについての検査で使う</li>
 <li>black: 自動でフォーマットを修正する</li>
 </ul>
-<pre tabindex="0"><code>- repo: https://github.com/pycqa/isort
+<pre><code>- repo: https://github.com/pycqa/isort
   rev: 5.10.1
   hooks:
     - id: isort
-      args: [&#34;--profile&#34;, &#34;black&#34;]
+      args: [&quot;--profile&quot;, &quot;black&quot;]
 
 - repo: https://github.com/pre-commit/mirrors-mypy
   rev: v0.982
@@ -420,15 +421,15 @@ repos:
       language_version: python3.10
 </code></pre><p>必要に応じてツールの設定ファイルを作成します。</p>
 <p><code>.mypy.ini</code></p>
-<pre tabindex="0"><code>[mypy]
+<pre><code>[mypy]
 ignore_missing_imports = True
 </code></pre><p><code>.flake8</code></p>
-<pre tabindex="0"><code>[flake8]
+<pre><code>[flake8]
 ignore = E203, W503
 max-line-length = 88
-</code></pre><pre tabindex="0"><code>git commit -m &#34;Add pre-commit&#34;
+</code></pre><pre><code>git commit -m &quot;Add pre-commit&quot;
 </code></pre><p>初回は以下のメッセージが出力され、<code>pre-commit</code>で記載されているツールがインストールされます。</p>
-<pre tabindex="0"><code>[WARNING] The &#39;rev&#39; field of repo &#39;https://github.com/psf/black&#39; appears to be a mutable reference (moving tag / branch).  Mutable references are never updated after first install and are not supported.  See https://pre-commit.com/#using-the-latest-version-for-a-repository for more details.  Hint: `pre-commit autoupdate` often fixes this.
+<pre><code>[WARNING] The 'rev' field of repo 'https://github.com/psf/black' appears to be a mutable reference (moving tag / branch).  Mutable references are never updated after first install and are not supported.  See https://pre-commit.com/#using-the-latest-version-for-a-repository for more details.  Hint: `pre-commit autoupdate` often fixes this.
 [INFO] Initializing environment for https://github.com/pre-commit/pre-commit-hooks.
 [INFO] Initializing environment for https://github.com/pycqa/isort.
 [INFO] Initializing environment for https://github.com/pre-commit/mirrors-mypy.
@@ -439,7 +440,7 @@ max-line-length = 88
 [INFO] This may take a few minutes...
 </code></pre><p>その後、各ツールによってコミットの内容を検査し、問題なければ<code>Passed</code>と表示されます。
 今回のコミットの内容はPythonプログラムは含まないので<code>isort</code>、<code>mypy</code>、<code>flake8</code>、<code>black</code>に関しては検査が省略<code>Skipped</code>されます。</p>
-<pre tabindex="0"><code>Trim Trailing Whitespace.................................................Passed
+<pre><code>Trim Trailing Whitespace.................................................Passed
 Fix End of Files.........................................................Passed
 Check Yaml...............................................................Passed
 Check for added large files..............................................Passed
@@ -454,21 +455,22 @@ black................................................(no files to check)Skipped
  create mode 100644 .pre-commit-config.yaml
 </code></pre><p>次に、Pythonプログラムをコミットしてみます。
 <code>pre-commit</code>の便利さをわかりやすくするために指摘、自動修正される内容を含んだプログラムを作成します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> os
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> argparse
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
-</span></span><span style="display:flex;"><span>parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#34;-a&#34;</span>, type<span style="color:#f92672">=</span>str)
-</span></span><span style="display:flex;"><span>args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>y: int <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;aaa&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>print(y )
-</span></span></code></pre></div><p>この内容をコミットしようとしてみます。</p>
-<pre tabindex="0"><code>git add sample.py
-git commit -m &#34;Add sample.py&#34;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
+<span style="color:#f92672">import</span> argparse
+
+parser <span style="color:#f92672">=</span> argparse<span style="color:#f92672">.</span>ArgumentParser()
+parser<span style="color:#f92672">.</span>add_argument(<span style="color:#e6db74">&#34;-a&#34;</span>, type<span style="color:#f92672">=</span>str)
+args <span style="color:#f92672">=</span> parser<span style="color:#f92672">.</span>parse_args()
+
+y: int <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;aaa&#34;</span>
+
+<span style="color:#66d9ef">print</span>(y )
+
+</code></pre></div><p>この内容をコミットしようとしてみます。</p>
+<pre><code>git add sample.py
+git commit -m &quot;Add sample.py&quot;
 </code></pre><p>この内容についてコミットする前に<code>pre-commit</code>が検査します。</p>
-<pre tabindex="0"><code>Trim Trailing Whitespace.................................................Failed
+<pre><code>Trim Trailing Whitespace.................................................Failed
 - hook id: trailing-whitespace
 - - exit code: 1
 - - files were modified by this hook
@@ -490,15 +492,15 @@ Fixing /Users/takuya/work/precommit_test/sample.py
 mypy.....................................................................Failed
 - hook id: mypy
 - - exit code: 1
-sample.py:8: error: Incompatible types in assignment (expression has type &#34;str&#34;, variable has type &#34;int&#34;)
+sample.py:8: error: Incompatible types in assignment (expression has type &quot;str&quot;, variable has type &quot;int&quot;)
 Found 1 error in 1 file (checked 1 source file)
 
 flake8...................................................................Failed
 - hook id: flake8
 - - exit code: 1
-sample.py:2:1: F401 &#39;os&#39; imported but unused
+sample.py:2:1: F401 'os' imported but unused
 sample.py:4:7: E221 multiple spaces before operator
-sample.py:10:8: E202 whitespace before &#39;)&#39;
+sample.py:10:8: E202 whitespace before ')'
 
 black....................................................................Failed
 - hook id: black
@@ -879,6 +881,72 @@ All done! ✨ 🍰 ✨
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1115,70 +1183,6 @@ All done! ✨ 🍰 ✨
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

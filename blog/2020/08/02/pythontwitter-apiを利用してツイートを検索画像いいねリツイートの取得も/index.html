@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="python, twitter, scraping">
 <meta name="description" content="Twitterの検索APIを利用することで、Twitterに投稿されるツイートを検索し、ツイート本文、いいね数などに加えて、ツイートに添付される画像やURLなどを取得できます。
@@ -136,6 +136,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -474,7 +475,7 @@ Twitterの検索APIを利用するにはAPIや得られるデータの仕様を�
 <h2 id="利用する環境">利用する環境</h2>
 <p>本記事ではPython 3.7.3を用いています。
 また事前にインストールが必要なライブラリは以下のとおりです。</p>
-<pre tabindex="0"><code>requests==2.21.0
+<pre><code>requests==2.21.0
 requests-oauthlib==1.2.0
 </code></pre>
 
@@ -500,60 +501,60 @@ requests-oauthlib==1.2.0
 extendedモードでツイートを取得するにはURLに<code>tweet_mode=extended</code>を追記します<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>。
 extendedモードでツイートを取得した場合はツイート本文は<code>text</code>ではなく<code>full_text</code>になることに注意が必要です。</p>
 <p>extendedモードでツイートを検索するにはたとえば以下のように指定します。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> requests_oauthlib <span style="color:#f92672">import</span> OAuth1Session
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://api.twitter.com/1.1/search/tweets.json&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>params <span style="color:#f92672">=</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#e6db74">&#39;&lt;クエリ&gt;&#39;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;tweet_mode&#39;</span>: <span style="color:#e6db74">&#39;extended&#39;</span>,
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> OAuth1Session(
-</span></span><span style="display:flex;"><span>    api_key,
-</span></span><span style="display:flex;"><span>    api_secret_key,
-</span></span><span style="display:flex;"><span>    access_token,
-</span></span><span style="display:flex;"><span>    access_token_secret)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
-</span></span></code></pre></div><p><code>&lt;クエリ&gt;</code>には実際に検索したい単語としてください。検索したい単語が複数ある場合は、
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> requests_oauthlib <span style="color:#f92672">import</span> OAuth1Session
+
+url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://api.twitter.com/1.1/search/tweets.json&#39;</span>
+
+params <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;q&#39;</span>: <span style="color:#e6db74">&#39;&lt;クエリ&gt;&#39;</span>,
+    <span style="color:#e6db74">&#39;tweet_mode&#39;</span>: <span style="color:#e6db74">&#39;extended&#39;</span>,
+}
+
+client <span style="color:#f92672">=</span> OAuth1Session(
+    api_key,
+    api_secret_key,
+    access_token,
+    access_token_secret)
+
+res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
+</code></pre></div><p><code>&lt;クエリ&gt;</code>には実際に検索したい単語としてください。検索したい単語が複数ある場合は、
 <code>&lt;単語1&gt; OR &lt;単語2&gt; OR &lt;単語3&gt;…</code>のように<code>OR</code>で結合します。</p>
 <p>他の検索パラメータは<a href="https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets">Standard search API — Twitter Developers</a>を参照してください。</p>
 <h2 id="apiの利用制限">APIの利用制限</h2>
 <p>検索APIでは15分で180回までのリクエストが可能です <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>。
 その他のAPIの制限は<a href="https://developer.twitter.com/ja/docs/basics/rate-limits">こちら</a>を参照してください。
 利用制限までツイートの検索を繰り返すには、以下のようにgetメソッドで取得したHTTPのステータスコードが<code>429</code><sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>になるまでwhile文で処理するようにします。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#66d9ef">True</span>:
-</span></span><span style="display:flex;"><span>    res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
-</span></span><span style="display:flex;"><span>        data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(res<span style="color:#f92672">.</span>text)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># dataを取得したあとの処理</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">429</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">break</span>
-</span></span></code></pre></div><p>以降では <code># dataを取得したあとの処理</code> で具体的にツイートの情報を取得するサンプルコードを紹介します。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">while</span> True:
+    res <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>get(url, params<span style="color:#f92672">=</span>params)
+
+    <span style="color:#66d9ef">if</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">200</span>:
+        data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>loads(res<span style="color:#f92672">.</span>text)
+
+        <span style="color:#75715e"># dataを取得したあとの処理</span>
+
+    <span style="color:#66d9ef">elif</span> res<span style="color:#f92672">.</span>status_code <span style="color:#f92672">==</span> <span style="color:#ae81ff">429</span>:
+        <span style="color:#66d9ef">break</span>
+</code></pre></div><p>以降では <code># dataを取得したあとの処理</code> で具体的にツイートの情報を取得するサンプルコードを紹介します。</p>
 <h2 id="ツイート本文の取得">ツイート本文の取得</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
-</span></span><span style="display:flex;"><span>    print(tweet[<span style="color:#e6db74">&#39;full_text&#39;</span>])
-</span></span></code></pre></div><h2 id="いいね数リツイート数の取得">いいね数、リツイート数の取得</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
-</span></span><span style="display:flex;"><span>    print(tweet[<span style="color:#e6db74">&#39;favorite_count&#39;</span>])  <span style="color:#75715e"># いいね数</span>
-</span></span><span style="display:flex;"><span>    print(tweet[<span style="color:#e6db74">&#39;retweet_count&#39;</span>])  <span style="color:#75715e"># リツイート数</span>
-</span></span></code></pre></div><h2 id="ハッシュタグの取得">ハッシュタグの取得</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> hashtag <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;entities&#39;</span>][<span style="color:#e6db74">&#39;hashtags&#39;</span>]:
-</span></span><span style="display:flex;"><span>        print(hashtag)
-</span></span></code></pre></div><h2 id="urlの取得">URLの取得</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> url <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;entities&#39;</span>][<span style="color:#e6db74">&#39;urls&#39;</span>]:
-</span></span><span style="display:flex;"><span>        url <span style="color:#f92672">=</span> url[<span style="color:#e6db74">&#39;expanded_url&#39;</span>]
-</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
+<span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
+    <span style="color:#66d9ef">print</span>(tweet[<span style="color:#e6db74">&#39;full_text&#39;</span>])
+</code></pre></div><h2 id="いいね数リツイート数の取得">いいね数、リツイート数の取得</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
+<span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
+    <span style="color:#66d9ef">print</span>(tweet[<span style="color:#e6db74">&#39;favorite_count&#39;</span>])  <span style="color:#75715e"># いいね数</span>
+    <span style="color:#66d9ef">print</span>(tweet[<span style="color:#e6db74">&#39;retweet_count&#39;</span>])  <span style="color:#75715e"># リツイート数</span>
+</code></pre></div><h2 id="ハッシュタグの取得">ハッシュタグの取得</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
+<span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
+    <span style="color:#66d9ef">for</span> hashtag <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;entities&#39;</span>][<span style="color:#e6db74">&#39;hashtags&#39;</span>]:
+        <span style="color:#66d9ef">print</span>(hashtag)
+</code></pre></div><h2 id="urlの取得">URLの取得</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
+<span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
+    <span style="color:#66d9ef">for</span> url <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;entities&#39;</span>][<span style="color:#e6db74">&#39;urls&#39;</span>]:
+        url <span style="color:#f92672">=</span> url[<span style="color:#e6db74">&#39;expanded_url&#39;</span>]
+</code></pre></div>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <ins class="adsbygoogle"
@@ -571,42 +572,42 @@ extendedモードでツイートを取得した場合はツイート本文は<co
 <p>Twitterでは最大で4枚の画像を添付してツイートを投稿できます。
 entitiesが最初の1枚のみを対象とするのに対して、extended_entitiesはすべての画像を対象とします <sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>
 (extended_entitiesは上述のextendedモードとは関係なく、取得したツイートに付与されます)。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> requests
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;extended_entities&#39;</span> <span style="color:#f92672">in</span> tweet:
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;extended_entities&#39;</span>][<span style="color:#e6db74">&#39;media&#39;</span>]:
-</span></span><span style="display:flex;"><span>            media_type <span style="color:#f92672">=</span> d[<span style="color:#e6db74">&#39;type&#39;</span>]
-</span></span><span style="display:flex;"><span>            url <span style="color:#f92672">=</span> d[<span style="color:#e6db74">&#39;media_url&#39;</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> media_type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;photo&#39;</span>:
-</span></span><span style="display:flex;"><span>                out_file <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(url)
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">with</span> open(out_file, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
-</span></span><span style="display:flex;"><span>                    response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url)
-</span></span><span style="display:flex;"><span>                    f<span style="color:#f92672">.</span>write(response<span style="color:#f92672">.</span>content)
-</span></span></code></pre></div><h2 id="おわり">おわり</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> requests
+
+tweets <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;statuses&#39;</span>]
+<span style="color:#66d9ef">for</span> tweet <span style="color:#f92672">in</span> tweets:
+    <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;extended_entities&#39;</span> <span style="color:#f92672">in</span> tweet:
+        <span style="color:#66d9ef">for</span> d <span style="color:#f92672">in</span> tweet[<span style="color:#e6db74">&#39;extended_entities&#39;</span>][<span style="color:#e6db74">&#39;media&#39;</span>]:
+            media_type <span style="color:#f92672">=</span> d[<span style="color:#e6db74">&#39;type&#39;</span>]
+            url <span style="color:#f92672">=</span> d[<span style="color:#e6db74">&#39;media_url&#39;</span>]
+
+            <span style="color:#66d9ef">if</span> media_type <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;photo&#39;</span>:
+                out_file <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>basename(url)
+                <span style="color:#66d9ef">with</span> open(out_file, <span style="color:#e6db74">&#39;wb&#39;</span>) <span style="color:#66d9ef">as</span> f:
+                    response <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(url)
+                    f<span style="color:#f92672">.</span>write(response<span style="color:#f92672">.</span>content)
+</code></pre></div><h2 id="おわり">おわり</h2>
 <p>本記事ではTwitter APIを利用してツイートを取得し、必要な情報を取得する方法をPythonのサンプルコード付きで紹介しました。</p>
 <p>最後に、定期的に収集したツイートをGoogleスプレッドシートに自動で蓄積する方法についても紹介していますので、よろしければこちらの記事も合わせてご覧ください。</p>
 <p><a href="https://tma15.github.io/blog/2020/07/25/%E7%84%A1%E6%96%99%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E5%8F%8E%E9%9B%86heroku%E3%81%A7%E5%8F%8E%E9%9B%86%E3%81%97%E3%81%9F%E3%83%84%E3%82%A4%E3%83%BC%E3%83%88%E3%82%92%E3%82%B9%E3%83%97%E3%83%AC%E3%83%83%E3%83%89%E3%82%B7%E3%83%BC%E3%83%88%E3%81%AB%E8%93%84%E7%A9%8D%E3%81%99%E3%82%8B/">【無料でデータ収集】Herokuで収集したツイートをスプレッドシートに蓄積する</a></p>
 <p><a href="//af.moshimo.com/af/c/click?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616&amp;url=https%3A%2F%2Fitem.rakuten.co.jp%2Fbook%2F16139321%2F&amp;m=http%3A%2F%2Fm.rakuten.co.jp%2Fbook%2Fi%2F19853488%2F" rel="nofollow" referrerpolicy="no-referrer-when-downgrade"><img src="//thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/2685/9784798142685.jpg?_ex=128x128" alt="" style="border: none;" /><br />現場で使える！Python自然言語処理入門 （AI &amp; TECHNOLOGY） [ 赤石 雅典 ]</a><img src="//i.moshimo.com/af/i/impression?a_id=2804718&amp;p_id=54&amp;pc_id=54&amp;pl_id=616" alt="" width="1" height="1" style="border: 0px;" /></p>
-<div class="footnotes" role="doc-endnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr>
 <ol>
-<li id="fn:1">
-<p><a href="https://developer.twitter.com/en/docs/tweets/tweet-updates">https://developer.twitter.com/en/docs/tweets/tweet-updates</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://developer.twitter.com/en/docs/tweets/tweet-updates">https://developer.twitter.com/en/docs/tweets/tweet-updates</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:2">
-<p>application-only authにすることによってリクエストの上限を増やすことも可能です。 <a href="https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0/application-only">https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0/application-only</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:2" role="doc-endnote">
+<p>application-only authにすることによってリクエストの上限を増やすことも可能です。 <a href="https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0/application-only">https://developer.twitter.com/en/docs/basics/authentication/oauth-2-0/application-only</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:3">
-<p><a href="https://developer.twitter.com/ja/docs/basics/rate-limiting">https://developer.twitter.com/ja/docs/basics/rate-limiting</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://developer.twitter.com/ja/docs/basics/rate-limiting">https://developer.twitter.com/ja/docs/basics/rate-limiting</a> <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
-<li id="fn:4">
-<p><a href="https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/extended-entities-object">https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/extended-entities-object</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+<li id="fn:4" role="doc-endnote">
+<p><a href="https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/extended-entities-object">https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/extended-entities-object</a> <a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
 </li>
 </ol>
-</div>
+</section>
               
 
               <br>
@@ -972,6 +973,72 @@ entitiesが最初の1枚のみを対象とするのに対して、extended_entit
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -1208,70 +1275,6 @@ entitiesが最初の1枚のみを対象とするのに対して、extended_entit
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

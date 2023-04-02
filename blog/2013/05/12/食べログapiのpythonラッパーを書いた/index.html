@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="ソースコードはこちら。
@@ -121,6 +121,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -325,34 +326,34 @@ if (!doNotTrack) {
 <p>まず<a href="http://tabelog.com/help/api/">食べログAPI サービス案内</a>から利用登録をして
 access key (40桁の文字列)を入手する。</p>
 <h2 id="インストール">インストール</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>git clone https://github.com/tma15/python-tabelog.git
-</span></span><span style="display:flex;"><span>cd python-tabelog
-</span></span><span style="display:flex;"><span>python setup.py install</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone https://github.com/tma15/python-tabelog.git
+cd python-tabelog
+python setup.py install</code></pre></div>
 <h2 id="使い方">使い方</h2>
 <h3 id="最初に">最初に</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> tabelog <span style="color:#f92672">import</span> Tabelog
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Your access key here.&#39;</span>
-</span></span><span style="display:flex;"><span>tabelog <span style="color:#f92672">=</span> Tabelog(key)</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> tabelog <span style="color:#f92672">import</span> Tabelog
+
+key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Your access key here.&#39;</span>
+tabelog <span style="color:#f92672">=</span> Tabelog(key)</code></pre></div>
 <h3 id="レストラン検索">レストラン検索</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>prefecture <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;東京&#39;</span>
-</span></span><span style="display:flex;"><span>station <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;渋谷&#39;</span>
-</span></span><span style="display:flex;"><span>restaurants <span style="color:#f92672">=</span> tabelog<span style="color:#f92672">.</span>search_restaurant(prefecture<span style="color:#f92672">=</span>prefecture, station<span style="color:#f92672">=</span>station)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> restaurant <span style="color:#f92672">in</span> restaurants:
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;rcd:&#39;</span>, restaurant<span style="color:#f92672">.</span>rcd
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;name:&#39;</span>, restaurant<span style="color:#f92672">.</span>name
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;url:&#39;</span>, restaurant<span style="color:#f92672">.</span>tabelogurl
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;mobile url:&#39;</span>, restaurant<span style="color:#f92672">.</span>tabelogmobileurl
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;dinner price:&#39;</span>, restaurant<span style="color:#f92672">.</span>dinnerprice
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;lunch price:&#39;</span>, restaurant<span style="color:#f92672">.</span>lunchprice
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;total score:&#39;</span>, restaurant<span style="color:#f92672">.</span>totalscore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;taste score:&#39;</span>, restaurant<span style="color:#f92672">.</span>tastescore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;service score:&#39;</span>, restaurant<span style="color:#f92672">.</span>servicescore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;mood score:&#39;</span>, restaurant<span style="color:#f92672">.</span>moodscore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;category:&#39;</span>, restaurant<span style="color:#f92672">.</span>category
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;station:&#39;</span>, restaurant<span style="color:#f92672">.</span>station
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;situation:&#39;</span>, restaurant<span style="color:#f92672">.</span>situation</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">prefecture <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;東京&#39;</span>
+station <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;渋谷&#39;</span>
+restaurants <span style="color:#f92672">=</span> tabelog<span style="color:#f92672">.</span>search_restaurant(prefecture<span style="color:#f92672">=</span>prefecture, station<span style="color:#f92672">=</span>station)
+
+<span style="color:#66d9ef">for</span> restaurant <span style="color:#f92672">in</span> restaurants:
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;rcd:&#39;</span>, restaurant<span style="color:#f92672">.</span>rcd
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;name:&#39;</span>, restaurant<span style="color:#f92672">.</span>name
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;url:&#39;</span>, restaurant<span style="color:#f92672">.</span>tabelogurl
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;mobile url:&#39;</span>, restaurant<span style="color:#f92672">.</span>tabelogmobileurl
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;dinner price:&#39;</span>, restaurant<span style="color:#f92672">.</span>dinnerprice
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;lunch price:&#39;</span>, restaurant<span style="color:#f92672">.</span>lunchprice
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;total score:&#39;</span>, restaurant<span style="color:#f92672">.</span>totalscore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;taste score:&#39;</span>, restaurant<span style="color:#f92672">.</span>tastescore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;service score:&#39;</span>, restaurant<span style="color:#f92672">.</span>servicescore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;mood score:&#39;</span>, restaurant<span style="color:#f92672">.</span>moodscore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;category:&#39;</span>, restaurant<span style="color:#f92672">.</span>category
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;station:&#39;</span>, restaurant<span style="color:#f92672">.</span>station
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;situation:&#39;</span>, restaurant<span style="color:#f92672">.</span>situation</code></pre></div>
 <h4 id="search_restaurantが受け取れるその他の主な変数">search_restaurant()が受け取れるその他の主な変数</h4>
 <ul>
 <li>latitude: 経度 （例）35.684</li>
@@ -362,16 +363,16 @@ access key (40桁の文字列)を入手する。</p>
 </ul>
 <h3 id="レビュー収集">レビュー収集</h3>
 <p>お店のレビューが欲しい時はそのお店のレコード番号を指定する。
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>reviews <span style="color:#f92672">=</span> tabelog<span style="color:#f92672">.</span>search_review(<span style="color:#ae81ff">13004626</span>) <span style="color:#75715e"># restaurant.rcd</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> review <span style="color:#f92672">in</span> reviews:
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;nickname:&#39;</span>, review<span style="color:#f92672">.</span>nickname
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;title:&#39;</span>, review<span style="color:#f92672">.</span>title
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;dinner price:&#39;</span>, review<span style="color:#f92672">.</span>dinnerprice
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;lunch price:&#39;</span>, review<span style="color:#f92672">.</span>lunchprice
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;total score:&#39;</span>, review<span style="color:#f92672">.</span>totalscore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;service score:&#39;</span>, review<span style="color:#f92672">.</span>servicescore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;taste score:&#39;</span>, review<span style="color:#f92672">.</span>tastescore
-</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#39;mood score:&#39;</span>, review<span style="color:#f92672">.</span>moodscore</span></span></code></pre></div></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">reviews <span style="color:#f92672">=</span> tabelog<span style="color:#f92672">.</span>search_review(<span style="color:#ae81ff">13004626</span>) <span style="color:#75715e"># restaurant.rcd</span>
+<span style="color:#66d9ef">for</span> review <span style="color:#f92672">in</span> reviews:
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;nickname:&#39;</span>, review<span style="color:#f92672">.</span>nickname
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;title:&#39;</span>, review<span style="color:#f92672">.</span>title
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;dinner price:&#39;</span>, review<span style="color:#f92672">.</span>dinnerprice
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;lunch price:&#39;</span>, review<span style="color:#f92672">.</span>lunchprice
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;total score:&#39;</span>, review<span style="color:#f92672">.</span>totalscore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;service score:&#39;</span>, review<span style="color:#f92672">.</span>servicescore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;taste score:&#39;</span>, review<span style="color:#f92672">.</span>tastescore
+    <span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#39;mood score:&#39;</span>, review<span style="color:#f92672">.</span>moodscore</code></pre></div></p>
 
               
 
@@ -391,6 +392,72 @@ access key (40桁の文字列)を入手する。</p>
 
 
               <h3>最近の記事</h3>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
 
 <div class="box">
 
@@ -642,70 +709,6 @@ access key (40桁の文字列)を入手する。</p>
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

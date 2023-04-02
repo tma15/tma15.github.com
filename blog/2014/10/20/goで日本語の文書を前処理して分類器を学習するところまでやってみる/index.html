@@ -5,26 +5,26 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad&#43;RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
-文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。 データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
-本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由 $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
-ソースコード mecab.go (gist) text.go (gist) 動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.600000 スポーツ モチベーション 0.600000 スポーツ アルゼンチン 0.">
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 
 <meta property="og:description" content="概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad&#43;RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
-文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。 データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
-本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由 $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
-ソースコード mecab.go (gist) text.go (gist) 動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.600000 スポーツ モチベーション 0.600000 スポーツ アルゼンチン 0.">
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Goで日本語の文書を前処理して分類器を学習するところまでやってみる">
 <meta name="twitter:title" content="Goで日本語の文書を前処理して分類器を学習するところまでやってみる">
@@ -33,18 +33,18 @@ $cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロ
 <meta property="og:site_name" content="Now is better than never.">
 <meta property="og:description" content="概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad&#43;RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
-文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。 データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
-本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由 $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
-ソースコード mecab.go (gist) text.go (gist) 動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.600000 スポーツ モチベーション 0.600000 スポーツ アルゼンチン 0.">
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.">
 <meta name="twitter:description" content="概要 日本語の文書を単純な方法で分類器を学習するところまでの一連の処理をGoでやってみる。 分類器は何でも良いのだけど、先日書いたAdaGrad&#43;RDAを使う。
 ラベルが付いた日本語のデータがあるという前提で、以下の流れで進める。
-文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。 データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
-本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由 $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
-ソースコード mecab.go (gist) text.go (gist) 動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
+ 文書を文に分割する。今回は「。」で区切る。 文を形態素解析して名詞や動詞(表層形)を取り出し、文書をある単語を含む、含まないの二値で表現した素性ベクトルに変換する。 訓練データを使って分類器を学習して、できたモデルの中身を見てみる。  データ 下記URLから得られるテキストの一部を使って、ラベルをそれぞれ、「スポーツ」、「政治」、「Go言語」とラベルを付与し、第一カラムをラベル、第二カラムを文書としたCSVに保存しておく。
+ 本田圭佑:セリエＡ日本人４人目マルチ!惨敗ブラジル戦憂さ晴らし 観劇収支ズレどう説明、公私混同疑いも…小渕氏 古いプログラミング言語がなくならない理由  $cat data.csv スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で... 政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて... Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。... &hellip;以降は省略している。
+ソースコード  mecab.go (gist) text.go (gist)  動かしてみる $./text data.csv &gt; data $cat data スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000... Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000... &hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。 次に分類器を学習する。
 $./adagrad -f data -m learn -w model できあがったモデルの中身を見てみる。
-$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.600000 スポーツ モチベーション 0.600000 スポーツ アルゼンチン 0.">
+$cat model|grep &#34;^スポーツ&#34;|sort -k3 -nr|head スポーツ カルロス・テベス 0.">
 <meta property="og:locale" content="ja">
 
   
@@ -139,6 +139,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -354,10 +355,10 @@ if (!doNotTrack) {
 <li><a href="http://www.yomiuri.co.jp/politics/20141020-OYT1T50026.html">観劇収支ズレどう説明、公私混同疑いも…小渕氏</a></li>
 <li><a href="http://ascii.jp/elem/000/000/935/935886/">古いプログラミング言語がなくならない理由</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$cat data.csv
-</span></span><span style="display:flex;"><span>スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
-</span></span><span style="display:flex;"><span>政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
-</span></span><span style="display:flex;"><span>Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cat data.csv
+スポーツ,ＡＣミランＦＷ本田圭佑（２８）が１９日のアウェー、ベローナ戦で...
+政治,渕経済産業相が関連する政治団体の資金処理問題で、最も不透明と指摘されて...
+Go言語,編集者とこの本を5000部売れたらなという話をしたのをなんとなく覚えている。...</code></pre></div>
 <p>&hellip;以降は省略している。</p>
 <h2 id="ソースコード">ソースコード</h2>
 <ul>
@@ -365,48 +366,48 @@ if (!doNotTrack) {
 <li><a href="https://gist.github.com/tma15/094abc128ad62e16cfed#file-text-go">text.go</a> (gist)</li>
 </ul>
 <h2 id="動かしてみる">動かしてみる</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$./text data.csv &gt; data
-</span></span><span style="display:flex;"><span>$cat data
-</span></span><span style="display:flex;"><span>スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
-</span></span><span style="display:flex;"><span>政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
-</span></span><span style="display:flex;"><span>Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$./text data.csv &gt; data
+$cat data
+スポーツ ２:1.000000 スルー:1.000000 本田:1.000000 セリエＡ:1.000000 アルゼンチン:1.000000... 
+政治 円:1.000000 なる:1.000000 者:1.000000 向け:1.000000 会:1.000000 収支:1.000000...
+Go言語 処理:1.000000 ため:1.000000 Go:1.000000 編集:1.000000 5000:1.000000...</code></pre></div>
 <p>&hellip;以降は省略している。これで、dataファイルに素性ベクトルが書き込まれる。
 次に分類器を学習する。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$./adagrad -f data -m learn -w model</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$./adagrad -f data -m learn -w model</code></pre></div>
 <p>できあがったモデルの中身を見てみる。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$cat model|grep <span style="color:#e6db74">&#34;^スポーツ&#34;</span>|sort -k3 -nr|head
-</span></span><span style="display:flex;"><span>スポーツ        カルロス・テベス        0.600000
-</span></span><span style="display:flex;"><span>スポーツ        モチベーション  0.600000
-</span></span><span style="display:flex;"><span>スポーツ        アルゼンチン    0.600000
-</span></span><span style="display:flex;"><span>スポーツ        ＡＣミラン      0.600000
-</span></span><span style="display:flex;"><span>スポーツ        ユベントス      0.600000
-</span></span><span style="display:flex;"><span>スポーツ        抜け出し        0.600000
-</span></span><span style="display:flex;"><span>スポーツ        ベローナ        0.600000
-</span></span><span style="display:flex;"><span>スポーツ        ブラジル        0.600000
-</span></span><span style="display:flex;"><span>スポーツ        セリエＡ        0.600000
-</span></span><span style="display:flex;"><span>スポーツ        アウェー        0.600000
-</span></span><span style="display:flex;"><span>$cat model|grep <span style="color:#e6db74">&#34;^政治&#34;</span>|sort -k3 -nr|head
-</span></span><span style="display:flex;"><span>政治    不透明  0.800000
-</span></span><span style="display:flex;"><span>政治    上回っ  0.800000
-</span></span><span style="display:flex;"><span>政治    関連    0.800000
-</span></span><span style="display:flex;"><span>政治    資金    0.800000
-</span></span><span style="display:flex;"><span>政治    説明    0.800000
-</span></span><span style="display:flex;"><span>政治    観劇    0.800000
-</span></span><span style="display:flex;"><span>政治    経済    0.800000
-</span></span><span style="display:flex;"><span>政治    産業    0.800000
-</span></span><span style="display:flex;"><span>政治    生じ    0.800000
-</span></span><span style="display:flex;"><span>政治    焦点    0.800000
-</span></span><span style="display:flex;"><span>$cat model|grep <span style="color:#e6db74">&#34;^Go言語&#34;</span>|sort -k3 -nr|head
-</span></span><span style="display:flex;"><span>Go言語  インタビュー    0.700000
-</span></span><span style="display:flex;"><span>Go言語  カーニハン      0.700000
-</span></span><span style="display:flex;"><span>Go言語  グーグル        0.700000
-</span></span><span style="display:flex;"><span>Go言語  代わる  0.700000
-</span></span><span style="display:flex;"><span>Go言語  それら  0.700000
-</span></span><span style="display:flex;"><span>Go言語  いくら  0.700000
-</span></span><span style="display:flex;"><span>Go言語  言語    0.700000
-</span></span><span style="display:flex;"><span>Go言語  解決    0.700000
-</span></span><span style="display:flex;"><span>Go言語  覚え    0.700000
-</span></span><span style="display:flex;"><span>Go言語  考え    0.700000</span></span></code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$cat model|grep <span style="color:#e6db74">&#34;^スポーツ&#34;</span>|sort -k3 -nr|head
+スポーツ        カルロス・テベス        0.600000
+スポーツ        モチベーション  0.600000
+スポーツ        アルゼンチン    0.600000
+スポーツ        ＡＣミラン      0.600000
+スポーツ        ユベントス      0.600000
+スポーツ        抜け出し        0.600000
+スポーツ        ベローナ        0.600000
+スポーツ        ブラジル        0.600000
+スポーツ        セリエＡ        0.600000
+スポーツ        アウェー        0.600000
+$cat model|grep <span style="color:#e6db74">&#34;^政治&#34;</span>|sort -k3 -nr|head
+政治    不透明  0.800000
+政治    上回っ  0.800000
+政治    関連    0.800000
+政治    資金    0.800000
+政治    説明    0.800000
+政治    観劇    0.800000
+政治    経済    0.800000
+政治    産業    0.800000
+政治    生じ    0.800000
+政治    焦点    0.800000
+$cat model|grep <span style="color:#e6db74">&#34;^Go言語&#34;</span>|sort -k3 -nr|head
+Go言語  インタビュー    0.700000
+Go言語  カーニハン      0.700000
+Go言語  グーグル        0.700000
+Go言語  代わる  0.700000
+Go言語  それら  0.700000
+Go言語  いくら  0.700000
+Go言語  言語    0.700000
+Go言語  解決    0.700000
+Go言語  覚え    0.700000
+Go言語  考え    0.700000</code></pre></div>
 <p>一行が素性の重みを表していて、タブ区切りで左から順に、ラベル、素性、素性の重みとなっている。
 たとえば、「カルロス・テベス」という素性の重みは、「スポーツ」というラベルで0.6の重みを持つことを表している。
 このモデルでラベルが未知の文書を分類するとき、「カルロス・テベス」が出現しているほどその文書のラベルは「スポーツ」になりやすいし、「不透明」が出現しているほどラベルは「政治」になりやすい。</p>
@@ -706,6 +707,72 @@ if (!doNotTrack) {
     
     <div class="postShorten-header">
       <h4 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h4>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+  </div>
+  
+    <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+      <div class="postShorten-thumbnailimg">
+        <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" width="100%"/>
+      </div>
+    </a>
+  
+</article>
+
+</div>
+<br>
+
+<div class="box">
+
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h4 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/">
           【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする 
         </a>
@@ -942,70 +1009,6 @@ if (!doNotTrack) {
     <a href="https://tma15.github.io/blog/2022/12/31/pythonpoetry%E3%82%92%E4%BD%BF%E3%81%A3%E3%81%9F%E3%83%91%E3%83%83%E3%82%B1%E3%83%BC%E3%82%B8%E7%AE%A1%E7%90%86/">
       <div class="postShorten-thumbnailimg">
         <img alt="" itemprop="image" src="https://tma15.github.io/img/poetry.png" width="100%"/>
-      </div>
-    </a>
-  
-</article>
-
-</div>
-<br>
-
-<div class="box">
-
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-left" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h4 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-          【自然言語処理】A General Language Assistant as a Laboratory for Alignment【論文紹介】
-        </a>
-      </h4>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2022-12-29T10:05:49&#43;09:00">
-        
-  
-  
-  
-  
-    2022-12-29
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/machine_learning">machine_learning</a>
-    
-  
-
-  </div>
-
-
-    </div>
-  </div>
-  
-    <a href="https://tma15.github.io/blog/2022/12/29/%E8%87%AA%E7%84%B6%E8%A8%80%E8%AA%9E%E5%87%A6%E7%90%86a-general-language-assistant-as-a-laboratory-for-alignment%E8%AB%96%E6%96%87%E7%B4%B9%E4%BB%8B/">
-      <div class="postShorten-thumbnailimg">
-        <img alt="" itemprop="image" src="https://tma15.github.io/img/2022/12/cyberpunk-g0f0a64c80_640.jpg" width="100%"/>
       </div>
     </a>
   

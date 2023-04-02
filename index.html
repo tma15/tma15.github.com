@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Hugo 0.110.0 with theme Tranquilpeak 0.4.7-BETA">
+<meta name="generator" content="Hugo 0.67.0 with theme Tranquilpeak 0.4.7-BETA">
 <meta name="author" content="Takuya Makino">
 <meta name="keywords" content="">
 <meta name="description" content="Hugo tranquilpeak theme demo">
@@ -101,6 +101,7 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
+
     
     
   </head>
@@ -266,6 +267,81 @@ if (!doNotTrack) {
                ">
         <section class="postShorten-group main-content-wrap">
           
+          
+            
+  
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+      <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+        <div class="postShorten-thumbnailimg" align="center">
+          <img alt="" itemprop="image" src="https://tma15.github.io/img/huggingface.png" height="" width=""/>
+        </div>
+      </a>
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/">
+          transformersのAutoModelで独自クラスを使う
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2023-04-02T12:10:39&#43;09:00">
+        
+  
+  
+  
+  
+    2023-04-02
+  
+
+
+      </time>
+
+      
+
+    
+    
+  
+  
+    <span>カテゴリー</span>
+    
+      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/nlp">nlp</a>, 
+    
+      <a class="category-link" href="https://tma15.github.io/categories/huggingface">huggingface</a>
+    
+  
+
+  </div>
+
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      
+        <p>本記事ではhuggingfaceの<a href="https://huggingface.co/docs/transformers/index">transformers</a>の<a href="https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/auto#transformers.AutoModel">AutoModel</a>を使って独自クラスを利用する方法を紹介します。
+transformersはAutoModelによって、事前学習済みモデルがどのモデルの実装なのかを意識せずに利用できます。
+たとえばモデルのアーキテクチャや事前学習済みのパラメータを変えて実験をするプログラムははモデル名を<code>model_name_or_path</code>とした場合 <code>model = AutoModel.from_pretrained(model_name_or_path)</code> とだけ記述すれば事前学習済みパラメータで初期化されたモデルを読み込めます。
+この<code>AutoModel</code>で独自クラスを利用できればtransformersで実装されている他のモデルと同様に利用が容易になります。</p>
+      
+      <p>
+        <a href="https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/" class="postShorten-excerpt_link link">続きを読む</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
           
             
   
@@ -690,86 +766,6 @@ Poetryを使うことでパッケージが依存するライブラリの依存�
       
       <p>
         <a href="https://tma15.github.io/blog/2021/10/15/%E6%9B%B8%E8%A9%95%E3%83%9E%E3%83%83%E3%82%AD%E3%83%B3%E3%82%BC%E3%83%BC%E3%81%8C%E8%A7%A3%E3%81%8D%E6%98%8E%E3%81%8B%E3%81%99-%E7%94%9F%E3%81%8D%E6%AE%8B%E3%82%8B%E3%81%9F%E3%82%81%E3%81%AEdx/" class="postShorten-excerpt_link link">続きを読む</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
-            
-  
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-top" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-      <a href="https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/">
-        <div class="postShorten-thumbnailimg" align="center">
-          <img alt="" itemprop="image" src="https://tma15.github.io/img/pybind11-logo.png" height="150px" width=""/>
-        </div>
-      </a>
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/">
-          【pybind11】サブモジュールごとにファイルを分割してPythonモジュールを作成する
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2021-10-09T13:05:41&#43;09:00">
-        
-  
-  
-  
-  
-    2021-10-09
-  
-
-
-      </time>
-
-      
-
-    
-    
-  
-  
-    <span>カテゴリー</span>
-    
-      <a class="category-link" href="https://tma15.github.io/categories/c&#43;&#43;">c&#43;&#43;</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/pybind11">pybind11</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/git">git</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/cmake">cmake</a>, 
-    
-      <a class="category-link" href="https://tma15.github.io/categories/python">python</a>
-    
-  
-
-  </div>
-
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      
-        <p><a href="https://pybind11.readthedocs.io/en/stable/">pybind11</a>を使うことでC++で書いたライブラリをPythonから利用できるようになります。
-例えばDeep LearningフレームワークのPyTorchもコア部分をC++で<a href="https://github.com/pytorch/pytorch/blob/master/torch/csrc/utils/pybind.h">実装</a>し、pybind11を使ってPythonから利用できるようになっています。
-pybind11の公式リファレンスを読むことで基本的なことはわかったのですが、Pythonモジュールをサブモジュールごとにファイルに分割する方法がわからなかったので本記事を作成しました。
-特にプログラムが複雑になってきたときにファイルを分割してサブモジュールを作成したいことが出てくると思います。
-ベストプラクティスなのかわかりませんが、本記事が同じ疑問を持っている方の解決策になれば幸いです。</p>
-      
-      <p>
-        <a href="https://tma15.github.io/blog/2021/10/09/pybind11%E3%82%B5%E3%83%96%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%81%94%E3%81%A8%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E5%88%86%E5%89%B2%E3%81%97%E3%81%A6python%E3%83%A2%E3%82%B8%E3%83%A5%E3%83%BC%E3%83%AB%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B/" class="postShorten-excerpt_link link">続きを読む</a>
         
       </p>
     </div>

@@ -6,7 +6,23 @@
     <description>Recent content in python on Now is better than never.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
-    <lastBuildDate>Mon, 30 Jan 2023 15:08:57 +0900</lastBuildDate><atom:link href="https://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Apr 2023 12:10:39 +0900</lastBuildDate>
+    
+	<atom:link href="https://tma15.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>transformersのAutoModelで独自クラスを使う</title>
+      <link>https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/</link>
+      <pubDate>Sun, 02 Apr 2023 12:10:39 +0900</pubDate>
+      
+      <guid>https://tma15.github.io/blog/2023/04/02/transformers%E3%81%AEautomodel%E3%81%A7%E7%8B%AC%E8%87%AA%E3%82%AF%E3%83%A9%E3%82%B9%E3%82%92%E4%BD%BF%E3%81%86/</guid>
+      <description>&lt;p&gt;本記事ではhuggingfaceの&lt;a href=&#34;https://huggingface.co/docs/transformers/index&#34;&gt;transformers&lt;/a&gt;の&lt;a href=&#34;https://huggingface.co/docs/transformers/v4.27.2/en/model_doc/auto#transformers.AutoModel&#34;&gt;AutoModel&lt;/a&gt;を使って独自クラスを利用する方法を紹介します。
+transformersはAutoModelによって、事前学習済みモデルがどのモデルの実装なのかを意識せずに利用できます。
+たとえばモデルのアーキテクチャや事前学習済みのパラメータを変えて実験をするプログラムははモデル名を&lt;code&gt;model_name_or_path&lt;/code&gt;とした場合 &lt;code&gt;model = AutoModel.from_pretrained(model_name_or_path)&lt;/code&gt; とだけ記述すれば事前学習済みパラメータで初期化されたモデルを読み込めます。
+この&lt;code&gt;AutoModel&lt;/code&gt;で独自クラスを利用できればtransformersで実装されている他のモデルと同様に利用が容易になります。&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>【huggingface/datasets】複数のデータセットを組み合わせてサンプリングする </title>
       <link>https://tma15.github.io/blog/2023/01/30/huggingface/datasets%E8%A4%87%E6%95%B0%E3%81%AE%E3%83%87%E3%83%BC%E3%82%BF%E3%82%BB%E3%83%83%E3%83%88%E3%82%92%E7%B5%84%E3%81%BF%E5%90%88%E3%82%8F%E3%81%9B%E3%81%A6%E3%82%B5%E3%83%B3%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B0%E3%81%99%E3%82%8B/</link>
@@ -320,9 +336,9 @@ $cd /path/to/project/ $wget https://github.com/pfi/maf/raw/master/waf $wget http
       
       <guid>https://tma15.github.io/blog/2014/05/07/induced-sorting%E3%82%92python%E3%81%A7%E6%9B%B8%E3%81%84%E3%81%9F/</guid>
       <description>「高速文字列解析の世界」を一旦通読したので、実際に手を動かしてみた。 Induced Sortingは効率的に接尾辞配列を構築するアルゴリズム。 詳細はこの本を始め、下の参考にあるエントリなどが個人的に参考になった。
-GitHubにコードを上げた (sais.py)。
-参考 Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築 実装時にはやはり元の論文を読まないとよくわからなかった。
-Two Efficient Algorithms for Linear Time Suffix Array Construction </description>
+  GitHubにコードを上げた (sais.py)。
+参考  Suffix Array を作る - SA-IS の実装 https://github.com/beam2d/sara SA-IS: SuffixArray線形構築  実装時にはやはり元の論文を読まないとよくわからなかった。
+ Two Efficient Algorithms for Linear Time Suffix Array Construction  </description>
     </item>
     
     <item>
@@ -335,8 +351,13 @@ Two Efficient Algorithms for Linear Time Suffix Array Construction </description
 気になったところ データに正規分布を仮定したときのナイーブベイズ分類器について。 平均を\(\mu\)、分散を\(\sigma^2\)としたときの正規分布は
 \[ p(x;\mu, \sigma^2) = \frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\} \]
 これのlogをとると、
-$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\ &amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
-ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\ &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\ &amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
+$$ \begin{eqnarray} \log p(x;\mu, \sigma^2) &amp;amp;=&amp;amp; \log \{\frac{1}{\sqrt{2\pi \sigma^2}} \{\exp{-\frac{(x-\mu)^2}{2\sigma^2}}\}\} \\\
+&amp;amp;=&amp;amp; -\frac{1}{2}\log (2\pi \sigma^2) - \frac{(x-\mu)^2}{2\sigma^2} \end{eqnarray} $$
+ナイーブベイズ分類器の対数尤度関数は、データがK次元ベクトルで表現されていて、それがN個あるとすると、 $$ \begin{eqnarray} \log L(X, Y; \mu, \sigma) &amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(\mathbf{x}_n, y_n))\\\
+&amp;amp;=&amp;amp; \log(\prod_{n=1}^N p(y_n)p(\mathbf{x}_n|y_n))\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \log p(\mathbf{x}_n|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K\log p(x_{nk}|y_n)\\\
+&amp;amp;=&amp;amp; \sum_{n=1}^N \log p(y_n) + \sum_{n=1}^N \sum_{k=1}^K \{-\frac{1}{2}\log (2\pi \sigma_{y_nk}^2) - \frac{(x_{nk}-\mu_{y_nk})^2}{2\sigma_{y_nk}^2}\} \end{eqnarray} $$</description>
     </item>
     
     <item>
